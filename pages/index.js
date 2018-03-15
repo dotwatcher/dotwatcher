@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {createClient} from 'contentful';
 
 import Header from '../components/header';
@@ -29,7 +29,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<Header/>
+				<Header title="dotwatchers.cc"/>
 				<main className="ph4">
 					<h1 className="f-headline">Hello, World!</h1>
 					{
