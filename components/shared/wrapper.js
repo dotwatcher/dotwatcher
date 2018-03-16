@@ -17,4 +17,8 @@ Wrapper.propTypes = {
 	children: PropTypes.node
 };
 
+Wrapper.defaultProps = {
+	children: ''
+};
+
 export default Wrapper;

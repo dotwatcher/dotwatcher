@@ -3,7 +3,9 @@ import {createClient} from 'contentful';
 import Header from '../components/header';
 import Hero from '../components/hero';
 import Wrapper from '../components/shared/wrapper';
+import Grid from '../components/shared/grid';
 import Post from '../components/post';
+import Tweet from '../components/tweet';
 
 class App extends Component {
 	constructor(props) {
@@ -34,8 +36,21 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<Header title="dotwatchers.cc"/>
-				<Hero title="Follow the ride" byline="The best way to track the latest epic bike rides"/>
+				<Header
+					title="dotwatchers.cc"
+				/>
+				<Hero
+					title="Follow the ride"
+					byline="The best way to track the latest epic bike rides"
+				/>
+
+				<Grid>
+					<Tweet tweetId="881966544456220673"/>
+					<Tweet tweetId="974626768652062722"/>
+					<Tweet tweetId="974624544458792961"/>
+					<Tweet tweetId="971107777878855686"/>
+				</Grid>
+
 				<Wrapper>
 					{
 						this.state.posts.map(item => (
