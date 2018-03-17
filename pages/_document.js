@@ -20,6 +20,7 @@ export default class Document extends NextDocument {
 				<Head>
 					{this.props.styleTags}
 					<style dangerouslySetInnerHTML={{__html: stylesheet}}/>
+					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 				</Head>
 				<Body sans_serif near_black pa0 ma0>
 					<Main/>

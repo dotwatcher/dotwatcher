@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -26,7 +27,7 @@ const Post = ({data}) => {
 
 	return (
 		<Article bb bw1 f4 measure_wide>
-			<H1 f2 lh_title>{data.title}</H1>
+			<H1 f2 lh_title><Link href={'race?id=' + data.slug} as={'/race/' + data.slug}><a>{data.title}</a></Link></H1>
 			<Div lh_copy>
 				<ReactMarkdown
 					source={data.body}
