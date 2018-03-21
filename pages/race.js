@@ -1,12 +1,16 @@
-import React from 'react';
-import {withEntry} from '../data/with-entry';
+import Head from 'next/head'
 import Header from '../components/header';
-import Wrapper from '../components/shared/wrapper';
 import Post from '../components/post';
-
+import React from 'react';
+import Wrapper from '../components/shared/wrapper';
+import {withEntry} from '../data/with-entry';
 class Race extends React.Component {
 	render () {
 		return <div>
+			<Head>
+				<title>{this.props.post.data.title}</title>
+				<meta property="og:title" content={this.props.post.data.title} />
+			</Head>
 			<Header
 				title="dotwatcher.cc"
 			/>

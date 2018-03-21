@@ -1,6 +1,6 @@
-import React from 'react';
 import NextDocument, {Head, Main, NextScript} from 'next/document';
 import {ServerStyleSheet} from 'styled-components';
+import React from 'react';
 import stylesheet from '../styles/index.css';
 
 export default class Document extends NextDocument {

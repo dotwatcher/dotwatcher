@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+
+import Head from 'next/head'
 import PropTypes from 'prop-types';
 
 import Header from '../components/header';
@@ -12,6 +14,9 @@ class App extends Component {
 	render() {
 		return (
 			<Page sans_serif near_black pa0 ma0>
+				<Head>
+					<title>Dotwatcher</title>
+				</Head>
 				<Header
 					title="dotwatcher.cc"
 				/>
