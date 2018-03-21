@@ -10,6 +10,7 @@ class Race extends React.Component {
 			<Head>
 				<title>{this.props.post.data.title}</title>
 				<meta property="og:title" content={this.props.post.data.title} />
+				<meta property="og:image" content="" />
 			</Head>
 			<Header
 				title="dotwatcher.cc"
