@@ -1,12 +1,13 @@
-import React from 'react';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import SocialButtons from '../social-buttons';
+import TimeAgo from 'react-timeago';
+import Tweet from '../tweet';
+import shortcodes from 'remark-shortcodes';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import TimeAgo from 'react-timeago';
-import shortcodes from 'remark-shortcodes';
-import Tweet from '../tweet';
 
 const Article = styled.article`${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
@@ -35,6 +36,7 @@ const Post = ({data, id}) => {
 					renderers={{shortcode: Tweet}}
 				/>
 			</Div>
+			<SocialButtons />
 			<StyledTimeAgo date={data.date} >
 				{data.date}
 			</StyledTimeAgo>
