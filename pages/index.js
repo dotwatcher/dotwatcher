@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
-import {withEntries} from '../data/with-entries';
+import PropTypes from 'prop-types';
+
 import Header from '../components/header';
 import Hero from '../components/hero';
-import Wrapper from '../components/shared/wrapper';
+import Page from '../components/shared/page';
 import Post from '../components/post';
+import Wrapper from '../components/shared/wrapper';
+import {withEntries} from '../data/with-entries';
 
 class App extends Component {
 	render() {
 		return (
-			<div>
+			<Page sans_serif near_black pa0 ma0>
 				<Header
 					title="dotwatcher.cc"
 				/>
@@ -24,9 +27,17 @@ class App extends Component {
 						))
 					}
 				</Wrapper>
-			</div>
+			</Page>
 		);
 	}
 }
+
+App.propTypes = {
+	posts: PropTypes.array
+};
+
+App.defaultProps = {
+	posts: []
+};
 
 export default withEntries(App);

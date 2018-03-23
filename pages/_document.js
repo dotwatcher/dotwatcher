@@ -1,10 +1,7 @@
 import React from 'react';
 import NextDocument, {Head, Main, NextScript} from 'next/document';
-import styled, {ServerStyleSheet} from 'styled-components';
-import tachyons from 'styled-components-tachyons';
+import {ServerStyleSheet} from 'styled-components';
 import stylesheet from '../styles/index.css';
-
-const Body = styled.body`${tachyons}`;
 
 export default class Document extends NextDocument {
 	static getInitialProps ({renderPage}) {
@@ -22,10 +19,10 @@ export default class Document extends NextDocument {
 					<style dangerouslySetInnerHTML={{__html: stylesheet}}/>
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 				</Head>
-				<Body sans_serif near_black pa0 ma0>
+				<body>
 					<Main/>
 					<NextScript/>
-				</Body>
+				</body>
 			</html>
 		);
 	}

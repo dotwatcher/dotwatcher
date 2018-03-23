@@ -13,7 +13,7 @@ export const withEntries = Page => {
 		});
 
 		const response = await client.getEntries({
-			content_type: '2wKn6yEnZewu2SCCkus4as',
+			content_type: '2wKn6yEnZewu2SCCkus4as', // eslint-disable-line camelcase
 			order: '-sys.createdAt'
 		});
 
