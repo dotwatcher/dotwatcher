@@ -1,11 +1,11 @@
 import { Link, Router } from '../../routes'
+import Image from '../image';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactMarkdown from 'react-markdown-with-shortcodes';
 import SocialButtons from '../social-buttons';
 import TimeAgo from 'react-timeago';
 import Embed from '../embed';
-import Image from '../image';
 import shortcodes from 'remark-shortcodes';
 import slugify from '../../utils/slugify';
 import styled from 'styled-components';
@@ -23,6 +23,12 @@ const StyledTimeAgo = styled(TimeAgo)`
 `;
 
 const Post = ({data, id}) => {
+	constructor: {
+		const host = typeof window !== 'undefined' ? window.location.host : '';
+		this.state = {
+			url: `${host}/post/${id}?slug=${slugify(data.title)}`
+		}
+	}
 	return (
 		<Article bb bw1 f4 measure_wide mt4 pb2 id={slugify(data.title)} className="cf">
 			{ data.image ? <Image data={data.image.fields}/> : null }
@@ -41,7 +47,7 @@ const Post = ({data, id}) => {
 			<StyledTimeAgo date={data.date}>
 				{data.date}
 			</StyledTimeAgo>
-			<SocialButtons />
+			<SocialButtons url={this.state.url} />
 			<Div fr f5 pv2>
 				{
 					data.categories.map(category => (
