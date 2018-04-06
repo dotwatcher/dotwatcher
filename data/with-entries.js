@@ -1,8 +1,8 @@
 // HOC for fetching entries from contentful
 
 import React from 'react';
-import lodash from 'lodash';
 import {createClient} from 'contentful';
+import lodash from 'lodash';
 
 export const withEntries = Page => {
 	const WithEntries = props => <Page {...props}/>;
@@ -29,6 +29,8 @@ export const withEntries = Page => {
 		}
 
 		const response = await client.getEntries(contenfulQuery);
+
+		console.log(response)
 
 		const posts = [];
 
