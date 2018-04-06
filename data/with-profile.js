@@ -7,7 +7,7 @@ export const withProfile = Page => {
 
 	withProfile.getInitialProps = async ({query: {id}}) => {
 		let profile
-		
+
 		const client = createClient({
 			space: '6hyijb95boju',
 			accessToken: 'f214dba82579af555cd4839172570328cf8aee10e37bf5b83094953bb65fb317'
@@ -17,7 +17,7 @@ export const withProfile = Page => {
 
 		if (response.items[0]) {
 			profile = {
-				sys: { 
+				sys: {
 					id: response.sys.id
 				},
 				data: {
@@ -26,6 +26,7 @@ export const withProfile = Page => {
 					biography: response.items[0].fields.biography,
 					twitterUsername: response.items[0].fields.twitterUsername,
 					instagramUsername: response.items[0].fields.instagramUsername,
+					categories: response.items[0].fields.category
 				}
 			};
 

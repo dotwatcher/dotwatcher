@@ -1,14 +1,17 @@
 import Head from 'next/head';
 import Header from '../components/header';
+import { Link, Router } from '../routes'
 import Page from '../components/shared/page';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Wrapper from '../components/shared/wrapper';
+import slugify from '../utils/slugify';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import {withProfile} from '../data/with-profile';
 
 const Img = styled.img`${tachyons}`;
+const A = styled.a`${tachyons}`;
 
 class Profile extends React.Component {
 	render () {
@@ -40,12 +43,20 @@ class Profile extends React.Component {
 							{this.props.profile.data.twitterUsername &&
 								<a href={`http://twitter.com/${this.props.profile.data.twitterUsername}`}>
 									Twitter
-								</a> 
+								</a>
 							}
 							{this.props.profile.data.instagramUsername &&
 								<a href={`http://instagram.com/${this.props.profile.data.instagramUsername}`}>
 									Instagram
-								</a> 
+								</a>
+							}
+							<br/>Races done:
+							{
+								this.props.profile.data.categories.map(category => (
+									<Link key={category.sys.id} route="race" params={{type: 'race', id: category.sys.id, slug: slugify(category.fields.title)}} passHref prefetch>
+										<A link dim near_black underline>{category.fields.title}</A>
+									</Link>
+								))
 							}
 						</Wrapper>
 					</div>
