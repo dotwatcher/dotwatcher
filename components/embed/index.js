@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Instagram from 'react-instagram-embed'
+import Instagram from 'react-instagram-embed';
 import Placeholder from '../placeholder';
 
 class Embed extends Component {
@@ -20,7 +20,7 @@ class Embed extends Component {
 		if (this.state.inBrowser && this.props.identifier === 'tweet') {
 			const {TwitterTweetEmbed} = require('react-twitter-embed');
 			embed = <TwitterTweetEmbed tweetId={this.props.attributes.id}/>;
-		} else if (this.props.identifier === 'instagram') {
+		} else if (this.state.inBrowser && this.props.identifier === 'instagram') {
 			embed = <Instagram url={this.props.attributes.url}/>;
 		} else {
 			embed = <Placeholder/>;

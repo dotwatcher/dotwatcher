@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import TimeAgo from 'react-timeago';
+import ReactMarkdown from 'react-markdown-with-shortcodes';
+import shortcodes from 'remark-shortcodes';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
+import Embed from '../embed';
 import Image from '../image';
 import {Link} from '../../routes';
 import SocialButtons from '../social-buttons';
@@ -19,16 +22,25 @@ const StyledTimeAgo = styled(TimeAgo)`
 	text-decoration: underline;
 `;
 
-const Long = ({data, id}) => {
-	constructor: {
-		const host = typeof window !== 'undefined' ? window.location.host : '';
-		this.state = {
-			url: `${host}/post/${id}?slug=${slugify(data.title)}`,
-		};
+const Short = ({data, id}) => {
+	const host = typeof window !== 'undefined' ? window.location.host : '';
+	const url = `${host}/post/${id}?slug=${slugify(data.title)}`;
+	let body;
+	if (data.body) {
+		body = (
+			<Div lh_copy pt4>
+				<ReactMarkdown
+					source={data.body}
+					plugins={[shortcodes]}
+					renderers={{shortcode: Embed}}
+				/>
+			</Div>
+		);
 	}
 	return (
-		<Article bb bw1 f5 measure_wide mt4 pb2 id={slugify(data.title)} className="cf">
+		<Article bb bw1 f5 measure_wide mt4_l pb2 id={slugify(data.title)} className="cf">
 			{ data.image ? <Image data={data.image.fields}/> : null }
+			{body}
 			<Div lh_copy mv4>
 				{data.title}
 			</Div>
@@ -39,14 +51,14 @@ const Long = ({data, id}) => {
 					</StyledTimeAgo>
 				</A>
 			</Link>
-			<SocialButtons url={this.state.url}/>
+			<SocialButtons url={url}/>
 		</Article>
 	);
 };
 
-Long.propTypes = {
+Short.propTypes = {
 	data: PropTypes.object.isRequired,
 	id: PropTypes.string.isRequired
 };
 
-export default Long;
+export default Short;

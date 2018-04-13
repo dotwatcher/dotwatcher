@@ -5,7 +5,7 @@ import Short from './post-short';
 
 const Post = ({data, id}) => {
 	let post;
-	if (data.body) {
+	if (data.format === 'Long') {
 		post = <Long key={id} id={id} data={data}/>;
 	} else {
 		post = <Short key={id} id={id} data={data}/>;

@@ -24,14 +24,11 @@ const StyledTimeAgo = styled(TimeAgo)`
 `;
 
 const Long = ({data, id}) => {
-	constructor: {
-		const host = typeof window !== 'undefined' ? window.location.host : '';
-		this.state = {
-			url: `${host}/post/${id}?slug=${slugify(data.title)}`,
-		};
-	}
+	const host = typeof window !== 'undefined' ? window.location.host : '';
+	const url = `${host}/post/${id}?slug=${slugify(data.title)}`;
+
 	return (
-		<Article bb bw1 f5 measure_wide mt4 pb2 id={slugify(data.title)} className="cf">
+		<Article bb bw1 f5 measure_wide mt4_l pb2 id={slugify(data.title)} className="cf">
 			{ data.image ? <Image data={data.image.fields}/> : null }
 			<H1 f2 lh_title>
 				<Link route="post" params={{type: 'post', id, slug: slugify(data.title)}} passHref prefetch>
@@ -52,7 +49,7 @@ const Long = ({data, id}) => {
 					</StyledTimeAgo>
 				</A>
 			</Link>
-			<SocialButtons url={this.state.url}/>
+			<SocialButtons url={url}/>
 		</Article>
 	);
 };

@@ -30,17 +30,16 @@ export const withEntries = Page => {
 
 		const response = await client.getEntries(contenfulQuery);
 
-		console.log(response)
-
 		const posts = [];
 
-		for (let item of response.items) {
+		for (const item of response.items) {
 			const entry = {
 				sys: {
 					id: item.sys.id
 				},
 				data: {
 					title: item.fields.title,
+					format: item.fields.format,
 					slug: item.fields.slug,
 					date: item.fields.date,
 					body: item.fields.body,
@@ -55,7 +54,7 @@ export const withEntries = Page => {
 				});
 			}
 			posts.push(entry);
-		};
+		}
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
