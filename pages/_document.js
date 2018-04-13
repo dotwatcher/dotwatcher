@@ -18,6 +18,7 @@ export default class Document extends NextDocument {
 					{this.props.styleTags}
 					<style dangerouslySetInnerHTML={{__html: stylesheet}}/>
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+					<script src="//www.instagram.com/embed.js"></script>
 				</Head>
 				<body>
 					<Main/>
