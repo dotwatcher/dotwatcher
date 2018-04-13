@@ -24,7 +24,7 @@ const StyledTwitterButton = styled(TwitterButton)`
 	font-size: 1rem;
 	line-height: 1;
 	padding: var(--spacing-small);
-	margin: 0 var(--spacing-small) var(--spacing-small);
+	margin: 0 0 var(--spacing-small) var(--spacing-small);
 	cursor: pointer;
 `;
 
@@ -42,7 +42,7 @@ class SocialButtons extends Component {
 
 	render() {
 		return (
-			<Div fl w_third tc>
+			<Div fl w_two_thirds tr>
 				<StyledFacebookButton
 					url={this.props.url}
 					appId="2041612559415974"

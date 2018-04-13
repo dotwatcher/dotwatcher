@@ -6,7 +6,7 @@ import tachyons from 'styled-components-tachyons';
 const Div = styled.div`${tachyons}`;
 
 const Wrapper = ({children, ...styles}) => (
-	<Div fl ph4 pb4 {...styles} className="cf">
+	<Div fl ph2 pb2 {...styles} className="cf">
 		{children}
 	</Div>
 );

@@ -4,11 +4,11 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 
 import Header from '../components/header';
-import Hero from '../components/hero';
 import KeyEvents from '../components/key-events';
 import Page from '../components/shared/page';
 import Post from '../components/post';
 import Wrapper from '../components/shared/wrapper';
+import Placeholder from '../components/placeholder';
 import {withEntries} from '../data/with-entries';
 
 class App extends Component {
@@ -16,20 +16,18 @@ class App extends Component {
 		return (
 			<Page sans_serif near_black pa0 ma0>
 				<Head>
-					<title>Dotwatcher</title>
+					<title>🏔 Dotwatcher</title>
 				</Head>
 				<Header
 					title="dotwatcher.cc"
 				/>
-				<Hero
-					title="Follow the ride"
-					byline="The best way to track the latest epic bike rides"
-				/>
-
-				<Wrapper w_100 w_20_ns>
+				<Wrapper fixed z_0 w_100 w_40_ns style={{'margin-left': '-.5rem'}}>
+					<Placeholder w_100 vh_100 bg_light_gray/>
+				</Wrapper>
+				<Wrapper w_100 w_20_ns mt4 style={{'margin-left': '40%'}}>
 					<KeyEvents posts={this.props.posts}/>
 				</Wrapper>
-				<Wrapper w_100 w_80_ns>
+				<Wrapper w_100 w_40_ns mt4>
 					{
 						this.props.posts.map(item => (
 							<Post key={item.sys.id} id={item.sys.id} data={item.data}/>
