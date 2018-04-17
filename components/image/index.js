@@ -11,9 +11,13 @@ const Image = ({data}) => {
 	return (
 		<Figure ma0 pa0 mw7 bg_light_gray>
 			<Img img db src={data.file.url} alt={data.description}/>
-			<Figcaption ph3 pv2 lh_solid f6>
-				{data.description}
-			</Figcaption>
+			{
+				data.description ?
+					<Figcaption ph3 pv2 lh_solid f6>
+						{data.description}
+					</Figcaption>
+					: null
+			}
 		</Figure>
 	);
 };

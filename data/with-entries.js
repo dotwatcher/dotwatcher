@@ -3,32 +3,34 @@
 import React from 'react';
 import {createClient} from 'contentful';
 import lodash from 'lodash';
+import vars from './api-vars';
 
 export const withEntries = Page => {
 	const WithEntries = props => <Page {...props}/>;
 
 	WithEntries.getInitialProps = async ({query: {id, type}}) => {
-		let contenfulQuery
+		let contenfulQuery;
 		const client = createClient({
-			space: '6hyijb95boju',
-			accessToken: 'f214dba82579af555cd4839172570328cf8aee10e37bf5b83094953bb65fb317'
+			space: vars.space,
+			accessToken: vars.accessToken
 		});
 
 		if (id && type === 'post') {
-			contenfulQuery = {'sys.id': id}
+			contenfulQuery = {'sys.id': id};
 		} else if (id && type === 'race') {
 			contenfulQuery = {
-				content_type: '2wKn6yEnZewu2SCCkus4as', // eslint-disable-line camelcase
+				content_type: vars.contentTypes.posts, // eslint-disable-line camelcase
 				'fields.category.sys.id': id
-			}
+			};
 		} else {
 			contenfulQuery = {
-				content_type: '2wKn6yEnZewu2SCCkus4as', // eslint-disable-line camelcase
+				content_type: vars.contentTypes.posts, // eslint-disable-line camelcase
 				order: '-sys.createdAt'
-			}
+			};
 		}
 
 		const response = await client.getEntries(contenfulQuery);
+		console.log(response.sys)
 
 		const posts = [];
 
