@@ -30,7 +30,6 @@ export const withEntries = Page => {
 		}
 
 		const response = await client.getEntries(contenfulQuery);
-		console.log(response.sys)
 
 		const posts = [];
 

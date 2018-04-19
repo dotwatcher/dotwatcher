@@ -19,16 +19,18 @@ const P = styled.p`${tachyons}`;
 const RacePreview = ({data, id}) => {
 	return (
 		<Div mb4 className="cf">
-			<Figure ma0 pa0 fl ph3 w_40>
+			<Figure ma0 pa0 fl ph3 w_20 w_third_ns>
 				{ data.icon ? <Img mw_100 src={data.icon.fields.file.url} alt={data.icon.fields.description}/> : <Placeholder w_100 h_100 pv6 bg_light_gray/> }
 			</Figure>
-			<Div fl ph3 w_60>
+			<Div fl ph3 w_80 w_two_thirds_ns>
 				<H1 f3 ma0 lh_title>{data.title}</H1>
 				<H3 ma0 mt2 f6 fw4><Span fw6>Start:</Span> {moment(data.raceDate).format('LLLL')}</H3>
-				<P lh_copy>{data.description}</P>
+				<P measure_wide lh_copy>{data.description}</P>
 				<Link route="race" params={{type: 'race', id, raceID: data.raceID, slug: slugify(data.title)}} passHref prefetch>
 					<A link dim near_black underline>
-						Follow the race {data.raceID}
+						{
+							moment(data.raceDate).isBefore() ? `Look back at the race` : `Follow the race`
+						}
 					</A>
 				</Link>
 			</Div>
