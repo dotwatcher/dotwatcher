@@ -9,7 +9,7 @@ import Wrapper from '../components/shared/wrapper';
 import {withEntries} from '../data/with-entries';
 
 class PostPage extends React.Component {
-	render () {
+	render() {
 		return (
 			<Page sans_serif near_black pa0 ma0>
 				<Head>
@@ -20,7 +20,7 @@ class PostPage extends React.Component {
 				<Header
 					title="dotwatcher.cc"
 				/>
-				<Wrapper>
+				<Wrapper w_50 pa4>
 					<Post key={this.props.posts[0].sys.id} id={this.props.posts[0].sys.id} data={this.props.posts[0].data}/>
 				</Wrapper>
 			</Page>
