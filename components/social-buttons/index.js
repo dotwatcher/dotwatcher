@@ -1,5 +1,6 @@
-import { FacebookButton, TwitterButton } from 'react-social';
+import {FacebookButton, TwitterButton} from 'react-social';
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
@@ -74,5 +75,9 @@ class SocialButtons extends Component {
 		);
 	}
 }
+
+SocialButtons.propTypes = {
+	url: PropTypes.string.isRequired
+};
 
 export default SocialButtons;
