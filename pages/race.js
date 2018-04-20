@@ -10,9 +10,9 @@ import KeyEvents from '../components/key-events';
 import {Link} from '../routes';
 import Page from '../components/shared/page';
 import Post from '../components/post';
+import Iframe from '../components/iframe';
 import Wrapper from '../components/shared/wrapper';
 import {withEntries} from '../data/with-entries';
-import Placeholder from '../components/placeholder';
 
 const KeyEventsWrapper = styled.div`
 @media (min-width: 64em) {
@@ -35,7 +35,7 @@ class Race extends React.Component {
 					title="dotwatcher.cc"
 				/>
 				<Wrapper fixed_l z_0 w_100 w_40_l className="cf">
-					<Placeholder relative w_100 vh_40 vh_100_l bg_light_gray raceID={this.props.posts[0].data.categories[0].fields.trackleadersRaceId}/>
+					<Iframe raceID={this.props.posts[0].data.categories[0].fields.trackleadersRaceId}/>
 					<Div fixed_l bottom_0_l left_0_l w_40_l z_2 bg_dark_gray near_white pa2 tc>
 						<Link route="page" params={{type: 'page', id: '6CO2ZfSWlyOkcQsG62iGaE'}} passHref prefetch><A near_white underline>Click here for tracker tips</A></Link>
 					</Div>
