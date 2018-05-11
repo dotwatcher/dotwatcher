@@ -1,6 +1,7 @@
 import {FacebookButton, TwitterButton} from 'react-social';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'next/router'
 
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
@@ -45,7 +46,7 @@ class SocialButtons extends Component {
 		return (
 			<Div fl w_two_thirds tr>
 				<StyledFacebookButton
-					url={this.props.url}
+					url={this.props.router.url}
 					appId="2041612559415974"
 					windowOptions={[
 						'status=0',
@@ -59,7 +60,7 @@ class SocialButtons extends Component {
 					{'Share'}
 				</StyledFacebookButton>
 				<StyledTwitterButton
-					url={this.props.url}
+					url={this.props.router.url}
 					windowOptions={[
 						'status=0',
 						'toolbar=0',
@@ -80,4 +81,4 @@ SocialButtons.propTypes = {
 	url: PropTypes.string.isRequired
 };
 
-export default SocialButtons;
+export default withRouter(SocialButtons);
