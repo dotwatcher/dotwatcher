@@ -68,9 +68,7 @@ class MapContainer extends Component {
 			content = (
 				<Wrapper w_100 tc pa3>
 					<Toggle f6 link dim br2 ph3 pv2 mb2 dib w4 tc white bg_blue hover_bg_light_blue tracked ttu onClick={this.toggleMap}>
-						<a>
-							{this.state.showMap ? 'Hide map' : 'Show map'}
-						</a>
+						{this.state.showMap ? 'Hide map' : 'Show map'}
 					</Toggle>
 					{this.state.showMap ? <Iframe raceID={this.props.raceID}/> : null}
 				</Wrapper>
@@ -81,7 +79,11 @@ class MapContainer extends Component {
 }
 
 MapContainer.propTypes = {
-	raceID: PropTypes.string.isRequired
+	raceID: PropTypes.string
 };
+
+MapContainer.defaultProps = {
+	raceID: ''
+}
 
 export default MapContainer;

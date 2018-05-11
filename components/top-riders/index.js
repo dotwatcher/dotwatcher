@@ -73,7 +73,11 @@ class topRiders extends React.Component {
 }
 
 topRiders.propTypes = {
-	raceID: PropTypes.string.isRequired
+	raceID: PropTypes.string
+};
+
+topRiders.defaultProp = {
+	raceID: ''
 };
 
 export default topRiders;
