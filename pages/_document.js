@@ -26,7 +26,7 @@ export default class Document extends NextDocument {
 					<link rel="apple-touch-icon" sizes="180x180" href="static/dw-pin-180.png"/>
 					<link rel="apple-touch-icon" sizes="152x152" href="static/dw-pin-152.png"/>
 					<link rel="apple-touch-icon" sizes="167x167" href="static/dw-pin-167.png"/>
-					<script defer src="//www.instagram.com/embed.js"/>
+					<script src="//www.instagram.com/embed.js"/>
 				</Head>
 				<body>
 					<Main/>

@@ -20,17 +20,13 @@ export const WithEntries = Page => {
 				content_type: vars.contentTypes.posts, // eslint-disable-line camelcase
 				'fields.category.sys.id': id,
 				order: '-sys.createdAt',
-				limit: 10,
-			};
-		} else {
-			contenfulQuery = {
-				content_type: vars.contentTypes.posts, // eslint-disable-line camelcase
-				order: '-sys.createdAt'
+				limit: 10
 			};
 		}
 
 		const response = await client.getEntries(contenfulQuery);
 
+		const total_posts = response.total
 		const posts = [];
 
 		for (const item of response.items) {
@@ -60,7 +56,13 @@ export const WithEntries = Page => {
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
-			posts
+			posts,
+			total_posts,
+			trackleadersID: posts[0].data.categories[0].fields.trackleadersRaceId,
+			raceName: posts[0].data.categories[0].fields.title,
+			raceID: posts[0].data.categories[0].sys.id,
+			race: posts[0].data.categories[0],
+			raceImage: posts[0].data.categories[0].fields.icon.fields.file.url
 		};
 	};
 
