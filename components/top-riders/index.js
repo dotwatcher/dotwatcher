@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Rider from './rider';
 import {createClient} from 'contentful';
 import request from 'superagent';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import vars from '../../data/api-vars';
-import Rider from './rider';
 
 const H2 = styled.h2`${tachyons}`;
 const Header = styled.header`${tachyons}`;
@@ -44,16 +44,20 @@ class topRiders extends React.Component {
 		let leaderboard = [];
 		request
 			.get(leaderboardUrl)
-			.query({access_token: process.env.SCRAPEY_API_KEY, 'filter[order]': 'timestamp DESC'})
+			.query({
+				'access_token': process.env.SCRAPEY_API_KEY,
+				'order': 'timestamp DESC',
+				'filter[where][url]': `http://trackleaders.com/${this.props.trackleadersID}`,
+				'limit': 1
+			})
 			.end((err, res) => {
 				if (err) {
 					return;
 				}
-				let data = res.body.filter(item => item.data.url === `http://trackleaders.com/${this.props.trackleadersID}`);
-				if (data.length === 0) {
+				if (res.body.length === 0) {
 					return;
 				}
-				data = data[0].data.leaderboard.sort((a, b) => parseFloat(b.mile) - parseFloat(a.mile));
+				let data = res.body[0].data.leaderboard.sort((a, b) => parseFloat(b.mile) - parseFloat(a.mile));
 				data = data.slice(0, 10);
 
 				leaderboard = data.map((item, index) => {
