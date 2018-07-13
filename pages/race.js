@@ -16,6 +16,8 @@ import Page from '../components/shared/page';
 import Post from '../components/post';
 import TopRiders from '../components/top-riders';
 import FactFile from '../components/fact-file';
+import Tabs from '../components/tabs';
+import Community from '../components/community'
 import Wrapper from '../components/shared/wrapper';
 import vars from '../data/api-vars';
 import {WithEntries} from '../data/with-entries';
@@ -67,8 +69,17 @@ class Race extends React.Component {
 			skip: 5,
 			loading: false,
 			newPost: false,
-			newPostIDs: []
+			newPostIDs: [],
+			activeTab: 'feed'
 		};
+
+		this.setActiveTab = this.setActiveTab.bind(this);
+	}
+
+	setActiveTab(tab) {
+		this.setState({
+			activeTab: tab
+		});
 	}
 
 	async fetchPosts(id) {
@@ -142,6 +153,13 @@ class Race extends React.Component {
 	}
 
 	render() {
+		const Feed = styled.div`
+			display: ${this.state.activeTab === 'feed' ? 'block' : 'none' };
+		${tachyons}`;
+		const CommunityWrap = styled.div`
+			display: ${this.state.activeTab === 'community' ? 'block' : 'none' };
+		${tachyons}`;
+
 		const morePostsButton = (
 			<Button db w5 loading={this.state.loading} onClick={this.showNextPageOfPosts.bind(this)}>
 				{
@@ -192,24 +210,30 @@ class Race extends React.Component {
 					<FactFile race={this.props.race}/>
 					<KeyEvents posts={this.props.posts} skip={this.state.skip}/>
 				</KeyEventsWrapper>
-				<Wrapper ph3 pb2 w_100 w_70_m w_40_l id="posts">
-					{ newPostsNotification }
-					{
-						this.props.posts.map((item, index) => {
-							if (index <= this.state.skip) {
-								return (
-									<Post key={item.sys.id} id={item.sys.id} data={item.data}/>
-									)
-							}
-						})
-					}
-					{ morePosts }
-					<P measure lh_copy f6 silver>
-						If you would like to get in touch email us at <A link gray underline hover_blue href="mailto:info@dotwatcher.cc">info@dotwatcher.cc</A>
-					</P>
-					<P measure f6 silver>
-						<Span silver dib mr2 v_btm>Follow along at</Span> <SocialIcons size="1" colour="gray"/>
-					</P>
+				<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
+					<Tabs setActiveTabFeed={() => this.setActiveTab('feed')} setActiveTabCommunity={() => this.setActiveTab('community')} activeTab={this.state.activeTab} id={this.props.race.fields.discourseId} />
+					<CommunityWrap>
+						<Community id={this.props.race.fields.discourseId} active={this.state.activeTab === 'community'}/>
+					</CommunityWrap>
+					<Feed id="posts">
+						{ newPostsNotification }
+						{
+							this.props.posts.map((item, index) => {
+								if (index <= this.state.skip) {
+									return (
+										<Post key={item.sys.id} id={item.sys.id} data={item.data}/>
+										)
+								}
+							})
+						}
+						{ morePosts }
+						<P measure lh_copy f6 silver>
+							If you would like to get in touch email us at <A link gray underline hover_blue href="mailto:info@dotwatcher.cc">info@dotwatcher.cc</A>
+						</P>
+						<P measure f6 silver>
+							<Span silver dib mr2 v_btm>Follow along at</Span> <SocialIcons size="1" colour="gray"/>
+						</P>
+					</Feed>
 				</Wrapper>
 			</Page>
 		);
