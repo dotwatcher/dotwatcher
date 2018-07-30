@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 
-const Tabs = styled.ul`${tachyons}`;
+const Tabs = styled.ul`
+	position: sticky;
+	top: 0;
+	list-style-type: none;
+${tachyons}`;
 const Tab = styled.li`${tachyons}`;
 
 const TabbedNav = ({setActiveTabFeed, setActiveTabCommunity, activeTab, id}) => {
@@ -16,7 +20,7 @@ const CommunityButton = styled.a`
 ${tachyons}`;
 
 	return (
-		<Tabs list pa0 bb bw1 b__light_gray>
+		<Tabs pa0 bb bw1 bg_white b__light_gray>
 			<Tab dib>
 				<FeedButton onClick={setActiveTabFeed} db ttu tracked fw5 f6 pa2 mr3 hover_bg_near_white>
 					Feed
