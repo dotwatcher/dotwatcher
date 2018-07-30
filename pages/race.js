@@ -211,10 +211,17 @@ class Race extends React.Component {
 					<KeyEvents posts={this.props.posts} skip={this.state.skip}/>
 				</KeyEventsWrapper>
 				<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
-					<Tabs setActiveTabFeed={() => this.setActiveTab('feed')} setActiveTabCommunity={() => this.setActiveTab('community')} activeTab={this.state.activeTab} id={this.props.race.fields.discourseId} />
-					<CommunityWrap>
-						<Community id={this.props.race.fields.discourseId} active={this.state.activeTab === 'community'}/>
-					</CommunityWrap>
+					{
+						this.props.race.fields.discourseId ?
+						(
+							<React.Fragment>
+								<Tabs setActiveTabFeed={() => this.setActiveTab('feed')} setActiveTabCommunity={() => this.setActiveTab('community')} activeTab={this.state.activeTab} id={this.props.race.fields.discourseId} />
+								<CommunityWrap>
+									<Community id={this.props.race.fields.discourseId} active={this.state.activeTab === 'community'}/>
+								</CommunityWrap>
+							</React.Fragment>
+						) : null
+					}
 					<Feed id="posts">
 						{ newPostsNotification }
 						{
