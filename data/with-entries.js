@@ -16,7 +16,7 @@ export const WithEntries = Page => {
 		});
 
 		const racesQuery = {
-			content_type: vars.contentTypes.categories, // eslint-disable-line camelcase
+			content_type: vars.content_type.categories,
 			order: 'fields.raceDate',
 			include: 2
 		};
@@ -43,7 +43,7 @@ export const WithEntries = Page => {
 		});
 
 		const contenfulQuery = {
-			content_type: vars.contentTypes.posts, // eslint-disable-line camelcase
+			content_type: vars.content_type.posts,
 			'fields.category.sys.id': race.sys.id,
 			order: '-sys.createdAt'
 		};

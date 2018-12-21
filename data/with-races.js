@@ -14,7 +14,7 @@ export const withRaces = Page => {
 		});
 
 		const racesQuery = {
-			content_type: vars.contentTypes.categories, // eslint-disable-line camelcase
+			content_type: vars.content_type.categories,
 			order: 'fields.raceDate'
 		};
 

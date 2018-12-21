@@ -15,7 +15,7 @@ export const WithFeatures = Page => {
 		});
 
 		const contenfulQuery = {
-			content_type: vars.contentTypes.feature, // eslint-disable-line camelcase
+			content_type: vars.content_type.feature,
 			order: '-sys.createdAt'
 		};
 

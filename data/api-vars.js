@@ -1,6 +1,6 @@
 const contentful = {
 	space: '6hyijb95boju',
-	contentTypes: {
+	content_type: {
 		posts: '2wKn6yEnZewu2SCCkus4as',
 		categories: '5KMiN6YPvi42icqAUQMCQe',
 		leaderboard: 'leaderboard',

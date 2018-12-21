@@ -4,10 +4,10 @@ import React from 'react';
 import {createClient} from 'contentful';
 import vars from './api-vars';
 
-export const withHomepage = Page => {
-	const WithHomepage = props => <Page {...props}/>;
+export const withFeature = Page => {
+	const withFeature = props => <Page {...props}/>;
 
-	WithHomepage.getInitialProps = async () => {
+	withFeature.getInitialProps = async ({query: {id}}) => {
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -18,14 +18,10 @@ export const withHomepage = Page => {
 			order: 'fields.raceDate'
 		};
 
-		const homepageQuery = {
-			'sys.id': vars.pages.homepage
-		};
-
 		const racesResponse = await client.getEntries(racesQuery);
-		const homepageResponse = await client.getEntries(homepageQuery);
+		const featureResponse = await client.getEntries({'sys.id': id});
 		const races = [];
-		let page;
+		let feature;
 
 		for (const item of racesResponse.items) {
 			const entry = {
@@ -49,16 +45,22 @@ export const withHomepage = Page => {
 			races.push(entry);
 		}
 
-		if (homepageResponse.items[0]) {
-			page = {
-				id: homepageResponse.items[0].sys.id,
-				title: homepageResponse.items[0].fields.title,
-				text: homepageResponse.items[0].fields.text,
+		if (featureResponse.items[0]) {
+			feature = {
+				id: featureResponse.items[0].sys.id,
+				title: featureResponse.items[0].fields.title,
+				text: featureResponse.items[0].fields.text,
 				blocks: []
 			};
 
-			if (homepageResponse.items[0].fields.contentBlock) {
-				for (const contentBlock of homepageResponse.items[0].fields.contentBlock) {
+			if (featureResponse.items[0].fields.featuredImage) {
+				feature.image = featureResponse.includes.Asset.find(obj => {
+					return obj.sys.id === featureResponse.items[0].fields.featuredImage.sys.id;
+				});
+			}
+
+			if (featureResponse.items[0].fields.contentBlock) {
+				for (const contentBlock of featureResponse.items[0].fields.contentBlock) {
 					const block = {
 						sys: {
 							id: contentBlock.sys.id
@@ -77,25 +79,25 @@ export const withHomepage = Page => {
 					}
 
 					if (contentBlock.fields.image) {
-						block.image = homepageResponse.includes.Asset.find(obj => {
+						block.image = featureResponse.includes.Asset.find(obj => {
 							return obj.sys.id === contentBlock.fields.image.sys.id;
 						});
 					}
 					if (contentBlock.fields.logoOverlay) {
-						block.logoOverlay = homepageResponse.includes.Asset.find(obj => {
+						block.logoOverlay = featureResponse.includes.Asset.find(obj => {
 							return obj.sys.id === contentBlock.fields.logoOverlay.sys.id;
 						});
 					}
-					page.blocks.push(block);
+					feature.blocks.push(block);
 				}
 			}
 		}
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
-			page
+			feature
 		};
 	};
 
-	return WithHomepage;
+	return withFeature;
 };
