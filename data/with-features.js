@@ -3,7 +3,6 @@
 import React from 'react';
 import {createClient} from 'contentful';
 import vars from './api-vars';
-import fetch from 'isomorphic-fetch';
 
 export const WithFeatures = Page => {
 	const WithFeatures = props => <Page {...props}/>;

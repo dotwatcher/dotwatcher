@@ -57,8 +57,9 @@ export const withRaces = Page => {
 				// https://data.dotwatcher.cc/data-d6ac28d/results.json?_facet=Year&_facet=Event&Event=${entry.data.title}&Year=${entry.data.year}&_shape=array&_size=3
 				const raceResultsResponse = await fetch(`https://data.dotwatcher.cc/data-d6ac28d/results.json?Event=${entry.data.title}&Year=${entry.data.year}&_shape=array&_size=3`)
 				const raceResultsJSON = await raceResultsResponse.json()
-				if (raceResultsJSON)
-				entry.data.raceResults = raceResultsJSON
+				if (raceResultsJSON) {
+					entry.data.raceResults = raceResultsJSON
+				}
 			}
 
 			races.push(entry);
