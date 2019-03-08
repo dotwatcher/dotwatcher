@@ -49,12 +49,12 @@ const CarouselKey = ({slide, setActiveKey, activeKey}) => {
 		}
 		transform: ${activeKey === slide.sys.id ? 'translate(1rem, 0)' : 'translate(0px ,0px)' };
 	${tachyons}`;
-	const isRaceLive = slide.race ? moment().isBetween(moment(slide.race.data.raceDate), moment(slide.race.data.raceEndDate)) : false;
+	const isRaceLive = slide.race ? moment().isBetween(moment(slide.race.fields.raceDate), moment(slide.race.fields.raceEndDate)) : false;
 	const Title = isRaceLive ? <H2Live f4 f3_ns fw6 lh_title ma0 near_black relative>{widont(slide.heading)}</H2Live> : <H2 f4 f3_ns fw6 lh_title ma0 near_black>{widont(slide.heading)}</H2>;
 
 	let cta;
 	if (slide.race) {
-		cta = <Link route="race" params={{type: 'race', id: slugify(slide.race.data.title, {lower: true})}} passHref prefetch>
+		cta = <Link route="race" params={{type: 'race', id: slugify(slide.race.fields.title, {lower: true})}} passHref prefetch>
 			<A dib f6 f5_l mt2 mb0 no_underline>
 				<Span near_black hover_blue bb bw1>
 					{slide.callToAction ? slide.callToAction : 'Read more'} »

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import slugify from 'slugify';
 import {Link} from '../../routes';
 
 const A = styled.a`
@@ -26,7 +25,7 @@ const CarouselImage = ({slide}) => {
 	let image;
 	if (slide.race) {
 		image = (
-			<Link route="race" params={{type: 'race', id: slugify(slide.race.data.title, {lower: true})}} passHref prefetch>
+			<Link route="race" params={{type: 'race', id: slide.race.fields.slug}} passHref prefetch>
 				<A db h_100 cover bg_center bg={slide.image.fields.file.url} className="cf"></A>
 			</Link>
 		)

@@ -13,42 +13,13 @@ export const withHomepage = Page => {
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 		});
 
-		const racesQuery = {
-			content_type: vars.content_type.categories,
-			order: 'fields.raceDate'
-		};
-
 		const homepageQuery = {
 			'sys.id': vars.pages.homepage,
 			'include': 2
 		};
 
-		const racesResponse = await client.getEntries(racesQuery);
 		const homepageResponse = await client.getEntries(homepageQuery);
-		const races = [];
 		let page;
-
-		for (const item of racesResponse.items) {
-			const entry = {
-				sys: {
-					id: item.sys.id
-				},
-				data: {
-					title: item.fields.title,
-					description: item.fields.shortDescription,
-					raceID: item.fields.trackleadersRaceId,
-					raceDate: item.fields.raceDate,
-					raceEndDate: item.fields.raceEndDate
-				}
-			};
-
-			if (item.fields.icon) {
-				entry.data.icon = racesResponse.includes.Asset.find(obj => {
-					return obj.sys.id === item.fields.icon.sys.id;
-				});
-			}
-			races.push(entry);
-		}
 
 		if (homepageResponse.items[0]) {
 			page = {
@@ -72,9 +43,7 @@ export const withHomepage = Page => {
 					};
 
 					if (contentBlock.fields.race) {
-						block.race = races.find(obj => {
-							return obj.sys.id === contentBlock.fields.race.sys.id;
-						});
+						block.race = contentBlock.fields.race;
 					}
 
 					if (contentBlock.fields.feature) {
