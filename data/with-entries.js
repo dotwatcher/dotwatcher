@@ -15,43 +15,19 @@ export const WithEntries = Page => {
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 		});
 
-		const racesQuery = {
-			content_type: vars.content_type.categories,
-			order: 'fields.raceDate',
-			include: 2
-		};
-
-		const racesResponse = await client.getEntries(racesQuery);
-		const races = [];
-		for (const item of racesResponse.items) {
-			const entry = {
-				sys: {
-					id: item.sys.id
-				},
-				fields: item.fields
-			};
-			if (item.fields.icon) {
-				entry.fields.icon = racesResponse.includes.Asset.find(obj => {
-					return obj.sys.id === item.fields.icon.sys.id;
-				});
-			}
-			races.push(entry);
-		}
-
-		const race = await races.find(obj => {
-			return slugify(obj.fields.title, {lower: true}) === id || obj.sys.id === id;
-		});
-
 		const contenfulQuery = {
 			content_type: vars.content_type.posts,
-			'fields.category.sys.id': race.sys.id,
-			order: '-sys.createdAt'
+			'fields.race.sys.contentType.sys.id': vars.content_type.categories,
+			'fields.race.fields.slug': id,
+			'order': '-sys.createdAt',
+			'include': 3
 		};
 
 		const response = await client.getEntries(contenfulQuery);
 
 		const totalPosts = response.total;
 		const posts = [];
+		const race = response.items[0].fields.race;
 
 		for (const item of response.items) {
 			const entry = {
