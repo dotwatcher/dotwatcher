@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Rider from './rider';
-import {createClient} from 'contentful';
 import request from 'superagent';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
