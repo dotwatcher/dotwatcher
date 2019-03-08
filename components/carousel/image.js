@@ -25,7 +25,7 @@ const CarouselImage = ({slide}) => {
 	let image;
 	if (slide.race) {
 		image = (
-			<Link route="race" params={{type: 'race', id: slide.race.fields.slug}} passHref prefetch>
+			<Link route="race" params={{type: 'race', slug: slide.race.fields.slug}} passHref prefetch>
 				<A db h_100 cover bg_center bg={slide.image.fields.file.url} className="cf"></A>
 			</Link>
 		)

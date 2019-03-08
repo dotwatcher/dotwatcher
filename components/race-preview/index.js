@@ -27,18 +27,18 @@ ${tachyons}`;
 const ResultsRow = styled.tr`${tachyons}`;
 const ResultsCell = styled.td`${tachyons}`;
 
-const RacePreview = ({data, id, slug}) => {
+const RacePreview = ({data}) => {
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_20>
-				<Link route="race" params={{type: 'race', id: slug}} passHref prefetch>
+				<Link route="race" params={{type: 'race', slug: data.slug}} passHref prefetch>
 					<a>
 						{ data.icon ? <Img mw_100 srcSet={`${data.icon.fields.file.url}?w=150&h=150&fm=jpg&q=50 768w, ${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50 769w`} src={`${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50`} alt={data.icon.fields.description}/> : <Placeholder w_100 h_100 pv6 bg_light_gray/> }
 					</a>
 				</Link>
 			</Figure>
 			<Div fl_ns ph3 w_50_m w_60_l>
-				<Link route="race" params={{type: 'race', id: slug}} passHref prefetch>
+				<Link route="race" params={{type: 'race', slug: data.slug}} passHref prefetch>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>{widont(data.title)}</H1>
 						<H3 ma0 mt2 f6 fw4><Span fw6>Start:</Span> {moment(data.raceDate).format('LLLL')}</H3>
@@ -124,8 +124,7 @@ const RacePreview = ({data, id, slug}) => {
 };
 
 RacePreview.propTypes = {
-	data: PropTypes.object.isRequired,
-	id: PropTypes.string.isRequired
+	data: PropTypes.object.isRequired
 };
 
 export default RacePreview;

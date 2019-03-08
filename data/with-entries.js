@@ -2,14 +2,13 @@
 
 import React from 'react';
 import {createClient} from 'contentful';
-import slugify from 'slugify';
 import vars from './api-vars';
 import fetch from 'isomorphic-fetch';
 
 export const WithEntries = Page => {
 	const WithEntries = props => <Page {...props}/>;
 
-	WithEntries.getInitialProps = async ({query: {id}}) => {
+	WithEntries.getInitialProps = async ({query: {slug}}) => {
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -18,7 +17,7 @@ export const WithEntries = Page => {
 		const contenfulQuery = {
 			content_type: vars.content_type.posts,
 			'fields.race.sys.contentType.sys.id': vars.content_type.categories,
-			'fields.race.fields.slug': id,
+			'fields.race.fields.slug': slug,
 			'order': '-sys.createdAt',
 			'include': 3
 		};

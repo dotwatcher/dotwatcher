@@ -46,7 +46,7 @@ class App extends Component {
 						}
 						{
 							currentRaces.map(race => {
-								return <RacePreview key={race.sys.id} id={race.sys.id} slug={slugify(race.data.title, {lower: true})} data={race.data}/>;
+								return <RacePreview key={race.sys.id} data={race.data}/>;
 							})
 						}
 
@@ -55,7 +55,7 @@ class App extends Component {
 						</PastHeading>
 						{
 							pastRaces.map(race => {
-								return <RacePreview key={race.sys.id} id={race.sys.id} slug={slugify(race.data.title, {lower: true})} data={race.data}/>;
+								return <RacePreview key={race.sys.id} data={race.data}/>;
 							})
 						}
 					</Div>

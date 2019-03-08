@@ -118,7 +118,7 @@ class Banner extends Component {
 					</H1>
 					{
 						this.props.raceName ? (
-							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link route="race" params={{type: 'race', id: slugify(this.props.race.fields.title, {lower: true})}} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
+							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link route="race" params={{type: 'race', slug: this.props.race.fields.slug}} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
 						) : null
 					}
 

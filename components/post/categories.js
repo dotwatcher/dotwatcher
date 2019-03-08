@@ -12,7 +12,7 @@ const Categories = ({categories}) => (
 	<Div fr f5 pv2>
 		{
 			categories.map(category => (
-				<Link key={category.sys.id} route="race" params={{type: 'race', id: category.sys.id, slug: slugify(category.fields.title)}} passHref prefetch>
+				<Link key={category.sys.id} route="race" params={{type: 'race', slug: category.sys.id}} passHref prefetch>
 					<A link dim near_black underline>{category.fields.title}</A>
 				</Link>
 			))

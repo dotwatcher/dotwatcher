@@ -68,7 +68,7 @@ const RacePromo = ({block}) => {
 
 	return (
 		<Div mh4_m mb4 mb5_ns className="cf">
-			<Link route="race" params={{type: 'race', id: block.race.sys.id}} passHref prefetch>
+			<Link route="race" params={{type: 'race', slug: block.race.data.slug}} passHref prefetch>
 				<A db cover bg_center bg={block.image.fields.file.url} className="cf">
 					<Wrapper fr w_100 w_two_thirds_m w_50_l pa4 pv6_ns mv4 mv0_ns className="cf">
 						<Div bg_white_50 pb3>

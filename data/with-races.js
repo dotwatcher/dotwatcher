@@ -31,6 +31,7 @@ export const withRaces = Page => {
 				},
 				data: {
 					title: item.fields.title,
+					slug: item.fields.slug,
 					description: item.fields.shortDescription,
 					raceID: item.fields.trackleadersRaceId,
 					raceDate: item.fields.raceDate,
