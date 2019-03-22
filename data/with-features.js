@@ -7,7 +7,7 @@ import vars from './api-vars';
 export const WithFeatures = Page => {
 	const WithFeatures = props => <Page {...props}/>;
 
-	WithFeatures.getInitialProps = async ({query: {id}}) => {
+	WithFeatures.getInitialProps = async () => {
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN

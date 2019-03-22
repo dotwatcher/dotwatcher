@@ -5,7 +5,6 @@ import React from 'react';
 import {createClient} from 'contentful';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import {withRouter} from 'next/router';
 import Button from '../components/shared/button';
 import SocialIcons from '../components/shared/social-icons';
 import Header from '../components/header';
@@ -260,7 +259,6 @@ class Race extends React.Component {
 
 Race.propTypes = {
 	posts: PropTypes.array.isRequired,
-	router: PropTypes.object.isRequired,
 	totalPosts: PropTypes.number.isRequired,
 	trackleadersID: PropTypes.string.isRequired,
 	raceName: PropTypes.string.isRequired,
@@ -269,4 +267,4 @@ Race.propTypes = {
 	raceImage: PropTypes.string.isRequired
 };
 
-export default withRouter(WithEntries(Race));
+export default WithEntries(Race);

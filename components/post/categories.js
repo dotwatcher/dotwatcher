@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import {Link} from '../../routes';
-import slugify from '../../utils/slugify';
+import Link from 'next/link';
 
 const Div = styled.div`${tachyons}`;
 const A = styled.a`${tachyons}`;
@@ -12,7 +11,7 @@ const Categories = ({categories}) => (
 	<Div fr f5 pv2>
 		{
 			categories.map(category => (
-				<Link key={category.sys.id} route="race" params={{type: 'race', slug: category.sys.id}} passHref prefetch>
+				<Link href={`/race?slug=${category.sys.id}`} as={`/race/${category.sys.id}`} key={category.sys.id} passHref prefetch>
 					<A link dim near_black underline>{category.fields.title}</A>
 				</Link>
 			))

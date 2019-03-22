@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import { Link } from '../../routes';
+import Link from 'next/link';
 import slugify from '../../utils/slugify';
 import ResultsFilter from '../results-filter';
 
@@ -153,14 +153,14 @@ class ResultsTable extends React.Component {
 								return (
 									<ResultsRow key={result['rowid']} id={id}>
 										{
-											this.props.type === 'profile' ? <ResultsCell className="race-name"><Link route="results" params={{ type: 'results', race: result['Event'], year: result['Year'], 'focus': slugify(result['Rider']), 'activeClass': result['Class'] }} passHref><A link near_black hover_blue underline>{result['Event']}</A></Link></ResultsCell> : null
+											this.props.type === 'profile' ? <ResultsCell className="race-name"><Link href={`/results?year=${result['Year']}&race=${result['Event']}&focus=${slugify(result['Rider'])}&activeClass=${result['Class']}`} as={`/results/${result['Year']}/${result['Event']}?focus=${slugify(result['Rider'])}&activeClass=${result['Class']}`} passHref><A link near_black hover_blue underline>{result['Event']}</A></Link></ResultsCell> : null
 										}
 										{
 											this.props.type === 'profile' ? <ResultsCell>{result['Year']}</ResultsCell> : null
 										}
 										<ResultsCell pa0 pr2 className="rank">{ result['Position'] }</ResultsCell>
 										<ResultsCell className="rider-name">
-											<Link route="profile" params={{ type: 'profile', name: result['Rider'] }} passHref>
+											<Link href={`/profile?name=${result['Rider']}`} as={`/profile/${result['Rider']}`} passHref>
 												<A link near_black hover_blue underline>
 													{result['Rider']}
 												</A>

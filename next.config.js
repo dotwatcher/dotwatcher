@@ -2,6 +2,7 @@ require('now-env');
 const webpack = require('webpack');
 
 module.exports = {
+	target: 'serverless',
 	webpack: config => {
 		config.module.rules.push(
 			{

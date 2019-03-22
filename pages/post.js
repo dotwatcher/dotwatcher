@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import Header from '../components/header';
-import {Link} from '../routes';
+import Link from 'next/link';
 import Page from '../components/shared/page';
 import SocialIcons from '../components/shared/social-icons';
 import Post from '../components/post';
@@ -46,7 +46,7 @@ class PostPage extends React.Component {
 				/>
 				<MapContainer raceID={this.props.posts[0].data.categories.fields.trackleadersRaceId} offset={true}/>
 				<PostWrapper fl w_100 w_50_l pa4>
-					<Link route="race" params={{type: 'race', slug: this.props.posts[0].data.categories.fields.slug}} passHref prefetch>
+					<Link href={`/race?slug=${this.props.posts[0].data.categories.fields.slug}`} as={`/race/${this.props.posts[0].data.categories.fields.slug}`} passHref prefetch>
 						<A near_black f6 href="#">« Back to {this.props.posts[0].data.categories.fields.title} feed</A>
 					</Link>
 					<Post key={this.props.posts[0].sys.id} id={this.props.posts[0].sys.id} data={this.props.posts[0].data}/>

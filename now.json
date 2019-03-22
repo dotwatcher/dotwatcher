@@ -1,16 +1,67 @@
 {
-	"version": 1,
-	"alias": [
-		"www.dotwatcher.cc",
-		"dotwatcher.cc"
-	],
-	"env": {
-		"CONTENTFUL_ACCESS_TOKEN": "@contentful-api-token",
-		"PUSHER_APP_ID": "@pusher-app-id",
-		"PUSHER_KEY": "@pusher-key",
-		"PUSHER_SECRET": "@pusher-secret",
-		"MAILCHIMP": "@mailchimp",
-		"ANALYTICS": "@analytics",
-		"SCRAPEY_API_KEY": "@scrapey-api-key"
-	}
+  "version": 2,
+  "alias": [
+    "www.dotwatcher.cc",
+    "dotwatcher.cc"
+  ],
+  "env": {
+    "CONTENTFUL_ACCESS_TOKEN": "@contentful-api-token",
+    "PUSHER_APP_ID": "@pusher-app-id",
+    "PUSHER_KEY": "@pusher-key",
+    "PUSHER_SECRET": "@pusher-secret",
+    "MAILCHIMP": "@mailchimp",
+    "ANALYTICS": "@analytics",
+    "SCRAPEY_API_KEY": "@scrapey-api-key"
+  },
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@now/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/_next/static/(.*)",
+      "dest": "/_next/static/$1",
+      "headers": {
+        "cache-control": "s-maxage=86400"
+      }
+    },
+    {
+      "src": "^\\/(?:\\/)?$",
+      "dest": "/"
+    },
+    {
+      "src": "^\\/page\\/([^\\/]+?)(?:\\/)?$",
+      "dest": "/page?id=$1"
+    },
+    {
+      "src": "^\\/post\\/([^\\/]+?)(?:\\/)?$",
+      "dest": "/post?id=$1"
+    },
+    {
+      "src": "^\\/race\\/([^\\/]+?)(?:\\/)?$",
+      "dest": "/race?slug=$1"
+    },
+    {
+      "src": "^\\/races(?:\\/)?$",
+      "dest": "/races"
+    },
+    {
+      "src": "^\\/feature\\/([^\\/]+?)(?:\\/)?$",
+      "dest": "/feature?slug=$1"
+    },
+    {
+      "src": "^\\/features(?:\\/)?$",
+      "dest": "/features"
+    },
+    {
+      "src": "^\\/results(?:\\/([^\\/]+?))?(?:\\/([^\\/]+?))?(?:\\/)?$",
+      "dest": "/results?year=$1&race=$2"
+    },
+    {
+      "src": "^\\/profile\\/([^\\/]+?)(?:\\/)?$",
+      "dest": "/profile?name=$1"
+    }
+  ]
 }

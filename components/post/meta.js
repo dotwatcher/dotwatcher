@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import DateTime from '../datetime';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import SocialButtons from '../social-buttons';
 import slugify from '../../utils/slugify';
 
@@ -14,7 +14,7 @@ const Meta = ({data, id}) => {
 	const url = `${host}/post/${id}?slug=${slugify(data.title)}`;
 	return (
 		<React.Fragment>
-			<Link route="post" params={{type: 'post', id, slug: slugify(data.title)}} passHref prefetch>
+			<Link href={`/post?id=${id}`} as={`/post/${id}`} passHref prefetch>
 				<A link near_black hover_blue>
 					<DateTime datetime={data.date}/>
 				</A>

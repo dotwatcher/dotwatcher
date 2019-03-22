@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import Button from '../shared/button';
 import Wrapper from '../shared/wrapper';
 import Iframe from '../iframe';
@@ -84,7 +84,7 @@ class MapContainer extends Component {
 				<DesktopWrapper fixed_l z_0 w_100 w_40_l bg_near_white relative cf>
 					<Iframe onLoad={this.iframeLoaded.bind(this)} raceID={this.props.raceID} offset={this.props.offset}/>
 					<Tips absolute_l z_2 tc>
-						<Link route="page" params={{type: 'page', id: '6CO2ZfSWlyOkcQsG62iGaE'}} passHref><A bg_black_80 hover_bg_near_black f6 lh_solid pa2 near_white underline>Click here for tracker tips</A></Link>
+						<Link href={`/page?id=6CO2ZfSWlyOkcQsG62iGaE`} as="/page/6CO2ZfSWlyOkcQsG62iGaE" passHref><A bg_black_80 hover_bg_near_black f6 lh_solid pa2 near_white underline>Click here for tracker tips</A></Link>
 					</Tips>
 				</DesktopWrapper>
 			);
