@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import Placeholder from '../placeholder';
 import widont from '../../utils/widont';
 import Section from './section';
@@ -31,14 +31,14 @@ const RacePreview = ({data}) => {
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_20>
-				<Link route="race" params={{type: 'race', slug: data.slug}} passHref prefetch>
+				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref prefetch>
 					<a>
 						{ data.icon ? <Img mw_100 srcSet={`${data.icon.fields.file.url}?w=150&h=150&fm=jpg&q=50 768w, ${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50 769w`} src={`${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50`} alt={data.icon.fields.description}/> : <Placeholder w_100 h_100 pv6 bg_light_gray/> }
 					</a>
 				</Link>
 			</Figure>
 			<Div fl_ns ph3 w_50_m w_60_l>
-				<Link route="race" params={{type: 'race', slug: data.slug}} passHref prefetch>
+				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref prefetch>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>{widont(data.title)}</H1>
 						<H3 ma0 mt2 f6 fw4><Span fw6>Start:</Span> {moment(data.raceDate).format('LLLL')}</H3>
@@ -106,7 +106,7 @@ const RacePreview = ({data}) => {
 								<ResultsRow>
 									<ResultsCell f6 lh_copy fw6>
 										{i+1}.&nbsp;
-										<Link route="profile" params={{ type: 'profile', name: result.Rider }} passHref>
+										<Link href={`/profile?name=${result.Rider}`} as={`/profile/${result.Rider}`} passHref prefetch>
 											<A link near_black hover_blue underline title={`See ${result.Rider}’s past results`}>{ result.Rider }</A>
 										</Link>
 									</ResultsCell>
@@ -116,7 +116,7 @@ const RacePreview = ({data}) => {
 						})
 					}
 					</Results>
-					<Link route="results" params={{type: 'results', year: data.year, race: data.title}} passHref prefetch>
+					<Link href={`/results?year=${data.year}&race=${data.title}`} as={`/results/${data.year}/${data.title}`} passHref prefetch>
 						<A link near_black f6 fw6 db>
 							See all results »
 						</A>

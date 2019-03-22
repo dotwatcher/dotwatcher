@@ -22,7 +22,7 @@ const ResultsIndex = ({ raceResultsByYear }) => {
 				</Header>
 				<Grid mh3 pb4 bb bw1 b__light_gray>
 					{
-						raceResultsByYear.map((result, i) => <ResultsSummary event={result} key={i} />)
+						raceResultsByYear.map((result, index) => <ResultsSummary event={result} key={index} />)
 					}
 				</Grid>
 				<ResultsContribute />

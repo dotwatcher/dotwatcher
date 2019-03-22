@@ -7,7 +7,7 @@ import tachyons from 'styled-components-tachyons';
 const A = styled.a`${tachyons}`;
 
 const Logo = ({children}) => (
-	<Link href="/" as="/" passHref prefetch>
+	<Link href="/" passHref prefetch>
 		<A near_white hover_white no_underline dib>
 			<svg style={{width: '100%'}} viewBox="0 0 49 11">
 				<title>{children}</title>

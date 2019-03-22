@@ -8,7 +8,7 @@ import Embed from '../embed';
 import Image from '../image';
 import BodyImage from '../image/markdown';
 import AutoEmbed from '../embed/auto';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import slugify from '../../utils/slugify';
 import widont from '../../utils/widont';
 import quotes from '../../utils/quotes';
@@ -81,7 +81,7 @@ class Long extends Component {
 			<React.Fragment>
 				{ this.props.data.image ? <Image data={this.props.data.image.fields}/> : null }
 				<H1 f2 fw6 lh_title mt0>
-					<Link route="post" params={{type: 'post', id: this.props.id, slug: slugify(this.props.data.title)}} passHref prefetch>
+					<Link href={`/post?id=${this.props.id}`} as={`/post/${this.props.id}`} passHref prefetch>
 						<A link near_black hover_blue>{quotes(widont(this.props.data.title))}</A>
 					</Link>
 				</H1>

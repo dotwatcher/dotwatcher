@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 
-import { Link } from '../routes';
+import Link from 'next/link';
 import Header from '../components/header';
 import Page from '../components/shared/page';
 import Footer from '../components/footer';
@@ -39,7 +39,7 @@ class App extends Component {
 				/>
 				<Div mt3 mh6_l>
 					<Div pb5 className="cf">
-						<Link route="results" params={{ type: 'results' }} passHref prefetch>
+						<Link href={`/results`} passHref prefetch>
 							<A ph3 near_black hover_blue>← All results</A>
 						</Link>
 						<Heading fl w_100 mb3 ph3>

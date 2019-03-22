@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled, {css} from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import slugify from 'slugify';
 import ResponsiveMenu from 'react-responsive-navbar';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import Logo from './logo';
 
 const A = styled.a`${tachyons}`;
-const Nav = styled.div`
-	margin-left: auto;
-${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
 const H2 = styled.h2`${tachyons}`;
 const Div = styled.div`
@@ -118,7 +114,7 @@ class Banner extends Component {
 					</H1>
 					{
 						this.props.raceName ? (
-							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link route="race" params={{type: 'race', slug: this.props.race.fields.slug}} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
+							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link href={`/race/${this.props.race.fields.slug}`} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
 						) : null
 					}
 
@@ -129,13 +125,13 @@ class Banner extends Component {
 						smallMenuClassName="small-menu-classname"
 						menu={
 							<React.Fragment>
-								<Link href="/races" as="/races" passHref prefetch>
+								<Link href="/races" passHref prefetch>
 									<A dib pt2 mr3 f5 f4_l near_black hover_blue no_underline fw5>Live</A>
 								</Link>
-								<Link href="/results" as="/results" passHref>
+								<Link href="/results" passHref>
 									<A dib pt2 mh3 f5 f4_l near_black hover_blue no_underline fw5>Results</A>
 								</Link>
-								<Link href="/features" as="/features" passHref prefetch>
+								<Link href="/features" passHref prefetch>
 									<A dib pt2 mh3 f5 f4_l near_black hover_blue no_underline fw5>Features</A>
 								</Link>
 								<Link href="/about" as="/about" passHref>
