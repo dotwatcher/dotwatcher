@@ -13,7 +13,7 @@
     "lint": "xo"
   },
   "engines": {
-    "node": ">8.14.0"
+    "node": ">8.10.0"
   },
   "xo": {
     "extends": "xo-react"
