@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 const ContributorWrap = styled.aside`${tachyons}`;
 const Contributor = styled.div`
@@ -29,7 +29,7 @@ const ContributorInfo = ({ contributor }) => {
   return (
     <ContributorWrap mh3 mh6_ns>
       <Contributor f4 mt4 mh3 bg_near_white measure>
-        <Link route="contributor" params={{ type: 'contributor', name: contributor.slug }} passHref >
+        <Link href={`/contributor?name=${contributor.slug}`} as={`/contributor/${contributor.slug}`} passHref >
           <A db link near_black>
             <Figure w3 dib v_mid>
               <Img img db bg_light_gray br_100

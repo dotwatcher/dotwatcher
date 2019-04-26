@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 const Wrap = styled.dl`${tachyons}`;
 const RiderName = styled.dt`${tachyons}`;
@@ -15,7 +15,7 @@ const Rider = ({rider, numbered, position}) => {
 		<Wrap f6 mt0 mb2 lh_copy className="cf">
 			<RiderName fl f6>
 				{ numbered ? `${position}. ` : null }
-				<Link route="profile" params={{ type: 'profile', name: rider.name }} passHref>
+				<Link href={`/profile?name=${rider.name}`} as={`/profile/${rider.name}`} passHref>
 					<A link near_black hover_blue underline title={`See ${rider.name}’s past results`}>
 						<Name fw6>{rider.name}</Name>
 					</A>
