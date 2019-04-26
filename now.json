@@ -32,13 +32,6 @@
   ],
   "routes": [
     {
-      "src": "/_next/static/(.*)",
-      "dest": "/_next/static/$1",
-      "headers": {
-        "cache-control": "s-maxage=86400"
-      }
-    },
-    {
       "src": "/page/(?<id>[^/]+)$",
       "dest": "/page?id=$id"
     },
