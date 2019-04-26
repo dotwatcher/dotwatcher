@@ -53,7 +53,7 @@ const CarouselKey = ({slide, setActiveKey, activeKey}) => {
 
 	let cta;
 	if (slide.race) {
-		cta = <Link href={`/race?slug={slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref prefetch>
+		cta = <Link href={`/race?slug=${slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref prefetch>
 			<A dib f6 f5_l mt2 mb0 no_underline>
 				<Span near_black hover_blue bb bw1>
 					{slide.callToAction ? slide.callToAction : 'Read more'} »
