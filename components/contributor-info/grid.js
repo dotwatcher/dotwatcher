@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import { Link } from '../../routes';
+import Link from 'next/link';
 import Contribute from './contribute';
 
 const Div = styled.div`${tachyons}`;
@@ -33,7 +33,7 @@ const ContributorsGrid = ({ contributors }) => {
           contributors.map(contributor => {
             return (
               <Div>
-                <Link route="contributor" params={{ type: 'contributor', name: contributor.slug }} passHref >
+                <Link href={`/contributor?name=${contributor.slug}`} as={`/contributor/${contributor.slug}`} passHref >
                   <A db link near_black hover_blue dim>
                     <Figure ma0 pa0>
                       <Img mw_100 bg_light_gray src={`${contributor.avatar.fields.file.url}?w=400&h=400&fit=fill&fm=jpg&q=60&r=max`} />
