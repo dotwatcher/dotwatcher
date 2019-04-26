@@ -13,9 +13,20 @@
     "ANALYTICS": "@analytics",
     "SCRAPEY_API_KEY": "@scrapey-api-key"
   },
+  "build": {
+    "env": {
+      "CONTENTFUL_ACCESS_TOKEN": "@contentful-api-token",
+      "PUSHER_APP_ID": "@pusher-app-id",
+      "PUSHER_KEY": "@pusher-key",
+      "PUSHER_SECRET": "@pusher-secret",
+      "MAILCHIMP": "@mailchimp",
+      "ANALYTICS": "@analytics",
+      "SCRAPEY_API_KEY": "@scrapey-api-key"
+    }
+  },
   "builds": [
     {
-      "src": "next.config.js",
+      "src": "package.json",
       "use": "@now/next"
     }
   ],
@@ -28,40 +39,28 @@
       }
     },
     {
-      "src": "^\\/(?:\\/)?$",
-      "dest": "/"
+      "src": "/page/(?<id>[^/]+)$",
+      "dest": "/page?id=$id"
     },
     {
-      "src": "^\\/page\\/([^\\/]+?)(?:\\/)?$",
-      "dest": "/page?id=$1"
+      "src": "/post/(?<id>[^/]+)$",
+      "dest": "/post?id=$id"
     },
     {
-      "src": "^\\/post\\/([^\\/]+?)(?:\\/)?$",
-      "dest": "/post?id=$1"
+      "src": "/race/(?<slug>[^/]+)$",
+      "dest": "/race?slug=$slug"
     },
     {
-      "src": "^\\/race\\/([^\\/]+?)(?:\\/)?$",
-      "dest": "/race?slug=$1"
-    },
-    {
-      "src": "^\\/races(?:\\/)?$",
-      "dest": "/races"
-    },
-    {
-      "src": "^\\/feature\\/([^\\/]+?)(?:\\/)?$",
-      "dest": "/feature?slug=$1"
-    },
-    {
-      "src": "^\\/features(?:\\/)?$",
-      "dest": "/features"
+      "src": "/feature/(?<slug>[^/]+)$",
+      "dest": "/feature?slug=$slug"
     },
     {
       "src": "^\\/results(?:\\/([^\\/]+?))?(?:\\/([^\\/]+?))?(?:\\/)?$",
       "dest": "/results?year=$1&race=$2"
     },
     {
-      "src": "^\\/profile\\/([^\\/]+?)(?:\\/)?$",
-      "dest": "/profile?name=$1"
+      "src": "/profile/(?<name>[^/]+)$",
+      "dest": "/profile?name=$name"
     }
   ]
 }
