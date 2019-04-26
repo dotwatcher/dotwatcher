@@ -8,8 +8,6 @@ export const withFeature = Page => {
 	const withFeature = props => <Page {...props}/>;
 
 	withFeature.getInitialProps = async ({query: {slug}}) => {
-		console.log(slug)
-
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
