@@ -55,8 +55,8 @@
       "dest": "/feature?slug=$slug"
     },
     {
-      "src": "^\\/results(?:\\/([^\\/]+?))?(?:\\/([^\\/]+?))?(?:\\/)?$",
-      "dest": "/results?year=$1&race=$2"
+      "src": "/results/(?<year>[^/]+)?/(?<race>[^/]+)$",
+      "dest": "/results?year=$year&race=$race"
     },
     {
       "src": "/profile/(?<name>[^/]+)$",
