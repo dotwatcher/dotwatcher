@@ -16,7 +16,7 @@ import Homepage from '../components/content-block/homepage';
 import Page from '../components/shared/page';
 import {withHomepage} from '../data/with-homepage';
 import widont from '../utils/widont';
-import { Link } from '../routes';
+import Link from 'next/link';
 
 const Div = styled.div`
 	p {

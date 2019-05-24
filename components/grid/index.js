@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import widont from '../../utils/widont';
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 const Div = styled.div`${tachyons}`;
 const H2 = styled.h2`${tachyons}`;
@@ -28,7 +28,7 @@ const Grid = ({blocks}) => {
       <H3 lh_solid f3 f2_ns ma0 fw6>Recently on DotWatcher</H3>
       {
         blocks.map(block => (
-          <Link route="feature" params={{ type: 'feature', slug: block.feature }} passHref>
+          <Link href={`/feature?slug=${block.feature}`} as={`/feature/${block.feature}`} passHref>
               <A db link near_black hover_blue key={block.sys.id}>
               <Div>
                 <Img mw_100 src={`${block.image.fields.file.url}?w=800&h=500&fit=fill&fm=jpg&q=60`} />
