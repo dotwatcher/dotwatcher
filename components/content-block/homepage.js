@@ -4,7 +4,7 @@ import styled, {keyframes} from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import moment from 'moment';
 import Wrapper from '../shared/wrapper';
-import {Link} from '../../routes';
+import Link from 'next/link';
 import widont from '../../utils/widont';
 
 const onAir = keyframes`
@@ -61,7 +61,7 @@ const Homepage = ({block}) => {
 
 			return (
 				<Div mb4 mb5_ns className="cf">
-					<Link route="race" params={{type: 'race', slug: block.race.fields.slug}} passHref prefetch>
+					<Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
 						<A db cover bg={block.image.fields.file.url} className="cf">
 							<Wrapper fl w_100 w_40_m w_third_l pa4 pb6 pb4_ns pl0 pv6_ns bg_black_50 className="cf">
 								<Div>
@@ -88,7 +88,7 @@ const Homepage = ({block}) => {
 	if (block.feature) {
 		return (
 			<Div mh4_m mb4 mb5_ns className="cf">
-				<Link route="feature" params={{ type: 'feature', slug: block.feature }} passHref prefetch>
+				<Link href={`/feature?slug=${block.feature}`} as={`/feature/${block.feature}`} passHref prefetch>
 					<A db cover bg_center bg={block.image.fields.file.url} className="cf">
 						<Wrapper fr w_100 w_two_thirds_m w_50_l pa4 pv6_ns mv4 mv0_ns className="cf">
 							<Div bg_white_50 pb3>
