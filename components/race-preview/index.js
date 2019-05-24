@@ -37,7 +37,7 @@ const RacePreview = ({data}) => {
 					</a>
 				</Link>
 			</Figure>
-			<Div fl_ns ph3 w_50_m w_60_l>
+			<Div fl_ns ph3 w_50_m w_60_l mb4>
 				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref prefetch>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>{widont(data.title)}</H1>
