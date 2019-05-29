@@ -17,6 +17,7 @@ export const withEntry = Page => {
 		if (id && type === 'post') {
 			const response = await client.getEntry(id);
 
+			console.log(response.fields.featuredImage)
 
 			const entry = {
 				sys: {
@@ -35,9 +36,7 @@ export const withEntry = Page => {
 			};
 
 			if (response.fields.featuredImage) {
-				entry.data.image = response.includes.Asset.find(obj => {
-					return obj.sys.id === response.fields.featuredImage.sys.id;
-				});
+				entry.data.image = response.fields.featuredImage;
 			}
 			posts.push(entry);
 		}
