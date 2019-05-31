@@ -12,7 +12,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import ContentBlock from '../components/content-block';
 import Grid from '../components/grid';
-import Homepage from '../components/content-block/homepage';
+import Banner from '../components/content-block/banner';
 import Page from '../components/shared/page';
 import {withPage} from '../data/with-page';
 import widont from '../utils/widont';
@@ -40,10 +40,10 @@ class ContentPage extends React.Component {
 			}
 		${tachyons}`
 
-		const homepageBlock = this.props.page.blocks.filter(block => block.layout === 'Homepage')[0];
+		const homepageBlock = this.props.page.blocks.filter(block => block.layout === 'Banner')[0];
 		const gridBlocks = this.props.page.blocks.filter(block => block.layout === 'Carousel slide');
 		const grid = gridBlocks.length ? <Grid blocks={gridBlocks}/> : null;
-		const blocksWithoutSlides = this.props.page.blocks.filter(block => block.layout !== 'Carousel slide').filter(block => block.layout !== 'Homepage');
+		const blocksWithoutSlides = this.props.page.blocks.filter(block => block.layout !== 'Carousel slide').filter(block => block.layout !== 'Banner');
 		return (
 			<Page>
 				<Head>
@@ -82,7 +82,7 @@ class ContentPage extends React.Component {
 					</Div>
 				</StyledWrapper>
 				<Div fl w_100 mt3 mt4_l className="cf">
-					{homepageBlock ? <Homepage block={homepageBlock} /> : null}
+					{homepageBlock ? <Banner block={homepageBlock} /> : null}
 
 					<Div mb4 mb5_l className="cf">
 						<Div w_90 w_60_l center pa4 bg_near_white className="cf">
