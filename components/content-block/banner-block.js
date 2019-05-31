@@ -99,8 +99,14 @@ const HomepagePrimary = ({ block, index, count }) => {
 
   if (block.race) {
     const isRaceLive = moment().isBetween(moment(block.race.fields.raceDate), moment(block.race.fields.raceEndDate));
-    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white mb3>{widont(block.heading)}</H2>;
+    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3_ns near_white mb3>{widont(block.heading)}</H2>;
     const WordsWrap = styled.div`
+      margin-left: var(--spacing-${isRaceLive ? 'medium' : 'none'});
+
+      @media screen and (min-width: 48em) {
+        margin-left: var(--spacing-${isRaceLive ? 'large' : 'medium'});
+      }
+
       p {
         max-width: ${index === 0  ? '30em' : '20em'};
       }
@@ -113,7 +119,7 @@ const HomepagePrimary = ({ block, index, count }) => {
             <InfoWrap pa4 pr5_ns relative z_2 className="infowrap cf">
               <Div>
                 {Title}
-                <WordsWrap ml3 ml4_ns>
+                <WordsWrap>
                   <P f3 lh_copy near_white>
                     {widont(block.words)}
                   </P>
@@ -142,7 +148,7 @@ const HomepagePrimary = ({ block, index, count }) => {
                 <H2 f2 f1_ns lh_title ma0 bt bw3 b__white pt2 ph4 near_black mb3>
                   {block.heading}
                 </H2>
-                <WordsWrap mr4>
+                <WordsWrap>
                   <P f3 lh_copy measure_narrow near_black>
                     {widont(block.words)}
                   </P>
