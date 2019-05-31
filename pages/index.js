@@ -12,7 +12,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import ContentBlock from '../components/content-block';
 import Grid from '../components/grid';
-import Homepage from '../components/content-block/homepage';
+import Banner from '../components/content-block/banner';
 import Page from '../components/shared/page';
 import {withHomepage} from '../data/with-homepage';
 import widont from '../utils/widont';
@@ -40,7 +40,7 @@ class App extends Component {
 			}
 		${tachyons}`
 
-		const homepageBlock = this.props.page.blocks.filter(block => block.layout === 'Homepage')[0];
+		const bannerBlocks = this.props.page.blocks.filter(block => block.layout === 'Banner' || block.layout === 'Homepage');
 		const gridBlocks = this.props.page.blocks.filter(block => block.layout === 'Carousel slide');
 		const grid = gridBlocks.length ? <Grid blocks={gridBlocks}/> : null;
 		const blocksWithoutSlides = this.props.page.blocks.filter(block => block.layout !== 'Carousel slide').filter(block => block.layout !== 'Homepage');
@@ -62,8 +62,8 @@ class App extends Component {
 				<Header
 					title="dotwatcher.cc — Long distance self-supported bike race coverage"
 				/>
-				<Div fl w_100 mt3 mt4_l className="cf">
-					{homepageBlock ? <Homepage block={homepageBlock} /> : null}
+				<Div fl w_100 className="cf">
+					{bannerBlocks ? <Banner blocks={bannerBlocks} count={bannerBlocks.length} /> : null}
 
 					<Div mb4 mb5_l className="cf">
 						<Div w_90 w_60_l center pa4 bg_near_white className="cf">
