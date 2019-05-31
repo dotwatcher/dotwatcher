@@ -99,12 +99,12 @@ const HomepagePrimary = ({ block, index, count }) => {
 
   if (block.race) {
     const isRaceLive = moment().isBetween(moment(block.race.fields.raceDate), moment(block.race.fields.raceEndDate));
-    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3_ns near_white mb3>{widont(block.heading)}</H2>;
+    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml4_ns near_white mb3>{widont(block.heading)}</H2>;
     const WordsWrap = styled.div`
       margin-left: var(--spacing-${isRaceLive ? 'medium' : 'none'});
 
       @media screen and (min-width: 48em) {
-        margin-left: var(--spacing-${isRaceLive ? 'large' : 'medium'});
+        margin-left: var(--spacing-large);
       }
 
       p {
