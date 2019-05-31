@@ -120,10 +120,10 @@ const HomepagePrimary = ({ block, index, count }) => {
               <Div>
                 {Title}
                 <WordsWrap>
-                  <P f3 lh_copy near_white>
+                  <P f4 f3_ns lh_copy near_white>
                     {widont(block.words)}
                   </P>
-                  <P f3 pt3>
+                  <P f4 f3_ns pt3>
                     <Span link underline near_white hover_white>
                       {
                         moment(block.race.fields.raceEndDate).isBefore() ? `Look back at the race »` : `Follow the race »`
@@ -149,7 +149,7 @@ const HomepagePrimary = ({ block, index, count }) => {
                   {block.heading}
                 </H2>
                 <WordsWrap>
-                  <P f3 lh_copy measure_narrow near_black>
+                  <P f4 f3_ns lh_copy measure_narrow near_black>
                     {widont(block.words)}
                   </P>
                   <P f4 mt3>
