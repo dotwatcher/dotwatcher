@@ -48,15 +48,16 @@ const H2Live = styled.h2`
     width: .75em;
     height: .75em;
     position: absolute;
-    left: -3rem;
+    left: -2rem;
     margin: .625rem 0 0;
     border-radius: 100%;
     background-color: var(--red);
     animation: ${onAir} 2s linear infinite;
   }
 
-  @media screen and (min-width: 64em) {
+  @media screen and (min-width: 48em) {
     &:before {
+      left: -3rem;
       margin: .75rem 0;
     }
   }
@@ -80,6 +81,12 @@ const HomepagePrimary = ({ block, index, count }) => {
 
       @media screen and (min-width: 48em) {
         .infowrap {
+          width: 66.666%;
+        }
+      }
+
+      @media screen and (min-width: 64em) {
+        .infowrap {
           width: 50%;
         }
       }
@@ -92,9 +99,8 @@ const HomepagePrimary = ({ block, index, count }) => {
 
   if (block.race) {
     const isRaceLive = moment().isBetween(moment(block.race.fields.raceDate), moment(block.race.fields.raceEndDate));
-    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml4 near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml4 near_white mb3>{widont(block.heading)}</H2>;
+    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml3 ml4_ns near_white mb3>{widont(block.heading)}</H2>;
     const WordsWrap = styled.div`
-      margin-left: var(--spacing-large);
       p {
         max-width: ${index === 0  ? '30em' : '20em'};
       }
@@ -104,10 +110,10 @@ const HomepagePrimary = ({ block, index, count }) => {
       <Race relative bg_black z_0 className={`cf ${index === 0 ? 'primary' : 'secondary'}`}>
         <Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
           <A link db bg={block.image.fields.file.url} className="cf">
-            <InfoWrap pa4 pr5 relative z_2 className="infowrap cf">
+            <InfoWrap pa4 pr5_ns relative z_2 className="infowrap cf">
               <Div>
                 {Title}
-                <WordsWrap>
+                <WordsWrap ml3 ml4_ns>
                   <P f3 lh_copy near_white>
                     {widont(block.words)}
                   </P>
