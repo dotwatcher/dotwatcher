@@ -14,15 +14,13 @@ const Form = styled.form`${tachyons}`;
 const EmailInput = styled.input`
 	&:focus {
 		outline: 0;
-		border-color: var(--gold);
 		background-color: var(--light-yellow);
 	}
 ${tachyons}`;
 const SubmitButton = styled.button`
 	&:focus, &:hover {
-		border-color: var(--blue);
-		color: var(--white);
-		background-color: var(--blue);
+		border-color: var(--dark-blue);
+		background-color: var(--dark-blue);
 		outline: 0;
 	}
 	&:active {
@@ -66,12 +64,12 @@ const CustomForm = ({status, message, onValidated}) => {
 				name="email"
 				placeholder="your.name@email.com"
 				input_reset ba bw1
-				b__light_silver ph3
+				b__blue ph3
 				pv2
 				mb4 f5 f4 br_0_l
 				fl w_100 w_70_ns
 			/>
-			<SubmitButton f4 bg_white fl w_100 w_30_ns ph3 pv2 mb4 center tc blue tracked ttl small_caps ba bw1 b__blue type="submit">
+			<SubmitButton f4 bg_blue fl w_100 w_30_ns ph3 pv2 mb4 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
 				Subscribe
 			</SubmitButton>
 			{status === 'sending' && <Message fl w_70 ph3 f6 lh_copy>sending...</Message>}

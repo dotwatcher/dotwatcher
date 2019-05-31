@@ -23,7 +23,7 @@ const Banner = ({ blocks, count }) => {
       <Grid>
         {
           blocks.map((block, i) => {
-            return <Block block={block} index={i} count={count}/>
+            return <Block key={block.sys.id} block={block} index={i} count={count}/>
           })
         }
       </Grid>

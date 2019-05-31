@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled, {css} from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import ResponsiveMenu from 'react-responsive-navbar';
 import Link from 'next/link';
 import Logo from './logo';
 
@@ -10,13 +9,27 @@ const A = styled.a`${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
 const H2 = styled.h2`${tachyons}`;
 const Div = styled.div`
-	@media screen and (min-width: 64em) {
-		width: 170px;
+	width: 170px;
+	margin: 0 auto;
+	@media screen and (min-width: 48em) {
+		margin: 0 0 0 var(--spacing-large);
 	}
-	width: 120px;
-	margin-left: var(--spacing-large)
 `;
-const Button = styled.button`${tachyons}`
+const Menu = styled.div`
+	padding: 0 var(--spacing-medium) var(--spacing-medium);
+	margin-left: auto;
+	line-height: 1;
+	font-size: 2.25rem;
+	clear: left;
+	
+	@media screen and (min-width: 48em) {
+		padding: var(--spacing-medium);
+		display: flex;
+		align-items: center;
+		clear: none;
+		float: right;
+	}
+${tachyons}`;
 
 class Banner extends Component {
 	constructor(props) {
@@ -92,22 +105,13 @@ class Banner extends Component {
 			${props => props.isFixed && css`
 				position: fixed;
 			`}
-			> div {
-				padding: var(--spacing-medium);
-				margin-left: auto;
-				line-height: 1;
-				font-size: 2.25rem;
-				display: flex;
-				align-items: center;
-				float: right;
-			}
 			${tachyons}`;
 		const padTop = this.state.fixed ? <Div style={{height: this.state.bannerHeight}}/> : null;
 		return (
 			<React.Fragment>
 				{padTop}
-				<Header bg_white bb b__light_gray near_black w_100 z_2 className="cf" id="banner" isFixed={this.state.fixed}>
-					<H1 fl flex items_center f2 pv3 ma0 fw5 lh_solid w_40_l>
+				<Header flex_ns bg_white bb b__light_gray near_black w_100 z_2 className="cf" id="banner" isFixed={this.state.fixed}>
+					<H1 flex items_center f2 pt1 ma0 fw5 lh_solid w_40_l>
 						<Div>
 							<Logo>{this.props.title}</Logo>
 						</Div>
@@ -117,29 +121,20 @@ class Banner extends Component {
 							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link href={`/race/${this.props.race.fields.slug}`} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
 						) : null
 					}
-
-					<ResponsiveMenu
-						menuOpenButton={<Button f5 pt2 fw5 bg_white tc near_black hover_blue bn>Menu</Button>}
-						changeMenuOn="800px"
-						largeMenuClassName=""
-						smallMenuClassName="small-menu-classname"
-						menu={
-							<React.Fragment>
-								<Link href="/races" passHref prefetch>
-									<A dib pt2 mr3 f5 f4_l near_black hover_blue no_underline fw5>Live</A>
-								</Link>
-								<Link href="/results" passHref>
-									<A dib pt2 mh3 f5 f4_l near_black hover_blue no_underline fw5>Results</A>
-								</Link>
-								<Link href="/features" passHref prefetch>
-									<A dib pt2 mh3 f5 f4_l near_black hover_blue no_underline fw5>Features</A>
-								</Link>
-								<Link href="/about" as="/about" passHref>
-									<A dib pt2 ml3 f5 f4_l near_black hover_blue no_underline fw5>About</A>
-								</Link>
-							</React.Fragment>
-						}
-					/>
+					<Menu tc>
+						<Link href="/races" passHref prefetch>
+							<A dib pt3 mr2 mr3_ns f5 f4_l near_black hover_blue no_underline fw5>Live</A>
+						</Link>
+						<Link href="/results" passHref>
+							<A dib pt3 mh2 mh3_ns f5 f4_l near_black hover_blue no_underline fw5>Results</A>
+						</Link>
+						<Link href="/features" passHref prefetch>
+							<A dib pt3 mh2 mh3_ns f5 f4_l near_black hover_blue no_underline fw5>Features</A>
+						</Link>
+						<Link href="/about" as="/about" passHref>
+							<A dib pt3 ml2 ml3_ns f5 f4_l near_black hover_blue no_underline fw5>About</A>
+						</Link>
+					</Menu>
 				</Header>
 			</React.Fragment>
 		);

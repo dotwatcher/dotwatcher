@@ -28,13 +28,10 @@ const A = styled.a`
     width: 100%;
     height: 100%;
     opacity : .8;
-    background-image: url(${props => props.bg}?w=800);
+    background-image: url(${props => props.bg}?w=1200);
     background-size: cover;
+    background-position: center;
     z-index: 1;
-    @media screen and (min-width: 48em) {
-      opacity : .9;
-      background-image: url(${props => props.bg}?w=1200);
-    }
     @media screen and (min-width: 64em) {
       background-image: url(${props => props.bg}?w=1800);
     }
@@ -95,7 +92,7 @@ const HomepagePrimary = ({ block, index, count }) => {
 
   if (block.race) {
     const isRaceLive = moment().isBetween(moment(block.race.fields.raceDate), moment(block.race.fields.raceEndDate));
-    const Title = isRaceLive ? <H2Live f2 f1_ns lh_title ma0 bb bw2 b__white pb2 ml4 near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns lh_title ma0 bb bw2 b__white pb2 ml4 near_white mb3>{widont(block.heading)}</H2>;
+    const Title = isRaceLive ? <H2Live f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml4 near_white relative mb3>{widont(block.heading)}</H2Live> : <H2 f2 f1_ns fw6 lh_title ma0 bb bw2 b__white pb2 ml4 near_white mb3>{widont(block.heading)}</H2>;
     const WordsWrap = styled.div`
       margin-left: var(--spacing-large);
       p {

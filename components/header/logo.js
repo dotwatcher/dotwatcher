@@ -1,14 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
-
-const A = styled.a`${tachyons}`;
 
 const Logo = ({children}) => (
 	<Link href="/" passHref prefetch>
-		<A near_white hover_white no_underline dib>
+		<a>
 			<svg style={{width: '100%'}} viewBox="0 0 49 11">
 				<title>{children}</title>
 				<g id="Dotwatcher" fill="#111">
@@ -29,7 +25,7 @@ const Logo = ({children}) => (
 					</g>
 				</g>
 			</svg>
-		</A>
+		</a>
 	</Link>
 );
 

@@ -20,15 +20,13 @@ const H2 = styled.h2`${tachyons}`;
 const EmailInput = styled.input`
 	&:focus {
 		outline: 0;
-		border-color: var(--gold);
 		background-color: var(--light-yellow);
 	}
 ${tachyons}`;
 const SubmitButton = styled.button`
 	&:focus, &:hover {
-		border-color: var(--blue);
-		color: var(--white);
-		background-color: var(--blue);
+		border-color: var(--dark-blue);
+		background-color: var(--dark-blue);
 		outline: 0;
 	}
 	&:active {
@@ -71,12 +69,12 @@ const CustomForm = ({status, message, onValidated}) => {
 				type="email"
 				placeholder="your.name@email.com"
 				input_reset ba bw1
-				b__light_silver ph3
+				b__blue ph3
 				pv2 mt4
 				mb2 f5 f4 br_0_l
 				fl w_100 w_70_ns
 			/>
-			<SubmitButton f4 bg_white fl w_100 w_30_ns ph3 pv2 mt4 mb2 center tc blue tracked ttl small_caps ba bw1 b__blue type="submit">
+			<SubmitButton f4 bg_blue fl w_100 w_30_ns ph3 pv2 mt4 mb2 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
 				Subscribe
 			</SubmitButton>
 			{status === 'sending' && <Message fl w_70 ph3 f6 lh_copy>sending...</Message>}
@@ -91,13 +89,15 @@ const CustomForm = ({status, message, onValidated}) => {
 };
 
 const EmailSignup = ({block}) => (
-	<Div mb4 mb5_l className="cf">
-		<Div w_90 w_60_l center pa4 bg_near_white className="cf">
+	<Div mb4 mb5_l bg_light_blue pv4 ph3 ph4_ns className="cf">
+		<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
 			<Header>
 				<H2 f3 f2_ns fw6 mt0 mb2 pb1 lh_title>{block.heading}</H2>
-				<ReactMarkdown
-					source={block.words}
-				/>
+				<Div measure lh_copy f5 f4_ns>
+					<ReactMarkdown measure
+						source={block.words}
+					/>
+				</Div>
 			</Header>
 			<MailchimpSubscribe
 				url={mailchimpURL}
