@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import Homepage from './homepage';
+import Banner from './banner';
 import ImageRightLeft from './image-right-left';
 import RacePromo from './race-promo';
 import Box from './box';
@@ -14,8 +14,8 @@ import Image from '../image';
 const Div = styled.div`${tachyons}`;
 
 const ContentBlock = ({block, feature}) => {
-	if (block.layout === 'Homepage') {
-		return <Homepage block={block}/>;
+	if (block.layout === 'Banner') {
+		return <Banner block={block}/>;
 	}
 	if (block.layout === 'Race promo') {
 		return <RacePromo block={block}/>;
