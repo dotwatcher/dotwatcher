@@ -23,7 +23,7 @@ const A = styled.a`${tachyons}`;
 
 class PostPage extends React.Component {
 	render() {
-		const OGimage = this.props.posts[0].data.image ? `${this.props.posts[0].data.image.fields.file.url}?w=1200&fm=jpg&q=80` : 'https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg';
+		const OGimage = this.props.posts[0].data.image ? `${this.props.posts[0].data.image.fields.file.url}?w=600&q=70` : 'https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg';
 		return (
 			<Page>
 				<Head>
