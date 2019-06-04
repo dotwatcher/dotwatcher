@@ -53,19 +53,22 @@ export const WithEntries = Page => {
 			posts.push(entry);
 		}
 
-		const discourseReplyCount = await fetch(`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`)
-		.then(response => {
-			if (response.status >= 400) {
-				return null
-			}
-			return response.json();
-		})
-		.then(data => {
-			return data ? data.posts_count : null
-		})
-		.catch(error => {
-			return null
-		});
+		let discourseReplyCount = 0
+		if (race.fields.discourseId) {
+			discourseReplyCount = await fetch(`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`)
+				.then(response => {
+					if (response.status >= 400) {
+						return null
+					}
+					return response.json();
+				})
+				.then(data => {
+					return data ? data.posts_count : null
+				})
+				.catch(error => {
+					return null
+				});
+		}
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
