@@ -36,6 +36,7 @@ class PostPage extends React.Component {
 					<meta name="twitter:creator" content="@dotwatcher" />
 					<meta name="twitter:title" content={`${this.props.posts[0].data.title} – DotWatcher.cc`} />
 					<meta name="twitter:description" content="DotWatcher is here to showcase the best of long distance self-supported bike racing." />
+					<meta property="twitter:image" content={OGimage}/>
 					<meta name="description" content="DotWatcher is here to showcase the best of long distance self-supported bike racing." />
 					<script src="//www.instagram.com/embed.js" />
 				</Head>
