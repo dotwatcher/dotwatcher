@@ -1,3 +1,4 @@
+require('now-env');
 const webpack = require('webpack');
 
 module.exports = {
