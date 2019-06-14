@@ -1,7 +1,6 @@
 import NextDocument, {Head, Main, NextScript} from 'next/document';
 import {ServerStyleSheet} from 'styled-components';
 import React from 'react';
-import stylesheet from '../styles/index.css';
 
 export default class Document extends NextDocument {
 	static getInitialProps({renderPage}) {
@@ -16,7 +15,7 @@ export default class Document extends NextDocument {
 			<html>
 				<Head>
 					{this.props.styleTags}
-					<style dangerouslySetInnerHTML={{__html: stylesheet}}/>
+					<link rel="stylesheet" href="/static/index.css"/>
 					<meta name="description" content="DotWatcher is here to showcase the best of long distance self-supported bike racing."/>
 					<meta name="viewport" content="initial-scale=1.0, width=device-width"/>
 					<link rel="icon" type="image/png" sizes="16x16" href="/static/dw-pin-16.png"/>
