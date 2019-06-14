@@ -65,7 +65,7 @@ class App extends Component {
 				<Div fl w_100 className="cf">
 					{bannerBlocks ? <Banner blocks={bannerBlocks} count={bannerBlocks.length} /> : null}
 
-					<Div mb4 mb5_l pv4 ph3 ph4_ns bg_light_blue className="cf">
+					<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
 						<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
 							<Div fl w_20 pr3 pr4_m pr5_l>
 								<SVG w_100 viewBox="0 0 21 37" xmlns="http://www.w3.org/2000/svg"><g fill="#fff" fillRule="evenodd"><path d="M7.703 5.444l4.58 7.956 2.43-4.225 4.409 7.657c.882-2.47 1.47-4.627 1.47-5.982 0-5.665-4.597-10.278-10.245-10.278C4.699.572.1 5.184.1 10.85c0 1.268.524 3.248 1.313 5.522l6.29-10.928z" /><path d="M14.715 12.31l-1.531 2.659 3.956 6.873c.446-1.048.876-2.093 1.271-3.108l-3.696-6.424zM8.626 10.183L6.776 13.4l-.925-1.605-3.739 6.495c2.701 7.07 7.196 15.828 7.46 16.345l.774 1.485.758-1.485c.21-.39 2.826-5.489 5.26-11.005L8.626 10.183z" /></g></SVG>

@@ -43,7 +43,7 @@ ${tachyons}`;
 				</Tab>
 				<Tab dib>
 					<CommunityButton onClick={setActiveTabCommunity} db ttu tracked fw5 f6 pa2 hover_bg_near_white>
-						Chat { count ? <Count dib bg_light_blue h1 tc f6 fw4 white>{count}</Count> : null}
+						Chat {count ? <Count dib h1 tc f6 fw4 white className="bg-gradient-blue">{count}</Count> : null}
 					</CommunityButton>
 				</Tab>
 			</Tabs>
