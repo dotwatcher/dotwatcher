@@ -53,7 +53,7 @@
     "ava": "^2.1.0",
     "eslint": "^5.16.0",
     "eslint-config-xo-react": "^0.19.0",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react": "^7.13.0",
     "now-env": "^3.1.0",
     "xo": "^0.24.0"
   }
