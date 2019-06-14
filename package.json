@@ -23,7 +23,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-styled-components": "^1.6.3",
     "babel-plugin-wrap-in-js": "^1.1.1",
-    "contentful": "^7.5.0",
+    "contentful": "^7.7.0",
     "moment": "^2.24.0",
     "next": "^8.1.0",
     "path-match": "^1.2.4",
