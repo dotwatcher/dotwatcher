@@ -9,6 +9,8 @@ const mailchimpURL = process.env.MAILCHIMP || '';
 
 const Form = styled.form`${tachyons}`;
 const Div = styled.div`${tachyons}`;
+const P = styled.p`${tachyons}`;
+const A = styled.a`${tachyons}`;
 const Header = styled.header`
 	p {
 		max-width: 42em;
@@ -84,6 +86,7 @@ const CustomForm = ({status, message, onValidated}) => {
 			{status === 'success' && (
 				<Message fl w_70 ph3 f6 lh_copy dangerouslySetInnerHTML={{__html: message}}/>
 			)}
+			<P fl ma0 w_100 lh_copy f6><A link white hover_blue underline href="https://us18.campaign-archive.com/home/?u=f99c4be1902d7d056695899c7&id=5114f468a5" target="_blank">See all past issues</A></P>
 		</Form>
 	);
 };

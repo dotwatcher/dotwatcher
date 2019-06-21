@@ -64,12 +64,11 @@ const CustomForm = ({status, message, onValidated}) => {
 				name="email"
 				placeholder="your.name@email.com"
 				input_reset ba bw1
-				b__blue ph3
-				pv2
-				mb4 f5 f4 br_0_l
+				b__blue ph3 pv2
+				mb3 f4 br_0_l
 				fl w_100 w_70_ns
 			/>
-			<SubmitButton f4 bg_blue fl w_100 w_30_ns ph3 pv2 mb4 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
+			<SubmitButton f4 bg_blue fl w_100 w_30_ns ph3 pv2 mb3 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
 				Subscribe
 			</SubmitButton>
 			{status === 'sending' && <Message fl w_70 ph3 f6 lh_copy>sending...</Message>}
@@ -79,6 +78,7 @@ const CustomForm = ({status, message, onValidated}) => {
 			{status === 'success' && (
 				<Message fl w_70 ph3 f6 lh_copy dangerouslySetInnerHTML={{__html: message}}/>
 			)}
+			<P fl ma0 w_100 lh_copy f6><A link dark_gray underline href="https://us18.campaign-archive.com/home/?u=f99c4be1902d7d056695899c7&id=5114f468a5" target="_blank">See all past issues</A></P>
 		</Form>
 	);
 };
