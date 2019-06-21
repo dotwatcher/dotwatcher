@@ -16,6 +16,7 @@ export const WithResults = Page => {
 			const racerClasses = []
 			const racerCategories = ['Both']
 			const finishLocations = []
+			const notes = []
 
 			results.forEach(result => {
 				if (racerClasses.filter(racerClass => racerClass === result['Class']).length < 1) {
@@ -27,11 +28,16 @@ export const WithResults = Page => {
 				if (finishLocations.filter(finishLocation => finishLocation === result['Finish Location']).length < 1) {
 					finishLocations.push(result['Finish Location'])
 				}
+				if (result['Notes'] !== '') {
+					notes.push(result['Notes'])
+				}
 			})
 
 			activeClass = activeClass || racerClasses[0]
 			activeCategory = activeCategory || racerCategories[0]
 			activeLocation = activeLocation || finishLocations[0]
+
+			const hasNotes = notes.length > 0
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
@@ -44,7 +50,8 @@ export const WithResults = Page => {
 				activeClass,
 				activeCategory,
 				finishLocations,
-				activeLocation
+				activeLocation,
+				hasNotes
 			};
 		} else {
 			const allResultsResponse = await fetch(`${vars.data.baseUrl}.json?sql=select+DISTINCT+Event%2C+year+from+results+order+by+Event+ASC%2C+year+Desc&_shape=array`);

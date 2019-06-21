@@ -144,6 +144,9 @@ class ResultsTable extends React.Component {
 								</ResultsHeadCell> : null
 							}
 							<ResultsHeadCell tr><abbr title="Finish Time in days, hours and minutes">Finish Time</abbr></ResultsHeadCell>
+							{
+								this.props.hasNotes ? <ResultsHeadCell>Notes</ResultsHeadCell> : null
+							}
 						</HeadRow>
 					</thead>
 					<tbody>
@@ -200,6 +203,9 @@ class ResultsTable extends React.Component {
 												result['Minutes'] ? 'm' : '--'
 											}
 										</ResultsCell>
+										{
+											this.props.hasNotes ? <ResultsCell>{ result['Notes'] }</ResultsCell> : null
+										}
 									</ResultsRow>
 								)
 							})
