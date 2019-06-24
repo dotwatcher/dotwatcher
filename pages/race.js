@@ -12,6 +12,7 @@ import KeyEvents from '../components/key-events';
 import MapContainer from '../components/map-container';
 import Page from '../components/shared/page';
 import Post from '../components/post';
+import TopRiders from '../components/top-riders';
 import FactFile from '../components/fact-file';
 import Tabs from '../components/tabs';
 import Community from '../components/community'
@@ -215,6 +216,7 @@ class Race extends React.Component {
 				/>
 				<MapContainer raceID={this.props.trackleadersID}/>
 				<KeyEventsWrapper fl ph3 ph4_ns pb2 w_100 w_30_m w_20_l mt4_l relative id="events-wrap">
+					<TopRiders race={this.props.race}/>
 					<FactFile race={this.props.race}/>
 					<KeyEvents posts={this.props.posts} skip={this.state.skip}/>
 				</KeyEventsWrapper>
