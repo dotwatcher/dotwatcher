@@ -2,11 +2,8 @@ import React from 'react';
 
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import ReactMarkdown from 'react-markdown';
-import shortcodes from 'remark-shortcodes';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import Embed from '../components/embed';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import ContentBlock from '../components/content-block';
@@ -14,7 +11,10 @@ import Carousel from '../components/carousel';
 import Page from '../components/shared/page';
 import ContributorInfo from '../components/contributor-info'
 import {withFeature} from '../data/with-feature';
-import widont from '../utils/widont';
+import EmailSignup from '../components/content-block/email-signup'
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+import Link from 'next/link';
 
 const Div = styled.div`
 	p {
@@ -24,8 +24,29 @@ ${tachyons}`;
 const Heading = styled.header`${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
 const H2 = styled.h2`${tachyons}`;
+const H3 = styled.h3`${tachyons}`;
+const A = styled.a`${tachyons}`;
+const Img = styled.img`${tachyons}`;
+const RelatedGrid = styled.div`
+	display: grid;
+  grid-gap: var(--spacing-medium);
+	grid-template-columns: 1fr 1fr;
+${tachyons}`;
 
 class FeaturePage extends React.Component {
+	static propTypes = {
+		cookies: instanceOf(Cookies).isRequired
+	};
+
+	constructor(props) {
+		super(props);
+
+		const { cookies } = props;
+		this.state = {
+			hideSignup: cookies.get('hideSignup') || false
+		};
+	}
+
 	render() {
 		const StyledWrapper = styled.div`
 			background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=800&fm=jpg&q=60)` : 'none' };
@@ -82,6 +103,8 @@ class FeaturePage extends React.Component {
 				}
 				<Div fl w_100 mt3 mt4_l cf>
 					{carousel}
+				</Div>
+				<Div fl w_100 w_70_l mt3 mt4_l cf>
 					{
 						blocksWithoutSlides.map(block => {
 							return (
@@ -94,6 +117,24 @@ class FeaturePage extends React.Component {
 						})
 					}
 				</Div>
+				<Div fl w_100 w_30_l mt5 mt4_l ph3 pl0_l cf>
+					{
+						this.state.hideSignup ? null : <EmailSignup layout="small" />
+					}
+					<H2 ma0 mb3 f3>Related features</H2>
+					<RelatedGrid>
+						{
+							this.props.feature.related.map(relation => (
+								<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref prefetch key={relation.sys.id}>
+									<A link db near_black hover_blue>
+										<Img w_100 src={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60`}/>
+										<H3 f5>{relation.fields.title}</H3>
+									</A>
+								</Link>
+							))
+						}
+					</RelatedGrid>
+				</Div>
 				<Footer/>
 			</Page>
 		);
@@ -104,4 +145,4 @@ FeaturePage.propTypes = {
 	feature: PropTypes.object.isRequired
 };
 
-export default withFeature(FeaturePage);
+export default withFeature(withCookies(FeaturePage));

@@ -20,23 +20,6 @@ const Header = styled.header`
 	}
 ${tachyons}`;
 const H2 = styled.h2`${tachyons}`;
-const EmailInput = styled.input`
-	&:focus {
-		outline: 0;
-		background-color: var(--light-yellow);
-	}
-${tachyons}`;
-const SubmitButton = styled.button`
-	&:focus, &:hover {
-		border-color: var(--dark-blue);
-		background-color: var(--dark-blue);
-		outline: 0;
-	}
-	&:active {
-		border-color: var(--gold);
-		background-color: var(--gold);
-	}
-${tachyons}`;
 const Message = styled.div`
 	a:link, a:visited {
 		color: var(--blue)
@@ -57,7 +40,27 @@ const Button = styled.button`
 	}
 ${tachyons}`;
 
-const CustomForm = ({status, message, onValidated}) => {
+const CustomForm = ({status, message, onValidated, layout}) => {
+	const EmailInput = styled.input`
+		font-size: ${layout === 'small' ? 1 : 1.25 }rem;
+		&:focus {
+			outline: 0;
+			background-color: var(--light-yellow);
+		}
+	${tachyons}`;
+	const SubmitButton = styled.button`
+		font-size: ${layout === 'small' ? 1 : 1.25 }rem;
+		&:focus, &:hover {
+			border-color: var(--dark-blue);
+			background-color: var(--dark-blue);
+			outline: 0;
+		}
+		&:active {
+			border-color: var(--gold);
+			background-color: var(--gold);
+		}
+	${tachyons}`;
+
 	const [cookies, setCookie] = useCookies(['hideSignup']);
 	let email;
 	const submit = () =>
@@ -94,10 +97,10 @@ const CustomForm = ({status, message, onValidated}) => {
 				input_reset ba bw1
 				b__blue ph3
 				pv2 mt4
-				mb2 f5 f4 br_0_l
-				fl w_100 w_70_ns
+				mb2 br_0_l
+				fl w_100 w_60_ns
 			/>
-			<SubmitButton f4 bg_blue fl w_100 w_30_ns ph3 pv2 mt4 mb2 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
+			<SubmitButton bg_blue fl w_100 w_40_ns pa2 mt4 mb2 center tc white tracked ttl small_caps ba bw1 b__blue type="submit">
 				Subscribe
 			</SubmitButton>
 			{status === 'sending' && <Message fl w_70 ph3 f6 lh_copy>sending...</Message>}
@@ -112,7 +115,7 @@ const CustomForm = ({status, message, onValidated}) => {
 	);
 };
 
-const EmailSignup = ({block}) => {
+const EmailSignup = ({block, layout}) => {
 	if (block.heading) {
 		return (
 			<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
@@ -162,6 +165,7 @@ const EmailSignup = ({block}) => {
 							message={message}
 							onValidated={formData => subscribe(formData)}
 							url={mailchimpURL}
+							layout={layout}
 						/>
 					)}
 				/>
@@ -171,22 +175,26 @@ const EmailSignup = ({block}) => {
 }
 
 EmailSignup.propTypes = {
-	block: PropTypes.object
+	block: PropTypes.object,
+	layout: PropTypes.string,
 };
 
 EmailSignup.defaultProps = {
-	block: {}
+	block: {},
+	layout: 'large'
 };
 
 CustomForm.propTypes = {
 	status: PropTypes.string,
 	message: PropTypes.string,
-	onValidated: PropTypes.func.isRequired
+	onValidated: PropTypes.func.isRequired,
+	layout: PropTypes.string
 };
 
 CustomForm.defaultProps = {
 	status: '',
-	message: ''
+	message: '',
+	layout: 'large'
 };
 
 export default EmailSignup;

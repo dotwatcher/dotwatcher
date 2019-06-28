@@ -34,7 +34,8 @@ export const withFeature = Page => {
 				excerpt: featureResponse.items[0].fields.excerpt,
 				text: featureResponse.items[0].fields.text,
 				imageAnchor: featureResponse.items[0].fields.imageAnchor,
-				blocks: []
+				blocks: [],
+				related: featureResponse.items[0].fields.related
 			};
 
 			if (featureResponse.items[0].fields.contributor) {

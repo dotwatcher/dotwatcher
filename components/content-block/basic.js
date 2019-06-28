@@ -57,7 +57,7 @@ const Block = ({block, feature}) => {
 		)
 	}
 	return (
-		<Wrap margin className="cf">
+		<Wrap mr0 fl className="cf">
 			{ heading }
 			<Div measure mh3 lh_copy f5 f4_ns>
 				<ReactMarkdown

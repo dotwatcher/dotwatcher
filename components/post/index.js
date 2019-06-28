@@ -34,7 +34,7 @@ const Post = ({ data, id, index }) => {
 				{post}
 				<Meta id={id} data={data}/>
 			</Article>
-			{ index === 0 && cookies.hideSignup === undefined ? <EmailSignup /> : null }
+			{ index === 0 && cookies.hideSignup === undefined ? <EmailSignup layout="small" /> : null }
 		</React.Fragment>
 	);
 };
