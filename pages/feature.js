@@ -40,11 +40,6 @@ class FeaturePage extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		const { cookies } = props;
-		this.state = {
-			hideSignup: cookies.get('hideSignup') || false
-		};
 	}
 
 	render() {
@@ -119,7 +114,7 @@ class FeaturePage extends React.Component {
 				</Div>
 				<Div fl w_100 w_30_l mt5 mt4_l ph3 pl0_l cf>
 					{
-						this.state.hideSignup ? null : <EmailSignup layout="small" />
+						this.props.cookies.cookies.hideSignup === undefined ? <EmailSignup layout="small" /> : null
 					}
 					{
 						this.props.feature.related.length > 0 ? (
