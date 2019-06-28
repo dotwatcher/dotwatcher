@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import ReactMarkdown from 'react-markdown';
+import { useCookies } from 'react-cookie';
 
 const mailchimpURL = process.env.MAILCHIMP || '';
 
@@ -44,8 +45,20 @@ const Message = styled.div`
 		color: var(--light-blue)
 	}
 ${tachyons}`;
+const Button = styled.button`
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: 0;
+	background: transparent;
+
+	&:hover {
+		background: var(--blue);
+	}
+${tachyons}`;
 
 const CustomForm = ({status, message, onValidated}) => {
+	const [cookies, setCookie] = useCookies(['hideSignup']);
 	let email;
 	const submit = () =>
 		email &&
@@ -57,12 +70,20 @@ const CustomForm = ({status, message, onValidated}) => {
 		message = message.split('0 - ')[1];
 	}
 
+	const markAsSignedUp = () => {
+		setCookie('hideSignup', true, { 
+			path: '/',
+			maxAge: 31557600 // 1 year in seconds
+		});
+	}
+
 	return (
 		<Form
 			onSubmit={
 				e => {
 					e.preventDefault();
 					submit();
+					markAsSignedUp();
 				}
 			}
 		>
@@ -91,34 +112,70 @@ const CustomForm = ({status, message, onValidated}) => {
 	);
 };
 
-const EmailSignup = ({block}) => (
-	<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
-		<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
-			<Header>
-				<H2 f3 f2_ns fw6 mt0 mb2 pb1 lh_title>{block.heading}</H2>
-				<Div measure lh_copy f5 f4_ns>
-					<ReactMarkdown measure
-						source={block.words}
+const EmailSignup = ({block}) => {
+	if (block.heading) {
+		return (
+			<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
+				<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
+					<Header>
+						<H2 f3 f2_ns fw6 mt0 mb2 pb1 lh_title>{block.heading}</H2>
+						<Div measure lh_copy f5 f4_ns>
+							<ReactMarkdown measure
+								source={block.words}
+							/>
+						</Div>
+					</Header>
+					<MailchimpSubscribe
+						url={mailchimpURL}
+						render={({subscribe, status, message}) => (
+							<CustomForm
+								status={status}
+								message={message}
+								onValidated={formData => subscribe(formData)}
+								url={mailchimpURL}
+							/>
+						)}
 					/>
 				</Div>
-			</Header>
-			<MailchimpSubscribe
-				url={mailchimpURL}
-				render={({subscribe, status, message}) => (
-					<CustomForm
-						status={status}
-						message={message}
-						onValidated={formData => subscribe(formData)}
-						url={mailchimpURL}
-					/>
-				)}
-			/>
-		</Div>
-	</Div>
-);
+			</Div>
+		)
+	} else {
+		const [cookies, setCookie] = useCookies(['hideSignup']);
+		
+		const markAsSignedUp = () => {
+			setCookie('hideSignup', true, {
+				path: '/',
+				maxAge: 31557600 // 1 year in seconds
+			});
+		}
+
+		return (
+			<Div mb4 mb5_l pa3 white relative className="bg-gradient-blue cf">
+				<Button absolute right_1 white f4 fw7 lh_copy onClick={() => markAsSignedUp()}>×</Button>
+				<H2 ma0 mb3>The DotWatcher Digest</H2>
+				<P lh-copy ma0>For all the latest updates from the bikepacking webosphere and beyond, sign up to DotWatcher Digest.</P>
+				<MailchimpSubscribe
+					url={mailchimpURL}
+					render={({ subscribe, status, message }) => (
+						<CustomForm
+							status={status}
+							message={message}
+							onValidated={formData => subscribe(formData)}
+							url={mailchimpURL}
+						/>
+					)}
+				/>
+			</Div>
+		)
+	}
+}
 
 EmailSignup.propTypes = {
-	block: PropTypes.object.isRequired
+	block: PropTypes.object
+};
+
+EmailSignup.defaultProps = {
+	block: {}
 };
 
 CustomForm.propTypes = {

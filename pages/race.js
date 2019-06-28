@@ -238,7 +238,7 @@ class Race extends React.Component {
 							this.props.posts.map((item, index) => {
 								if (index <= this.state.skip) {
 									return (
-										<Post key={item.sys.id} id={item.sys.id} data={item.data}/>
+										<Post key={item.sys.id} id={item.sys.id} data={item.data} index={index}/>
 										)
 								}
 							})
