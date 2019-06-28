@@ -62,7 +62,6 @@ const CustomForm = ({status, message, onValidated, layout}) => {
 		}
 	${tachyons}`;
 
-	const [cookies, setCookie] = useCookies(['hideSignup']);
 	let email;
 	const submit = () =>
 		email &&
@@ -74,20 +73,12 @@ const CustomForm = ({status, message, onValidated, layout}) => {
 		message = message.split('0 - ')[1];
 	}
 
-	const markAsSignedUp = () => {
-		setCookie('hideSignup', true, { 
-			path: '/',
-			maxAge: 31557600 // 1 year in seconds
-		});
-	}
-
 	return (
 		<Form
 			onSubmit={
 				e => {
 					e.preventDefault();
 					submit();
-					markAsSignedUp();
 					logEvent('Subscribed', location.pathname, 'box')
 				}
 			}

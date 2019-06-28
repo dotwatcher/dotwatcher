@@ -4,6 +4,7 @@ import tachyons from 'styled-components-tachyons';
 import SocialIcons from '../shared/social-icons'
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import { logEvent } from '../../utils/analytics';
+import { useCookies } from 'react-cookie';
 
 const mailchimpURL = process.env.MAILCHIMP || '';
 
@@ -39,6 +40,7 @@ const Message = styled.div`
 ${tachyons}`;
 
 const CustomForm = ({status, message, onValidated}) => {
+	const [cookies, setCookie] = useCookies(['hideSignup']);
 	let email;
 	const submit = () =>
 		email &&
@@ -50,12 +52,20 @@ const CustomForm = ({status, message, onValidated}) => {
 		message = message.split('0 - ')[1];
 	}
 
+	const markAsSignedUp = () => {
+		setCookie('hideSignup', true, {
+			path: '/',
+			maxAge: 31557600 // 1 year in seconds
+		});
+	}
+
 	return (
 		<Form
 			onSubmit={
 				e => {
 					e.preventDefault();
 					submit();
+					markAsSignedUp();
 					logEvent('Subscribed', location.pathname, 'footer')
 				}
 			}
