@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
 import SocialIcons from '../shared/social-icons'
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
+import { logEvent } from '../../utils/analytics';
 
 const mailchimpURL = process.env.MAILCHIMP || '';
 
@@ -55,6 +56,7 @@ const CustomForm = ({status, message, onValidated}) => {
 				e => {
 					e.preventDefault();
 					submit();
+					logEvent('User', 'Subscribed', location.pathname, 'footer')
 				}
 			}
 		>
