@@ -56,7 +56,7 @@ const CustomForm = ({status, message, onValidated}) => {
 				e => {
 					e.preventDefault();
 					submit();
-					logEvent('User', 'Subscribed', location.pathname, 'footer')
+					logEvent('Subscribed', location.pathname, 'footer')
 				}
 			}
 		>
