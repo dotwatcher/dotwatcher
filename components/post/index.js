@@ -9,10 +9,13 @@ import Quote from './post-quote';
 import Embed from './post-embed';
 import Photo from './post-photo';
 import Meta from './meta';
+import EmailSignup from '../content-block/email-signup'
+import { useCookies } from 'react-cookie';
 
 const Article = styled.article`${tachyons}`;
 
-const Post = ({data, id}) => {
+const Post = ({ data, id, index }) => {
+	const [cookies] = useCookies(['hideSignup']);
 	let post;
 	if (data.format === 'Long') {
 		post = <Long key={id} id={id} data={data}/>;
@@ -26,16 +29,20 @@ const Post = ({data, id}) => {
 		post = <Short key={id} id={id} data={data}/>;
 	}
 	return (
-		<Article bb bw1 b__light_gray f5 measure_wide mt3 mb5_l pb3 overflow_hidden id={slugify(data.title)} className="cf">
-			{post}
-			<Meta id={id} data={data}/>
-		</Article>
+		<React.Fragment>
+			<Article bb bw1 b__light_gray f5 measure_wide mt3 mb5_l pb3 overflow_hidden id={slugify(data.title)} className="cf">
+				{post}
+				<Meta id={id} data={data}/>
+			</Article>
+			{ index === 0 && cookies.hideSignup === undefined ? <EmailSignup /> : null }
+		</React.Fragment>
 	);
 };
 
 Post.propTypes = {
 	data: PropTypes.object.isRequired,
-	id: PropTypes.string.isRequired
+	id: PropTypes.string.isRequired,
+	index: PropTypes.number.isRequired
 };
 
 export default Post;
