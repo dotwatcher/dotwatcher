@@ -121,19 +121,25 @@ class FeaturePage extends React.Component {
 					{
 						this.state.hideSignup ? null : <EmailSignup layout="small" />
 					}
-					<H2 ma0 mb3 f3>Related features</H2>
-					<RelatedGrid>
-						{
-							this.props.feature.related.map(relation => (
-								<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref prefetch key={relation.sys.id}>
-									<A link db near_black hover_blue>
-										<Img w_100 src={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60`}/>
-										<H3 f5>{relation.fields.title}</H3>
-									</A>
-								</Link>
-							))
-						}
-					</RelatedGrid>
+					{
+						this.props.feature.related.length > 0 ? (
+							<React.Fragment>
+								<H2 ma0 mb3 f3>Related features</H2>
+								<RelatedGrid>
+									{
+										this.props.feature.related.map(relation => (
+											<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref prefetch key={relation.sys.id}>
+												<A link db near_black hover_blue>
+													<Img w_100 src={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60`} />
+													<H3 f5>{relation.fields.title}</H3>
+												</A>
+											</Link>
+										))
+									}
+								</RelatedGrid>
+							</React.Fragment>
+						) : null
+					}
 				</Div>
 				<Footer/>
 			</Page>
