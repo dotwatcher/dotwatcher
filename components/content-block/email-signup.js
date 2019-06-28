@@ -88,7 +88,7 @@ const CustomForm = ({status, message, onValidated, layout}) => {
 					e.preventDefault();
 					submit();
 					markAsSignedUp();
-					logEvent('User', 'Subscribed', location.pathname)
+					logEvent('User', 'Subscribed', location.pathname, 'box')
 				}
 			}
 		>
