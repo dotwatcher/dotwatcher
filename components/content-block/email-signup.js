@@ -5,6 +5,7 @@ import tachyons from 'styled-components-tachyons';
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import ReactMarkdown from 'react-markdown';
 import { useCookies } from 'react-cookie';
+import { logEvent } from '../../utils/analytics';
 
 const mailchimpURL = process.env.MAILCHIMP || '';
 
@@ -87,6 +88,7 @@ const CustomForm = ({status, message, onValidated, layout}) => {
 					e.preventDefault();
 					submit();
 					markAsSignedUp();
+					logEvent('User', 'Subscribed', location.pathname)
 				}
 			}
 		>
