@@ -10,9 +10,9 @@ export const WithResults = Page => {
 	WithResults.getInitialProps = async ({ query: { year, race, focus, activeClass, activeCategory, activeLocation } }) => {
 
 		if (year && race) {
-			const raceResultsResponse = await fetch(`${vars.data.baseUrl}/results.json?Slug=${race}&Year=${year}&_size=max&_shape=array`);
+			const legacyLink = race.indexOf(' ') !== -1
+			const raceResultsResponse = await fetch(`${vars.data.baseUrl}/results.json?${legacyLink ? 'Event' : 'Slug'}=${encodeURIComponent(legacyLink ? race : race.toLowerCase())}&Year=${year}&_size=max&_shape=array`);
 			const results = await raceResultsResponse.json();
-
 			const racerClasses = []
 			const racerCategories = ['Both']
 			const finishLocations = []
