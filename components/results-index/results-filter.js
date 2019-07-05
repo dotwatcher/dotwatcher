@@ -135,6 +135,7 @@ class Filter extends Component {
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
           onSuggestionSelected={this.onSuggestionSelected}
+          highlightFirstSuggestion={true}
           theme={theme} />
         <Clear input_reset bg_light_gray hover_bg_lightest_blue f5 tracked bn ttu ph3 pv2 lh_solid dib onClick={this.clear}>Clear</Clear>
       </React.Fragment>
