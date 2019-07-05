@@ -11,16 +11,14 @@ const Banner = ({ blocks, count }) => {
   }
 
   const Grid = styled.div`
-    margin: 0 calc(var(--spacing-extra-small)/2) var(--spacing-large);
-
-    @media screen and (min-width: 48em) {
+    @media screen and (min-width: 64em) {
       display: grid;
       grid-template-columns: ${template};
     }
   ${tachyons}`
 
   return (
-      <Grid>
+      <Grid mb5>
         {
           blocks.map((block, i) => {
             return <Block key={block.sys.id} block={block} index={i} count={count}/>

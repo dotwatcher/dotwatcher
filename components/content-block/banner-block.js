@@ -74,7 +74,7 @@ const HomepagePrimary = ({ block, index, count }) => {
   }
   const Race = styled.div`
     grid-column: ${span};
-    margin: 0 calc(var(--spacing-extra-small)/2) var(--spacing-extra-small);
+    margin: 0;
 
     &.primary {
       padding-top: var(--spacing-extra-extra-extra-large);
