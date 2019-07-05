@@ -113,7 +113,7 @@ const HomepagePrimary = ({ block, index, count }) => {
     ${tachyons}`;
 
     return (
-      <Race relative bg_black z_0 className={`cf ${index === 0 ? 'primary' : 'secondary'}`}>
+      <Race relative bg_black z_0 className={`cf ${index === 0 && count === 3 ? 'primary' : 'secondary'}`}>
         <Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
           <A link db bg={block.image.fields.file.url} className="cf">
             <InfoWrap pa4 pr5_ns relative z_2 className="infowrap cf">
