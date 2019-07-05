@@ -24,6 +24,7 @@ class App extends Component {
 			<Page>
 				<Head>
 					<title>{ this.props.name } { this.props.year } Results - DotWatcher.cc</title>
+					<link rel="canonical" href={`https://dotwatcher.cc/results/${this.props.year}/${this.props.slug}`} />
 					<meta property="og:title" content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}/>
 					<meta property="og:description" content="A history of results from the ultra-cycling world, in one database."/>
 					<meta property="og:image" content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"/>
