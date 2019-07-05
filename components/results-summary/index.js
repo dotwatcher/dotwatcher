@@ -18,9 +18,10 @@ const Year = styled.li`
   }
 ${tachyons}`;
 
-const ResultsSummary = ({ event }) => {
+const ResultsSummary = ({ event, filtered }) => {
+  if (filtered !== '' && filtered !== event.Slug) return null
   return (
-    <Div>
+    <Div id={event.Slug}>
       <Header mv3 pb1 bb bw1 b__light_gray>
         <H2 ma0 f3 fw6>{ event.Event }</H2>
       </Header>
