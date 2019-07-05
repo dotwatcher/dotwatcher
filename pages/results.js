@@ -15,8 +15,6 @@ import {WithResults} from '../data/with-results';
 
 const Heading = styled.header`${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
-const H2 = styled.h2`${tachyons}`;
-const P = styled.p`${tachyons}`;
 const Div = styled.div`${tachyons}`;
 const A = styled.a`${tachyons}`;
 
@@ -25,14 +23,14 @@ class App extends Component {
 		return (
 			<Page>
 				<Head>
-					<title>{ this.props.race } { this.props.year } Results - DotWatcher.cc</title>
-					<meta property="og:title" content={`${this.props.race} ${this.props.year} Results - DotWatcher.cc`}/>
+					<title>{ this.props.name } { this.props.year } Results - DotWatcher.cc</title>
+					<meta property="og:title" content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}/>
 					<meta property="og:description" content="A history of results from the ultra-cycling world, in one database."/>
 					<meta property="og:image" content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"/>
 					<meta name="twitter:card" content="summary_large_image" />
 					<meta name="twitter:site" content="@dotwatcher"/>
 					<meta name="twitter:creator" content="@dotwatcher"/>
-					<meta name="twitter:title" content={`${this.props.race} ${this.props.year} Results - DotWatcher.cc`} />
+					<meta name="twitter:title" content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`} />
 					<meta name="twitter:description" content="A history of results from the ultra-cycling world, in one database." />
 					<meta name="description" content="A history of results from the ultra-cycling world, in one database." />
 				</Head>
@@ -47,7 +45,7 @@ class App extends Component {
 						</Link>
 						<Heading fl w_100 mb4 ph3>
 							<H1 f3 f1_l fw6 lh_title mb0>
-								{ this.props.race } { this.props.year } results
+								{ this.props.name } { this.props.year } results
 							</H1>
 						</Heading>
 							<ResultsTable type="race" results={this.props.results} focus={this.props.focus} racerClasses={this.props.racerClasses} activeClass={this.props.activeClass} racerCategories={this.props.racerCategories} activeCategory={this.props.activeCategory} finishLocations={this.props.finishLocations} activeLocation={this.props.activeLocation}/>

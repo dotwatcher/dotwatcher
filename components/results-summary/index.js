@@ -29,7 +29,7 @@ const ResultsSummary = ({ event }) => {
           event.Year.map((year, index) => {
             return (
               <Year dib hover_bg_lightest_blue bg_light_gray ba bw1 b__white f4 lh_copy key={index}>
-                <Link href={`/results?year=${year}&race=${event.Event}`} as={`/results/${year}/${event.Event}`} passHref prefetch>
+                <Link href={`/results?year=${year}&race=${event.Slug}`} as={`/results/${year}/${event.Slug}`} passHref prefetch>
                   <A db pa2 link near_black>
                     {year}
                   </A>
