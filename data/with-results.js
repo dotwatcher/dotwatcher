@@ -10,7 +10,7 @@ export const WithResults = Page => {
 	WithResults.getInitialProps = async ({ query: { year, race, focus, activeClass, activeCategory, activeLocation } }) => {
 
 		if (year && race) {
-			const raceResultsResponse = await fetch(`${vars.data.baseUrl}/results.json?Event=${encodeURIComponent(race)}&Year=${year}&_size=max&_shape=array`);
+			const raceResultsResponse = await fetch(`${vars.data.baseUrl}/results.json?Slug=${race}&Year=${year}&_size=max&_shape=array`);
 			const results = await raceResultsResponse.json();
 
 			const racerClasses = []
@@ -38,10 +38,12 @@ export const WithResults = Page => {
 			activeLocation = activeLocation || finishLocations[0]
 
 			const hasNotes = notes.length > 0
+			const name = results[0]['Event']
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
 				race,
+				name,
 				year,
 				results,
 				focus,
@@ -54,7 +56,7 @@ export const WithResults = Page => {
 				hasNotes
 			};
 		} else {
-			const allResultsResponse = await fetch(`${vars.data.baseUrl}.json?sql=select+DISTINCT+Event%2C+year+from+results+order+by+Event+ASC%2C+year+Desc&_shape=array`);
+			const allResultsResponse = await fetch(`${vars.data.baseUrl}.json?sql=select+DISTINCT+Event%2C+Year%2C+Slug+from+results+order+by+Event+ASC%2C+year+Desc&_shape=array`);
 			const rawResults = await allResultsResponse.json();
 			const raceResultsByYear = [];
 
