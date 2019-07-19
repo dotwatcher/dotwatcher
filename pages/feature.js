@@ -125,7 +125,14 @@ class FeaturePage extends React.Component {
 										this.props.feature.related.map(relation => (
 											<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref prefetch key={relation.sys.id}>
 												<A link db near_black hover_blue>
-													<Img w_100 src={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60`} />
+													<Img
+														w_100
+														src={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60`}
+														srcSet={`${relation.fields.featuredImage.fields.file.url}?w=256&h=256&fit=fill&fm=jpg&q=60 1024w,
+															${relation.fields.featuredImage.fields.file.url}?w=480&h=480&fit=fill&fm=jpg&q=60 768w,
+															${relation.fields.featuredImage.fields.file.url}?w=320&h=320&fit=fill&fm=jpg&q=60 320w`}
+														sizes="50vw"
+													/>
 													<H3 f5>{relation.fields.title}</H3>
 												</A>
 											</Link>
