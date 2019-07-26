@@ -25,12 +25,13 @@ class TopRiders extends Component {
   }
 
   async componentDidMount() {
-
     const leaderboardResponse = await fetch(`https://dot-scraper.canthappenashidden.xyz/api/pages/?access_token=${process.env.SCRAPEY_API_KEY}&filter[order]=timestamp%20DESC&filter[where][url]=http://trackleaders.com/${this.props.race.fields.trackleadersRaceId}&filter[limit]=1`)
 
+    const leaderboardJSON = await leaderboardResponse.json()
+
     let sortedLeaders = []
-    if (leaderboardResponse.body[0].data.leaderboard) {
-      sortedLeaders = leaderboardResponse.body[0].data.leaderboard.sort((a, b) => {
+    if (leaderboardJSON[0].data.leaderboard) {
+      sortedLeaders = leaderboardJSON[0].data.leaderboard.sort((a, b) => {
         if (typeof (a.mile) !== 'undefined') {
           return parseFloat(b.mile) - parseFloat(a.mile);
         } else {
@@ -38,17 +39,16 @@ class TopRiders extends Component {
         }
       })
     }
-    
     sortedLeaders = sortedLeaders.slice(0,10)
 
-    formattedLeaders = sortedLeaders.map((item, index) => {
+    const leaderboard = sortedLeaders.map((item, index) => {
       return {
         sys: {
           id: index
         },
         fields: {
           name: item.name,
-          distance: typeof item.kilometre !== 'undefined' ? parseFloat(item.kilometre).toFixed(0) : null
+          distance: item.kilometre !== null ? parseFloat(item.kilometre).toFixed(0) : 0
         }
       };
     });
