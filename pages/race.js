@@ -218,9 +218,11 @@ class Race extends React.Component {
 				<MapContainer raceID={this.props.trackleadersID}/>
 				<KeyEventsWrapper fl ph3 ph4_ns pb2 w_100 w_30_m w_20_l mt4_l relative id="events-wrap">
 					{
-						// this.props.race.fields.staticLeaderboard ? <StaticTopRiders race={this.props.race} /> : <DynamicTopRiders race={this.props.race} />
+						this.props.race.fields.leaderboard === true ? <DynamicTopRiders race={this.props.race} /> : null
+					}
+					{
 						this.props.race.fields.staticLeaderboard ? <StaticTopRiders race={this.props.race} /> : null
-				}
+					}
 					<FactFile race={this.props.race}/>
 					<KeyEvents posts={this.props.posts} skip={this.state.skip}/>
 				</KeyEventsWrapper>
