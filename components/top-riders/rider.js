@@ -21,9 +21,7 @@ const Rider = ({rider, numbered, position}) => {
 					</A>
 				</Link>
 			</RiderName>
-			{
-				rider.distance ? <RiderStat fr f6 gray>{rider.distance}km</RiderStat> : null
-			}
+			<RiderStat fr f6 gray>{rider.distance}km</RiderStat>
 		</Wrap>
 	);
 };
