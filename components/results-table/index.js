@@ -100,8 +100,8 @@ class ResultsTable extends React.Component {
 
 		if (this.props.results.length < 1) {
 			return (
-			<Div fl w_100 ph3>
-				<p>No results found for this race</p>
+			<Div fl w_100 ph3 mb6>
+					<p>No results found for this {this.props.type === 'profile' ? 'rider' : 'race'}</p>
 			</Div>
 			)
 		}
