@@ -33,11 +33,11 @@ class Iframe extends Component {
 		${tachyons}`;
 		let iframe = <Placeholder raceID="Live tracker coming soon" w_100 h_100/>
 		if (this.props.raceID && this.props.raceID.indexOf('maprogress') !== -1) {
-			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`${this.props.raceID}viewswitcher/switchview?mobile=true&returnurl=%2F`} frameborder="0" {...this.props.onLoad}/>
+			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`${this.props.raceID}viewswitcher/switchview?mobile=true&returnurl=%2F`} frameborder="0" {...this.props.onLoad} allowFullScreen/>
 		} else if (this.props.raceID && this.props.raceID.indexOf('http') !== -1) {
-			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`${this.props.raceID}`} frameborder="0" {...this.props.onLoad}/>
+			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`${this.props.raceID}`} frameborder="0" {...this.props.onLoad} allowFullScreen/>
 		} else if (this.props.raceID) {
-			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`https://trackleaders.com/${this.props.raceID}f.php`} frameborder="0" {...this.props.onLoad}/>
+			iframe = <Map ref="iframe" id="trackleaders-iframe" w_100 h_100 ba bw0 src={`https://trackleaders.com/${this.props.raceID}f.php`} frameborder="0" {...this.props.onLoad} allowFullScreen/>
 		}
 
 		return (
