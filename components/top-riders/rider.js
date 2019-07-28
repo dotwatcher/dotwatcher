@@ -10,12 +10,15 @@ const Name = styled.span`${tachyons}`;
 const RiderStat = styled.dt`${tachyons}`;
 const A = styled.a`${tachyons}`;
 
+const regex = /^#\d*\s/
+
 const Rider = ({rider, numbered, position}) => {
+	const numberlessName = rider.name.replace(regex, '')
 	return (
 		<Wrap f6 mt0 mb2 lh_copy className="cf">
 			<RiderName fl f6>
 				{ numbered ? `${position}. ` : null }
-				<Link href={`/profile?name=${rider.name}`} as={`/profile/${rider.name}`} passHref>
+				<Link href={`/profile?name=${numberlessName}`} as={`/profile/${numberlessName}`} passHref>
 					<A link near_black hover_blue underline title={`See ${rider.name}’s past results`}>
 						<Name fw6>{rider.name}</Name>
 					</A>
