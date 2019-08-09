@@ -13,11 +13,11 @@ const Img = styled.img`${tachyons}`;
 const GridContainer = styled.div`
   display: grid;
   grid-gap: var(--spacing-large);
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   @media screen and (min-width: 48em) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: var(--spacing-extra-large);
   }
-  
   a:nth-child(-n+2) {
     grid-column-start: span 2;
   }
@@ -36,7 +36,7 @@ const Grid = ({blocks}) => {
                 <Div>
                   <Img mw_100 src={`${block.image.fields.file.url}?w=800&h=500&fit=fill&fm=jpg&q=60`} />
                 </Div>
-                {i < 2 ? <H2 lh_solid fw6 f5 f3_ns>{block.heading}</H2> : <H2 lh_title fw6 f5>{widont(block.heading)}</H2>}
+                {i < 2 ? <H2 lh_solid fw6 f5 f3_ns>{block.heading}</H2> : <H2 lh_title fw6 f6 f5_ns>{block.heading}</H2>}
                 {i < 2 ? <P f6 f5_l measure ma0 lh_copy>
                   {widont(block.words)}
                 </P> : null }
