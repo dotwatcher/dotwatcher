@@ -25,23 +25,6 @@ const H1 = styled.h1`${tachyons}`;
 const P = styled.p`${tachyons}`;
 const Span = styled.span`${tachyons}`;
 const A = styled.a`${tachyons}`;
-const KeyEventsWrapper = styled.div`
-@media screen and (max-width: 30em) {
-	&:after {
-		content: '';
-		border-top: .125rem solid var(--light-gray);
-		position: absolute;
-		width: calc(100% - 2 * var(--spacing-medium));
-		bottom: 0;
-		left: var(--spacing-medium);
-		height: var(--spacing-medium);
-	}
-}
-
-@media screen and (min-width: 64em) {
-	margin-left: 40%;
-}
-${tachyons}`;
 const Notification = styled(Button)`
 	top: 0;
 	left: 50%;
@@ -156,6 +139,24 @@ class Race extends React.Component {
 	}
 
 	render() {
+		const KeyEventsWrapper = styled.div`
+			@media screen and (max-width: 30em) {
+				&:after {
+					content: '';
+					border-top: .125rem solid var(--light-gray);
+					position: absolute;
+					width: calc(100% - 2 * var(--spacing-medium));
+					bottom: 0;
+					left: var(--spacing-medium);
+					height: var(--spacing-medium);
+				}
+			}
+
+			@media screen and (min-width: 64em) {
+				margin-left: ${this.props.trackleadersID ? '40%' : 0};
+			}
+		${tachyons}`;
+
 		const Feed = styled.div`
 			display: ${this.state.activeTab === 'feed' ? 'block' : 'none' };
 		${tachyons}`;
@@ -215,7 +216,9 @@ class Race extends React.Component {
 					raceName={this.props.raceName}
 					race={this.props.race}
 				/>
-				<MapContainer raceID={this.props.trackleadersID}/>
+				{
+					this.props.trackleadersID ? <MapContainer raceID={this.props.trackleadersID}/> : null
+				}
 				<KeyEventsWrapper fl ph3 ph4_ns pb2 w_100 w_30_m w_20_l mt4_l relative id="events-wrap">
 					{
 						this.props.race.fields.leaderboard === true ? <DynamicTopRiders race={this.props.race} /> : null
