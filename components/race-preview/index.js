@@ -100,21 +100,23 @@ const RacePreview = ({data}) => {
 			{ data.past && data.raceResults.length > 0 ?
 				<Section title={ data.year + ' Results'}>
 					<Results w_100 ma0 mb3 pa0>
-					{
-						data.raceResults.map((result, i) => {
-							return (
-								<ResultsRow>
-									<ResultsCell f6 lh_copy fw6>
-										{i+1}.&nbsp;
-										<Link href={`/profile?name=${result.Rider}`} as={`/profile/${result.Rider}`} passHref prefetch>
-											<A link near_black hover_blue underline title={`See ${result.Rider}’s past results`}>{ result.Rider }</A>
-										</Link>
-									</ResultsCell>
-									<ResultsCell tr f6 lh_copy v_top><abbr title="(D:H:MM)">{ result['Finish Time (D:H:MM)'] }</abbr></ResultsCell>
-								</ResultsRow>
-							)
-						})
-					}
+						<tbody>
+						{
+							data.raceResults.map((result, i) => {
+								return (
+									<ResultsRow>
+										<ResultsCell f6 lh_copy fw6>
+											{i+1}.&nbsp;
+											<Link href={`/profile?name=${result.Rider}`} as={`/profile/${result.Rider}`} passHref prefetch>
+												<A link near_black hover_blue underline title={`See ${result.Rider}’s past results`}>{ result.Rider }</A>
+											</Link>
+										</ResultsCell>
+										<ResultsCell tr f6 lh_copy v_top><abbr title="(D:H:MM)">{ result['Finish Time (D:H:MM)'] }</abbr></ResultsCell>
+									</ResultsRow>
+								)
+							})
+						}
+						</tbody>
 					</Results>
 					<Link href={`/results?year=${data.year}&race=${data.title}`} as={`/results/${data.year}/${data.title}`} passHref prefetch>
 						<A link near_black f6 fw6 db>
