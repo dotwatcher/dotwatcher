@@ -4,7 +4,6 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
-import slugify from 'slugify';
 
 import Header from '../components/header';
 import Page from '../components/shared/page';
