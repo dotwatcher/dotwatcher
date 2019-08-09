@@ -3,6 +3,7 @@ import React from 'react';
 import Rider from './rider';
 import styled from 'styled-components';
 import tachyons from 'styled-components-tachyons';
+import TimeAgo from 'react-timeago';
 
 const H2 = styled.h2`${tachyons}`;
 const Header = styled.header`${tachyons}`;
@@ -23,8 +24,9 @@ const topRiders = ({ race }) => {
 					{
 						race.fields.staticLeaderboard.fields.leaders.length ? race.fields.staticLeaderboard.fields.leaders.map((rider, index) => (
 							<Rider numbered={false} position={index + 1} key={rider.sys.id} rider={rider.fields}/>
-						)) : <P f6 b>Loading...</P>
+						)) : null
 					}
+					<P f6 gray>Last updated <TimeAgo date={race.fields.staticLeaderboard.sys.updatedAt}/></P>
 				</Div>
 			</TopRidersWrap>
 		</React.Fragment>
