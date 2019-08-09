@@ -19,23 +19,23 @@
     "extends": "xo-react"
   },
   "dependencies": {
-    "@contentful/rich-text-react-renderer": "^13.2.0",
+    "@contentful/rich-text-react-renderer": "^13.4.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-styled-components": "^1.10.6",
     "babel-plugin-wrap-in-js": "^1.1.1",
-    "contentful": "^7.8.2",
+    "contentful": "^7.9.1",
     "moment": "^2.24.0",
-    "next": "^9.0.2",
+    "next": "^9.0.3",
     "path-match": "^1.2.4",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "prop-types": "^15.7.2",
-    "pusher": "^2.2.1",
+    "pusher": "^2.2.2",
     "pusher-js": "^4.4.0",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-autosuggest": "^9.4.3",
     "react-cookie": "^4.0.1",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-ga": "^2.6.0",
     "react-instagram-embed": "^1.5.0",
     "react-mailchimp-subscribe": "^2.1.0",
@@ -52,9 +52,9 @@
   },
   "devDependencies": {
     "ava": "^2.2.0",
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
     "eslint-config-xo-react": "^0.20.0",
-    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react": "^7.14.3",
     "xo": "^0.24.0"
   }
 }
