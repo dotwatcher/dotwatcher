@@ -13,9 +13,13 @@ const Img = styled.img`${tachyons}`;
 const GridContainer = styled.div`
   display: grid;
   grid-gap: var(--spacing-large);
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   @media screen and (min-width: 48em) {
     grid-gap: var(--spacing-extra-large);
+  }
+  
+  a:nth-child(-n+2) {
+    grid-column-start: span 2;
   }
 ${tachyons}`;
 const H3 = styled.h3`${tachyons}`;
@@ -26,16 +30,16 @@ const Grid = ({blocks}) => {
       <H3 lh_solid f3 f2_ns mt0 mb4 fw6>Recently on DotWatcher</H3>
       <GridContainer >
         {
-          blocks.map(block => (
+          blocks.map((block, i) => (
             <Link key={block.sys.id} href={`/feature?slug=${block.feature}`} as={`/feature/${block.feature}`} passHref>
                 <A db link near_black hover_blue key={block.sys.id}>
                 <Div>
                   <Img mw_100 src={`${block.image.fields.file.url}?w=800&h=500&fit=fill&fm=jpg&q=60`} />
                 </Div>
-                <H2 lh_solid fw6 f5 f3_ns>{block.heading}</H2>
-                <P f6 f5_l measure ma0 lh_copy>
+                {i < 2 ? <H2 lh_solid fw6 f5 f3_ns>{block.heading}</H2> : <H2 lh_title fw6 f5>{widont(block.heading)}</H2>}
+                {i < 2 ? <P f6 f5_l measure ma0 lh_copy>
                   {widont(block.words)}
-                </P>
+                </P> : null }
               </A>
             </Link>
           ))
