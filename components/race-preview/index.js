@@ -28,6 +28,7 @@ const ResultsRow = styled.tr`${tachyons}`;
 const ResultsCell = styled.td`${tachyons}`;
 
 const RacePreview = ({data}) => {
+	const noun = data.slug.includes('paris-brest') ? 'audax' : 'race';
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_20>
@@ -45,7 +46,7 @@ const RacePreview = ({data}) => {
 						<P measure_wide lh_copy>{widont(data.description)}</P>
 						<Span dib f6 ttu fw5 tracked ba bw1 pv2 ph3 hover_blue>
 							{
-								moment(data.raceEndDate).isBefore() ? `Look back at the race »` : `Follow the race »`
+								moment(data.raceEndDate).isBefore() ? `Look back at the ${noun} »` : `Follow the ${noun} »`
 							}
 						</Span>
 					</A>

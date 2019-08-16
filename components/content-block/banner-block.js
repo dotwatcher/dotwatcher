@@ -112,6 +112,8 @@ const HomepagePrimary = ({ block, index, count }) => {
       }
     ${tachyons}`;
 
+    const noun = block.race.fields.slug.includes('paris-brest') ? 'audax' : 'race';
+
     return (
       <Race relative bg_black z_0 className={`cf ${index === 0 && count % 2 ? 'primary' : 'secondary'}`}>
         <Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
@@ -126,7 +128,7 @@ const HomepagePrimary = ({ block, index, count }) => {
                   <P f4 f3_ns pt3>
                     <Span link underline near_white hover_white>
                       {
-                        moment(block.race.fields.raceEndDate).isBefore() ? `Look back at the race »` : `Follow the race »`
+                        moment(block.race.fields.raceEndDate).isBefore() ? `Look back at the ${noun} »` : `Follow the ${noun} »`
                       }
                     </Span>
                   </P>

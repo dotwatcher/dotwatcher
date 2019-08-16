@@ -65,6 +65,7 @@ const RacePromo = ({block}) => {
 	const WordsWrap = styled.div`
 		margin-left: var(--spacing-${isRaceLive ? 'extra-large' : 'large'});
 	${tachyons}`;
+	const noun = block.race.fields.slug.includes('paris-brest') ? 'audax' : 'race';
 
 	return (
 		<Div mh4_m mb4 mb5_ns className="cf">
@@ -80,7 +81,7 @@ const RacePromo = ({block}) => {
 								<P f4>
 									<Span link underline near_black hover_white>
 										{
-											moment(block.race.fields.raceEndDate).isBefore() ? `Look back at the race »` : `Follow the race »`
+											moment(block.race.fields.raceEndDate).isBefore() ? `Look back at the ${noun} »` : `Follow the ${noun} »`
 										}
 									</Span>
 								</P>
