@@ -106,15 +106,15 @@ class ResultsTable extends React.Component {
 			)
 		}
 
-		const withCapNo = this.props.results[0]['Cap/Bib'];
+		const withCapNo = this.props.results[0].cap;
 
 		let filteredResults = this.props.results
 		if (this.props.type !== 'profile') {
-			filteredResults = filteredResults.filter(result => result['Class'] === this.state.activeClassFilter)
-			filteredResults = filteredResults.filter(result => result['Finish Location'] === this.state.activeLocationFilter)
+			filteredResults = filteredResults.filter(result => result.class === this.state.activeClassFilter)
+			filteredResults = filteredResults.filter(result => result.finishLocation === this.state.activeLocationFilter)
 
 			if (this.state.activeCategoryFilter !== 'Both') {
-				filteredResults = filteredResults.filter(result => result['Category'] === this.state.activeCategoryFilter)
+				filteredResults = filteredResults.filter(result => result.category === this.state.activeCategoryFilter)
 			}
 		}
 
@@ -152,54 +152,50 @@ class ResultsTable extends React.Component {
 					<tbody>
 						{
 							filteredResults.map(result => {
-								const id = this.props.type === 'profile' ? `${slugify(result['Event'])}-${slugify(result['Year'].toString())}` : slugify(result['Rider'])
-								const days = result['Days'] !== null ? parseInt(result['Days'], 10) : ''
-								const hour = result['Hours'] !== null ? parseInt(result['Hours'], 10) : ''
-								const minutes = result['Minutes'] !== null ? parseInt(result['Minutes'], 10) : ''
-								return (
+								const id = this.props.type === 'profile' ? `${slugify(result.racename)}-${slugify(result.year.toString())}` : slugify(result.name)
+								const days = result.days !== null ? (result.days ? result.days.toString().padStart(2, '0') : '00') + 'd:' : null
+								const hour = result.hours !== null ? (result.hours ? result.hours.toString().padStart(2, '0') : '00') + 'h:' : null
+								const minutes = result.minutes !== null ? (result.minutes ? result.minutes.toString().padStart(2, '0') : '00') + 'm' : null
+						return (
 									<ResultsRow key={result['rowid']} id={id}>
 										{
-											this.props.type === 'profile' ? <ResultsCell className="race-name"><Link href={`/results?year=${result['Year']}&race=${result['Event']}&focus=${slugify(result['Rider'])}&activeClass=${result['Class']}`} as={`/results/${result['Year']}/${result['Event']}?focus=${slugify(result['Rider'])}&activeClass=${result['Class']}`} passHref><A link near_black hover_blue underline>{result['Event']}</A></Link></ResultsCell> : null
+											this.props.type === 'profile' ? <ResultsCell className="race-name"><Link href={`/results?year=${result.year}&race=${result.racename.toLowerCase().replace(/\s/g, '-')}-${result.year}&focus=${slugify(result.name)}&activeClass=${result.class}`} as={`/results/${result.year}/${result.racename.toLowerCase().replace(/\s/g, '-')}-${result.year}?focus=${slugify(result.name)}&activeClass=${result.class}`} passHref><A link near_black hover_blue underline>{result.racename}</A></Link></ResultsCell> : null
 										}
 										{
-											this.props.type === 'profile' ? <ResultsCell>{result['Year']}</ResultsCell> : null
+											this.props.type === 'profile' ? <ResultsCell>{result.year}</ResultsCell> : null
 										}
-										<ResultsCell pa0 pr2 className="rank">{ result['Position'] }</ResultsCell>
+										<ResultsCell pa0 pr2 className="rank">{ result.position }</ResultsCell>
 										<ResultsCell className="rider-name">
-											<Link href={`/profile?name=${result['Rider']}`} as={`/profile/${result['Rider']}`} passHref>
+											<Link href={`/profile?name=${result.name}`} as={`/profile/${result.name}`} passHref>
 												<A link near_black hover_blue underline>
-													{result['Rider']}
+													{result.name}
 												</A>
 											</Link>
 										</ResultsCell>
-										{ withCapNo ? <ResultsCell dn dtc_ns tc>{ result['Cap/Bib'] }</ResultsCell> : null }
+										{ withCapNo ? <ResultsCell dn dtc_ns tc>{ result.cap }</ResultsCell> : null }
 										<ResultsCell dn dtc_ns>
-											{result['Class']}
+											{result.class}
 										</ResultsCell>
 										<ResultsCell dn dtc_ns>
-											{result['Category'].substring(0,1)}
+											{result.category.substring(0,1)}
 										</ResultsCell>
 										<ResultsCell>
-											{result['Result']}
+											{result.result}
 										</ResultsCell>
 										<ResultsCell dn dtc_ns>
-											{result['Bike']}
+											{result.bike}
 										</ResultsCell>
 										{
-											result['Finish Location'] && this.props.type !== 'profile' ? 
+											result.finishLocation && this.props.type !== 'profile' ?
 												<ResultsCell dn dtc_ns>
-													{result['Finish Location']}
+													{result.finishLocation}
 												</ResultsCell> : null
 										}
 										<ResultsCell tr title="Finish Time in days, hours and minutes">
-											{ days === '' ? '--' : days + 'd:' }
-											{ Number.isInteger(hour) && hour < 10 ? '0' + hour : hour }
-											{ hour === '' ? '--' : 'h:' }
-											{ Number.isInteger(minutes) && minutes < 10 ? '0' + minutes : minutes }
-											{ minutes === '' ? '--' : 'm' }
+											{ days }{ hour }{ minutes }
 										</ResultsCell>
 										{
-											this.props.hasNotes ? <ResultsCell>{ result['Notes'] }</ResultsCell> : null
+											this.props.hasNotes ? <ResultsCell>{ result.notes }</ResultsCell> : null
 										}
 									</ResultsRow>
 								)

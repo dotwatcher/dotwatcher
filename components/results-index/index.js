@@ -38,7 +38,7 @@ class ResultsIndex extends Component {
 						<H1 ma0 f1 fw6>Browse race results</H1>
 					</Header>
 					<Div>
-						<ResultsFilter events={this.props.raceResultsByYear} setFilteredEvent={this.setFilteredEvent.bind(this)} />
+						{/* <ResultsFilter events={this.props.raceResultsByYear} setFilteredEvent={this.setFilteredEvent.bind(this)} /> */}
 					</Div>
 					<Grid mh3 pb4 bb bw1 b__light_gray>
 						{

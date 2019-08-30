@@ -21,16 +21,16 @@ ${tachyons}`;
 const ResultsSummary = ({ event, filtered }) => {
   if (filtered !== '' && filtered !== event.Slug) return null
   return (
-    <Div id={event.Slug}>
+    <Div id={event.name}>
       <Header mv3 pb1 bb bw1 b__light_gray>
-        <H2 ma0 f3 fw6>{ event.Event }</H2>
+        <H2 ma0 f3 fw6>{ event.name }</H2>
       </Header>
       <Years list ma0 pa0 tc>
         {
-          event.Year.map((year, index) => {
+          event.years.map((year, index) => {
             return (
               <Year dib hover_bg_lightest_blue bg_light_gray ba bw1 b__white f4 lh_copy key={index}>
-                <Link href={`/results?year=${year}&race=${event.Slug}`} as={`/results/${year}/${event.Slug}`} passHref>
+                <Link href={`/results?year=${year}&race=${event.slugs[index]}`} as={`/results/${year}/${event.slugs[index]}`} passHref>
                   <A db pa2 link near_black>
                     {year}
                   </A>

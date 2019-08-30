@@ -11,7 +11,12 @@
     "PUSHER_SECRET": "@pusher-secret",
     "MAILCHIMP": "@mailchimp",
     "ANALYTICS": "@analytics",
-    "SCRAPEY_API_KEY": "@scrapey-api-key"
+    "SCRAPEY_API_KEY": "@scrapey-api-key",
+    "PGHOST": "@pghost",
+    "PGUSER": "@pguser",
+    "PGPASSWORD": "@pgpassword",
+    "PGDATABASE": "@pgdatabase",
+    "PGPORT": "@pgport"
   },
   "build": {
     "env": {
