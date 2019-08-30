@@ -2,7 +2,7 @@
 
 import React from 'react';
 import fetch from 'isomorphic-fetch';
-import vars from './api-vars';
+import formatter from './formatter';
 
 export const WithResults = Page => {
 	const WithResults = props => <Page {...props} />
@@ -10,26 +10,26 @@ export const WithResults = Page => {
 	WithResults.getInitialProps = async ({ query: { year, race, focus, activeClass, activeCategory, activeLocation } }) => {
 
 		if (year && race) {
-			const legacyLink = race.indexOf(' ') !== -1
-			const raceResultsResponse = await fetch(`${vars.data.baseUrl}/results.json?${legacyLink ? 'Event' : 'Slug'}=${encodeURIComponent(legacyLink ? race : race.toLowerCase())}&Year=${year}&_size=max&_shape=array`);
-			const results = await raceResultsResponse.json();
+			const allResultsResponse = await fetch(`http://localhost:3000/api/allResults?slug=${race}&year=${year}`);
+			const { results } = await allResultsResponse.json();
+			const formattedResults = formatter(results)
 			const racerClasses = []
 			const racerCategories = ['Both']
 			const finishLocations = []
 			const notes = []
 
-			results.forEach(result => {
-				if (racerClasses.filter(racerClass => racerClass === result['Class']).length < 1) {
-					racerClasses.push(result['Class'])
+			formattedResults.forEach(result => {
+				if (racerClasses.filter(racerClass => racerClass === result.class).length < 1) {
+					racerClasses.push(result.class)
 				}
-				if (racerCategories.filter(racerCategory => racerCategory === result['Category']).length < 1) {
-					racerCategories.push(result['Category'])
+				if (racerCategories.filter(racerCategory => racerCategory === result.category).length < 1) {
+					racerCategories.push(result.category)
 				}
-				if (finishLocations.filter(finishLocation => finishLocation === result['Finish Location']).length < 1) {
-					finishLocations.push(result['Finish Location'])
-				}
-				if (result['Notes'] !== '') {
-					notes.push(result['Notes'])
+				// if (finishLocations.filter(finishLocation => finishLocation === result['finish Location']).length < 1) {
+				// 	finishLocations.push(result['finish Location'])
+				// }
+				if (result.notes !== '') {
+					notes.push(result.notes)
 				}
 			})
 
@@ -38,8 +38,8 @@ export const WithResults = Page => {
 			activeLocation = activeLocation || finishLocations[0]
 
 			const hasNotes = notes.length > 0
-			const name = results[0]['Event']
-			const slug = results[0]['Slug']
+			const name = results[0].racename
+			const slug = race
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
@@ -47,7 +47,7 @@ export const WithResults = Page => {
 				name,
 				slug,
 				year,
-				results,
+				results: formattedResults,
 				focus,
 				racerClasses,
 				racerCategories,
@@ -58,20 +58,8 @@ export const WithResults = Page => {
 				hasNotes
 			};
 		} else {
-			const allResultsResponse = await fetch(`${vars.data.baseUrl}.json?sql=select+DISTINCT+Event%2C+Year%2C+Slug+from+results+order+by+Event+ASC%2C+year+Desc&_shape=array`);
-			const rawResults = await allResultsResponse.json();
-			const raceResultsByYear = [];
-
-			rawResults.forEach(row => {
-				if (row.Event !== null) {
-					if (raceResultsByYear.filter(result => (result.Event === row.Event)).length > 0) {
-						raceResultsByYear.filter(result => (result.Event === row.Event))[0]['Year'].push(row['Year'])
-					} else {
-						row['Year'] = [row['Year']]
-						raceResultsByYear.push(row)
-					}
-				}
-			});
+			const allResultsResponse = await fetch(`http://localhost:3000/api/allRaces`);
+			const raceResultsByYear = await allResultsResponse.json();
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
