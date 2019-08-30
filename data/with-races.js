@@ -51,16 +51,16 @@ export const withRaces = Page => {
 					return obj.sys.id === item.fields.icon.sys.id;
 				});
 			}
+			// This was really slowing down the load of the page as it’s doing x network requests for every race on the page, it’s not even that useful as we only have results for <40% ATM think will park this until we have the new DB and we could do the lookup in one neat query
+			// if (moment(entry.data.raceEndDate).isBefore()) {
+			// 	entry.data.past = true;
 
-			if (moment(entry.data.raceEndDate).isBefore()) {
-				entry.data.past = true;
-
-				const raceResultsResponse = await fetch(`https://data.dotwatcher.cc/data/results.json?Event=${entry.data.title}&Year=${entry.data.year}&_shape=array&_size=3`)
-				const raceResultsJSON = await raceResultsResponse.json()
-				if (raceResultsJSON) {
-					entry.data.raceResults = raceResultsJSON
-				}
-			}
+			// 	const raceResultsResponse = await fetch(`https://data.dotwatcher.cc/data/results.json?Event=${entry.data.title}&Year=${entry.data.year}&_shape=array&_size=3`)
+			// 	const raceResultsJSON = await raceResultsResponse.json()
+			// 	if (raceResultsJSON) {
+			// 		entry.data.raceResults = raceResultsJSON
+			// 	}
+			// }
 
 			races.push(entry);
 		}
