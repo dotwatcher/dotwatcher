@@ -42,7 +42,8 @@ export const withRaces = Page => {
 					winnerLabel: item.fields.winnerLabel,
 					lastYearsWinner: item.fields.lastYearsWinner,
 					terrain: item.fields.terrain,
-					year: moment(item.fields.raceDate).format('YYYY')
+					year: moment(item.fields.raceDate).format('YYYY'),
+					calendarOnly: item.fields.calendarOnly
 				}
 			};
 
@@ -62,7 +63,9 @@ export const withRaces = Page => {
 			// 	}
 			// }
 
-			races.push(entry);
+			if (entry.data.calendarOnly === undefined) {
+				races.push(entry);
+			}
 		}
 
 		return {
