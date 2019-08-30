@@ -17,7 +17,7 @@ export const withRaces = Page => {
 
 		const racesQuery = {
 			content_type: vars.content_type.categories,
-			order: 'fields.raceDate'
+			order: '-fields.raceDate'
 		};
 
 		const racesResponse = await client.getEntries(racesQuery);
@@ -43,7 +43,8 @@ export const withRaces = Page => {
 					lastYearsWinner: item.fields.lastYearsWinner,
 					terrain: item.fields.terrain,
 					year: moment(item.fields.raceDate).format('YYYY'),
-					calendarOnly: item.fields.calendarOnly
+					calendarOnly: item.fields.calendarOnly,
+					website: item.fields.website
 				}
 			};
 
@@ -63,9 +64,7 @@ export const withRaces = Page => {
 			// 	}
 			// }
 
-			if (entry.data.calendarOnly === undefined) {
-				races.push(entry);
-			}
+			races.push(entry);
 		}
 
 		return {

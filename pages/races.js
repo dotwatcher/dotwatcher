@@ -8,6 +8,7 @@ import tachyons from 'styled-components-tachyons';
 import Header from '../components/header';
 import Page from '../components/shared/page';
 import RacePreview from '../components/race-preview';
+import Calendar from '../components/calendar';
 import Footer from '../components/footer';
 import {withRaces} from '../data/with-races';
 
@@ -17,8 +18,10 @@ const Div = styled.div`${tachyons}`;
 
 class App extends Component {
 	render() {
-		const currentRaces = this.props.races.filter(race => moment(race.data.raceEndDate).isAfter())
-		const pastRaces = this.props.races.slice(0).reverse().filter(race => moment(race.data.raceEndDate).isBefore())
+		const currentRaces = this.props.races.filter(race => moment(race.data.raceEndDate).isAfter() && race.data.calendarOnly !== true)
+		const pastRaces = this.props.races.filter(race => moment(race.data.raceEndDate).isBefore())
+
+		const futureRaces = this.props.races.filter(race => moment(race.data.raceEndDate).isAfter()).reverse()
 
 		const PastHeading = styled.header`
 			margin-top: ${currentRaces.length > 0 ? 'var(--spacing-large)' : 0};
@@ -38,7 +41,7 @@ class App extends Component {
 				<Header
 					title="dotwatcher.cc"
 				/>
-				<Div mt3 mt4_l mh6_l>
+				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
 					<Div pb5>
 						{
 							currentRaces.length > 0 ? <Heading fl w_100 mb4 ph3><H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>Live coverage</H1></Heading> : null
@@ -58,6 +61,12 @@ class App extends Component {
 							})
 						}
 					</Div>
+				</Div>
+				<Div mt3 mt4_l ph5 ph3_l fl w_100 w_25_l>
+					<Heading mb4>
+						<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>Calendar</H1>
+					</Heading>
+					<Calendar races={futureRaces} />
 				</Div>
 				<Footer/>
 			</Page>
