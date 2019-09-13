@@ -186,7 +186,7 @@ class ResultsTable extends React.Component {
 											{result['Bike']}
 										</ResultsCell>
 										{
-											result['Finish Location'] ? 
+											result['Finish Location'] && this.props.type !== 'profile' ? 
 												<ResultsCell dn dtc_ns>
 													{result['Finish Location']}
 												</ResultsCell> : null
