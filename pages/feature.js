@@ -113,13 +113,15 @@ class FeaturePage extends React.Component {
 					{carousel}
 				</Div>
 				<Div fl w_100 w_70_l mt3 mt4_l cf>
-					<Comments>
-						<A link near_black hover_blue underline db mh3 mb4 href="#comments">
-							<CommentCount shortname={disqusShortname} config={disqusConfig}>
-								0 Comments
+					{
+						this.props.feature.comments ? <Comments>
+							<A link near_black hover_blue underline db mh3 mb4 href="#comments">
+								<CommentCount shortname={disqusShortname} config={disqusConfig}>
+									0 Comments
 						</CommentCount>
-						</A>
-					</Comments>
+							</A>
+						</Comments> : null
+					}
 					{
 						blocksWithoutSlides.map(block => {
 							return (
@@ -131,11 +133,13 @@ class FeaturePage extends React.Component {
 							);
 						})
 					}
-					<Comments fl w_90 w_70_ns id="comments">
-						<Div pa3 measure_wide>
-							<DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-						</Div>
-					</Comments>
+					{
+						this.props.feature.comments ? <Comments fl w_90 w_70_ns id="comments">
+							<Div pa3 measure_wide>
+								<DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+							</Div>
+						</Comments> : null
+					}
 				</Div>
 				<Div fl w_100 w_30_l mt5 mt4_l ph3 pl0_l cf>
 					{
