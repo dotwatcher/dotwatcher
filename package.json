@@ -24,6 +24,7 @@
     "babel-plugin-styled-components": "^1.10.6",
     "babel-plugin-wrap-in-js": "^1.1.1",
     "contentful": "^7.9.1",
+    "disqus-react": "^1.0.7",
     "moment": "^2.24.0",
     "next": "^9.0.3",
     "path-match": "^1.2.4",
