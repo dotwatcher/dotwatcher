@@ -30,6 +30,7 @@ export const WithFeatures = Page => {
 					title: item.fields.title,
 					slug: item.fields.slug,
 					excerpt: item.fields.excerpt,
+					hidden: item.fields.hidden || false,
 					blocks: []
 				}
 			};
@@ -64,7 +65,9 @@ export const WithFeatures = Page => {
 					return obj.sys.id === item.fields.featuredImage.sys.id;
 				});
 			}
-			features.push(feature);
+			if (feature.data.hidden !== true) {
+				features.push(feature);
+			}
 		}
 
 		return {
