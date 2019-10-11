@@ -15,6 +15,7 @@ import EmailSignup from '../components/content-block/email-signup'
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import Link from 'next/link';
+import { DiscussionEmbed, CommentCount } from 'disqus-react';
 
 const Div = styled.div`
 	p {
@@ -32,7 +33,12 @@ const RelatedGrid = styled.div`
   grid-gap: var(--spacing-medium);
 	grid-template-columns: 1fr 1fr;
 ${tachyons}`;
-
+const Comments = styled.div`
+		margin: 0 var(--spacing-medium);
+		@media screen and (min-width: 48em) {
+			margin: 0 var(--spacing-extra-extra-large);
+		}
+	${tachyons}`;
 class FeaturePage extends React.Component {
 	static propTypes = {
 		cookies: instanceOf(Cookies).isRequired
@@ -68,6 +74,13 @@ class FeaturePage extends React.Component {
 		const carouselSlides = this.props.feature.blocks.filter(block => block.layout === 'Carousel slide');
 		const carousel = carouselSlides.length ? <Carousel slides={carouselSlides}/> : null;
 		const blocksWithoutSlides = this.props.feature.blocks.filter(block => block.layout !== 'Carousel slide');
+
+		const disqusShortname = 'dotwatcher';
+		const disqusConfig = {
+			url: `https://dotwatcher.cc/feature/${this.props.feature.slug}`,
+			identifier: this.props.feature.id,
+			title: this.props.feature.title,
+		};
 		return (
 			<Page>
 				<Head>
@@ -100,6 +113,13 @@ class FeaturePage extends React.Component {
 					{carousel}
 				</Div>
 				<Div fl w_100 w_70_l mt3 mt4_l cf>
+					<Comments>
+						<A link near_black hover_blue underline db mh3 mb4 href="#comments">
+							<CommentCount shortname={disqusShortname} config={disqusConfig}>
+								0 Comments
+						</CommentCount>
+						</A>
+					</Comments>
 					{
 						blocksWithoutSlides.map(block => {
 							return (
@@ -111,6 +131,11 @@ class FeaturePage extends React.Component {
 							);
 						})
 					}
+					<Comments fl w_90 w_70_ns id="comments">
+						<Div pa3 measure_wide>
+							<DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+						</Div>
+					</Comments>
 				</Div>
 				<Div fl w_100 w_30_l mt5 mt4_l ph3 pl0_l cf>
 					{
