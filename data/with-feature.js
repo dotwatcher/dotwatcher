@@ -35,7 +35,9 @@ export const withFeature = Page => {
 				text: featureResponse.items[0].fields.text,
 				imageAnchor: featureResponse.items[0].fields.imageAnchor,
 				blocks: [],
-				related: featureResponse.items[0].fields.related || {}
+				related: featureResponse.items[0].fields.related || {},
+				slug: slug,
+				comments: featureResponse.items[0].fields.comments || false
 			};
 
 			if (featureResponse.items[0].fields.contributor) {

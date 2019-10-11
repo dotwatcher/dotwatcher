@@ -31,7 +31,8 @@ export const WithFeatures = Page => {
 					slug: item.fields.slug,
 					excerpt: item.fields.excerpt,
 					hidden: item.fields.hidden || false,
-					blocks: []
+					blocks: [],
+					comments: item.fields.comments || false
 				}
 			};
 
