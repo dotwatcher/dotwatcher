@@ -5,6 +5,7 @@ import tachyons from 'styled-components-tachyons';
 import Link from 'next/link';
 import Placeholder from '../placeholder';
 import widont from '../../utils/widont';
+import { CommentCount } from 'disqus-react';
 
 const A = styled.a`${tachyons}`;
 const Div = styled.div`${tachyons}`;
@@ -13,7 +14,13 @@ const Figure = styled.figure`${tachyons}`;
 const Img = styled.img`${tachyons}`;
 const P = styled.p`${tachyons}`;
 
-const FeaturePreview = ({data}) => {
+const FeaturePreview = ({data, id}) => {
+	const disqusShortname = 'dotwatcher';
+	const disqusConfig = {
+		url: `https://dotwatcher.cc/feature/${data.slug}`,
+		identifier: id,
+		title: data.title,
+	};
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_100 w_40_ns>
@@ -30,6 +37,15 @@ const FeaturePreview = ({data}) => {
 					</A>
 				</Link>
 				<P lh_copy f4>{widont(data.excerpt)}</P>
+				{
+					data.comments ? <Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}#comments`} passHref prefetch>
+						<A link near_black underline hover_blue>
+							<CommentCount shortname={disqusShortname} config={disqusConfig}>
+								0 Comments
+							</CommentCount>
+						</A>
+					</Link> : null
+				}
 			</Div>
 		</Div>
 	);
