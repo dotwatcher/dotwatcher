@@ -34,7 +34,7 @@ class App extends Component {
 						</Heading>
 						{
 							this.props.features.map(feature => {
-								return <FeaturePreview data={feature.data} />;
+								return <FeaturePreview data={feature.data} id={feature.sys.id} key={feature.sys.id} />;
 							})
 						}
 					</Div>
