@@ -63,7 +63,7 @@ class App extends Component {
 					title="dotwatcher.cc — Long distance self-supported bike race coverage"
 				/>
 				<Div fl w_100 className="cf">
-					{bannerBlocks ? <Banner blocks={bannerBlocks} count={bannerBlocks.length} /> : null}
+					{bannerBlocks.length ? <Banner blocks={bannerBlocks} count={bannerBlocks.length} /> : null}
 
 					<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
 						<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
