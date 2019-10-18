@@ -106,7 +106,7 @@ class ResultsTable extends React.Component {
 			)
 		}
 
-		const withCapNo = this.props.results[0].cap;
+		const withCapNo = this.props.results[0].cap !== null
 
 		let filteredResults = this.props.results
 		if (this.props.type !== 'profile') {

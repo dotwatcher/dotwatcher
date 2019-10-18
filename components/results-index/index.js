@@ -21,10 +21,10 @@ class ResultsIndex extends Component {
 		this.state = {
 			filteredEvent: ''
 		};
-		this.setFilteredEvent = this.setFilteredEvent.bind(this);
+		this.setFilteredRace = this.setFilteredRace.bind(this);
 	}
 
-	setFilteredEvent(id) {
+	setFilteredRace(id) {
 		this.setState({
 			filteredEvent: id
 		});
@@ -38,11 +38,11 @@ class ResultsIndex extends Component {
 						<H1 ma0 f1 fw6>Browse race results</H1>
 					</Header>
 					<Div>
-						{/* <ResultsFilter events={this.props.raceResultsByYear} setFilteredEvent={this.setFilteredEvent.bind(this)} /> */}
+						<ResultsFilter races={this.props.allRaces} setFilteredRace={this.setFilteredRace.bind(this)} />
 					</Div>
 					<Grid mh3 pb4 bb bw1 b__light_gray>
 						{
-							this.props.raceResultsByYear.map((result, index) => <ResultsSummary event={result} key={index} filtered={this.state.filteredEvent} />)
+							this.props.allRaces.map((race, index) => <ResultsSummary race={race} key={index} filtered={this.state.filteredEvent} />)
 						}
 					</Grid>
 					<ResultsContribute />
@@ -53,11 +53,11 @@ class ResultsIndex extends Component {
 }
 
 ResultsIndex.propTypes = {
-	raceResultsByYear: PropTypes.array
+	allRaces: PropTypes.array
 };
 
 ResultsIndex.defaultProps = {
-	raceResultsByYear: []
+	allRaces: []
 };
 
 export default ResultsIndex;

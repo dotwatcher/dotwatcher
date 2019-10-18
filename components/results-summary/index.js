@@ -18,21 +18,21 @@ const Year = styled.li`
   }
 ${tachyons}`;
 
-const ResultsSummary = ({ event, filtered }) => {
-  if (filtered !== '' && filtered !== event.Slug) return null
+const ResultsSummary = ({ race, filtered }) => {
+  if (filtered !== '' && filtered !== race.name) return null
   return (
-    <Div id={event.name}>
+    <Div id={race.name}>
       <Header mv3 pb1 bb bw1 b__light_gray>
-        <H2 ma0 f3 fw6>{ event.name }</H2>
+        <H2 ma0 f3 fw6>{ race.name }</H2>
       </Header>
       <Years list ma0 pa0 tc>
         {
-          event.years.map((year, index) => {
+          race.events.map((event, index) => {
             return (
               <Year dib hover_bg_lightest_blue bg_light_gray ba bw1 b__white f4 lh_copy key={index}>
-                <Link href={`/results?year=${year}&race=${event.slugs[index]}`} as={`/results/${year}/${event.slugs[index]}`} passHref>
-                  <A db pa2 link near_black>
-                    {year}
+                <Link href={`/results?year=${event.year}&race=${event.slug}`} as={`/results/${event.year}/${event.slug}`} passHref>
+                  <A db pa2 link near_black data-id={event.id}>
+                    {event.year}
                   </A>
                 </Link>
               </Year>
@@ -45,7 +45,7 @@ const ResultsSummary = ({ event, filtered }) => {
 };
 
 ResultsSummary.propTypes = {
-  event: PropTypes.object.isRequired
+  race: PropTypes.object.isRequired
 };
 
 export default ResultsSummary;

@@ -59,13 +59,12 @@ export const WithResults = Page => {
 			};
 		} else {
 			const allResultsResponse = await fetch(`http://localhost:3000/api/all-races`);
-			const raceResultsByYear = await allResultsResponse.json();
-
+			const allRaces = await allResultsResponse.json();
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
 				race,
 				year,
-				raceResultsByYear
+				allRaces
 			};
 		}
 	};

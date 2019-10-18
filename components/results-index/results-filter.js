@@ -56,12 +56,12 @@ function escapeRegexCharacters(str) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.Event;
+  return suggestion.name;
 }
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.Event}</span>
+    <span>{suggestion.name}</span>
   );
 }
 
@@ -95,7 +95,7 @@ class Filter extends Component {
   };
 
   onSuggestionSelected = (event, opts) => {
-    this.props.setFilteredEvent(opts.suggestion.Slug)
+    this.props.setFilteredRace(opts.suggestion.name)
   };
 
   getSuggestions = value => {
@@ -107,11 +107,11 @@ class Filter extends Component {
 
     const regex = new RegExp(escapedValue, 'i');
 
-    return this.props.events.filter(event => regex.test(event.Event));
+    return this.props.races.filter(event => regex.test(event.name));
   }
   
   clear = () => {
-    this.props.setFilteredEvent('')
+    this.props.setFilteredRace('')
     this.setState({
       value: ''
     });
@@ -146,7 +146,7 @@ class Filter extends Component {
 export default Filter
 
 Filter.propTypes = {
-  events: PropTypes.array,
-  setFilteredEvent: PropTypes.func
+  races: PropTypes.array,
+  setFilteredRace: PropTypes.func
 };
 
