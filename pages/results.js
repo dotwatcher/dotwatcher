@@ -52,7 +52,7 @@ class App extends Component {
 							<ResultsTable type="race" results={this.props.results} focus={this.props.focus} racerClasses={this.props.racerClasses} activeClass={this.props.activeClass} racerCategories={this.props.racerCategories} activeCategory={this.props.activeCategory} finishLocations={this.props.finishLocations} activeLocation={this.props.activeLocation}/>
 						<ResultsContribute/>
 					</Div>
-					</Div> : <ResultsIndex raceResultsByYear={this.props.raceResultsByYear} /> }
+					</Div> : <ResultsIndex allRaces={this.props.allRaces} /> }
 				<Footer/>
 			</Page>
 		);
@@ -63,7 +63,7 @@ App.propTypes = {
 	race: PropTypes.string,
 	year: PropTypes.string,
 	results: PropTypes.array,
-	raceResultsByYear: PropTypes.array,
+	allRaces: PropTypes.array,
 	focus: PropTypes.string
 };
 
