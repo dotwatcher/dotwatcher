@@ -153,9 +153,10 @@ class ResultsTable extends React.Component {
 						{
 							filteredResults.map(result => {
 								const id = this.props.type === 'profile' ? `${slugify(result['Event'])}-${slugify(result['Year'].toString())}` : slugify(result['Rider'])
-								const days = parseInt(result['Days'], 10)
-								const hour = parseInt(result['Hours'], 10)
-								const minutes = parseInt(result['Minutes'], 10)
+								const days = result['Days'] !== null ? parseInt(result['Days'], 10) : ''
+								const hour = result['Hours'] !== null ? parseInt(result['Hours'], 10) : ''
+								const minutes = result['Minutes'] !== null ? parseInt(result['Minutes'], 10) : ''
+								console.log(days)
 								return (
 									<ResultsRow key={result['rowid']} id={id}>
 										{
@@ -192,11 +193,11 @@ class ResultsTable extends React.Component {
 												</ResultsCell> : null
 										}
 										<ResultsCell tr title="Finish Time in days, hours and minutes">
-											{ days ? days + 'd:' : '--' }
-											{ hour < 10 ? '0' + hour : hour }
-											{ hour ? 'h:' : '--' }
-											{ minutes < 10 ? '0' + minutes : minutes }
-											{ minutes ? 'm' : '--' }
+											{ days === '' ? '--' : days + 'd:' }
+											{ Number.isInteger(hour) && hour < 10 ? '0' + hour : hour }
+											{ hour === '' ? '--' : 'h:' }
+											{ Number.isInteger(minutes) && minutes < 10 ? '0' + minutes : minutes }
+											{ minutes === '' ? '--' : 'm' }
 										</ResultsCell>
 										{
 											this.props.hasNotes ? <ResultsCell>{ result['Notes'] }</ResultsCell> : null
