@@ -156,7 +156,6 @@ class ResultsTable extends React.Component {
 								const days = result['Days'] !== null ? parseInt(result['Days'], 10) : ''
 								const hour = result['Hours'] !== null ? parseInt(result['Hours'], 10) : ''
 								const minutes = result['Minutes'] !== null ? parseInt(result['Minutes'], 10) : ''
-								console.log(days)
 								return (
 									<ResultsRow key={result['rowid']} id={id}>
 										{
