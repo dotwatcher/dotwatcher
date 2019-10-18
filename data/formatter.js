@@ -13,10 +13,10 @@ const enumTransform = string => {
 }
 
 export default results => results.map(result => {
-  result.cap = result.cap.replace(/'/g, '')
-  result.class = enumTransform(result.class)
-  result.category = enumTransform(result.category)
-  result.bike = enumTransform(result.bike)
-  result.result = enumTransform(result.result)
+  result.cap = result.cap && result.cap.replace(/'/g, '')
+  result.class = result.class && enumTransform(result.class)
+  result.category = result.category && enumTransform(result.category)
+  result.bike = result.bike && enumTransform(result.bike)
+  result.result = result.result && enumTransform(result.result)
   return result
 })
