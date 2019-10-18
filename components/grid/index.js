@@ -54,7 +54,7 @@ const Grid = ({blocks}) => {
           ))
         }
         <Link href="/features" as="/features" passHref>
-          <A lh_solid f4 f3_ns ma0 fw6 db link near_black hover_bg_light_blue ph3 pv2 bg_blue white ttu tracked tc className="more-button">
+          <A lh_solid f4 f3_ns ma0 fw5 db link near_black hover_bg_light_blue ph3 pv2 bg_blue white ttu tracked tc className="more-button">
             All features
           </A>
         </Link>
