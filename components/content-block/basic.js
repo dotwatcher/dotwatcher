@@ -8,6 +8,7 @@ import tachyons from 'styled-components-tachyons';
 import Embed from '../embed';
 import AutoEmbed from '../embed/auto';
 import widont from '../../utils/widont';
+import slugify from '../../utils/slugify';
 
 const Div = styled.div`${tachyons}`;
 const H1 = styled.h1`${tachyons}`;
@@ -52,7 +53,7 @@ const Block = ({block, feature}) => {
 	if (block.heading) {
 		heading = (
 			<Header measure_wide mh3>
-				<H1 f3 f2_ns fw6 ma0 mb3 lh_title>{widont(block.heading)}</H1>
+				<H1 f3 f2_ns fw6 ma0 mb3 lh_title id={slugify(block.heading)}>{widont(block.heading)}</H1>
 			</Header>
 		)
 	}
