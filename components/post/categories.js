@@ -11,7 +11,7 @@ const Categories = ({categories}) => (
 	<Div fr f5 pv2>
 		{
 			categories.map(category => (
-				<Link href={`/race?slug=${category.sys.id}`} as={`/race/${category.sys.id}`} key={category.sys.id} passHref prefetch>
+				<Link href={`/race?slug=${category.sys.id}`} as={`/race/${category.sys.id}`} key={category.sys.id} passHref>
 					<A link dim near_black underline>{category.fields.title}</A>
 				</Link>
 			))

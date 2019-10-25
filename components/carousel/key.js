@@ -53,7 +53,7 @@ const CarouselKey = ({slide, setActiveKey, activeKey}) => {
 
 	let cta;
 	if (slide.race) {
-		cta = <Link href={`/race?slug=${slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref prefetch>
+		cta = <Link href={`/race?slug=${slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref>
 			<A dib f6 f5_l mt2 mb0 no_underline>
 				<Span near_black hover_blue bb bw1>
 					{slide.callToAction ? slide.callToAction : 'Read more'} »
@@ -61,7 +61,7 @@ const CarouselKey = ({slide, setActiveKey, activeKey}) => {
 			</A>
 		</Link>
 	} else if (slide.feature) {
-		cta = <Link href={`/feature?slug=${slide.feature}`} as={`/feature/${slide.feature}`} passHref prefetch>
+		cta = <Link href={`/feature?slug=${slide.feature}`} as={`/feature/${slide.feature}`} passHref>
 			<A dib f6 f5_l mt2 mb0 no_underline>
 				<Span near_black hover_blue bb bw1>
 					{slide.callToAction ? slide.callToAction : 'Read more'} »

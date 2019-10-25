@@ -116,7 +116,7 @@ const HomepagePrimary = ({ block, index, count }) => {
 
     return (
       <Race relative bg_black z_0 className={`cf ${index === 0 && count % 2 ? 'primary' : 'secondary'}`}>
-        <Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
+        <Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref>
           <A link db bg={block.image.fields.file.url} className="cf">
             <InfoWrap pa4 pr5_ns relative z_2 className="infowrap cf">
               <Div>
@@ -143,7 +143,7 @@ const HomepagePrimary = ({ block, index, count }) => {
   if (block.feature) {
     return (
       <Div mh4_m mb4 mb5_ns className="cf">
-        <Link href={`/feature?slug=${block.feature}`} as={`/feature/${block.feature}`} passHref prefetch>
+        <Link href={`/feature?slug=${block.feature}`} as={`/feature/${block.feature}`} passHref>
           <A db cover bg_center bg={block.image.fields.file.url} className="cf">
             <Wrapper fr w_100 w_two_thirds_m w_50_l pa4 pv6_ns mv4 mv0_ns className="cf">
               <Div bg_white_50 pb3>

@@ -14,7 +14,7 @@ const Meta = ({data, id}) => {
 	const url = `${host}/post/${id}?slug=${slugify(data.title)}`;
 	return (
 		<React.Fragment>
-			<Link href={`/post?id=${id}`} as={`/post/${id}`} passHref prefetch>
+			<Link href={`/post?id=${id}`} as={`/post/${id}`} passHref>
 				<A link near_black hover_blue>
 					<DateTime datetime={data.date}/>
 				</A>

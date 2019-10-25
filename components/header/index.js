@@ -118,17 +118,17 @@ class Banner extends Component {
 					</H1>
 					{
 						this.props.raceName ? (
-							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link href={`/race/${this.props.race.fields.slug}`} passHref prefetch><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
+							<H2 fl dn pv3 ph4 flex_ns items_center f4 ma0 lh_solid fw5><Link href={`/race/${this.props.race.fields.slug}`} passHref><A no_underline pt3 near_black hover_blue>{this.props.race.fields.title}</A></Link></H2>
 						) : null
 					}
 					<Menu tc>
-						<Link href="/races" passHref prefetch>
+						<Link href="/races" passHref>
 							<A dib pt3 mr2 mr3_ns f5 f4_l near_black hover_blue no_underline fw5>Live</A>
 						</Link>
 						<Link href="/results" passHref>
 							<A dib pt3 mh2 mh3_ns f5 f4_l near_black hover_blue no_underline fw5>Results</A>
 						</Link>
-						<Link href="/features" passHref prefetch>
+						<Link href="/features" passHref>
 							<A dib pt3 mh2 mh3_ns f5 f4_l near_black hover_blue no_underline fw5>Features</A>
 						</Link>
 						<Link href="/about" as="/about" passHref>

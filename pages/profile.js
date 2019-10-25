@@ -39,7 +39,7 @@ class App extends Component {
 				/>
 				<Div mt3 mh6_l>
 					<Div pb5 className="cf">
-						<Link href={`/results`} passHref prefetch>
+						<Link href={`/results`} passHref>
 							<A ph3 near_black hover_blue>← All results</A>
 						</Link>
 						<Heading fl w_100 mb3 ph3>

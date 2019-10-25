@@ -41,7 +41,7 @@ class App extends Component {
 				{
 					this.props.results.length >= 1 ? <Div mt3 mt4_l mh6_l>
 					<Div pb5>
-							<Link href="/results" passHref prefetch>
+							<Link href="/results" passHref>
 							<A ph3 db link near_black hover_blue>← All results</A>
 						</Link>
 						<Heading fl w_100 mb4 ph3>

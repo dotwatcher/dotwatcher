@@ -152,7 +152,7 @@ class FeaturePage extends React.Component {
 								<RelatedGrid>
 									{
 										this.props.feature.related.map(relation => (
-											<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref prefetch key={relation.sys.id}>
+											<Link href={`/feature?slug=${relation.fields.slug}`} as={`/feature/${relation.fields.slug}`} passHref key={relation.sys.id}>
 												<A link db near_black hover_blue>
 													<Img
 														w_100

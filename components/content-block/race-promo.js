@@ -69,7 +69,7 @@ const RacePromo = ({block}) => {
 
 	return (
 		<Div mh4_m mb4 mb5_ns className="cf">
-			<Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref prefetch>
+			<Link href={`/race?slug=${block.race.fields.slug}`} as={`/race/${block.race.fields.slug}`} passHref>
 				<A db cover bg_center bg={block.image.fields.file.url} className="cf">
 					<Wrapper fr w_100 w_two_thirds_m w_50_l pa4 pv6_ns mv4 mv0_ns className="cf">
 						<Div bg_white_50 pb3>

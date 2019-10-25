@@ -3,7 +3,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 
 const Logo = ({children}) => (
-	<Link href="/" passHref prefetch>
+	<Link href="/" passHref>
 		<a>
 			<svg style={{width: '100%'}} viewBox="0 0 49 11">
 				<title>{children}</title>

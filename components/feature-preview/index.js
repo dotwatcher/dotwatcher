@@ -24,21 +24,21 @@ const FeaturePreview = ({data, id}) => {
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_100 w_40_ns>
-				<Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}`} passHref prefetch>
+				<Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}`} passHref>
 					<A db>
 						{ data.image ? <Img db mw_100 src={`${data.image.fields.file.url}?w=600&h=600&fm=jpg&q=50`} alt={data.image.fields.description}/> : <Placeholder w_100 h_100 pv6 bg_light_gray/> }
 					</A>
 				</Link>
 			</Figure>
 			<Div fl_ns ph3 w_100 w_60_ns>
-				<Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}`} passHref prefetch>
+				<Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}`} passHref>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>{widont(data.title)}</H1>
 					</A>
 				</Link>
 				<P lh_copy f4>{widont(data.excerpt)}</P>
 				{
-					data.comments ? <Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}#comments`} passHref prefetch>
+					data.comments ? <Link href={`/feature?slug=${data.slug}`} as={`/feature/${data.slug}#comments`} passHref>
 						<A link near_black underline hover_blue>
 							<CommentCount shortname={disqusShortname} config={disqusConfig}>
 								0 Comments

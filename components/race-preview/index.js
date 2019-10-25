@@ -32,14 +32,14 @@ const RacePreview = ({data}) => {
 	return (
 		<Div className="with-divider cf">
 			<Figure ma0 pa0 fl ph3 w_20>
-				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref prefetch>
+				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref>
 					<a>
 						{ data.icon ? <Img mw_100 srcSet={`${data.icon.fields.file.url}?w=150&h=150&fm=jpg&q=50 768w, ${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50 769w`} src={`${data.icon.fields.file.url}?w=300&h=300&fm=jpg&q=50`} alt={data.icon.fields.description}/> : <Placeholder w_100 h_100 pv6 bg_light_gray/> }
 					</a>
 				</Link>
 			</Figure>
 			<Div fl_ns ph3 w_50_m w_60_l mb4>
-				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref prefetch>
+				<Link href={`/race?slug=${data.slug}`} as={`/race/${data.slug}`} passHref>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>{widont(data.title)}</H1>
 						<H3 ma0 mt2 f6 fw4><Span fw6>Start:</Span> {moment(data.raceDate).format('LLLL')}</H3>
@@ -108,7 +108,7 @@ const RacePreview = ({data}) => {
 									<ResultsRow>
 										<ResultsCell f6 lh_copy fw6>
 											{i+1}.&nbsp;
-											<Link href={`/profile?name=${result.Rider}`} as={`/profile/${result.Rider}`} passHref prefetch>
+											<Link href={`/profile?name=${result.Rider}`} as={`/profile/${result.Rider}`} passHref>
 												<A link near_black hover_blue underline title={`See ${result.Rider}’s past results`}>{ result.Rider }</A>
 											</Link>
 										</ResultsCell>
@@ -119,7 +119,7 @@ const RacePreview = ({data}) => {
 						}
 						</tbody>
 					</Results>
-					<Link href={`/results?year=${data.year}&race=${data.title}`} as={`/results/${data.year}/${data.title}`} passHref prefetch>
+					<Link href={`/results?year=${data.year}&race=${data.title}`} as={`/results/${data.year}/${data.title}`} passHref>
 						<A link near_black f6 fw6 db>
 							See all results »
 						</A>

@@ -25,13 +25,13 @@ const CarouselImage = ({slide}) => {
 	let image;
 	if (slide.race) {
 		image = (
-			<Link href={`/race?slug=${slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref prefetch>
+			<Link href={`/race?slug=${slide.race.fields.slug}`} as={`/race/${slide.race.fields.slug}`} passHref>
 				<A db h_100 cover bg_center bg={slide.image.fields.file.url} className="cf"></A>
 			</Link>
 		)
 	} else if (slide.feature) {
 		image = (
-			<Link href={`/feature?slug=${slide.feature}`} as={`/feature/${slide.feature}`} passHref prefetch>
+			<Link href={`/feature?slug=${slide.feature}`} as={`/feature/${slide.feature}`} passHref>
 				<A db h_100 cover bg_center bg={slide.image.fields.file.url} className="cf"></A>
 			</Link>
 		)
