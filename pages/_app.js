@@ -1,5 +1,5 @@
 import React from 'react'
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import { CookiesProvider } from 'react-cookie';
 
 class MyApp extends App {
@@ -18,9 +18,7 @@ class MyApp extends App {
 
     return (
       <CookiesProvider>
-        <Container>
-          <Component {...pageProps} />
-        </Container>
+        <Component {...pageProps} />
       </CookiesProvider>
     )
   }
