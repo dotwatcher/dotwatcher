@@ -15,7 +15,6 @@ import Grid from '../components/grid';
 import Banner from '../components/content-block/banner';
 import Page from '../components/shared/page';
 import {withHomepage} from '../data/with-homepage';
-import widont from '../utils/widont';
 import Link from 'next/link';
 
 const Div = styled.div`
@@ -29,17 +28,6 @@ const SVG = styled.svg`${tachyons}`;
 
 class App extends Component {
 	render() {
-		const StyledWrapper = styled.div`
-			background-image: ${this.props.page.image ? `url(${this.props.page.image.fields.file.url})` : 'none' };
-			background-repeat: no-repeat;
-			background-size: cover;
-			padding: ${this.props.page.image ? `var(--spacing-extra-extra-large)` : ``} 0;
-
-			&> div {
-				background-color: rgba(255, 255, 255, .66)
-			}
-		${tachyons}`
-
 		const bannerBlocks = this.props.page.blocks.filter(block => block.layout === 'Banner' || block.layout === 'Homepage');
 		const gridBlocks = this.props.page.blocks.filter(block => block.layout === 'Carousel slide');
 		const grid = gridBlocks.length ? <Grid blocks={gridBlocks}/> : null;
