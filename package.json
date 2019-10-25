@@ -55,6 +55,6 @@
     "eslint": "^6.5.1",
     "eslint-config-xo-react": "^0.20.0",
     "eslint-plugin-react": "^7.16.0",
-    "xo": "^0.24.0"
+    "xo": "^0.25.3"
   }
 }
