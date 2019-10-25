@@ -123,7 +123,7 @@ class Banner extends Component {
 					}
 					<Menu tc>
 						<Link href="/races" passHref>
-							<A dib pt3 mr2 mr3_ns f5 f4_l near_black hover_blue no_underline fw5>Live</A>
+							<A dib pt3 mr2 mr3_ns f5 f4_l near_black hover_blue no_underline fw5>Reports</A>
 						</Link>
 						<Link href="/results" passHref>
 							<A dib pt3 mh2 mh3_ns f5 f4_l near_black hover_blue no_underline fw5>Results</A>
