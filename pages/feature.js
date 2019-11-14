@@ -50,7 +50,7 @@ class FeaturePage extends React.Component {
 
 	render() {
 		const StyledWrapper = styled.div`
-			background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=800&fm=jpg&q=60)` : 'none' };
+			background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=800&q=60)` : 'none' };
 			background-repeat: no-repeat;
 			background-size: cover;
 			background-position:  ${this.props.feature.imageAnchor ? this.props.feature.imageAnchor : 'center' } center;
@@ -61,13 +61,13 @@ class FeaturePage extends React.Component {
 			}
 			@media screen and (min-width: 48em) {
 				height: ${this.props.feature.image ? `75vh` : `20vh`};
-				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1024&fm=jpg&q=60)` : 'none' };
+				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1024&q=60)` : 'none' };
 			}
 			@media screen and (min-width: 64em) {
-				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1200&fm=jpg&q=60)` : 'none' };
+				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1200&q=60)` : 'none' };
 			}
 			@media screen and (min-width: 75em) {
-				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1600&fm=jpg&q=80)` : 'none' };
+				background-image: ${this.props.feature.image ? `url(${this.props.feature.image.fields.file.url}?w=1600&q=80)` : 'none' };
 			}
 		${tachyons}`
 
