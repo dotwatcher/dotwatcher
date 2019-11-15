@@ -98,3 +98,7 @@ hr {
 .bg-gradient-blue {
   background:linear-gradient(135deg,#7faccc,#81aece 5.79%,#83b0d0 10.88%,#87b3d4 15.63%,#8bb7d8 20.37%,#8fbbdc 25.46%,#93bfe1 31.25%,#98c3e5 38.08%,#9bc6e9 46.3%,#9ecaec 56.25%,#a1ccef 68.29%,#a2cdf0 82.75%,#a3cef1);
 }
+
+.twitter-tweet {
+  width: 100% !important;
+}
