@@ -10,7 +10,7 @@ export const WithResults = Page => {
 	WithResults.getInitialProps = async ({ query: { year, race, focus, activeClass, activeCategory, activeLocation } }) => {
 
 		if (year && race) {
-			const allResultsResponse = await fetch(`http://localhost:3000/api/race?slug=${race}&year=${year}`);
+			const allResultsResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/race?slug=${race}&year=${year}`);
 			const { results } = await allResultsResponse.json();
 			const formattedResults = formatter(results)
 			const racerClasses = []
@@ -58,7 +58,7 @@ export const WithResults = Page => {
 				hasNotes
 			};
 		} else {
-			const allResultsResponse = await fetch(`http://localhost:3000/api/all-races`);
+			const allResultsResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/all-races`);
 			const allRaces = await allResultsResponse.json();
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
