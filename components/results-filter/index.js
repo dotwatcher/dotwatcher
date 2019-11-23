@@ -99,14 +99,14 @@ class ResultsFilter extends React.Component {
 					</Fieldset> : null
 				}
 				{
-					this.props.finishLocations.length > 1 ?
+					this.props.finishlocations.length > 1 ?
 						<Fieldset dib bn ma0 mt3 mt0_ns pa0 aria-describedby="filter-title">
 							<H3 id="filter-title" dib_ns f6 ttu tracked ma0 mr3 mb3 lh-copy>Filter by location:</H3>
 							{
-								this.props.finishLocations.map(finishLocation => (
-									<Div dib mr4 relative key={`wrap-filter-${finishLocation}`}>
-										<Input o_0 absolute top_0 left_0 type="radio" name="filter-location" id={`filter-${finishLocation}`} value={finishLocation} onChange={this.onSelectChange.bind(this)} checked={finishLocation === this.props.activeLocation} />
-										<Label f5 fw6 lh-copy dib pl2 pv1 htmlFor={`filter-${finishLocation}`}>{finishLocation}</Label>
+								this.props.finishlocations.map(finishlocation => (
+									<Div dib mr4 relative key={`wrap-filter-${finishlocation}`}>
+										<Input o_0 absolute top_0 left_0 type="radio" name="filter-location" id={`filter-${finishlocation}`} value={finishlocation} onChange={this.onSelectChange.bind(this)} checked={finishlocation === this.props.activeLocation} />
+										<Label f5 fw6 lh-copy dib pl2 pv1 htmlFor={`filter-${finishlocation}`}>{finishlocation}</Label>
 									</Div>
 								))
 							}

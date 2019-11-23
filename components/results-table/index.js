@@ -111,7 +111,7 @@ class ResultsTable extends React.Component {
 		let filteredResults = this.props.results
 		if (this.props.type !== 'profile') {
 			filteredResults = filteredResults.filter(result => result.class === this.state.activeClassFilter)
-			filteredResults = filteredResults.filter(result => result.finishLocation === this.state.activeLocationFilter)
+			filteredResults = filteredResults.filter(result => result.finishlocation === this.state.activeLocationFilter)
 
 			if (this.state.activeCategoryFilter !== 'Both') {
 				filteredResults = filteredResults.filter(result => result.category === this.state.activeCategoryFilter)
@@ -120,7 +120,7 @@ class ResultsTable extends React.Component {
 
 		return (
 			<Div ph3>
-				{this.props.type !== 'profile' ? <ResultsFilter racerClasses={this.props.racerClasses} racerCategories={this.props.racerCategories} setClassFilter={this.setClassFilter.bind(this)} activeClassFilter={this.state.activeClassFilter} setCategoryFilter={this.setCategoryFilter.bind(this)} activeCategoryFilter={this.state.activeCategoryFilter} setLocationFilter={this.setLocationFilter.bind(this)} finishLocations={this.props.finishLocations} activeLocation={this.state.activeLocationFilter} /> : null }
+				{this.props.type !== 'profile' ? <ResultsFilter racerClasses={this.props.racerClasses} racerCategories={this.props.racerCategories} setClassFilter={this.setClassFilter.bind(this)} activeClassFilter={this.state.activeClassFilter} setCategoryFilter={this.setCategoryFilter.bind(this)} activeCategoryFilter={this.state.activeCategoryFilter} setLocationFilter={this.setLocationFilter.bind(this)} finishlocations={this.props.finishlocations} activeLocation={this.state.activeLocationFilter} /> : null }
 				<Results w_100 f6 f5_l>
 					<thead>
 						<HeadRow bb bw1>
@@ -186,9 +186,9 @@ class ResultsTable extends React.Component {
 											{result.bike}
 										</ResultsCell>
 										{
-											result.finishLocation && this.props.type !== 'profile' ?
+											result.finishlocation && this.props.type !== 'profile' ?
 												<ResultsCell dn dtc_ns>
-													{result.finishLocation}
+													{result.finishlocation}
 												</ResultsCell> : null
 										}
 										<ResultsCell tr title="Finish Time in days, hours and minutes">
