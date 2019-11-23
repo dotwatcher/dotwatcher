@@ -16,8 +16,7 @@
     "PGUSER": "@pguser",
     "PGPASSWORD": "@pgpassword",
     "PGDATABASE": "@pgdatabase",
-    "PGPORT": "@pgport",
-    "BASEURL": "@dotwatcher-url"
+    "PGPORT": "@pgport"
   },
   "build": {
     "env": {

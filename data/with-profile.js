@@ -1,13 +1,16 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
 import formatter from './formatter';
+import apiUrl from './../utils/api-url';
 
 export const WithProfile = Page => {
 	const WithProfile = props => <Page {...props}/>;
 
-	WithProfile.getInitialProps = async ({query: { name }}) => {
+	WithProfile.getInitialProps = async ctx => {
 
-		const profileResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/rider?name=${encodeURIComponent(name)}`);
+		const { name } = ctx.query
+
+		const profileResponse = await fetch(apiUrl(`/api/rider?name=${encodeURIComponent(name)}`, ctx.req));
 		const { results } = await profileResponse.json();
 		const profile = formatter(results)
 		
