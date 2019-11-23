@@ -3,14 +3,17 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
 import formatter from './formatter';
+import apiUrl from './../utils/api-url';
 
 export const WithResults = Page => {
 	const WithResults = props => <Page {...props} />
 
-	WithResults.getInitialProps = async ({ query: { year, race, focus, activeClass, activeCategory, activeLocation } }) => {
+	WithResults.getInitialProps = async (ctx) => {
+
+		let { year, race, focus, activeClass, activeCategory, activeLocation } = ctx.query
 
 		if (year && race) {
-			const allResultsResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/race?slug=${race}&year=${year}`);
+			const allResultsResponse = await fetch(apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req));
 			const { results } = await allResultsResponse.json();
 			const formattedResults = formatter(results)
 			const racerClasses = []
@@ -58,7 +61,7 @@ export const WithResults = Page => {
 				hasNotes
 			};
 		} else {
-			const allResultsResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/all-races`);
+			const allResultsResponse = await fetch(apiUrl(`/api/all-races`, ctx.req));
 			const allRaces = await allResultsResponse.json();
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
