@@ -18,7 +18,7 @@ export const WithResults = Page => {
 			const formattedResults = formatter(results)
 			const racerClasses = []
 			const racerCategories = ['Both']
-			const finishLocations = []
+			const finishlocations = []
 			const notes = []
 
 			formattedResults.forEach(result => {
@@ -28,9 +28,9 @@ export const WithResults = Page => {
 				if (racerCategories.filter(racerCategory => racerCategory === result.category).length < 1) {
 					racerCategories.push(result.category)
 				}
-				// if (finishLocations.filter(finishLocation => finishLocation === result['finish Location']).length < 1) {
-				// 	finishLocations.push(result['finish Location'])
-				// }
+				if (finishlocations.filter(finishlocation => finishlocation === result.finishlocation).length < 1) {
+					finishlocations.push(result.finishlocation)
+				}
 				if (result.notes !== '') {
 					notes.push(result.notes)
 				}
@@ -38,7 +38,7 @@ export const WithResults = Page => {
 
 			activeClass = activeClass || racerClasses[0]
 			activeCategory = activeCategory || racerCategories[0]
-			activeLocation = activeLocation || finishLocations[0]
+			activeLocation = activeLocation || finishlocations[0]
 
 			const hasNotes = notes.length > 0
 			const name = results[0].racename
@@ -56,7 +56,7 @@ export const WithResults = Page => {
 				racerCategories,
 				activeClass,
 				activeCategory,
-				finishLocations,
+				finishlocations,
 				activeLocation,
 				hasNotes
 			};

@@ -49,7 +49,7 @@ class App extends Component {
 								{ this.props.name } { this.props.year } results
 							</H1>
 						</Heading>
-							<ResultsTable type="race" results={this.props.results} focus={this.props.focus} racerClasses={this.props.racerClasses} activeClass={this.props.activeClass} racerCategories={this.props.racerCategories} activeCategory={this.props.activeCategory} finishLocations={this.props.finishLocations} activeLocation={this.props.activeLocation}/>
+							<ResultsTable type="race" results={this.props.results} focus={this.props.focus} racerClasses={this.props.racerClasses} activeClass={this.props.activeClass} racerCategories={this.props.racerCategories} activeCategory={this.props.activeCategory} finishlocations={this.props.finishlocations} activeLocation={this.props.activeLocation}/>
 						<ResultsContribute/>
 					</Div>
 					</Div> : <ResultsIndex allRaces={this.props.allRaces} /> }
