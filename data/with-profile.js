@@ -7,7 +7,7 @@ export const WithProfile = Page => {
 
 	WithProfile.getInitialProps = async ({query: { name }}) => {
 
-		const profileResponse = await fetch(`http://localhost:3000/api/rider?name=${encodeURIComponent(name)}`);
+		const profileResponse = await fetch(`${process.env.BASEURL ? process.env.BASEURL : ''}/api/rider?name=${encodeURIComponent(name)}`);
 		const { results } = await profileResponse.json();
 		const profile = formatter(results)
 		

@@ -16,7 +16,8 @@
     "PGUSER": "@pguser",
     "PGPASSWORD": "@pgpassword",
     "PGDATABASE": "@pgdatabase",
-    "PGPORT": "@pgport"
+    "PGPORT": "@pgport",
+    "BASEURL": "@dotwatcher-url"
   },
   "build": {
     "env": {
@@ -26,7 +27,8 @@
       "PUSHER_SECRET": "@pusher-secret",
       "MAILCHIMP": "@mailchimp",
       "ANALYTICS": "@analytics",
-      "SCRAPEY_API_KEY": "@scrapey-api-key"
+      "SCRAPEY_API_KEY": "@scrapey-api-key",
+      "BASEURL": "@dotwatcher-url"
     }
   },
   "builds": [
