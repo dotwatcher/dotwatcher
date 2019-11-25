@@ -40,13 +40,52 @@ class App extends Component {
 	}
 
 	async handleSearchUpdate(value) {
+		if (value.length < 3) return;
 		// toLower is performed on the SQL query. Able to lower case race name column and search value together
 		try {
 			const res = await axios.get(
 				apiUrl(`api/search/race-by-name?name=${value}`)
 			);
 
-			const races = res.data;
+			let races = res.data;
+
+			races = races.map(race => {
+				let events = races.reduce((acc, curr) => {
+					if (!curr) return acc;
+
+					if (curr.racename === race.racename && curr.slug !== race.slug) {
+						return [
+							...acc,
+							{
+								...curr,
+								slug: curr.slug[0],
+								length: curr.length[0],
+								id: curr.id[0]
+							}
+						];
+					}
+
+					return acc;
+				}, []);
+
+				const filteredEvents = [];
+
+				events.forEach(event => {
+					const picked = filteredEvents.find(
+						e => e.racename === event.racename
+					);
+					if (picked) return;
+					filteredEvents.push(event);
+				});
+
+				debugger;
+				return {
+					name: race.racename,
+					events
+				};
+			});
+
+			console.log(races);
 
 			await this.setState({ races });
 		} catch (err) {
