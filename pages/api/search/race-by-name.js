@@ -12,17 +12,6 @@ export default async function handle(req, res) {
 			`SELECT races.name AS racename, races.year, array_agg(races.slug) as slug, array_agg(races.length) as length, array_agg(races.id) as id FROM races WHERE LOWER(races.name) LIKE LOWER('%${name}%') GROUP BY races.name, races.year ORDER BY races.name`
 		);
 
-		// const formattedRaces = races.map(race => ({
-		// 	name: race.racename,
-		// 	events: races.reduce((acc, curr) => {
-		// 		if (!curr) return acc;
-
-		// 		if (curr.racename === race.racename && curr.slug !== race.slug)
-		// 			return [...acc, curr];
-		// 	}, [])
-		// }));
-
-		// res.json(formattedRaces);
 		res.json(races);
 	} catch (error) {
 		res.json({ error });

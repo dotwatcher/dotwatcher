@@ -40,6 +40,9 @@ class App extends Component {
 	}
 
 	async handleSearchUpdate(value) {
+		if (value.length === 0) {
+			this.setState({ races: this.props.allRaces });
+		}
 		if (value.length < 3) return;
 		// toLower is performed on the SQL query. Able to lower case race name column and search value together
 		try {
@@ -49,11 +52,14 @@ class App extends Component {
 
 			let races = res.data;
 
+			const filteredRaces = [];
+
+			// Formatt race to contain all instances of its race years
 			races = races.map(race => {
-				let events = races.reduce((acc, curr) => {
+				const events = races.reduce((acc, curr) => {
 					if (!curr) return acc;
 
-					if (curr.racename === race.racename && curr.slug !== race.slug) {
+					if (curr.racename === race.racename) {
 						return [
 							...acc,
 							{
@@ -68,26 +74,20 @@ class App extends Component {
 					return acc;
 				}, []);
 
-				const filteredEvents = [];
-
-				events.forEach(event => {
-					const picked = filteredEvents.find(
-						e => e.racename === event.racename
-					);
-					if (picked) return;
-					filteredEvents.push(event);
-				});
-
-				debugger;
 				return {
 					name: race.racename,
-					events
+					events: events.sort((a, b) => b.year - a.year)
 				};
 			});
 
-			console.log(races);
+			// Remove duplicate entries of the race name
+			races.forEach(r => {
+				const picked = filteredRaces.find(e => e.racename === r.racename);
+				if (picked) return;
+				filteredRaces.push(r);
+			});
 
-			await this.setState({ races });
+			await this.setState({ races: filteredRaces });
 		} catch (err) {
 			console.log(err);
 		}
