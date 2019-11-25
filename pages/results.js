@@ -43,7 +43,7 @@ class App extends Component {
 		if (value.length === 0) {
 			this.setState({ races: this.props.allRaces });
 		}
-		if (value.length < 3) return;
+		if (value.length <= 2) return;
 		// toLower is performed on the SQL query. Able to lower case race name column and search value together
 		try {
 			const res = await axios.get(
@@ -51,8 +51,6 @@ class App extends Component {
 			);
 
 			let races = res.data;
-
-			const filteredRaces = [];
 
 			// Formatt race to contain all instances of its race years
 			races = races.map(race => {
@@ -80,14 +78,17 @@ class App extends Component {
 				};
 			});
 
-			// Remove duplicate entries of the race name
-			races.forEach(r => {
-				const picked = filteredRaces.find(e => e.racename === r.racename);
-				if (picked) return;
-				filteredRaces.push(r);
-			});
+			// remove duplicates of the same entry
+			races = races.reduce((acc, curr) => {
+				if (!curr) return acc;
+				const picked = acc.find(x => x.name === curr.name);
 
-			await this.setState({ races: filteredRaces });
+				if (!picked) return [...acc, curr];
+
+				return acc;
+			}, []);
+
+			await this.setState({ races });
 		} catch (err) {
 			console.log(err);
 		}
