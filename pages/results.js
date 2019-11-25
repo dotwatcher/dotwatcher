@@ -52,42 +52,6 @@ class App extends Component {
 
 			let races = res.data;
 
-			// Formatt race to contain all instances of its race years
-			races = races.map(race => {
-				const events = races.reduce((acc, curr) => {
-					if (!curr) return acc;
-
-					if (curr.racename === race.racename) {
-						return [
-							...acc,
-							{
-								...curr,
-								slug: curr.slug[0],
-								length: curr.length[0],
-								id: curr.id[0]
-							}
-						];
-					}
-
-					return acc;
-				}, []);
-
-				return {
-					name: race.racename,
-					events: events.sort((a, b) => b.year - a.year)
-				};
-			});
-
-			// remove duplicates of the same entry
-			races = races.reduce((acc, curr) => {
-				if (!curr) return acc;
-				const picked = acc.find(x => x.name === curr.name);
-
-				if (!picked) return [...acc, curr];
-
-				return acc;
-			}, []);
-
 			await this.setState({ races });
 		} catch (err) {
 			console.log(err);
