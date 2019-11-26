@@ -26,6 +26,7 @@
     "babel-plugin-wrap-in-js": "^1.1.1",
     "contentful": "^7.10.0",
     "disqus-react": "^1.0.7",
+    "lodash.debounce": "^4.0.8",
     "moment": "^2.24.0",
     "next": "^9.1.1",
     "path-match": "^1.2.4",

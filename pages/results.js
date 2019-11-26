@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import axios from "axios";
+import debounce from "lodash.debounce";
 
 import Link from "next/link";
 import Header from "../components/header";
@@ -32,7 +33,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
-		this.handleSearchUpdate = this.handleSearchUpdate.bind(this);
+		this.handleSearchUpdate = debounce(this.handleSearchUpdate.bind(this), 200);
 
 		this.state = {
 			races: this.props.allRaces
