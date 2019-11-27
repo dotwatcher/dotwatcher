@@ -36,15 +36,28 @@ class App extends Component {
 		this.handleSearchUpdate = debounce(this.handleSearchUpdate.bind(this), 200);
 
 		this.state = {
-			races: this.props.allRaces
+			races: this.props.allRaces,
+			riders: []
 		};
 	}
 
 	async handleSearchUpdate(value) {
 		if (value.length === 0) {
-			this.setState({ races: this.props.allRaces });
+			this.setState({ races: this.props.allRaces, riders: [] });
 		}
+
 		if (value.length <= 2) return;
+
+		const races = await this.searchRace(value);
+		const riders = await this.searchRider(value);
+
+		this.setState({
+			races,
+			riders
+		});
+	}
+
+	async searchRace(value) {
 		// toLower is performed on the SQL query. Able to lower case race name column and search value together
 		try {
 			const res = await axios.get(
@@ -53,7 +66,22 @@ class App extends Component {
 
 			let races = res.data;
 
-			await this.setState({ races });
+			return races;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	async searchRider(value) {
+		// toLower is performed on the SQL query. Able to lower case race name column and search value together
+		try {
+			const res = await axios.get(
+				apiUrl(`api/search/rider-by-name?name=${value}`)
+			);
+
+			let riders = res.data;
+
+			return riders;
 		} catch (err) {
 			console.log(err);
 		}
@@ -128,6 +156,7 @@ class App extends Component {
 					</Div>
 				) : (
 					<ResultsIndex
+						allRiders={this.state.riders}
 						allRaces={this.state.races}
 						handleSearchUpdate={this.handleSearchUpdate}
 					/>

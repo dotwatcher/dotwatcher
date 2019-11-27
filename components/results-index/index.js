@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+
 import ResultsSummary from "../results-summary";
+import RiderSummary from "../Results/rider-summary";
 import ResultsContribute from "../results-contribute";
 import ResultsFilter from "./results-filter";
 
@@ -15,6 +17,10 @@ const Header = styled.header`
 const H1 = styled.h1`
 	${tachyons}
 `;
+const H2 = styled.h2`
+	${tachyons}
+`;
+
 const Grid = styled.div`
 	display: grid;
 	grid-gap: var(--spacing-large);
@@ -37,7 +43,6 @@ class ResultsIndex extends Component {
 	}
 
 	render() {
-		console.log("results list");
 		return (
 			<Div mt3 mt4_l mh6_l>
 				<Div>
@@ -53,15 +58,29 @@ class ResultsIndex extends Component {
 							handleSearchUpdate={this.props.handleSearchUpdate}
 						/>
 					</Div>
-					<Grid mh3 pb4 bb bw1 b__light_gray>
-						{this.props.allRaces.map((race, index) => (
-							<ResultsSummary
-								race={race}
-								key={index}
-								filtered={this.state.filteredEvent}
-							/>
-						))}
-					</Grid>
+
+					{this.props.allRiders.length > 0 && (
+						<Fragment>
+							<H2>Riders</H2>
+							<RiderSummary riders={this.props.allRiders} />
+						</Fragment>
+					)}
+
+					{this.props.allRaces.length > 0 && (
+						<Fragment>
+							<H2>Races</H2>
+							<Grid mh3 pb4 bb bw1 b__light_gray>
+								{this.props.allRaces.map((race, index) => (
+									<ResultsSummary
+										race={race}
+										key={index}
+										filtered={this.state.filteredEvent}
+									/>
+								))}
+							</Grid>
+						</Fragment>
+					)}
+
 					<ResultsContribute />
 				</Div>
 			</Div>
@@ -70,11 +89,13 @@ class ResultsIndex extends Component {
 }
 
 ResultsIndex.propTypes = {
-	allRaces: PropTypes.array
+	allRaces: PropTypes.array,
+	allRiders: PropTypes.array
 };
 
 ResultsIndex.defaultProps = {
-	allRaces: []
+	allRaces: [],
+	allRiders: []
 };
 
 export default ResultsIndex;

@@ -6,9 +6,20 @@ export default async function handle(req, res) {
 
 	try {
 		const { rows: results } = await client.query(
-			`select riders.name, riders.id from riders where lower(riders.name) like lower('%${name}%') limit 25`
+			`select 
+				riders.name,
+				riders.id
+			from
+				riders
+			where
+				lower(riders.name) like lower('%${name}%') 
+			group by 
+				riders.name, 
+				riders.id 
+			limit 
+				25`
 		);
-		res.json({ results });
+		res.json(results);
 	} catch (error) {
 		res.json({ error });
 	} finally {

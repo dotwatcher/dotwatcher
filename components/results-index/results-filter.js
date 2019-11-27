@@ -120,7 +120,7 @@ class Filter extends Component {
 	render() {
 		const { value, suggestions } = this.state;
 		const inputProps = {
-			placeholder: "Find a race",
+			placeholder: "Find a race or rider",
 			value,
 			onChange: this.onChange
 		};
