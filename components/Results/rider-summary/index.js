@@ -13,9 +13,13 @@ const P = styled.p`
 `;
 
 const RiderGrid = styled.div`
+	grid-template-columns: repeat(2, 1fr);
 	display: grid;
 	grid-gap: var(--spacing-large);
-	grid-template-columns: repeat(4, 1fr);
+
+	@media screen and (min-width: 48em) {
+		grid-template-columns: repeat(4, 1fr);
+	}
 `;
 
 const RiderGridItem = styled.div`

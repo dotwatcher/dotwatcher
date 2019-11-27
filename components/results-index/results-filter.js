@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Autosuggest from "react-autosuggest";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import Router, { withRouter } from "next/router";
 
 const Clear = styled.button`
 	${tachyons}
@@ -72,12 +73,36 @@ class Filter extends Component {
 			value: "",
 			suggestions: []
 		};
+
+		this.inputRef = null;
+
+		this.setRef = this.setRef.bind(this);
 	}
 
-	onChange = async (event, { newValue, method }) => {
+	componentDidMount() {
+		const { query } = this.props.router;
+
+		if (!query.search || !this.inputRef) return;
+
+		this.onChange({}, { newValue: query.search }, true);
+	}
+
+	setRef(e) {
+		this.inputRef = e;
+	}
+
+	onChange = async (event, { newValue, method }, fromMount = false) => {
 		await this.setState({
 			value: newValue
 		});
+
+		// If from ComponentDidMount, ignore url update otherwise infinite loop on load
+		if (!fromMount) {
+			Router.push({
+				pathname: "/results",
+				query: { search: newValue }
+			});
+		}
 
 		this.props.handleSearchUpdate(newValue);
 	};
@@ -137,6 +162,7 @@ class Filter extends Component {
 					onSuggestionSelected={this.onSuggestionSelected}
 					highlightFirstSuggestion={true}
 					theme={theme}
+					ref={this.setRef}
 				/>
 				<Clear
 					input_reset
@@ -159,7 +185,7 @@ class Filter extends Component {
 	}
 }
 
-export default Filter;
+export default withRouter(Filter);
 
 Filter.propTypes = {
 	races: PropTypes.array,
