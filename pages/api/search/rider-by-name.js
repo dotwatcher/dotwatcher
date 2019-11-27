@@ -5,20 +5,23 @@ export default async function handle(req, res) {
 	const { name } = req.query;
 
 	try {
-		const { rows: results } = await client.query(
-			`select 
+		let { rows: results } = await client.query(
+			`select distinct
 				riders.name,
-				riders.id
+				array_agg(riders.id) as id
 			from
 				riders
 			where
 				lower(riders.name) like lower('%${name}%') 
 			group by 
-				riders.name, 
-				riders.id 
+				riders.name
 			limit 
-				25`
+				25
+			`
 		);
+
+		results = results.map(res => ({ ...res, id: res.id[0] }));
+
 		res.json(results);
 	} catch (error) {
 		res.json({ error });
