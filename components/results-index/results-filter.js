@@ -97,12 +97,12 @@ class Filter extends Component {
 		});
 
 		// If from ComponentDidMount, ignore url update otherwise infinite loop on load
-		if (!fromMount) {
-			Router.push({
-				pathname: "/results",
-				query: { search: newValue }
-			});
-		}
+		// if (!fromMount) {
+		// 	Router.push({
+		// 		pathname: "/results",
+		// 		query: { search: newValue }
+		// 	});
+		// }
 
 		this.props.handleSearchUpdate(newValue);
 	};

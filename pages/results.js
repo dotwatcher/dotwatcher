@@ -37,23 +37,28 @@ class App extends Component {
 
 		this.state = {
 			races: this.props.allRaces,
-			riders: []
+			riders: [],
+			loading: false
 		};
 	}
 
 	async handleSearchUpdate(value) {
 		if (value.length === 0) {
 			this.setState({ races: this.props.allRaces, riders: [] });
+			return;
 		}
 
 		if (value.length <= 2) return;
 
+		await this.setState({ loading: true });
+
 		const races = await this.searchRace(value);
 		const riders = await this.searchRider(value);
 
-		this.setState({
+		await this.setState({
 			races,
-			riders
+			riders,
+			loading: false
 		});
 	}
 
@@ -158,6 +163,7 @@ class App extends Component {
 					<ResultsIndex
 						allRiders={this.state.riders}
 						allRaces={this.state.races}
+						loading={this.state.loading}
 						handleSearchUpdate={this.handleSearchUpdate}
 					/>
 				)}

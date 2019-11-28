@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import { Ring as Loader } from "react-awesome-spinners";
 
 import ResultsSummary from "../results-summary";
 import RiderSummary from "../Results/rider-summary";
@@ -27,6 +28,12 @@ const Grid = styled.div`
 	${tachyons}
 `;
 
+const LoaderWrapper = styled.div`
+	margin: var(--spacing-extra-large) auto;
+	display: block;
+	text-align: center;
+`;
+
 class ResultsIndex extends Component {
 	constructor(props) {
 		super(props);
@@ -34,12 +41,41 @@ class ResultsIndex extends Component {
 			filteredEvent: ""
 		};
 		this.setFilteredRace = this.setFilteredRace.bind(this);
+		this.renderResults = this.renderResults.bind(this);
 	}
 
 	setFilteredRace(id) {
 		this.setState({
 			filteredEvent: id
 		});
+	}
+
+	renderResults() {
+		return (
+			<Fragment>
+				{this.props.allRiders.length > 0 && (
+					<Fragment>
+						<H2>Riders</H2>
+						<RiderSummary riders={this.props.allRiders} />
+					</Fragment>
+				)}
+
+				{this.props.allRaces.length > 0 && (
+					<Fragment>
+						<H2>Races</H2>
+						<Grid mh3 pb4 bb bw1 b__light_gray>
+							{this.props.allRaces.map((race, index) => (
+								<ResultsSummary
+									race={race}
+									key={index}
+									filtered={this.state.filteredEvent}
+								/>
+							))}
+						</Grid>
+					</Fragment>
+				)}
+			</Fragment>
+		);
 	}
 
 	render() {
@@ -59,26 +95,12 @@ class ResultsIndex extends Component {
 						/>
 					</Div>
 
-					{this.props.allRiders.length > 0 && (
-						<Fragment>
-							<H2>Riders</H2>
-							<RiderSummary riders={this.props.allRiders} />
-						</Fragment>
-					)}
-
-					{this.props.allRaces.length > 0 && (
-						<Fragment>
-							<H2>Races</H2>
-							<Grid mh3 pb4 bb bw1 b__light_gray>
-								{this.props.allRaces.map((race, index) => (
-									<ResultsSummary
-										race={race}
-										key={index}
-										filtered={this.state.filteredEvent}
-									/>
-								))}
-							</Grid>
-						</Fragment>
+					{this.props.loading ? (
+						<LoaderWrapper>
+							<Loader color="#000" />
+						</LoaderWrapper>
+					) : (
+						this.renderResults()
 					)}
 
 					<ResultsContribute />
@@ -90,12 +112,14 @@ class ResultsIndex extends Component {
 
 ResultsIndex.propTypes = {
 	allRaces: PropTypes.array,
-	allRiders: PropTypes.array
+	allRiders: PropTypes.array,
+	loading: PropTypes.bool
 };
 
 ResultsIndex.defaultProps = {
 	allRaces: [],
-	allRiders: []
+	allRiders: [],
+	loading: false
 };
 
 export default ResultsIndex;
