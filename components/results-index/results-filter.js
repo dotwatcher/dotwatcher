@@ -137,6 +137,7 @@ class Filter extends Component {
 
 	clear = () => {
 		this.props.setFilteredRace("");
+		this.onChange({}, { newValue: "" });
 		this.setState({
 			value: ""
 		});

@@ -34,6 +34,11 @@ const LoaderWrapper = styled.div`
 	text-align: center;
 `;
 
+const ResultsWrapper = styled.div`
+	margin-left: var(--spacing-medium);
+	margin-right: var(--spacing-medium);
+`;
+
 class ResultsIndex extends Component {
 	constructor(props) {
 		super(props);
@@ -52,7 +57,7 @@ class ResultsIndex extends Component {
 
 	renderResults() {
 		return (
-			<Fragment>
+			<ResultsWrapper>
 				{this.props.allRiders.length > 0 && (
 					<Fragment>
 						<H2>Riders</H2>
@@ -63,7 +68,7 @@ class ResultsIndex extends Component {
 				{this.props.allRaces.length > 0 && (
 					<Fragment>
 						<H2>Races</H2>
-						<Grid mh3 pb4 bb bw1 b__light_gray>
+						<Grid pb4 bb bw1 b__light_gray>
 							{this.props.allRaces.map((race, index) => (
 								<ResultsSummary
 									race={race}
@@ -74,7 +79,7 @@ class ResultsIndex extends Component {
 						</Grid>
 					</Fragment>
 				)}
-			</Fragment>
+			</ResultsWrapper>
 		);
 	}
 
