@@ -16,6 +16,7 @@ import groupBy from "lodash/groupBy";
 import styled from "styled-components";
 
 import DateCell, { Cell } from "./DateCell";
+import moment from "moment";
 
 const CalendarLayout = styled.article`
 	display: grid;
@@ -81,6 +82,7 @@ const daysAndEvents = (events = [], currentDate) => {
 
 const Layout = ({ events = [], ...props }) => {
 	const _events = daysAndEvents(events, Date.now());
+
 	return (
 		<CalendarLayout>
 			{_events.map(d => (
