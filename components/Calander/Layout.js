@@ -13,13 +13,21 @@ import { DateTime } from "luxon";
 import sortBy from "lodash/sortBy";
 import groupBy from "lodash/groupBy";
 
-import DateCell from "./DateCell";
+import styled from "styled-components";
 
-const enhance = compose(
-	mapProps(({ events, currentDate }) => ({
-		daysAndEvents: daysAndEvents(events, currentDate)
-	}))
-);
+import DateCell, { Cell } from "./DateCell";
+
+const CalendarLayout = styled.article`
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-auto-rows: 1fr;
+
+	${Cell} {
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		padding: var(--spacing-small);
+	}
+`;
 
 const daysOfMonth = date => {
 	const currentDate = date;
@@ -74,11 +82,11 @@ const daysAndEvents = (events = [], currentDate) => {
 const Layout = ({ events = [], ...props }) => {
 	const _events = daysAndEvents(events, Date.now());
 	return (
-		<div class="calendar__layout">
+		<CalendarLayout>
 			{_events.map(d => (
 				<DateCell {...d} />
 			))}
-		</div>
+		</CalendarLayout>
 	);
 };
 

@@ -18,7 +18,6 @@ const CalanderPage = ({ races = [], ...props }) => {
 			</Head>
 
 			<Header title="dotwatcher.cc" />
-			<h1>Hello</h1>
 
 			<Calendar
 				events={races}

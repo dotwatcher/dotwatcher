@@ -3,6 +3,13 @@ import withProps from "recompose/withProps";
 import withStateHandlers from "recompose/withStateHandlers";
 import format from "date-fns/format";
 import { updateQueryStringfromFilters } from "../../utils/calander";
+import Link from "next/link";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+
+const A = styled.a`
+	${tachyons}
+`;
 
 const enhance = compose(
 	withProps(({ start, end, membershipStatus }) => ({
@@ -34,17 +41,28 @@ const EventCell = ({ startFormatted, endFormatted, toggleModal, data }) => {
 		terrain,
 		website,
 		location,
-		length
+		length,
+		calendarOnly
 	} = data;
+
+	const LinkProps = {
+		href: calendarOnly ? website : `/race?slug=${slug}`,
+		as: calendarOnly ? null : `/race/${slug}`,
+		target: calendarOnly ? "_blank" : "_self"
+	};
 
 	return (
 		<div class="event-cell" onClick={toggleModal}>
-			<p class={`t-body event-cell__title ${hoverClass}`}>
-				{title} - {location}
-			</p>
-			<p class={`t-body t-em event-cell__times ${hoverClass}`}>
-				{startFormatted} - {endFormatted}
-			</p>
+			<Link passHref {...LinkProps}>
+				<A dib f6 f5_l mt2 mb0 no_underline>
+					<p class={`t-body event-cell__title ${hoverClass}`}>
+						{title} - {location}
+					</p>
+					<p class={`t-body t-em event-cell__times ${hoverClass}`}>
+						{startFormatted} - {endFormatted}
+					</p>
+				</A>
+			</Link>
 		</div>
 	);
 };

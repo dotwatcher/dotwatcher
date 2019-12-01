@@ -1,5 +1,16 @@
 import eachDay from "date-fns/each_day";
 import format from "date-fns/format";
+import styled from "styled-components";
+
+const WeekHeader = styled.header`
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-align: center;
+	grid-auto-rows: 100px;
+	align-items: center;
+
+	border-bottom: 1px solid black;
+`;
 
 const weekDayNames = () => {
 	// Months are 0 indexed so 11 is Dec
@@ -10,16 +21,10 @@ const weekDayNames = () => {
 	return weekArr.map(d => format(d, "ddd"));
 };
 
-const WeekDayCell = ({ name }) => (
-	<span class="t-h4 week-header__day">{name}</span>
-);
-
-const WeekHeader = () => (
-	<div class="calendar__week-header">
+export default () => (
+	<WeekHeader>
 		{weekDayNames().map(d => (
-			<WeekDayCell name={d} />
+			<span class="t-h4 week-header__day">{d}</span>
 		))}
-	</div>
+	</WeekHeader>
 );
-
-export default WeekHeader;
