@@ -1,0 +1,106 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import ResultsSummary from "../results-summary";
+import ResultsContribute from "../results-contribute";
+import ResultsFilter from "./results-filter";
+
+const Div = styled.div`
+	${tachyons}
+`;
+const Header = styled.header`
+	${tachyons}
+`;
+const H1 = styled.h1`
+	${tachyons}
+`;
+
+const A = styled.a`
+	${tachyons}
+`;
+
+const Grid = styled.div`
+	display: grid;
+	grid-gap: var(--spacing-large);
+	${tachyons}
+`;
+
+class ResultsIndex extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			filteredEvent: ""
+		};
+		this.setFilteredRace = this.setFilteredRace.bind(this);
+	}
+
+	setFilteredRace(id) {
+		this.setState({
+			filteredEvent: id
+		});
+	}
+
+	render() {
+		return (
+			<Div mt3 mt4_l mh6_l>
+				<Div>
+					<Header ma3>
+						<H1 ma0 f1 fw6>
+							Browse race results
+						</H1>
+					</Header>
+					<Div>
+						<ResultsFilter
+							races={this.props.allRaces}
+							setFilteredRace={this.setFilteredRace.bind(this)}
+							handleSearchUpdate={this.props.handleSearchUpdate}
+						/>
+					</Div>
+					<Grid mh3 pb4 bb bw1 b__light_gray>
+						{this.props.allRaces.map((race, index) => (
+							<ResultsSummary
+								race={race}
+								key={index}
+								filtered={this.state.filteredEvent}
+							/>
+						))}
+					</Grid>
+
+					<Grid mh3 pb4 bb bw1 b__light_gray>
+						{this.props.allRiders.map((rider, index) => (
+							<div>
+								<A>
+									<p>{rider.name}</p>
+								</A>
+
+								<Link
+									href={`/feature?slug=${data.slug}`}
+									as={`/feature/${data.slug}`}
+									passHref
+								>
+									<A link near_black>
+										<H1 f2 fw6 ma0 lh_title link hover_blue>
+											{widont(data.title)}
+										</H1>
+									</A>
+								</Link>
+							</div>
+						))}
+					</Grid>
+					<ResultsContribute />
+				</Div>
+			</Div>
+		);
+	}
+}
+
+ResultsIndex.propTypes = {
+	allRaces: PropTypes.array
+};
+
+ResultsIndex.defaultProps = {
+	allRaces: []
+};
+
+export default ResultsIndex;

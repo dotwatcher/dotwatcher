@@ -8,7 +8,11 @@ import tachyons from "styled-components-tachyons";
 import Header from "../components/header";
 import Page from "../components/shared/page";
 import RacePreview from "../components/race-preview";
+<<<<<<< b39f5407e426a02ab42790db194692c6af59d8ee
 import Calendar from "../components/calendar";
+=======
+import Calendar from "../components/calendar-old";
+>>>>>>> initial calender setup
 import Footer from "../components/footer";
 import { withRaces } from "../data/with-races";
 
@@ -62,7 +66,7 @@ class App extends Component {
 					/>
 				</Head>
 				<Header title="dotwatcher.cc" />
-				<Div mt3 mt4_l pl4 pr4 fl w_100 w_75_l>
+				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
 					<Div pb5>
 						{currentRaces.length > 0 ? (
 							<Heading fl w_100 mb4 ph3>
