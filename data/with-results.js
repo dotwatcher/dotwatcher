@@ -1,48 +1,67 @@
 // HOC for fetching results from data.dotwatcher.cc (datasette)
 
-import React from 'react';
-import fetch from 'isomorphic-fetch';
-import formatter from './formatter';
-import apiUrl from './../utils/api-url';
+import React from "react";
+import fetch from "isomorphic-fetch";
+import formatter from "./formatter";
+import apiUrl from "./../utils/api-url";
 
 export const WithResults = Page => {
-	const WithResults = props => <Page {...props} />
+	const WithResults = props => <Page {...props} />;
 
-	WithResults.getInitialProps = async (ctx) => {
-
-		let { year, race, focus, activeClass, activeCategory, activeLocation } = ctx.query
+	WithResults.getInitialProps = async ctx => {
+		let {
+			year,
+			race,
+			focus,
+			activeClass,
+			activeCategory,
+			activeLocation
+		} = ctx.query;
 
 		if (year && race) {
-			const allResultsResponse = await fetch(apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req));
+			const allResultsResponse = await fetch(
+				apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req)
+			);
 			const { results } = await allResultsResponse.json();
-			const formattedResults = formatter(results)
-			const racerClasses = []
-			const racerCategories = ['Both']
-			const finishlocations = []
-			const notes = []
+			const formattedResults = formatter(results);
+			const racerClasses = [];
+			const racerCategories = ["Both"];
+			const finishlocations = [];
+			const notes = [];
 
 			formattedResults.forEach(result => {
-				if (racerClasses.filter(racerClass => racerClass === result.class).length < 1) {
-					racerClasses.push(result.class)
+				if (
+					racerClasses.filter(racerClass => racerClass === result.class)
+						.length < 1
+				) {
+					racerClasses.push(result.class);
 				}
-				if (racerCategories.filter(racerCategory => racerCategory === result.category).length < 1) {
-					racerCategories.push(result.category)
+				if (
+					racerCategories.filter(
+						racerCategory => racerCategory === result.category
+					).length < 1
+				) {
+					racerCategories.push(result.category);
 				}
-				if (finishlocations.filter(finishlocation => finishlocation === result.finishlocation).length < 1) {
-					finishlocations.push(result.finishlocation)
+				if (
+					finishlocations.filter(
+						finishlocation => finishlocation === result.finishlocation
+					).length < 1
+				) {
+					finishlocations.push(result.finishlocation);
 				}
-				if (result.notes !== '') {
-					notes.push(result.notes)
+				if (result.notes !== "") {
+					notes.push(result.notes);
 				}
-			})
+			});
 
-			activeClass = activeClass || racerClasses[0]
-			activeCategory = activeCategory || racerCategories[0]
-			activeLocation = activeLocation || finishlocations[0]
+			activeClass = activeClass || racerClasses[0];
+			activeCategory = activeCategory || racerCategories[0];
+			activeLocation = activeLocation || finishlocations[0];
 
-			const hasNotes = notes.length > 0
-			const name = results[0].racename
-			const slug = race
+			const hasNotes = notes.length > 0;
+			const name = results[0].racename;
+			const slug = race;
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),

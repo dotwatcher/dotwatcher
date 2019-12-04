@@ -61,3 +61,4 @@ typings/
 now-secrets.json
 
 .vscode
+.history

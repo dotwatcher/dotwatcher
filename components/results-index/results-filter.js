@@ -1,152 +1,194 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Autosuggest from 'react-autosuggest';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Autosuggest from "react-autosuggest";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import Router, { withRouter } from "next/router";
 
-const Clear = styled.button`${tachyons}`;
+const Clear = styled.button`
+	${tachyons}
+`;
 
 const theme = {
-  container: {
-    display: 'inline-block',
-    position: 'relative',
-    margin: '0 1rem 1rem' 
-  },
-  input: {
-    width: 300,
-    padding: '.5rem .75rem',
-    fontSize: '1.25rem',
-    border: '.125rem solid #1b1919',
-  },
-  inputFocused: {
-    outline: 'none'
-  },
-  inputOpen: {
-  },
-  suggestionsContainer: {
-    display: 'none'
-  },
-  suggestionsContainerOpen: {
-    display: 'block',
-    position: 'absolute',
-    top: 40,
-    width: 300,
-    border: '.125rem solid #1b1919',
-    backgroundColor: '#fff',
-    fontSize: '1.25rem',
-    zIndex: 2
-  },
-  suggestionsList: {
-    margin: 0,
-    padding: 0,
-    listStyleType: 'none',
-  },
-  suggestion: {
-    cursor: 'pointer',
-    padding: '.5rem .75rem',
-  },
-  suggestionHighlighted: {
-    backgroundColor: '#fbf1a9'
-  }
+	container: {
+		display: "inline-block",
+		position: "relative",
+		margin: "0 1rem 1rem"
+	},
+	input: {
+		width: 300,
+		padding: ".5rem .75rem",
+		fontSize: "1.25rem",
+		border: ".125rem solid #1b1919"
+	},
+	inputFocused: {
+		outline: "none"
+	},
+	inputOpen: {},
+	suggestionsContainer: {
+		display: "none"
+	},
+	suggestionsContainerOpen: {
+		display: "block",
+		position: "absolute",
+		top: 40,
+		width: 300,
+		border: ".125rem solid #1b1919",
+		backgroundColor: "#fff",
+		fontSize: "1.25rem",
+		zIndex: 2
+	},
+	suggestionsList: {
+		margin: 0,
+		padding: 0,
+		listStyleType: "none"
+	},
+	suggestion: {
+		cursor: "pointer",
+		padding: ".5rem .75rem"
+	},
+	suggestionHighlighted: {
+		backgroundColor: "#fbf1a9"
+	}
 };
 
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.name;
+	return suggestion.name;
 }
 
 function renderSuggestion(suggestion) {
-  return (
-    <span>{suggestion.name}</span>
-  );
+	return <span>{suggestion.name}</span>;
 }
-
 
 class Filter extends Component {
-  constructor() {
-    super();
+	constructor() {
+		super();
 
-    this.state = {
-      value: '',
-      suggestions: []
-    };
-  }
+		this.state = {
+			value: "",
+			suggestions: []
+		};
 
-  onChange = (event, { newValue, method }) => {
-    this.setState({
-      value: newValue
-    });
-  };
+		this.inputRef = null;
 
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: this.getSuggestions(value)
-    });
-  };
+		this.setRef = this.setRef.bind(this);
+	}
 
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
-  };
+	componentDidMount() {
+		const { query } = this.props.router;
 
-  onSuggestionSelected = (event, opts) => {
-    this.props.setFilteredRace(opts.suggestion.name)
-  };
+		if (!query.search || !this.inputRef) return;
 
-  getSuggestions = value => {
-    const escapedValue = escapeRegexCharacters(value.trim());
+		this.onChange({}, { newValue: query.search }, true);
+	}
 
-    if (escapedValue === '') {
-      return [];
-    }
+	setRef(e) {
+		this.inputRef = e;
+	}
 
-    const regex = new RegExp(escapedValue, 'i');
+	onChange = async (event, { newValue, method }, fromMount = false) => {
+		await this.setState({
+			value: newValue
+		});
 
-    return this.props.races.filter(event => regex.test(event.name));
-  }
-  
-  clear = () => {
-    this.props.setFilteredRace('')
-    this.setState({
-      value: ''
-    });
-  }
+		// If from ComponentDidMount, ignore url update otherwise infinite loop on load
+		if (!fromMount) {
+			Router.push({
+				pathname: "/results",
+				query: { search: newValue }
+			});
+		}
 
-  render() {
-    const { value, suggestions } = this.state;
-    const inputProps = {
-      placeholder: "Find a race",
-      value,
-      onChange: this.onChange
-    };
+		this.props.handleSearchUpdate(newValue);
+	};
 
-    return (
-      <React.Fragment>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-          onSuggestionSelected={this.onSuggestionSelected}
-          highlightFirstSuggestion={true}
-          theme={theme} />
-        <Clear input_reset bg_light_gray hover_bg_lightest_blue f5 tracked bn ttu ph3 pv2 lh_solid dib onClick={this.clear}>Clear</Clear>
-      </React.Fragment>
-    );
-  }
+	onSuggestionsFetchRequested = ({ value }) => {
+		this.setState({
+			suggestions: this.getSuggestions(value)
+		});
+	};
+
+	onSuggestionsClearRequested = () => {
+		this.setState({
+			suggestions: []
+		});
+	};
+
+	onSuggestionSelected = (event, opts) => {
+		this.props.setFilteredRace(opts.suggestion.name);
+	};
+
+	getSuggestions = value => {
+		const escapedValue = escapeRegexCharacters(value.trim());
+
+		if (escapedValue === "") {
+			return [];
+		}
+
+		const regex = new RegExp(escapedValue, "i");
+
+		return this.props.races.filter(event => regex.test(event.name));
+	};
+
+	clear = () => {
+		this.props.setFilteredRace("");
+		this.onChange({}, { newValue: "" });
+		this.setState({
+			value: ""
+		});
+	};
+
+	render() {
+		const { value, suggestions } = this.state;
+		const inputProps = {
+			placeholder: "Find a race or rider",
+			value,
+			onChange: this.onChange
+		};
+
+		return (
+			<React.Fragment>
+				<Autosuggest
+					suggestions={suggestions}
+					onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+					onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+					getSuggestionValue={getSuggestionValue}
+					renderSuggestion={renderSuggestion}
+					inputProps={inputProps}
+					onSuggestionSelected={this.onSuggestionSelected}
+					highlightFirstSuggestion={true}
+					theme={theme}
+					ref={this.setRef}
+				/>
+				<Clear
+					input_reset
+					bg_light_gray
+					hover_bg_lightest_blue
+					f5
+					tracked
+					bn
+					ttu
+					ph3
+					pv2
+					lh_solid
+					dib
+					onClick={this.clear}
+				>
+					Clear
+				</Clear>
+			</React.Fragment>
+		);
+	}
 }
 
-export default Filter
+export default withRouter(Filter);
 
 Filter.propTypes = {
-  races: PropTypes.array,
-  setFilteredRace: PropTypes.func
+	races: PropTypes.array,
+	setFilteredRace: PropTypes.func
 };
-
