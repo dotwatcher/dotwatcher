@@ -62,7 +62,7 @@ class App extends Component {
 					/>
 				</Head>
 				<Header title="dotwatcher.cc" />
-				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
+				<Div mt3 mt4_l pl4 pr4 fl w_100 w_75_l>
 					<Div pb5>
 						{currentRaces.length > 0 ? (
 							<Heading fl w_100 mb4 ph3>
