@@ -4,6 +4,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import Link from "next/link";
 
 import Header from "../components/header";
 import Page from "../components/shared/page";
@@ -15,10 +16,16 @@ import { withRaces } from "../data/with-races";
 const Heading = styled.header`
 	${tachyons}
 `;
+
 const H1 = styled.h1`
 	${tachyons}
 `;
+
 const Div = styled.div`
+	${tachyons}
+`;
+
+const A = styled.a`
 	${tachyons}
 `;
 
@@ -62,6 +69,15 @@ class App extends Component {
 					/>
 				</Head>
 				<Header title="dotwatcher.cc" />
+
+				<Heading mt3 mt4_l pl4 pr4 fl w_100 w_75_l>
+					<Link>
+						<A href={`/results`} passHref ph3 near_black hover_blue pointer>
+							← Past Results
+						</A>
+					</Link>
+				</Heading>
+
 				<Div mt3 mt4_l pl4 pr4 fl w_100 w_75_l>
 					<Div pb5>
 						{currentRaces.length > 0 ? (
