@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -26,6 +26,10 @@ const Div = styled.div`
 	${tachyons}
 `;
 const A = styled.a`
+	${tachyons}
+`;
+
+const Description = styled.p`
 	${tachyons}
 `;
 
@@ -144,6 +148,13 @@ class App extends Component {
 								<H1 f3 f1_l fw6 lh_title mb0>
 									{this.props.name} {this.props.year} results
 								</H1>
+								<Description measure_wide f4 lh_copy>
+									{
+										this.props.description.split('\n').map((item, key) => {
+											return <Fragment key={key}>{item}<br /></Fragment>
+										})
+									}
+								</Description>
 							</Heading>
 							<ResultsTable
 								type="race"
