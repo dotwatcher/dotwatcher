@@ -61,12 +61,14 @@ export const WithResults = Page => {
 
 			const hasNotes = notes.length > 0;
 			const name = results[0].racename;
+			const description = results[0].description;
 			const slug = race;
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
 				race,
 				name,
+				description,
 				slug,
 				year,
 				results: formattedResults,
