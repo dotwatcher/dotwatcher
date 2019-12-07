@@ -80,8 +80,8 @@ const daysAndEvents = (events = [], currentDate) => {
 	});
 };
 
-const Layout = ({ events = [], ...props }) => {
-	const _events = daysAndEvents(events, Date.now());
+const Layout = ({ events = [], currentDate, ...props }) => {
+	const _events = daysAndEvents(events, currentDate);
 
 	return (
 		<CalendarLayout>

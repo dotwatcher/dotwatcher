@@ -7,10 +7,13 @@ const CalendarWrapper = styled.section`
 	padding: 0 var(--spacing-large);
 `;
 
-export default ({ events = [], currentDate }) => {
-	const handleNextMonthClick = () => {};
-	const handlePrevMonthClick = () => {};
-
+export default ({
+	events = [],
+	currentDate,
+	setcurrentDate,
+	handleNextMonthClick,
+	handlePrevMonthClick
+}) => {
 	return (
 		<CalendarWrapper>
 			<MonthNav
@@ -20,7 +23,7 @@ export default ({ events = [], currentDate }) => {
 			/>
 			<WeekHeader />
 
-			<Layout events={events} />
+			<Layout events={events} currentDate={currentDate} />
 		</CalendarWrapper>
 	);
 };

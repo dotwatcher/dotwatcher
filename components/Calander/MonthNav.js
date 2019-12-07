@@ -1,6 +1,4 @@
-import compose from "recompose/compose";
 import format from "date-fns/format";
-import differenceInCalendarMonths from "date-fns/difference_in_calendar_months";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
@@ -10,6 +8,9 @@ const Wrapper = styled.div`
 	padding-top: var(---spacing-large);
 	border-bottom: 1px solid black;
 	background-color: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	@media screen and (max-width: 32em) {
 		margin-bottom: var(---spacing-medium);
@@ -23,13 +24,14 @@ const Wrapper = styled.div`
 `;
 
 const Placeholder = styled.div`
-	display: inline-block;
-	width: 30px;
 	min-height: 100%;
 	text-align: center;
+	margin: 0 var(--spacing-medium);
 `;
 
-const CalenderChange = styled.div`
+const CalenderChange = styled.button`
+	${tachyons}
+	text-decoration: underline;
 	appearance: none;
 	-webkit-appearance: none;
 	border: none;
@@ -57,16 +59,15 @@ const MonthNav = ({
 	currentDate,
 	today
 }) => {
-	const distanceBetweenMonths = differenceInCalendarMonths(currentDate, today);
 	const month = format(currentDate, "MMM");
 	const year = format(currentDate, "YYYY");
 
 	return (
 		<Wrapper>
 			<Placeholder>
-				{distanceBetweenMonths > -3 && (
-					<CalenderChange onClick={handlePrevMonthClick}>prev</CalenderChange>
-				)}
+				<CalenderChange near_black hover_blue onClick={handlePrevMonthClick}>
+					Prev
+				</CalenderChange>
 			</Placeholder>
 
 			<YearWrapper>
@@ -77,9 +78,9 @@ const MonthNav = ({
 			</YearWrapper>
 
 			<Placeholder>
-				{distanceBetweenMonths < 3 && (
-					<CalenderChange onClick={handleNextMonthClick}>next</CalenderChange>
-				)}
+				<CalenderChange near_black hover_blue onClick={handleNextMonthClick}>
+					Next
+				</CalenderChange>
 			</Placeholder>
 		</Wrapper>
 	);
