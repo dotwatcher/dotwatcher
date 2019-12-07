@@ -15,18 +15,16 @@ import groupBy from "lodash/groupBy";
 
 import styled from "styled-components";
 
-import DateCell, { Cell } from "./DateCell";
-import moment from "moment";
+import DateCell from "./DateCell";
 
 const CalendarLayout = styled.article`
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 	grid-auto-rows: 1fr;
+	border: 1px solid black;
 
-	${Cell} {
-		border-bottom: 1px solid black;
-		border-left: 1px solid black;
-		padding: var(--spacing-small);
+	@media screen and (min-width: 48em) {
+		grid-template-columns: repeat(7, 1fr);
 	}
 `;
 
@@ -85,8 +83,8 @@ const Layout = ({ events = [], currentDate, ...props }) => {
 
 	return (
 		<CalendarLayout>
-			{_events.map(d => (
-				<DateCell {...d} />
+			{_events.map((d, i) => (
+				<DateCell {...d} index={i} />
 			))}
 		</CalendarLayout>
 	);

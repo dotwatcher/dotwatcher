@@ -9,7 +9,9 @@ const WeekHeader = styled.header`
 	grid-auto-rows: 100px;
 	align-items: center;
 
-	border-bottom: 1px solid black;
+	@media screen and (max-width: 48em) {
+		display: none;
+	}
 `;
 
 const weekDayNames = () => {
@@ -24,7 +26,7 @@ const weekDayNames = () => {
 export default () => (
 	<WeekHeader>
 		{weekDayNames().map(d => (
-			<span class="t-h4 week-header__day">{d}</span>
+			<span>{d}</span>
 		))}
 	</WeekHeader>
 );

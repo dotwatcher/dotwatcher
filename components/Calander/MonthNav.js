@@ -12,13 +12,12 @@ const Wrapper = styled.div`
 	align-items: center;
 	justify-content: center;
 
-	@media screen and (max-width: 32em) {
+	@media screen and (max-width: 48em) {
+		margin-top: var(---spacing-medium);
 		margin-bottom: var(---spacing-medium);
 		padding-bottom: var(---spacing-small);
 		padding-top: var(---spacing-medium);
 		justify-content: space-between;
-		position: sticky;
-		top: 0;
 		border-bottom: none;
 	}
 `;

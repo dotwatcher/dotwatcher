@@ -1,9 +1,4 @@
 import { useState } from "react";
-import compose from "recompose/compose";
-import withProps from "recompose/withProps";
-import withStateHandlers from "recompose/withStateHandlers";
-import format from "date-fns/format";
-import { updateQueryStringfromFilters } from "../../utils/calander";
 import Link from "next/link";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
@@ -26,8 +21,13 @@ const EventDetails = styled.div`
 	background: white;
 	border: 1px solid grey;
 	padding: 10px;
-	width: 220px;
 	box-shadow: 0px 0px 5px 0px black;
+
+	width: 100%;
+
+	@media screen and (min-width: 48em) {
+		width: 220px;
+	}
 `;
 
 const Event = ({ startFormatted, endFormatted, toggleModal, data }) => {
@@ -59,39 +59,32 @@ const Event = ({ startFormatted, endFormatted, toggleModal, data }) => {
 			onClick={toggleModal}
 			onMouseEnter={() => setshowDetails(true)}
 			onMouseLeave={() => setshowDetails(false)}
+			onTouchStart={() => setshowDetails(true)}
 		>
 			<Link passHref {...LinkProps}>
-				<A dib f6 f5_l mt2 mb0 no_underline>
-					<p class={`t-body event-cell__title ${hoverClass}`}>
-						{title} - {location}
-					</p>
+				<A dib f5 f5_l mt2-ns mb0 no_underline>
+					{title} - {location}
 				</A>
 			</Link>
 
 			<EventDetails visible={showDetails}>
 				<Link passHref {...LinkProps}>
 					<A dib f6 f5_l mt2 mb0 no_underline>
-						<p class={`t-body event-cell__title ${hoverClass}`}>
+						<p>
 							{title} - {location}
 						</p>
 					</A>
 				</Link>
-				<p class={`t-body t-em event-cell__times ${hoverClass}`}>
+				<p>
 					{moment(raceDate).format("Do MMM")} -{" "}
 					{moment(raceEndDate).format("Do MMM")}
 				</p>
 
-				<p class={`t-body t-em event-cell__times ${hoverClass}`}>
-					Location: {location}
-				</p>
+				<p>Location: {location}</p>
 
-				<p class={`t-body t-em event-cell__times ${hoverClass}`}>
-					Terrain: {terrain}
-				</p>
+				<p>Terrain: {terrain}</p>
 
-				<p class={`t-body t-em event-cell__times ${hoverClass}`}>
-					Distance: {length}
-				</p>
+				<p>Distance: {length}</p>
 			</EventDetails>
 		</EventCell>
 	);
