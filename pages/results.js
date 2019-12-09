@@ -148,13 +148,18 @@ class App extends Component {
 								<H1 f3 f1_l fw6 lh_title mb0>
 									{this.props.name} {this.props.year} results
 								</H1>
-								<Description measure_wide f4 lh_copy>
-									{
-										this.props.description.split('\n').map((item, key) => {
-											return <Fragment key={key}>{item}<br /></Fragment>
-										})
-									}
-								</Description>
+								{this.props.description && (
+									<Description measure_wide f4 lh_copy>
+										{this.props.description.split("\n").map((item, key) => {
+											return (
+												<Fragment key={key}>
+													{item}
+													<br />
+												</Fragment>
+											);
+										})}
+									</Description>
+								)}
 							</Heading>
 							<ResultsTable
 								type="race"
