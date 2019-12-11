@@ -12,6 +12,7 @@ import Calendar from "../components/Calander";
 import { withRaces } from "../data/with-races";
 
 // Colors taken from index.css
+// Un shuffled array
 let eventColors = [
 	"#e7040f",
 	"#fd151b",
@@ -20,7 +21,7 @@ let eventColors = [
 	"#ffb30f",
 	"#ffd700",
 	"#fbf1a9",
-	"#5e2ca5",
+	// "#5e2ca5",
 	"#a463f2",
 	"#d5008f",
 	"#ff41b4",
@@ -29,7 +30,7 @@ let eventColors = [
 	"#137752",
 	"#19a974",
 	"#9eebcf",
-	"#001b44",
+	// "#001b44",
 	"#004a7f",
 	"#1a73b2",
 	"#7faccc"

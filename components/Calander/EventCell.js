@@ -9,6 +9,10 @@ const A = styled.a`
 	${tachyons}
 `;
 
+const P = styled.p`
+	${tachyons}
+`;
+
 const EventCell = styled.div`
 	position: relative;
 	background-color: ${({ eventColor }) => eventColor};
@@ -23,14 +27,14 @@ const EventCell = styled.div`
 
 const EventDetails = styled.div`
 	visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
-	transition: visibility ease-in-out 0.3s;
+	background-color: white;
 	position: absolute;
 	top: -30px;
-	left: -15px;
+	left: -20px;
 	background: white;
-	border: 1px solid grey;
+	border: 4px solid ${({ eventColor }) => eventColor};
 	padding: 10px;
-	box-shadow: 0px 0px 5px 0px black;
+	z-index: 1;
 
 	width: 100%;
 
@@ -83,7 +87,7 @@ const Event = ({
 				</A>
 			</Link>
 
-			<EventDetails visible={showDetails}>
+			<EventDetails visible={showDetails} eventColor={eventColor}>
 				<Link passHref {...LinkProps}>
 					<A
 						black
@@ -92,13 +96,13 @@ const Event = ({
 						dib
 						f6
 						f5_l
-						mt2
+						mt0
 						mb0
 						no_underline
 					>
-						<p>
+						<P>
 							{title} - {location}
-						</p>
+						</P>
 					</A>
 				</Link>
 				<p>
