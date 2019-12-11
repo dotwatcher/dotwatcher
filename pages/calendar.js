@@ -12,7 +12,7 @@ import Calendar from "../components/Calander";
 import { withRaces } from "../data/with-races";
 
 // Colors taken from index.css
-const eventColors = [
+let eventColors = [
 	"#e7040f",
 	"#fd151b",
 	"#ff725c",
@@ -47,6 +47,16 @@ const CalanderPage = ({ races = [] }) => {
 		const newDate = subMonths(currentDate, 1);
 		setcurrentDate(newDate);
 	};
+
+	// Duplicate the number of colors if the lenght is greater then the number of races
+	if (eventColors.length < races.length) {
+		let multiplier = races.length / eventColors.length;
+		multiplier = Math.ceil(multiplier);
+
+		for (let i = 1; i < multiplier; i++) {
+			eventColors = eventColors.concat(eventColors.map(x => x));
+		}
+	}
 
 	const coloredRaces = races.map((race, i) => ({
 		...race,
