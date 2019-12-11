@@ -23,6 +23,9 @@ export const Cell = styled.div`
 	min-height: 150px;
 	border-bottom: 1px solid var(--black);
 	padding: var(--spacing-small);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	${props => !props.isCurrentMonth && "background-color: var(--light-gray);"}
 	${props =>
@@ -36,11 +39,14 @@ export const Cell = styled.div`
 			border-bottom: none;
 		}
 	}
+`;
 
-	@media screen and (max-width: 48em) {
-		display: grid;
-		grid-template-columns: 20% 80%;
-	}
+const StyledDate = styled(Div)`
+	order: 5;
+`;
+
+const StyledEvents = styled(Div)`
+	grid-area: event;
 `;
 
 const DateCell = ({ isCurrentMonth, events = [], date = "", index }) => {
@@ -59,16 +65,16 @@ const DateCell = ({ isCurrentMonth, events = [], date = "", index }) => {
 			noEvents={noEvents}
 			index={index}
 		>
-			<Div mb2>
+			<StyledDate mb2>
 				<DayOfWeek>{dayOfWeek} &nbsp;</DayOfWeek>
 				<Span>{dateNo}</Span>
-			</Div>
+			</StyledDate>
 
-			<div>
+			<StyledEvents>
 				{events.map(e => (
-					<EventCell {...e} />
+					<EventCell calendarDate={date} {...e} />
 				))}
-			</div>
+			</StyledEvents>
 		</Cell>
 	);
 };

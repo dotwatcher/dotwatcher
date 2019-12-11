@@ -1,5 +1,4 @@
-import compose from "recompose/compose";
-import mapProps from "recompose/mapProps";
+import moment from "moment";
 import startOfMonth from "date-fns/start_of_month";
 import endOfMonth from "date-fns/end_of_month";
 import startOfWeek from "date-fns/start_of_week";
@@ -8,6 +7,7 @@ import eachDay from "date-fns/each_day";
 import setDay from "date-fns/set_day";
 import startOfDay from "date-fns/start_of_day";
 import isSameMonth from "date-fns/is_same_month";
+import isWithinRange from "date-fns/is_within_range";
 import isToday from "date-fns/is_today";
 import { DateTime } from "luxon";
 import sortBy from "lodash/sortBy";
@@ -53,9 +53,7 @@ const removeTimeZoneFromDate = date => {
 	return DateTime.local(
 		parsedDate.year,
 		parsedDate.month,
-		parsedDate.day,
-		parsedDate.hour,
-		parsedDate.minute
+		parsedDate.day
 	).toJSDate();
 };
 
@@ -68,12 +66,24 @@ const daysAndEvents = (events = [], currentDate) => {
 		end: removeTimeZoneFromDate(e.data.raceEndDate)
 	}));
 
-	const datedEvents = groupBy(tzFreeEvents, e => startOfDay(e.data.raceDate));
+	// Remove any time of day so inRange is time unaware
+	const formatday = date => date.toDateString();
 
 	return monthDays.map(d => {
+		const dayEvents = tzFreeEvents.filter(event => {
+			return isWithinRange(
+				formatday(d.date),
+				formatday(event.start),
+				formatday(event.end)
+			);
+		});
+
+		// Order events of current day in start date order
+		const sortedEvents = dayEvents.slice().sort((a, b) => b.start - a.start);
+
 		return {
 			...d,
-			events: sortBy(datedEvents[d.date.toString()], ["start"]) || []
+			events: sortedEvents
 		};
 	});
 };

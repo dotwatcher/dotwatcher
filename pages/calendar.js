@@ -11,6 +11,30 @@ import Footer from "../components/footer";
 import Calendar from "../components/Calander";
 import { withRaces } from "../data/with-races";
 
+// Colors taken from index.css
+const eventColors = [
+	"#e7040f",
+	"#fd151b",
+	"#ff725c",
+	"#ff6300",
+	"#ffb30f",
+	"#ffd700",
+	"#fbf1a9",
+	"#5e2ca5",
+	"#a463f2",
+	"#d5008f",
+	"#ff41b4",
+	"#ff80cc",
+	"#ffa3d7",
+	"#137752",
+	"#19a974",
+	"#9eebcf",
+	"#001b44",
+	"#004a7f",
+	"#1a73b2",
+	"#7faccc"
+];
+
 const CalanderPage = ({ races = [] }) => {
 	const [currentDate, setcurrentDate] = useState(Date.now());
 
@@ -23,6 +47,11 @@ const CalanderPage = ({ races = [] }) => {
 		const newDate = subMonths(currentDate, 1);
 		setcurrentDate(newDate);
 	};
+
+	const coloredRaces = races.map((race, i) => ({
+		...race,
+		eventColor: eventColors[i]
+	}));
 
 	return (
 		<Page>
@@ -42,7 +71,7 @@ const CalanderPage = ({ races = [] }) => {
 			<Header title="dotwatcher.cc" />
 
 			<Calendar
-				events={races}
+				events={coloredRaces}
 				currentDate={currentDate}
 				setcurrentDate={setcurrentDate}
 				handleNextMonthClick={handleNextMonthClick}

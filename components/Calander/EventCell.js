@@ -3,6 +3,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import moment from "moment";
+import isSameDay from "date-fns/is_same_day";
 
 const A = styled.a`
 	${tachyons}
@@ -10,6 +11,13 @@ const A = styled.a`
 
 const EventCell = styled.div`
 	position: relative;
+	background-color: ${({ eventColor }) => eventColor};
+	padding: 5px;
+	border-radius: 4px;
+
+	& + & {
+		margin-top: var(--spacing-small);
+	}
 `;
 
 const EventDetails = styled.div`
@@ -30,9 +38,15 @@ const EventDetails = styled.div`
 	}
 `;
 
-const Event = ({ startFormatted, endFormatted, toggleModal, data }) => {
+const Event = ({
+	startFormatted,
+	endFormatted,
+	toggleModal,
+	data,
+	eventColor,
+	calendarDate
+}) => {
 	const [showDetails, setshowDetails] = useState(false);
-	const hoverClass = "";
 
 	const {
 		title,
@@ -56,6 +70,7 @@ const Event = ({ startFormatted, endFormatted, toggleModal, data }) => {
 
 	return (
 		<EventCell
+			eventColor={eventColor}
 			onClick={toggleModal}
 			onMouseEnter={() => setshowDetails(true)}
 			onMouseLeave={() => setshowDetails(false)}
@@ -63,7 +78,7 @@ const Event = ({ startFormatted, endFormatted, toggleModal, data }) => {
 		>
 			<Link passHref {...LinkProps}>
 				<A dib f5 f5_l mt2-ns mb0 no_underline>
-					{title} - {location}
+					{isSameDay(raceDate, calendarDate) && title}
 				</A>
 			</Link>
 
