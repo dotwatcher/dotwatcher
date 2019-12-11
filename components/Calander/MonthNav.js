@@ -4,8 +4,8 @@ import tachyons from "styled-components-tachyons";
 
 const Wrapper = styled.div`
 	text-align: center;
-	padding-bottom: var(---spacing-large);
-	padding-top: var(---spacing-large);
+	padding-bottom: var(--spacing-large);
+	padding-top: var(--spacing-large);
 	border-bottom: 1px solid black;
 	background-color: transparent;
 	display: flex;
@@ -13,10 +13,10 @@ const Wrapper = styled.div`
 	justify-content: center;
 
 	@media screen and (max-width: 48em) {
-		margin-top: var(---spacing-medium);
-		margin-bottom: var(---spacing-medium);
-		padding-bottom: var(---spacing-small);
-		padding-top: var(---spacing-medium);
+		margin-top: var(--spacing-medium);
+		margin-bottom: var(--spacing-medium);
+		padding-bottom: var(--spacing-small);
+		padding-top: var(--spacing-medium);
 		justify-content: space-between;
 		border-bottom: none;
 	}
