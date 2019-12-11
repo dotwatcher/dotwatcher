@@ -14,6 +14,7 @@ const EventCell = styled.div`
 	background-color: ${({ eventColor }) => eventColor};
 	padding: 5px;
 	border-radius: 4px;
+	min-height: 29px;
 
 	& + & {
 		margin-top: var(--spacing-small);
@@ -77,14 +78,24 @@ const Event = ({
 			onTouchStart={() => setshowDetails(true)}
 		>
 			<Link passHref {...LinkProps}>
-				<A dib f5 f5_l mt2-ns mb0 no_underline>
+				<A black hover_near_black underline_hover dib f6 f5_l no_underline>
 					{isSameDay(raceDate, calendarDate) && title}
 				</A>
 			</Link>
 
 			<EventDetails visible={showDetails}>
 				<Link passHref {...LinkProps}>
-					<A dib f6 f5_l mt2 mb0 no_underline>
+					<A
+						black
+						hover_near_black
+						underline_hover
+						dib
+						f6
+						f5_l
+						mt2
+						mb0
+						no_underline
+					>
 						<p>
 							{title} - {location}
 						</p>
