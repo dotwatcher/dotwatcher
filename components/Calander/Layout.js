@@ -79,7 +79,7 @@ const daysAndEvents = (events = [], currentDate) => {
 		});
 
 		// Order events of current day in start date order
-		const sortedEvents = dayEvents.slice().sort((a, b) => b.start - a.start);
+		const sortedEvents = dayEvents.slice().sort((a, b) => b.end - a.end);
 
 		return {
 			...d,
