@@ -4,6 +4,11 @@ import tachyons from "styled-components-tachyons";
 import isWithinRange from "date-fns/is_within_range";
 import startOfMonth from "date-fns/start_of_month";
 import endOfMonth from "date-fns/end_of_month";
+import getMonth from "date-fns/get_month";
+
+const Button = styled.button`
+	${tachyons}
+`;
 
 const Wrapper = styled.div`
 	display: grid;
@@ -61,6 +66,7 @@ const MonthNav = styled.div`
 	justify-content: center;
 
 	@media screen and (max-width: 48em) {
+		grid-column: 4 / 6;
 		justify-content: space-between;
 	}
 `;
@@ -73,9 +79,7 @@ const Today = styled.div`
 	}
 `;
 
-const TodayButton = styled.button`
-	${tachyons}
-`;
+const DateFilter = styled.div``;
 
 export default ({
 	handleNextMonthClick,
@@ -86,6 +90,25 @@ export default ({
 }) => {
 	const month = format(currentDate, "MMM");
 	const year = format(currentDate, "YYYY");
+	const intYear = parseInt(year);
+	const intMonth = getMonth(currentDate);
+
+	const [filteredDate, setfilteredDate] = useState({
+		month: intMonth,
+		year: intYear
+	});
+
+	let years = [];
+	for (let i = intYear; i > intYear - 5; i--) {
+		years.push(i);
+	}
+
+	for (let i = intYear; i < intYear + 5; i++) {
+		years.push(i);
+	}
+
+	years = [...new Set(years)];
+	years.sort((a, b) => a - b);
 
 	return (
 		<Wrapper>
@@ -95,7 +118,7 @@ export default ({
 					startOfMonth(currentDate),
 					endOfMonth(currentDate)
 				) && (
-					<TodayButton
+					<Button
 						f4
 						bg_blue
 						ph3
@@ -114,7 +137,7 @@ export default ({
 						onClick={() => setcurrentDate(Date.now())}
 					>
 						Today
-					</TodayButton>
+					</Button>
 				)}
 			</Today>
 			<MonthNav>
@@ -137,6 +160,25 @@ export default ({
 					</CalenderChange>
 				</Placeholder>
 			</MonthNav>
+
+			<DateFilter>
+				<select>
+					{years.map(y => (
+						<option value={y} selected={y === intYear}>
+							{y}
+						</option>
+					))}
+				</select>
+				<select>
+					{[...Array(12).keys()].map(m => (
+						<option value={m + 1} selected={m + 1 === intMonth}>
+							{m + 1}
+						</option>
+					))}
+				</select>
+
+				<Button>Update</Button>
+			</DateFilter>
 		</Wrapper>
 	);
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { compose } from "recompose";
 import PropTypes from "prop-types";
+import { withRouter } from "next/router";
 import addMonths from "date-fns/add_months";
 import subMonths from "date-fns/sub_months";
 
@@ -36,8 +37,11 @@ let eventColors = [
 	"#7faccc"
 ];
 
-const CalanderPage = ({ races = [] }) => {
-	const [currentDate, setcurrentDate] = useState(Date.now());
+const CalanderPage = ({ races = [], router }) => {
+	const { year, month } = router.query;
+	// new Date month arguement is index of month, similar to array index's, December === month 12 - 1 for index
+	const date = year && month ? new Date(year, month - 1) : Date.now();
+	const [currentDate, setcurrentDate] = useState(date);
 
 	const handleNextMonthClick = () => {
 		const newDate = addMonths(currentDate, 1);
@@ -97,6 +101,6 @@ CalanderPage.propTypes = {
 	races: PropTypes.array.isRequired
 };
 
-const enhance = compose(withRaces);
+const enhance = compose(withRaces, withRouter);
 
 export default enhance(CalanderPage);
