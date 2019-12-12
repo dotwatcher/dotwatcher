@@ -20,6 +20,7 @@ export default ({
 				handleNextMonthClick={handleNextMonthClick}
 				handlePrevMonthClick={handlePrevMonthClick}
 				currentDate={currentDate}
+				setcurrentDate={setcurrentDate}
 			/>
 			<WeekHeader />
 

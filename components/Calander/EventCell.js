@@ -32,7 +32,7 @@ const EventDetails = styled.div`
 	top: -30px;
 	left: -20px;
 	background: white;
-	border: 4px solid ${({ eventColor }) => eventColor};
+	border: 1px solid var(--gray);
 	padding: 10px;
 	z-index: 1;
 
@@ -41,6 +41,14 @@ const EventDetails = styled.div`
 	@media screen and (min-width: 48em) {
 		width: 220px;
 	}
+`;
+
+const EventColor = styled.span`
+	display: inline-block;
+	width: 100%;
+	height: 10px;
+	background-color: ${({ eventColor }) => eventColor};
+	border-radius: 10px;
 `;
 
 const Event = ({
@@ -88,6 +96,7 @@ const Event = ({
 			</Link>
 
 			<EventDetails visible={showDetails} eventColor={eventColor}>
+				<EventColor eventColor={eventColor} />
 				<Link passHref {...LinkProps}>
 					<A
 						black
