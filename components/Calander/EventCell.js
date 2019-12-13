@@ -109,8 +109,8 @@ const Event = ({
 						mb0
 						no_underline
 					>
-						<P>
-							{title} - {location}
+						<P mt2 mb0>
+							{title}
 						</P>
 					</A>
 				</Link>
