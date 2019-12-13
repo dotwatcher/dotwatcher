@@ -90,7 +90,7 @@ const Event = ({
 			onTouchStart={() => setshowDetails(true)}
 		>
 			<Link passHref {...LinkProps}>
-				<A black hover_near_black underline_hover dib f6 f5_l no_underline>
+				<A white hover_near_black underline_hover dib f6 f5_l no_underline>
 					{isSameDay(raceDate, calendarDate) && title}
 				</A>
 			</Link>
