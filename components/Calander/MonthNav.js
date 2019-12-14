@@ -7,6 +7,7 @@ import endOfMonth from "date-fns/end_of_month";
 import getMonth from "date-fns/get_month";
 import { useRef } from "react";
 import Router from "next/router";
+import mq from "../../utils/media-query";
 
 const Button = styled.button`
 	${tachyons}
@@ -64,7 +65,6 @@ const MonthTitle = styled.h2`
 
 const MonthNav = styled.div`
 	grid-area: nav;
-	/* grid-column: 6 / 8; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -77,19 +77,44 @@ const MonthNav = styled.div`
 
 const Today = styled.div`
 	grid-area: today;
-	/* grid-column: 1 / 2; */
 
 	button {
 		cursor: pointer;
 	}
 `;
 
+const StyledSelect = styled.select`
+	${tachyons}
+	border: 2px solid var(--black);
+	appearance: none;
+	background-color: transparent;
+	padding: var(--spacing-small);
+	min-width: 200px;
+	max-width: 200px;
+	border-radius: 0;
+
+	/* DropDown Chevron */
+	background-image: linear-gradient(45deg, transparent 50%, white 50%),
+		linear-gradient(135deg, white 50%, transparent 50%),
+		linear-gradient(to right, var(--light-blue), var(--light-blue));
+	background-position: calc(100% - 20px) calc(1em + 2px),
+		calc(100% - 15px) calc(1em + 2px), 100% 0;
+	background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+	background-repeat: no-repeat;
+
+	& + & {
+		${mq.smDown`
+			margin-top: var(--spacing-medium);
+		`}
+
+		${mq.smUp`
+			margin-left: var(--spacing-medium);
+		`}
+	}
+`;
+
 const DateFilter = styled.div`
 	margin-top: var(--spacing-medium);
-
-	select + select {
-		margin-left: var(--spacing-medium);
-	}
 `;
 
 const getYears = currentYear => {
@@ -210,20 +235,21 @@ const Nav = ({
 			</MonthNav>
 
 			<DateFilter>
-				<select onChange={handleChange} name="year" ref={yearRef}>
+				<StyledSelect onChange={handleChange} name="year" ref={yearRef}>
 					{years.map(y => (
 						<option key={y} value={y} selected={y === intYear}>
 							{y}
 						</option>
 					))}
-				</select>
-				<select onChange={handleChange} name="month" ref={monthRef}>
+				</StyledSelect>
+
+				<StyledSelect onChange={handleChange} name="month" ref={monthRef}>
 					{[...Array(12).keys()].map(m => (
 						<option key={m} value={m} selected={m === intMonth}>
 							{m + 1}
 						</option>
 					))}
-				</select>
+				</StyledSelect>
 			</DateFilter>
 		</Wrapper>
 	);
