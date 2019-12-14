@@ -125,6 +125,8 @@ const Nav = ({
 
 	const years = getYears(intYear);
 
+	const updateRoute = ({ month, year }) => {};
+
 	const handleChange = () => {
 		const { current: month } = monthRef;
 		const { current: year } = yearRef;
@@ -143,10 +145,22 @@ const Nav = ({
 	};
 
 	const handlePrevClick = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
 		handlePrevMonthClick();
 	};
 
 	const handleNextClick = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
 		handleNextMonthClick();
 	};
 
