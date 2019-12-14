@@ -120,8 +120,6 @@ const Nav = ({
 	const intYear = parseInt(year);
 	const intMonth = getMonth(currentDate);
 
-	console.log(currentDate);
-
 	const monthRef = useRef(null);
 	const yearRef = useRef(null);
 
@@ -134,9 +132,9 @@ const Nav = ({
 
 		setcurrentDate(date);
 
-		const href = `/calendar/${year.value}/${month.value}`;
-		const as = `/calendar/${year.value}/${month.value}`;
-		Router.replace(href, as, { shallow: true });
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
 	};
 
 	const handleTodayClick = () => {

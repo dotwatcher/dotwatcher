@@ -41,7 +41,7 @@ const CalanderPage = ({ races = [], router }) => {
 	const { year, month } = router.query;
 
 	// new Date month arguement is index of month, similar to array index's, December === month 12 - 1 for index
-	const date = year && month ? new Date(year, month) : Date.now();
+	const date = year && month ? new Date(year, month - 1) : Date.now();
 
 	const [currentDate, setcurrentDate] = useState(date);
 
