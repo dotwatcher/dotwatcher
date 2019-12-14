@@ -120,6 +120,8 @@ const Nav = ({
 	const intYear = parseInt(year);
 	const intMonth = getMonth(currentDate);
 
+	console.log(currentDate);
+
 	const monthRef = useRef(null);
 	const yearRef = useRef(null);
 
@@ -140,6 +142,14 @@ const Nav = ({
 	const handleTodayClick = () => {
 		Router.replace("/calendar", "/calendar", { shallow: true });
 		setcurrentDate(Date.now());
+	};
+
+	const handlePrevClick = () => {
+		handlePrevMonthClick();
+	};
+
+	const handleNextClick = () => {
+		handleNextMonthClick();
 	};
 
 	return (
@@ -168,7 +178,7 @@ const Nav = ({
 			</Today>
 			<MonthNav>
 				<Placeholder>
-					<CalenderChange near_black hover_blue onClick={handlePrevMonthClick}>
+					<CalenderChange near_black hover_blue onClick={handlePrevClick}>
 						Prev
 					</CalenderChange>
 				</Placeholder>
@@ -181,7 +191,7 @@ const Nav = ({
 				</YearWrapper>
 
 				<Placeholder>
-					<CalenderChange near_black hover_blue onClick={handleNextMonthClick}>
+					<CalenderChange near_black hover_blue onClick={handleNextClick}>
 						Next
 					</CalenderChange>
 				</Placeholder>
@@ -197,7 +207,7 @@ const Nav = ({
 				</select>
 				<select onChange={handleChange} name="month" ref={monthRef}>
 					{[...Array(12).keys()].map(m => (
-						<option key={m} value={m + 1} selected={m + 1 === intMonth}>
+						<option key={m} value={m} selected={m === intMonth}>
 							{m + 1}
 						</option>
 					))}
