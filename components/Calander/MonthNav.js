@@ -5,14 +5,17 @@ import isWithinRange from "date-fns/is_within_range";
 import startOfMonth from "date-fns/start_of_month";
 import endOfMonth from "date-fns/end_of_month";
 import getMonth from "date-fns/get_month";
+import { useRef } from "react";
+import Router from "next/router";
 
 const Button = styled.button`
 	${tachyons}
 `;
 
 const Wrapper = styled.div`
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 	text-align: center;
 	padding-bottom: var(--spacing-large);
 	padding-top: var(--spacing-large);
@@ -60,7 +63,8 @@ const MonthTitle = styled.h2`
 `;
 
 const MonthNav = styled.div`
-	grid-column: 6 / 8;
+	grid-area: nav;
+	/* grid-column: 6 / 8; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -72,16 +76,39 @@ const MonthNav = styled.div`
 `;
 
 const Today = styled.div`
-	grid-column: 1 / 2;
+	grid-area: today;
+	/* grid-column: 1 / 2; */
 
 	button {
 		cursor: pointer;
 	}
 `;
 
-const DateFilter = styled.div``;
+const DateFilter = styled.div`
+	margin-top: var(--spacing-medium);
 
-export default ({
+	select + select {
+		margin-left: var(--spacing-medium);
+	}
+`;
+
+const getYears = currentYear => {
+	let years = [];
+	for (let i = currentYear; i > currentYear - 5; i--) {
+		years.push(i);
+	}
+
+	for (let i = currentYear; i < currentYear + 5; i++) {
+		years.push(i);
+	}
+
+	years = [...new Set(years)];
+	years.sort((a, b) => a - b);
+
+	return years;
+};
+
+const Nav = ({
 	handleNextMonthClick,
 	handlePrevMonthClick,
 	currentDate,
@@ -93,52 +120,51 @@ export default ({
 	const intYear = parseInt(year);
 	const intMonth = getMonth(currentDate);
 
-	const [filteredDate, setfilteredDate] = useState({
-		month: intMonth,
-		year: intYear
-	});
+	const monthRef = useRef(null);
+	const yearRef = useRef(null);
 
-	let years = [];
-	for (let i = intYear; i > intYear - 5; i--) {
-		years.push(i);
-	}
+	const years = getYears(intYear);
 
-	for (let i = intYear; i < intYear + 5; i++) {
-		years.push(i);
-	}
+	const handleChange = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+		const date = new Date(year.value, month.value);
 
-	years = [...new Set(years)];
-	years.sort((a, b) => a - b);
+		setcurrentDate(date);
+
+		const href = `/calendar/${year.value}/${month.value}`;
+		const as = `/calendar/${year.value}/${month.value}`;
+		Router.replace(href, as, { shallow: true });
+	};
+
+	const handleTodayClick = () => {
+		Router.replace("/calendar", "/calendar", { shallow: true });
+		setcurrentDate(Date.now());
+	};
 
 	return (
 		<Wrapper>
 			<Today>
-				{!isWithinRange(
-					Date.now(),
-					startOfMonth(currentDate),
-					endOfMonth(currentDate)
-				) && (
-					<Button
-						f4
-						bg_blue
-						ph3
-						pv2
-						mb1
-						mt3
-						center
-						tc
-						white
-						tracked
-						ttl
-						small_caps
-						ba
-						bw1
-						b__blue
-						onClick={() => setcurrentDate(Date.now())}
-					>
-						Today
-					</Button>
-				)}
+				<Button
+					f4
+					bg_blue
+					ph3
+					pv2
+					mb2
+					mt0
+					center
+					tc
+					white
+					tracked
+					ttl
+					small_caps
+					ba
+					bw1
+					b__blue
+					onClick={handleTodayClick}
+				>
+					Today
+				</Button>
 			</Today>
 			<MonthNav>
 				<Placeholder>
@@ -162,23 +188,23 @@ export default ({
 			</MonthNav>
 
 			<DateFilter>
-				<select>
+				<select onChange={handleChange} name="year" ref={yearRef}>
 					{years.map(y => (
-						<option value={y} selected={y === intYear}>
+						<option key={y} value={y} selected={y === intYear}>
 							{y}
 						</option>
 					))}
 				</select>
-				<select>
+				<select onChange={handleChange} name="month" ref={monthRef}>
 					{[...Array(12).keys()].map(m => (
-						<option value={m + 1} selected={m + 1 === intMonth}>
+						<option key={m} value={m + 1} selected={m + 1 === intMonth}>
 							{m + 1}
 						</option>
 					))}
 				</select>
-
-				<Button>Update</Button>
 			</DateFilter>
 		</Wrapper>
 	);
 };
+
+export default Nav;
