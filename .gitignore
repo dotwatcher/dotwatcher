@@ -62,3 +62,6 @@ now-secrets.json
 
 .vscode
 .history
+
+# Used for any data needed for local dev
+test-data

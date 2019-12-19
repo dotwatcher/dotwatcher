@@ -4,3 +4,4 @@ dist/
 yarn-error.log*
 coverage
 now-secrets.json
+test-data

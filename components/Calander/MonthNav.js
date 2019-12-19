@@ -1,0 +1,258 @@
+import format from "date-fns/format";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import isWithinRange from "date-fns/is_within_range";
+import startOfMonth from "date-fns/start_of_month";
+import endOfMonth from "date-fns/end_of_month";
+import getMonth from "date-fns/get_month";
+import { useRef } from "react";
+import Router from "next/router";
+import mq from "../../utils/media-query";
+
+const Button = styled.button`
+	${tachyons}
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	text-align: center;
+	padding-bottom: var(--spacing-large);
+	padding-top: var(--spacing-large);
+	border-bottom: 1px solid black;
+	background-color: transparent;
+
+	@media screen and (max-width: 48em) {
+		margin-top: var(--spacing-medium);
+		margin-bottom: var(--spacing-medium);
+		padding-bottom: var(--spacing-small);
+		padding-top: var(--spacing-medium);
+		justify-content: space-between;
+		border-bottom: none;
+	}
+`;
+
+const Placeholder = styled.div`
+	min-height: 100%;
+	text-align: center;
+	margin: 0 var(--spacing-medium);
+`;
+
+const CalenderChange = styled.button`
+	${tachyons}
+	text-decoration: underline;
+	appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	background-color: transparent;
+
+	img {
+		width: 10px;
+	}
+`;
+
+const YearWrapper = styled.div`
+	margin-bottom: var(--spacing-small);
+`;
+
+const MonthTitle = styled.h2`
+	${tachyons}
+	margin-bottom: var(--spacing-small);
+`;
+
+const MonthNav = styled.div`
+	grid-area: nav;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	@media screen and (max-width: 48em) {
+		grid-column: 4 / 6;
+		justify-content: space-between;
+	}
+`;
+
+const Today = styled.div`
+	grid-area: today;
+
+	button {
+		cursor: pointer;
+	}
+`;
+
+const StyledSelect = styled.select`
+	${tachyons}
+	border: 2px solid var(--black);
+	appearance: none;
+	background-color: transparent;
+	padding: var(--spacing-small);
+	min-width: 200px;
+	max-width: 200px;
+	border-radius: 0;
+
+	/* DropDown Chevron */
+	background-image: linear-gradient(45deg, transparent 50%, white 50%),
+		linear-gradient(135deg, white 50%, transparent 50%),
+		linear-gradient(to right, var(--light-blue), var(--light-blue));
+	background-position: calc(100% - 20px) calc(1em + 2px),
+		calc(100% - 15px) calc(1em + 2px), 100% 0;
+	background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+	background-repeat: no-repeat;
+
+	& + & {
+		${mq.smDown`
+			margin-top: var(--spacing-medium);
+		`}
+
+		${mq.smUp`
+			margin-left: var(--spacing-medium);
+		`}
+	}
+`;
+
+const DateFilter = styled.div`
+	margin-top: var(--spacing-medium);
+`;
+
+const getYears = currentYear => {
+	let years = [];
+	for (let i = currentYear; i > currentYear - 5; i--) {
+		years.push(i);
+	}
+
+	for (let i = currentYear; i < currentYear + 5; i++) {
+		years.push(i);
+	}
+
+	years = [...new Set(years)];
+	years.sort((a, b) => a - b);
+
+	return years;
+};
+
+const Nav = ({
+	handleNextMonthClick,
+	handlePrevMonthClick,
+	currentDate,
+	setcurrentDate,
+	today
+}) => {
+	const month = format(currentDate, "MMM");
+	const year = format(currentDate, "YYYY");
+	const intYear = parseInt(year);
+	const intMonth = getMonth(currentDate);
+
+	const monthRef = useRef(null);
+	const yearRef = useRef(null);
+
+	const years = getYears(intYear);
+
+	const updateRoute = ({ month, year }) => {};
+
+	const handleChange = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+		const date = new Date(year.value, month.value);
+
+		setcurrentDate(date);
+
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
+	};
+
+	const handleTodayClick = () => {
+		Router.replace("/calendar", "/calendar", { shallow: true });
+		setcurrentDate(Date.now());
+	};
+
+	const handlePrevClick = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
+		handlePrevMonthClick();
+	};
+
+	const handleNextClick = () => {
+		const { current: month } = monthRef;
+		const { current: year } = yearRef;
+
+		const href = `/calendar/${year.value}/${parseInt(month.value) + 1}`;
+
+		window.history.pushState("", "", href);
+		handleNextMonthClick();
+	};
+
+	return (
+		<Wrapper>
+			<Today>
+				<Button
+					f4
+					bg_blue
+					ph3
+					pv2
+					mb2
+					mt0
+					center
+					tc
+					white
+					tracked
+					ttl
+					small_caps
+					ba
+					bw1
+					b__blue
+					onClick={handleTodayClick}
+				>
+					Today
+				</Button>
+			</Today>
+			<MonthNav>
+				<Placeholder>
+					<CalenderChange near_black hover_blue onClick={handlePrevClick}>
+						Prev
+					</CalenderChange>
+				</Placeholder>
+
+				<YearWrapper>
+					<MonthTitle f3 f2_ns fw6 ma0 mb3 lh_title>
+						{month}
+					</MonthTitle>
+					<span>{year}</span>
+				</YearWrapper>
+
+				<Placeholder>
+					<CalenderChange near_black hover_blue onClick={handleNextClick}>
+						Next
+					</CalenderChange>
+				</Placeholder>
+			</MonthNav>
+
+			<DateFilter>
+				<StyledSelect onChange={handleChange} name="year" ref={yearRef}>
+					{years.map(y => (
+						<option key={y} value={y} selected={y === intYear}>
+							{y}
+						</option>
+					))}
+				</StyledSelect>
+
+				<StyledSelect onChange={handleChange} name="month" ref={monthRef}>
+					{[...Array(12).keys()].map(m => (
+						<option key={m} value={m} selected={m === intMonth}>
+							{m + 1}
+						</option>
+					))}
+				</StyledSelect>
+			</DateFilter>
+		</Wrapper>
+	);
+};
+
+export default Nav;
