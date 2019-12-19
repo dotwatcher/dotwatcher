@@ -182,7 +182,7 @@ class Banner extends Component {
 							</A>
 						</Link>
 
-						<Link href="/calendar" passHref>
+						{/* <Link href="/calendar" passHref>
 							<A
 								dib
 								pt3
@@ -197,7 +197,7 @@ class Banner extends Component {
 							>
 								Calendar
 							</A>
-						</Link>
+						</Link> */}
 						<Link href="/features" passHref>
 							<A
 								dib
