@@ -71,8 +71,8 @@ const DateCell = ({ isCurrentMonth, events = [], date = "", index }) => {
 			</StyledDate>
 
 			<StyledEvents>
-				{events.map(e => (
-					<EventCell calendarDate={date} {...e} />
+				{events.map((e, i) => (
+					<EventCell key={i} calendarDate={date} {...e} />
 				))}
 			</StyledEvents>
 		</Cell>

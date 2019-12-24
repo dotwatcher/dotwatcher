@@ -25,8 +25,8 @@ const weekDayNames = () => {
 
 export default () => (
 	<WeekHeader>
-		{weekDayNames().map(d => (
-			<span>{d}</span>
+		{weekDayNames().map((d, i) => (
+			<span key={i}>{d}</span>
 		))}
 	</WeekHeader>
 );

@@ -235,17 +235,27 @@ const Nav = ({
 			</MonthNav>
 
 			<DateFilter>
-				<StyledSelect onChange={handleChange} name="year" ref={yearRef}>
+				<StyledSelect
+					onChange={handleChange}
+					name="year"
+					ref={yearRef}
+					defaultValue={years.find(y => y === intYear)}
+				>
 					{years.map(y => (
-						<option key={y} value={y} selected={y === intYear}>
+						<option key={y} value={y}>
 							{y}
 						</option>
 					))}
 				</StyledSelect>
 
-				<StyledSelect onChange={handleChange} name="month" ref={monthRef}>
+				<StyledSelect
+					onChange={handleChange}
+					name="month"
+					ref={monthRef}
+					defaultValue={[...Array(12).keys()].find(m => m === intMonth)}
+				>
 					{[...Array(12).keys()].map(m => (
-						<option key={m} value={m} selected={m === intMonth}>
+						<option key={m} value={m}>
 							{m + 1}
 						</option>
 					))}

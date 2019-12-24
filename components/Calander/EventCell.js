@@ -75,11 +75,16 @@ const Event = ({
 		calendarOnly
 	} = data;
 
-	const LinkProps = {
-		href: calendarOnly ? website : `/race?slug=${slug}`,
-		as: calendarOnly ? null : `/race/${slug}`,
-		target: calendarOnly ? "_blank" : "_self"
-	};
+	const Anchor = ({ children, ...props }) =>
+		calendarOnly ? (
+			<A target="_blank" href={website} {...props}>
+				{children}
+			</A>
+		) : (
+			<Link passHref href={`/race?slug=${slug}`} as={`/race/${slug}`}>
+				<A {...props}>{isSameDay(raceDate, calendarDate) && title}</A>
+			</Link>
+		);
 
 	return (
 		<EventCell
@@ -89,41 +94,28 @@ const Event = ({
 			onMouseLeave={() => setshowDetails(false)}
 			onTouchStart={() => setshowDetails(true)}
 		>
-			<Link passHref {...LinkProps}>
-				<A
-					white
+			<Anchor white hover_near_black underline_hover dib f6 f5_l no_underline>
+				{isSameDay(raceDate, calendarDate) && title}
+			</Anchor>
+
+			<EventDetails visible={showDetails} eventColor={eventColor}>
+				<EventColor eventColor={eventColor} />
+
+				<Anchor
+					black
 					hover_near_black
 					underline_hover
 					dib
 					f6
 					f5_l
+					mt0
+					mb0
 					no_underline
-					target={LinkProps.target}
 				>
-					{isSameDay(raceDate, calendarDate) && title}
-				</A>
-			</Link>
-
-			<EventDetails visible={showDetails} eventColor={eventColor}>
-				<EventColor eventColor={eventColor} />
-				<Link passHref {...LinkProps}>
-					<A
-						black
-						hover_near_black
-						underline_hover
-						dib
-						f6
-						f5_l
-						mt0
-						mb0
-						no_underline
-						target={LinkProps.target}
-					>
-						<P mt2 mb0>
-							{title}
-						</P>
-					</A>
-				</Link>
+					<P mt2 mb0>
+						{title}
+					</P>
+				</Anchor>
 				<p>
 					{moment(raceDate).format("Do MMM")} -{" "}
 					{moment(raceEndDate).format("Do MMM")}
