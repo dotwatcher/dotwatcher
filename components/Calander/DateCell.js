@@ -65,14 +65,14 @@ const DateCell = ({ isCurrentMonth, events = [], date = "", index }) => {
 			noEvents={noEvents}
 			index={index}
 		>
-			<StyledDate mb2>
+			<StyledDate mb2 mt2>
 				<DayOfWeek>{dayOfWeek} &nbsp;</DayOfWeek>
 				<Span>{dateNo}</Span>
 			</StyledDate>
 
 			<StyledEvents>
 				{events.map((e, i) => (
-					<EventCell key={i} calendarDate={date} {...e} />
+					<EventCell key={i} calendarDate={date} dayIndex={index} {...e} />
 				))}
 			</StyledEvents>
 		</Cell>

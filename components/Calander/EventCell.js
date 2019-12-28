@@ -4,6 +4,7 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import moment from "moment";
 import isSameDay from "date-fns/is_same_day";
+import isBefore from "date-fns/is_before";
 
 const A = styled.a`
 	${tachyons}
@@ -57,7 +58,8 @@ const Event = ({
 	toggleModal,
 	data,
 	eventColor,
-	calendarDate
+	calendarDate,
+	dayIndex
 }) => {
 	const [showDetails, setshowDetails] = useState(false);
 
@@ -75,6 +77,21 @@ const Event = ({
 		calendarOnly
 	} = data;
 
+	// Check for first calendar day in view
+	const firstDayInView = dayIndex === 0;
+
+	// Has the race already started
+	const raceAlreadyStarted = isBefore(raceDate, calendarDate);
+
+	// If both are true we are going to show the title
+	const showAlreadyStartedRace = firstDayInView && raceAlreadyStarted;
+
+	// Is the current calendar day the same as the race start date
+	const isStartDate = isSameDay(raceDate, calendarDate);
+
+	// Show title on start of event
+	const showTitle = isStartDate || showAlreadyStartedRace;
+
 	const Anchor = ({ children, ...props }) =>
 		calendarOnly ? (
 			<A target="_blank" href={website} {...props}>
@@ -82,7 +99,7 @@ const Event = ({
 			</A>
 		) : (
 			<Link passHref href={`/race?slug=${slug}`} as={`/race/${slug}`}>
-				<A {...props}>{isSameDay(raceDate, calendarDate) && title}</A>
+				<A {...props}>{children}</A>
 			</Link>
 		);
 
@@ -94,9 +111,11 @@ const Event = ({
 			onMouseLeave={() => setshowDetails(false)}
 			onTouchStart={() => setshowDetails(true)}
 		>
-			<Anchor white hover_near_black underline_hover dib f6 f5_l no_underline>
-				{isSameDay(raceDate, calendarDate) && title}
-			</Anchor>
+			{showTitle ? (
+				<Anchor white hover_near_black underline_hover dib f6 f5_l no_underline>
+					{title}
+				</Anchor>
+			) : null}
 
 			<EventDetails visible={showDetails} eventColor={eventColor}>
 				<EventColor eventColor={eventColor} />
