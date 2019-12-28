@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import Head from "next/head";
 import Page from "../components/shared/page";
@@ -8,19 +8,17 @@ import Footer from "../components/footer";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-const Wrapper = styled.div`
-	position: relative;
-	overflow: hidden;
-	padding-top: 56.25%;
-	margin: var(--spacing-large);
+const H1 = styled.h1`
+	${tachyons}
+`;
+
+const Div = styled.div`
+	${tachyons}
 `;
 
 const Iframe = styled.iframe`
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: 100%;
-	height: 100%;
+	height: 2500px;
 	border: 0;
 	border: none;
 	${tachyons};
@@ -43,9 +41,12 @@ export default () => (
 
 		<Header title="dotwatcher.cc" />
 
-		<Wrapper>
+		<Div mt3 mt4_l mh6_l>
+			<H1 f3 f1_l fw6 lh_title mb4>
+				Dotwatcher Digest
+			</H1>
 			<Iframe src="/digest-archive" />
-		</Wrapper>
+		</Div>
 		<Footer />
 	</Page>
 );
