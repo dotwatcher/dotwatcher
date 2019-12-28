@@ -94,7 +94,7 @@ const Layout = ({ events = [], currentDate, ...props }) => {
 	return (
 		<CalendarLayout>
 			{_events.map((d, i) => (
-				<DateCell {...d} index={i} />
+				<DateCell key={i} {...d} index={i} />
 			))}
 		</CalendarLayout>
 	);
