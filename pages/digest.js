@@ -7,6 +7,7 @@ import Footer from "../components/footer";
 
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import Newsletter from "../components/Newsletter";
 
 const H1 = styled.h1`
 	${tachyons}
@@ -41,10 +42,17 @@ export default () => (
 
 		<Header title="dotwatcher.cc" />
 
-		<Div mt3 mt4_l mh6_l>
+		<Div ml2 mr2 mt3 mt4_l mh6_l>
 			<H1 f3 f1_l fw6 lh_title mb4>
 				Dotwatcher Digest
 			</H1>
+			<Div w_100 w_80_m w_60_l mb5>
+				<Newsletter showPastIssues={false} />
+
+				<p>
+					Sign up to Dotwatcher Digest or view the previous editions&nbsp;below.
+				</p>
+			</Div>
 			<Iframe src="/digest-archive" />
 		</Div>
 		<Footer />
