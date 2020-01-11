@@ -1,30 +1,48 @@
-import Head from 'next/head';
-import PropTypes from 'prop-types';
-import Pusher from 'pusher-js';
-import React from 'react';
-import {createClient} from 'contentful';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
-import Button from '../components/shared/button';
-import SocialIcons from '../components/shared/social-icons';
-import Header from '../components/header';
-import KeyEvents from '../components/key-events';
-import MapContainer from '../components/map-container';
-import Page from '../components/shared/page';
-import Post from '../components/post';
-import StaticTopRiders from '../components/top-riders/static';
-import DynamicTopRiders from '../components/top-riders/dynamic';
-import FactFile from '../components/fact-file';
-import Tabs from '../components/tabs';
-import Community from '../components/community'
-import Wrapper from '../components/shared/wrapper';
-import vars from '../data/api-vars';
-import {WithEntries} from '../data/with-entries';
+import Head from "next/head";
+import PropTypes from "prop-types";
+import Pusher from "pusher-js";
+import React from "react";
+import { createClient } from "contentful";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import Button from "../components/shared/button";
+import SocialIcons from "../components/shared/social-icons";
+import Header from "../components/header";
+import KeyEvents from "../components/key-events";
+import MapContainer from "../components/map-container";
+import Page from "../components/shared/page";
+import Post from "../components/post";
+import StaticTopRiders from "../components/top-riders/static";
+import DynamicTopRiders from "../components/top-riders/dynamic";
+import FactFile from "../components/fact-file";
+import Tabs from "../components/tabs";
+import Community from "../components/community";
+import Wrapper from "../components/shared/wrapper";
+import vars from "../data/api-vars";
+import { WithEntries } from "../data/with-entries";
 
-const H1 = styled.h1`${tachyons}`;
-const P = styled.p`${tachyons}`;
-const Span = styled.span`${tachyons}`;
-const A = styled.a`${tachyons}`;
+const H1 = styled.h1`
+	${tachyons}
+`;
+
+const H2 = styled.h2`
+	${tachyons}
+`;
+
+const P = styled.p`
+	${tachyons}
+`;
+const Span = styled.span`
+	${tachyons}
+`;
+const A = styled.a`
+	${tachyons}
+`;
+
+const Div = styled.div`
+	${tachyons}
+`;
+
 const Notification = styled(Button)`
 	top: 0;
 	left: 50%;
@@ -39,10 +57,10 @@ const Notification = styled(Button)`
 
 // Pusher.logToConsole = true;
 const pusher = new Pusher(process.env.PUSHER_KEY, {
-	cluster: 'eu',
+	cluster: "eu",
 	encrypted: true
 });
-const channel = pusher.subscribe('dotwatcher');
+const channel = pusher.subscribe("dotwatcher");
 
 class Race extends React.Component {
 	constructor(props) {
@@ -52,7 +70,7 @@ class Race extends React.Component {
 			loading: false,
 			newPost: false,
 			newPostIDs: [],
-			activeTab: 'feed'
+			activeTab: "feed"
 		};
 
 		this.setActiveTab = this.setActiveTab.bind(this);
@@ -65,13 +83,13 @@ class Race extends React.Component {
 	}
 
 	async fetchPosts(id) {
-		this.setState({loading: true});
+		this.setState({ loading: true });
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 		});
 
-		const response = await client.getEntries({'sys.id': id});
+		const response = await client.getEntries({ "sys.id": id });
 
 		for (const item of response.items) {
 			const entry = {
@@ -104,16 +122,17 @@ class Race extends React.Component {
 	}
 
 	componentDidMount() {
-		if (location.hash === '#chat') {
-			this.setActiveTab('community')
+		if (location.hash === "#chat") {
+			this.setActiveTab("community");
 		}
 
-		channel.bind('new-post', newPostEvent => {
-			const isNewPost = this.props.posts.find(obj => {
-				return obj.sys.id === newPostEvent.post;
-			}) === undefined;
+		channel.bind("new-post", newPostEvent => {
+			const isNewPost =
+				this.props.posts.find(obj => {
+					return obj.sys.id === newPostEvent.post;
+				}) === undefined;
 
-			if (newPostEvent.category === this.props.raceID && isNewPost ) {
+			if (newPostEvent.category === this.props.raceID && isNewPost) {
 				this.setState({
 					newPost: true,
 					newPostIDs: [newPostEvent.post, ...this.state.newPostIDs]
@@ -123,9 +142,7 @@ class Race extends React.Component {
 	}
 
 	showNextPageOfPosts() {
-		this.setState(
-			prevState => ({...prevState, skip: this.state.skip + 5})
-		);
+		this.setState(prevState => ({ ...prevState, skip: this.state.skip + 5 }));
 	}
 
 	loadPost() {
@@ -142,8 +159,8 @@ class Race extends React.Component {
 		const KeyEventsWrapper = styled.div`
 			@media screen and (max-width: 30em) {
 				&:after {
-					content: '';
-					border-top: .125rem solid var(--light-gray);
+					content: "";
+					border-top: 0.125rem solid var(--light-gray);
 					position: absolute;
 					width: calc(100% - 2 * var(--spacing-medium));
 					bottom: 0;
@@ -153,22 +170,28 @@ class Race extends React.Component {
 			}
 
 			@media screen and (min-width: 64em) {
-				margin-left: ${this.props.trackleadersID ? '40%' : 0};
+				margin-left: ${this.props.trackleadersID ? "40%" : 0};
 			}
-		${tachyons}`;
+			${tachyons}
+		`;
 
 		const Feed = styled.div`
-			display: ${this.state.activeTab === 'feed' ? 'block' : 'none' };
-		${tachyons}`;
+			display: ${this.state.activeTab === "feed" ? "block" : "none"};
+			${tachyons}
+		`;
 		const CommunityWrap = styled.div`
-			display: ${this.state.activeTab === 'community' ? 'block' : 'none' };
-		${tachyons}`;
+			display: ${this.state.activeTab === "community" ? "block" : "none"};
+			${tachyons}
+		`;
 
 		const morePostsButton = (
-			<Button db w5 loading={this.state.loading} onClick={this.showNextPageOfPosts.bind(this)}>
-				{
-					this.state.loading ? 'Loading...' : 'Load more posts'
-				}
+			<Button
+				db
+				w5
+				loading={this.state.loading}
+				onClick={this.showNextPageOfPosts.bind(this)}
+			>
+				{this.state.loading ? "Loading..." : "Load more posts"}
 			</Button>
 		);
 
@@ -178,17 +201,28 @@ class Race extends React.Component {
 		} else if (this.props.posts.length === 0) {
 			morePosts = null;
 		} else {
-			morePosts = <H1 mt3 tc moon_gray tracked ttu i>Fin</H1>;
+			morePosts = (
+				<H1 mt3 tc moon_gray tracked ttu i>
+					Fin
+				</H1>
+			);
 		}
 
 		let newPostsNotification = null;
-		const updateMessageQualifier = this.state.newPostIDs.length > 1 ? 'updates' : 'update';
+		const updateMessageQualifier =
+			this.state.newPostIDs.length > 1 ? "updates" : "update";
 		if (this.state.newPost) {
 			newPostsNotification = (
-				<Notification fixed z_1 loading={this.state.loading} onClick={this.loadPost.bind(this)} href="#posts">
-					{
-						this.state.loading ? `Loading...` : `${this.state.newPostIDs.length} new ${updateMessageQualifier}`
-					}
+				<Notification
+					fixed
+					z_1
+					loading={this.state.loading}
+					onClick={this.loadPost.bind(this)}
+					href="#posts"
+				>
+					{this.state.loading
+						? `Loading...`
+						: `${this.state.newPostIDs.length} new ${updateMessageQualifier}`}
 				</Notification>
 			);
 		}
@@ -197,18 +231,50 @@ class Race extends React.Component {
 			<Page>
 				<Head>
 					<title>{this.props.raceName} – DotWatcher.cc</title>
-					<meta property="og:title" content={`${this.props.raceName} – DotWatcher.cc`}/>
-					<meta property="og:description" content={this.props.race.fields.shortDescription ? this.props.race.fields.shortDescription : 'DotWatcher is here to showcase the best of long distance self-supported bike racing.' }/>
-					<meta property="og:image" content={this.props.raceImage}/>
+					<meta
+						property="og:title"
+						content={`${this.props.raceName} – DotWatcher.cc`}
+					/>
+					<meta
+						property="og:description"
+						content={
+							this.props.race.fields.shortDescription
+								? this.props.race.fields.shortDescription
+								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+						}
+					/>
+					<meta property="og:image" content={this.props.raceImage} />
 					<meta name="twitter:card" content="summary" />
-					<meta name="twitter:site" content="@dotwatcher"/>
-					<meta name="twitter:creator" content="@dotwatcher"/>
-					<meta name="twitter:title" content={`${this.props.raceName} – DotWatcher.cc`}/>
-					<meta name="twitter:description" content={this.props.race.fields.shortDescription ? this.props.race.fields.shortDescription : 'DotWatcher is here to showcase the best of long distance self-supported bike racing.'} />
+					<meta name="twitter:site" content="@dotwatcher" />
+					<meta name="twitter:creator" content="@dotwatcher" />
+					<meta
+						name="twitter:title"
+						content={`${this.props.raceName} – DotWatcher.cc`}
+					/>
+					<meta
+						name="twitter:description"
+						content={
+							this.props.race.fields.shortDescription
+								? this.props.race.fields.shortDescription
+								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+						}
+					/>
 					<meta name="twitter:image" content={this.props.raceImage} />
-					<meta name="description" content={this.props.race.fields.shortDescription ? this.props.race.fields.shortDescription : 'DotWatcher is here to showcase the best of long distance self-supported bike racing.' } />
-					<meta name="twitter:label1" content="Location" /><meta name="twitter:data1" content={this.props.race.fields.location} />
-					<meta name="twitter:label2" content="Length" /><meta name="twitter:data2" content={this.props.race.fields.length} />
+					<meta
+						name="description"
+						content={
+							this.props.race.fields.shortDescription
+								? this.props.race.fields.shortDescription
+								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+						}
+					/>
+					<meta name="twitter:label1" content="Location" />
+					<meta
+						name="twitter:data1"
+						content={this.props.race.fields.location}
+					/>
+					<meta name="twitter:label2" content="Length" />
+					<meta name="twitter:data2" content={this.props.race.fields.length} />
 					<script src="//www.instagram.com/embed.js" />
 				</Head>
 				<Header
@@ -216,48 +282,112 @@ class Race extends React.Component {
 					raceName={this.props.raceName}
 					race={this.props.race}
 				/>
-				{
-					this.props.trackleadersID ? <MapContainer raceID={this.props.trackleadersID}/> : null
-				}
-				<KeyEventsWrapper fl ph3 ph4_ns pb2 w_100 w_30_m w_20_l mt4_l relative id="events-wrap">
-					{
-						this.props.race.fields.leaderboard === true ? <DynamicTopRiders race={this.props.race} /> : null
-					}
-					{
-						this.props.race.fields.staticLeaderboard ? <StaticTopRiders race={this.props.race} /> : null
-					}
-					<FactFile race={this.props.race}/>
-					<KeyEvents posts={this.props.posts} skip={this.state.skip}/>
+				{this.props.trackleadersID ? (
+					<MapContainer raceID={this.props.trackleadersID} />
+				) : null}
+				<KeyEventsWrapper
+					fl
+					ph3
+					ph4_ns
+					pb2
+					w_100
+					w_30_m
+					w_20_l
+					mt4_l
+					relative
+					id="events-wrap"
+				>
+					{this.props.race.fields.leaderboard === true ? (
+						<DynamicTopRiders race={this.props.race} />
+					) : null}
+					{this.props.race.fields.staticLeaderboard ? (
+						<StaticTopRiders race={this.props.race} />
+					) : null}
+
+					{this.props.race.fields.whatsAppId && (
+						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
+							<header>
+								<H2
+									ttu
+									tracked
+									f5
+									fw6
+									mt0
+									pb1
+									bb
+									bw1
+									b__light_gray
+									measure_narrow
+								>
+									Join the Conversation on WhatsApp
+								</H2>
+
+								<A
+									link
+									near_black
+									hover_blue
+									underline
+									href={`https://chat.whatsapp.com/${this.props.race.fields.whatsAppId}`}
+									target="_blank"
+								>
+									Click Here
+								</A>
+							</header>
+						</Div>
+					)}
+					<FactFile race={this.props.race} />
+					<KeyEvents posts={this.props.posts} skip={this.state.skip} />
 				</KeyEventsWrapper>
 				<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
-					{
-						this.props.race.fields.discourseId && this.props.replies ?
-						(
-							<React.Fragment>
-								<Tabs setActiveTabFeed={() => this.setActiveTab('feed')} setActiveTabCommunity={() => this.setActiveTab('community')} activeTab={this.state.activeTab} count={this.props.replies} promo={this.props.race.fields.chatPromo}/>
-								<CommunityWrap>
-									<Community id={this.props.race.fields.discourseId} active={this.state.activeTab === 'community'} />
-								</CommunityWrap>
-							</React.Fragment>
-						) : null
-					}
+					{this.props.race.fields.discourseId && this.props.replies ? (
+						<React.Fragment>
+							<Tabs
+								setActiveTabFeed={() => this.setActiveTab("feed")}
+								setActiveTabCommunity={() => this.setActiveTab("community")}
+								activeTab={this.state.activeTab}
+								count={this.props.replies}
+								promo={this.props.race.fields.chatPromo}
+							/>
+							<CommunityWrap>
+								<Community
+									id={this.props.race.fields.discourseId}
+									active={this.state.activeTab === "community"}
+								/>
+							</CommunityWrap>
+						</React.Fragment>
+					) : null}
 					<Feed id="posts">
-						{ newPostsNotification }
-						{
-							this.props.posts.map((item, index) => {
-								if (index <= this.state.skip) {
-									return (
-										<Post key={item.sys.id} id={item.sys.id} data={item.data} index={index}/>
-										)
-								}
-							})
-						}
-						{ morePosts }
+						{newPostsNotification}
+						{this.props.posts.map((item, index) => {
+							if (index <= this.state.skip) {
+								return (
+									<Post
+										key={item.sys.id}
+										id={item.sys.id}
+										data={item.data}
+										index={index}
+									/>
+								);
+							}
+						})}
+						{morePosts}
 						<P measure lh_copy f6 silver>
-							If you would like to get in touch email us at <A link gray underline hover_blue href="mailto:info@dotwatcher.cc">info@dotwatcher.cc</A>
+							If you would like to get in touch email us at{" "}
+							<A
+								link
+								gray
+								underline
+								hover_blue
+								href="mailto:info@dotwatcher.cc"
+							>
+								info@dotwatcher.cc
+							</A>
 						</P>
 						<P measure f6 silver>
-							<Span silver dib mr2 v_btm>Follow along at</Span> <SocialIcons size="1" colour="gray"/>
+							<Span silver dib mr2 v_btm>
+								Follow along at
+							</Span>{" "}
+							<SocialIcons size="1" colour="gray" />
 						</P>
 					</Feed>
 				</Wrapper>
