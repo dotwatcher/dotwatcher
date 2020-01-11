@@ -30,9 +30,17 @@ const Col = styled(Div)`
 		${mq.smUp`
 			margin-top: unset;
 			padding-top: unset;
-			border-left: 1px solid var(--light-gray);
+			border-top: none;
 		`}
 	}
+
+	${mq.smUp`
+		border-right: 1px solid var(--light-gray);
+
+		&:last-of-type {
+			border-right: none;
+		}
+	`}
 `;
 
 const Buttons = styled(Div)`
@@ -47,6 +55,12 @@ const A = styled.a`
 	${tachyons}
 `;
 
+const Feautre = styled(A)`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+`;
+
 const Img = styled.img`
 	${tachyons}
 `;
@@ -59,14 +73,15 @@ const Grid = styled.section`
 	padding: 0 var(--spacing-large);
 
 	${mq.smUp`
+		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		grid-column-gap: var(--spacing-medium);
+		grid-column-gap: var(--spacing-large);
 	`}
 `;
 
 const ErrorPage = ({ features }) => {
-	const [feature] = features;
+	const articles = [features[0], features[1]];
 
 	return (
 		<Page>
@@ -85,8 +100,8 @@ const ErrorPage = ({ features }) => {
 
 			<Header title="dotwatcher.cc" />
 
-			<Grid>
-				<Col mt3 mt4_l mh6_l>
+			<Div ph4 ph6_l>
+				<Div mt3 mt4_l>
 					<H1 f3 f1_l fw6 lh_title mb4>
 						404
 					</H1>
@@ -120,38 +135,50 @@ const ErrorPage = ({ features }) => {
 							</A>
 						</Link>
 					</Buttons>
-				</Col>
+				</Div>
 
-				<Col mt3 mt4_l>
-					<H2 f4 f2_l fw6 lh_title mb4 underline>
-						Our latest feature
+				<Div mt3 mt4_l dib bt bt1 b__light_gray>
+					<H2 f4 f2_l fw6 lh_title mb4>
+						Our latest features
 					</H2>
+					<Grid>
+						{articles.map((article, key) => (
+							<Link
+								key={key}
+								href={`/feature?slug=${article.data.slug}`}
+								as={`/feature/${article.data.slug}`}
+								passHref
+							>
+								<Feautre
+									f4
+									underline
+									fl
+									tracked
+									ttl
+									small_caps
+									black
+									hover_blue
+								>
+									<H2>{article.data.title}</H2>
 
-					<Link
-						href={`/feature?slug=${feature.data.slug}`}
-						as={`/feature/${feature.data.slug}`}
-						passHref
-					>
-						<A f4 underline fl tracked ttl small_caps black hover_blue>
-							<H2>{feature.data.title}</H2>
+									{article.data.image ? (
+										<Img
+											db
+											mw_100
+											src={`${article.data.image.fields.file.url}?w=600&h=600&fm=jpg&q=50`}
+											alt={article.data.image.fields.description}
+										/>
+									) : (
+										<Placeholder w_100 h_100 pv6 bg_light_gray />
+									)}
 
-							{feature.data.image ? (
-								<Img
-									db
-									mw_100
-									src={`${feature.data.image.fields.file.url}?w=600&h=600&fm=jpg&q=50`}
-									alt={feature.data.image.fields.description}
-								/>
-							) : (
-								<Placeholder w_100 h_100 pv6 bg_light_gray />
-							)}
-
-							<P>{feature.data.excerpt}</P>
-						</A>
-					</Link>
-				</Col>
-			</Grid>
-
+									<P>{article.data.excerpt}</P>
+								</Feautre>
+							</Link>
+						))}
+					</Grid>
+				</Div>
+			</Div>
 			<Footer />
 		</Page>
 	);
