@@ -1,0 +1,29 @@
+.display_archive {
+	font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir,
+		helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial,
+		sans-serif;
+}
+
+.campaign {
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.campaign a {
+	font-size: 1.5em;
+	margin-bottom: var(--spacing-small);
+	color: var(--color-black);
+	text-decoration: none;
+	transition: all ease-in-out 0.3s;
+}
+
+.campaign a:hover {
+	color: var(--blue);
+	text-decoration: underline;
+}
+
+.campaign + .campaign {
+	margin-top: var(--spacing-large);
+	border-top: 1px solid var(--light-gray);
+	padding-top: var(--spacing-large);
+}

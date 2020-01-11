@@ -1,4 +1,3 @@
-
 # Dotwatcher
 
 _Long distance bike race coverage_
@@ -37,6 +36,7 @@ Now run `npm run dev` to get going.
 - Realtime updates — [Pusher] which connects to [stream.dotwatcher.cc]
 - Content — [Contentful API] to get all data and images
 - Maps — Right now maps are just iFrames from [Trackleaders]
+- Mailchimp Archive — https://mailchimp.com/help/add-an-email-campaign-archive-to-your-website/. An iframe page under /digest-archive is injected into /digest. The JS snippet from mailchimp will otherwise place the archive page at the very start of the DOM. An iframe allows us to chose where in the page it sits.
 
 ## Deploying
 
@@ -48,14 +48,14 @@ Then do deploy a new instance run `now` from within the repo.
 
 To alias that to our domains run `now alias` (the aliases are stored in now.json)
 
-[Next.js]: https://github.com/zeit/next.js/
-[Contentful]: http://contentful.com/
+[next.js]: https://github.com/zeit/next.js/
+[contentful]: http://contentful.com/
 [node client]: https://github.com/contentful/contentful.js/
-[Zeit.co]: https://zeit.co
-[Now cli]: https://zeit.co/now
+[zeit.co]: https://zeit.co
+[now cli]: https://zeit.co/now
 [styled-components]: https://www.styled-components.com/
-[Tachyons]: http://tachyons.io/
-[Pusher]: https://pusher.com/
+[tachyons]: http://tachyons.io/
+[pusher]: https://pusher.com/
 [stream.dotwatcher.cc]: https://github.com/jonheslop/dotwatcher-stream
-[Contentful API]: https://www.contentful.com/developers/docs/references/content-delivery-api
-[Trackleaders]: http://trackleaders.com/
+[contentful api]: https://www.contentful.com/developers/docs/references/content-delivery-api
+[trackleaders]: http://trackleaders.com/
