@@ -38,90 +38,23 @@ const Menu = styled.div`
 	${tachyons}
 `;
 
+const Header = styled.header`
+	position: sticky;
+	top: 0;
+	${tachyons}
+`;
+
 class Banner extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			bannerHeight: 0,
-			fixed: false,
-			width: 320,
-			lastScrollY: 0
+			width: 320
 		};
-		this.boundHeaderPop = this.debounce(this.headerPop.bind(this), 50);
-	}
-
-	componentDidMount() {
-		this.setState({ width: window.innerWidth });
-		this.setupStickyHeader();
-	}
-
-	componentWillUnmount() {
-		if (this.state.width > 1024) {
-			document.removeEventListener("scroll", this.boundHeaderPop);
-		}
-	}
-
-	setupStickyHeader() {
-		document.addEventListener("scroll", this.boundHeaderPop);
-		const banner = document.querySelector("#banner");
-		this.setState({
-			bannerHeight: banner.offsetHeight
-		});
-	}
-
-	debounce(fn, delay) {
-		let timer = null;
-		return () => {
-			const context = this;
-			const args = arguments;
-			clearTimeout(timer);
-			timer = setTimeout(() => {
-				fn.apply(context, args);
-			}, delay);
-		};
-	}
-
-	headerPop() {
-		const { lastScrollY } = this.state;
-		const currentScrollY = window.scrollY;
-		const stickyBar = document.getElementById("sticky");
-
-		if (currentScrollY < this.state.bannerHeight) {
-			this.setState({ fixed: false });
-			if (stickyBar) {
-				stickyBar.style.top = "var(--spacing-large)";
-			}
-		} else if (currentScrollY < lastScrollY) {
-			this.setState({ fixed: true });
-			if (stickyBar) {
-				stickyBar.style.top = this.state.bannerHeight + 32 + "px";
-			}
-		} else {
-			this.setState({ fixed: false });
-			if (stickyBar) {
-				stickyBar.style.top = "var(--spacing-large)";
-			}
-		}
-		this.setState({ lastScrollY: currentScrollY });
 	}
 
 	render() {
-		const Header = styled.header`
-			position: relative;
-			top: 0;
-			${props =>
-				props.isFixed &&
-				css`
-					position: fixed;
-				`}
-			${tachyons}
-		`;
-		const padTop = this.state.fixed ? (
-			<Div style={{ height: this.state.bannerHeight }} />
-		) : null;
 		return (
 			<React.Fragment>
-				{padTop}
 				<Header
 					flex_ns
 					bg_white
@@ -132,7 +65,6 @@ class Banner extends Component {
 					z_2
 					className="cf"
 					id="banner"
-					isFixed={this.state.fixed}
 				>
 					<H1 flex items_center f2 pt1 ma0 fw5 lh_solid w_40_l>
 						<Div>
