@@ -56,6 +56,10 @@ const Close = styled.button`
 	right: 20px;
 	background: none;
 	border: none;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 class Page extends Component {
