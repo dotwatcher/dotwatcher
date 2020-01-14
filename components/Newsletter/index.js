@@ -3,6 +3,7 @@ import { logEvent } from "../../utils/analytics";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import Link from "next/link";
 
 const P = styled.p`
 	${tachyons}
@@ -46,14 +47,29 @@ const Message = styled.div`
 
 const mailchimpURL = process.env.MAILCHIMP || "";
 
-const CustomForm = ({ status, message, onValidated, showPastIssues }) => {
+const CustomForm = ({
+	status,
+	message,
+	onValidated,
+	showPastIssues,
+	onSubmit = true
+}) => {
 	const [cookies, setCookie] = useCookies(["hideSignup"]);
+
 	let email;
-	const submit = () =>
-		email &&
-		onValidated({
-			EMAIL: email.value
-		});
+
+	const submit = () => {
+		const handleProps = () =>
+			typeof onSubmit === "function" ? onSubmit() : onSubmit;
+
+		return (
+			email &&
+			handleProps() &&
+			onValidated({
+				EMAIL: email.value
+			})
+		);
+	};
 
 	if (message && message.startsWith("0 - ")) {
 		message = message.split("0 - ")[1];
@@ -143,22 +159,18 @@ const CustomForm = ({ status, message, onValidated, showPastIssues }) => {
 			)}
 			{showPastIssues && (
 				<P fl ma0 w_100 lh_copy f6>
-					<A
-						link
-						dark_gray
-						underline
-						href="https://us18.campaign-archive.com/home/?u=f99c4be1902d7d056695899c7&id=5114f468a5"
-						target="_blank"
-					>
-						See all past issues
-					</A>
+					<Link href="/digest" passHref>
+						<A link dark_gray underline>
+							See all past issues
+						</A>
+					</Link>
 				</P>
 			)}
 		</Form>
 	);
 };
 
-export default ({ showPastIssues = true }) => (
+export default ({ showPastIssues = true, onSubmit = true }) => (
 	<MailchimpSubscribe
 		url={mailchimpURL}
 		render={({ subscribe, status, message }) => (
@@ -168,6 +180,7 @@ export default ({ showPastIssues = true }) => (
 				onValidated={formData => subscribe(formData)}
 				url={mailchimpURL}
 				showPastIssues={showPastIssues}
+				onSubmit={onSubmit}
 			/>
 		)}
 	/>
