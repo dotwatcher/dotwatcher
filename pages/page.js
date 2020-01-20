@@ -17,7 +17,6 @@ import Page from "../components/shared/page";
 import { withPage } from "../data/with-page";
 import widont from "../utils/widont";
 import Link from "next/link";
-import BodyImage from "../components/image/markdown";
 
 const Div = styled.div`
 	p {
@@ -108,7 +107,7 @@ class ContentPage extends React.Component {
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 					/>
 				</Head>
-				<Header title="dotwatcher.cc" />
+				<Header user={this.props.user} title="dotwatcher.cc" />
 				<StyledWrapper fl w_100>
 					<Div fl mt5_ns pa3 pa4_ns pl5_ns>
 						<H1 f2 f1_ns fw6 lh_solid mt0 mb4>

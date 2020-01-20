@@ -61,7 +61,7 @@ class App extends Component {
 						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 					/>
 				</Head>
-				<Header title="dotwatcher.cc" />
+				<Header user={this.props.user} title="dotwatcher.cc" />
 				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
 					<Div pb5>
 						{currentRaces.length > 0 ? (

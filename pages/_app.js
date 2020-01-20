@@ -1,27 +1,59 @@
-import React from 'react'
-import App from 'next/app'
-import { CookiesProvider } from 'react-cookie';
+import React from "react";
+import App from "next/app";
+import { CookiesProvider } from "react-cookie";
+import axios from "axios";
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {}
+	static async getInitialProps({ Component, ctx }) {
+		let pageProps = {};
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
-    }
+		if (Component.getInitialProps) {
+			pageProps = await Component.getInitialProps(ctx);
+		}
 
-    return { pageProps }
-  }
+		return { pageProps };
+	}
 
-  render() {
-    const { Component, pageProps } = this.props
+	constructor(props) {
+		super(props);
 
-    return (
-      <CookiesProvider>
-        <Component {...pageProps} />
-      </CookiesProvider>
-    )
-  }
+		this.state = {
+			user: {}
+		};
+	}
+
+	async componentDidMount() {
+		const user = async () => {
+			try {
+				const res = await axios({ method: "get", url: "/api/auth/me" });
+
+				if (!res.error && res.status === 200 && res.data) {
+					return {
+						loggedIn: true,
+						user: res.data
+					};
+				}
+			} catch (e) {
+				return {
+					loggedIn: false
+				};
+			}
+		};
+
+		this.setState({
+			user: await user()
+		});
+	}
+
+	render() {
+		const { Component, pageProps } = this.props;
+
+		return (
+			<CookiesProvider>
+				<Component {...pageProps} user={this.state.user} />
+			</CookiesProvider>
+		);
+	}
 }
 
-export default MyApp
+export default MyApp;

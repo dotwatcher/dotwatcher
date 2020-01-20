@@ -37,7 +37,7 @@ let eventColors = [
 	"#7faccc"
 ];
 
-const CalanderPage = ({ races = [], router }) => {
+const CalanderPage = ({ races = [], router, user }) => {
 	const { year, month } = router.query;
 
 	// new Date month arguement is index of month, similar to array index's, December === month 12 - 1 for index
@@ -89,7 +89,7 @@ const CalanderPage = ({ races = [], router }) => {
 				/>
 			</Head>
 
-			<Header title="dotwatcher.cc" />
+			<Header user={user} title="dotwatcher.cc" />
 
 			<Calendar
 				events={coloredRaces}
