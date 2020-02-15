@@ -181,7 +181,7 @@ const CustomForm = ({ status, message, onValidated, layout }) => {
 const EmailSignup = ({ block, layout }) => {
 	if (block.heading) {
 		return (
-			<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
+			<Div mb4 mb5_l dib pv4 ph3 ph4_ns className="bg-gradient-blue cf">
 				<Div w_90 w_60_l center pv4 ph3 ph4_ns bg_white_20 white className="cf">
 					<Header>
 						<H2 f3 f2_ns fw6 mt0 mb2 pb1 lh_title>
