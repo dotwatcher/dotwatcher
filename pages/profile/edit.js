@@ -15,10 +15,6 @@ import Footer from "../../components/footer";
 import { user as userAPI } from "../../utils/auth";
 import mq from "../../utils/media-query";
 
-const A = styled.a`
-	${tachyons}
-`;
-
 const Div = styled.div`
 	${tachyons}
 `;
