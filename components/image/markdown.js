@@ -3,17 +3,14 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-const Figure = styled.figure`
-	${tachyons}
-`;
 const Img = styled.img`
 	${tachyons}
 `;
-const videoregex = /^.*.(mp4|webm|ogg)$/;
-const format = src.match(/\.png$/) ? "&fm=jpg" : "";
 
 const Image = ({ src, alt }) => {
-	if (videoregex.test(props.src)) {
+	const videoregex = /^.*.(mp4|webm|ogg)$/;
+	const format = src.match(/\.png$/) ? "&fm=jpg" : "";
+	if (videoregex.test(src)) {
 		return (
 			<video width="100%" controls>
 				<source src={props.src} /> Your browser does not support the video tag.
