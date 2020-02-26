@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import shortcodes from 'remark-shortcodes';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
-import Embed from '../embed';
-import Image from '../image';
-import widont from '../../utils/widont';
+import PropTypes from "prop-types";
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import shortcodes from "remark-shortcodes";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import Embed from "../embed";
+import Image from "../image";
+import widont from "../../utils/widont";
+import BodyImage from "../image/markdown";
 
 const Div = styled.div`
 	iframe {
@@ -16,13 +17,14 @@ const Div = styled.div`
 		max-width: 100%;
 	}
 	a:link {
-		color: var(--blue)
+		color: var(--blue);
 	}
 	a:hover {
-		color: var(--light-blue)
+		color: var(--light-blue);
 	}
-${tachyons}`;
-const Short = ({data}) => {
+	${tachyons}
+`;
+const Short = ({ data }) => {
 	let body;
 	if (data.body) {
 		body = (
@@ -33,7 +35,8 @@ const Short = ({data}) => {
 					escapeHtml={false}
 					renderers={{
 						shortcode: Embed,
-						link: AutoEmbed
+						link: AutoEmbed,
+						image: BodyImage
 					}}
 				/>
 			</Div>
@@ -41,8 +44,8 @@ const Short = ({data}) => {
 	}
 	return (
 		<React.Fragment>
-			{ data.image ? <Image data={data.image.fields}/> : null }
-			{ body ? body : null }
+			{data.image ? <Image data={data.image.fields} /> : null}
+			{body ? body : null}
 			<Div lh_copy mv4>
 				{widont(data.title)}
 			</Div>

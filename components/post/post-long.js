@@ -1,19 +1,22 @@
-import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-import ReactMarkdown from 'react-markdown';
-import shortcodes from 'remark-shortcodes';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
-import Embed from '../embed';
-import Image from '../image';
-import BodyImage from '../image/markdown';
-import AutoEmbed from '../embed/auto';
-import Link from 'next/link';
-import slugify from '../../utils/slugify';
-import widont from '../../utils/widont';
-import quotes from '../../utils/quotes';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import ReactMarkdown from "react-markdown";
+import shortcodes from "remark-shortcodes";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import Embed from "../embed";
+import Image from "../image";
+import BodyImage from "../image/markdown";
+import AutoEmbed from "../embed/auto";
+import Link from "next/link";
+import slugify from "../../utils/slugify";
+import widont from "../../utils/widont";
+import quotes from "../../utils/quotes";
+import BodyImage from "../image/markdown";
 
-const H1 = styled.h1`${tachyons}`;
+const H1 = styled.h1`
+	${tachyons}
+`;
 const Div = styled.div`
 	iframe {
 		max-width: 100%;
@@ -22,19 +25,23 @@ const Div = styled.div`
 		max-width: 100%;
 	}
 	a:link {
-		color: var(--blue)
+		color: var(--blue);
 	}
 	a:hover {
-		color: var(--light-blue)
+		color: var(--light-blue);
 	}
-${tachyons}`;
-const A = styled.a`${tachyons}`;
+	${tachyons}
+`;
+const A = styled.a`
+	${tachyons}
+`;
 const Button = styled.button`
-  border: 0;
-  padding: 0;
-  appearance: none;
-  background-color: transparent;
-${tachyons}`;
+	border: 0;
+	padding: 0;
+	appearance: none;
+	background-color: transparent;
+	${tachyons}
+`;
 
 class Long extends Component {
 	constructor(props) {
@@ -46,8 +53,8 @@ class Long extends Component {
 	}
 
 	render() {
-		const host = typeof window !== 'undefined' ? window.location.host : '';
-		const contineRegEx = RegExp(/\[\[\s?continue\s?\]\]/, 'gi');
+		const host = typeof window !== "undefined" ? window.location.host : "";
+		const contineRegEx = RegExp(/\[\[\s?continue\s?\]\]/, "gi");
 		const shouldSplitText = contineRegEx.test(this.props.data.body);
 		let splitText = null;
 		let continueReading = null;
@@ -58,10 +65,20 @@ class Long extends Component {
 			const splitTextMarker = this.props.data.body.match(contineRegEx)[0];
 			splitText = this.props.data.body.split(splitTextMarker);
 			continueReading = (
-				<Button near_black hover_blue underline_hover onClick={this.toggleMore}>▼ Continue reading</Button>
+				<Button near_black hover_blue underline_hover onClick={this.toggleMore}>
+					▼ Continue reading
+				</Button>
 			);
 			showLess = (
-				<Button near_black hover_blue underline_hover mt3 onClick={this.toggleMore}>▲ Show less</Button>
+				<Button
+					near_black
+					hover_blue
+					underline_hover
+					mt3
+					onClick={this.toggleMore}
+				>
+					▲ Show less
+				</Button>
 			);
 			moreText = this.state.showMore ? (
 				<ReactMarkdown
@@ -79,15 +96,25 @@ class Long extends Component {
 
 		return (
 			<React.Fragment>
-				{ this.props.data.image ? <Image data={this.props.data.image.fields}/> : null }
+				{this.props.data.image ? (
+					<Image data={this.props.data.image.fields} />
+				) : null}
 				<H1 f2 fw6 lh_title mt0>
-					<Link href={`/post?id=${this.props.id}`} as={`/post/${this.props.id}`} passHref>
-						<A link near_black hover_blue>{quotes(widont(this.props.data.title))}</A>
+					<Link
+						href={`/post?id=${this.props.id}`}
+						as={`/post/${this.props.id}`}
+						passHref
+					>
+						<A link near_black hover_blue>
+							{quotes(widont(this.props.data.title))}
+						</A>
 					</Link>
 				</H1>
 				<Div lh_copy pb3>
 					<ReactMarkdown
-						source={shouldSplitText ? splitText[0].trim() : this.props.data.body }
+						source={
+							shouldSplitText ? splitText[0].trim() : this.props.data.body
+						}
 						plugins={[shortcodes]}
 						escapeHtml={false}
 						renderers={{
@@ -96,18 +123,16 @@ class Long extends Component {
 							link: AutoEmbed
 						}}
 					/>
-					{ this.state.showMore ? null : continueReading }
-					{ moreText }
-					{ this.state.showMore ? showLess : null }
+					{this.state.showMore ? null : continueReading}
+					{moreText}
+					{this.state.showMore ? showLess : null}
 				</Div>
 			</React.Fragment>
 		);
-	};
+	}
 
 	toggleMore() {
-		this.setState(
-			prevState => ({showMore: !prevState.showMore})
-		);
+		this.setState(prevState => ({ showMore: !prevState.showMore }));
 	}
 }
 
