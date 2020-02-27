@@ -26,6 +26,7 @@ const Image = ({ src, alt }) => {
 			mb4
 			alt={alt}
 			src={`${src}?${format}&q=60`}
+			// Removed to allow images to render at original scale - prevents pixelated images if image is smaller than srcset width
 			// srcSet={`${src}?w=600${format}&q=60 1024w,
 			// 	${src}?w=400${format}&q=60 768w,
 			// 	${src}?w=320${format}&q=60 320w`}
