@@ -9,10 +9,8 @@ import Image from "../image";
 import BodyImage from "../image/markdown";
 import AutoEmbed from "../embed/auto";
 import Link from "next/link";
-import slugify from "../../utils/slugify";
 import widont from "../../utils/widont";
 import quotes from "../../utils/quotes";
-import BodyImage from "../image/markdown";
 
 const H1 = styled.h1`
 	${tachyons}

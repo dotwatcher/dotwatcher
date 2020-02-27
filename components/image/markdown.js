@@ -25,10 +25,10 @@ const Image = ({ src, alt }) => {
 			bg_light_gray
 			mb4
 			alt={alt}
-			src={`${src}?w=400${format}&q=60`}
-			srcSet={`${src}?w=600${format}&q=60 1024w,
-				${src}?w=400${format}&q=60 768w,
-				${src}?w=320${format}&q=60 320w`}
+			src={`${src}?${format}&q=60`}
+			// srcSet={`${src}?w=600${format}&q=60 1024w,
+			// 	${src}?w=400${format}&q=60 768w,
+			// 	${src}?w=320${format}&q=60 320w`}
 			sizes="200vw"
 		/>
 	);
