@@ -1,19 +1,26 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import shortcodes from 'remark-shortcodes';
-import styled from 'styled-components';
-import tachyons from 'styled-components-tachyons';
-import Embed from '../embed';
-import Image from '../image';
-import widont from '../../utils/widont';
-import quotes from '../../utils/quotes';
+import PropTypes from "prop-types";
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import shortcodes from "remark-shortcodes";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+import Embed from "../embed";
+import Image from "../image";
+import widont from "../../utils/widont";
+import quotes from "../../utils/quotes";
+import BodyImage from "../image/markdown";
 
-const P = styled.p`${tachyons}`;
-const Cite = styled.cite`${tachyons}`;
-const Blockquote = styled.blockquote`${tachyons}`;
+const P = styled.p`
+	${tachyons}
+`;
+const Cite = styled.cite`
+	${tachyons}
+`;
+const Blockquote = styled.blockquote`
+	${tachyons}
+`;
 
-const Short = ({data}) => {
+const Short = ({ data }) => {
 	let body;
 	if (data.body) {
 		body = (
@@ -22,17 +29,22 @@ const Short = ({data}) => {
 				plugins={[shortcodes]}
 				renderers={{
 					shortcode: Embed,
-					link: AutoEmbed
+					link: AutoEmbed,
+					image: BodyImage
 				}}
 			/>
 		);
 	}
 	return (
 		<React.Fragment>
-			{ data.image ? <Image data={data.image.fields}/> : null }
+			{data.image ? <Image data={data.image.fields} /> : null}
 			<Blockquote ma0 mt4 pl3 bl bw3 b__near_black>
-				<P lh_title f3 fw6 ma0 pa0>{quotes(widont(data.title))}</P>
-				<Cite lh_copy ma0 pa0>{body}</Cite>
+				<P lh_title f3 fw6 ma0 pa0>
+					{quotes(widont(data.title))}
+				</P>
+				<Cite lh_copy ma0 pa0>
+					{body}
+				</Cite>
 			</Blockquote>
 		</React.Fragment>
 	);
