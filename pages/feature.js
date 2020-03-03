@@ -66,11 +66,13 @@ const Feature = styled.article`
 `;
 
 const RelatedFeatures = styled.div`
+	display: inline-block;
+
 	${mq.smUp`
 		position: sticky;
 		/* Off set site header */
 		top: 80px;
-	`}
+	`};
 `;
 class FeaturePage extends React.Component {
 	static propTypes = {
