@@ -64,6 +64,23 @@ class AutoEmbed extends Component {
 			);
 		}
 
+		if (
+			this.state.inBrowser &&
+			this.props.href.includes("ridewithgps.com/embeds")
+		) {
+			return (
+				<iframe
+					width="640"
+					height="724"
+					style={{ maxWidth: "100%" }}
+					src={this.props.href}
+					frameborder="0"
+					marginheight="0"
+					marginwidth="0"
+				/>
+			);
+		}
+
 		const { hostname } = new URL(this.props.href);
 
 		return (

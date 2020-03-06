@@ -76,6 +76,7 @@ const Block = ({ block, feature }) => {
 			</Header>
 		);
 	}
+
 	return (
 		<Wrap mr0 fl className="cf">
 			{heading}
