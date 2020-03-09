@@ -1,77 +1,46 @@
+import { useState } from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
 import Header from "../components/header";
 import Page from "../components/shared/page";
 import Footer from "../components/footer";
 import { WithResults } from "../data/with-featured-results";
-import styled from "styled-components";
-import { useTable, useSortBy } from "react-table";
+import { FeaturedResultsTable } from "../components/FeaturedResults";
 
-const Styles = styled.div`
-	padding: 1rem;
-
-	table {
-		border-spacing: 0;
-		border: 1px solid black;
-
-		tr {
-			:last-child {
-				td {
-					border-bottom: 0;
-				}
-			}
-		}
-
-		th,
-		td {
-			margin: 0;
-			padding: 0.5rem;
-			border-bottom: 1px solid black;
-			border-right: 1px solid black;
-
-			:last-child {
-				border-right: 0;
-			}
-		}
-	}
+const ResultsGrid = styled.section`
+	display: flex;
+	flex-wrap: wrap;
+	box-sizing: border-box;
 `;
 
+const Race = styled.div`
+	width: 30%;
+	flex-grow: 1;
+	box-sizing: border-box;
+	margin: 15px;
+	justify-content: space-between;
+	text-align: center;
+`;
+
+const RaceYears = styled.ul`
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: 15px;
+`;
+const RaceYear = styled.li`
+	${tachyons};
+	text-align: center;
+	cursor: pointer;
+`;
 const Results = props => {
-	console.log(props.races[0].events);
+	const [selectedRace, setSelectedRace] = useState([]);
 
-	const headers = [
-		"Race",
-		"Year",
-		"Rank",
-		"Rider",
-		"Cap/Bib",
-		"Class/Category",
-		"Result",
-		"Bike",
-		"Finish Location",
-		"Finish Time",
-		"Notes"
-	];
-
-	const columns = React.useMemo(() => headers.map(h => ({ Header: h })), []);
-
-	const data = React.useMemo(() => props.races, []);
-
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		rows,
-		prepareRow
-	} = useTable(
-		{
-			columns,
-			data
-		},
-		useSortBy
-	);
-
-	const firstPageRows = rows.slice(0, 20);
+	const [raceName, raceYear] = selectedRace;
 
 	return (
 		<Page>
@@ -107,44 +76,36 @@ const Results = props => {
 				/>
 			</Head>
 			<Header title="dotwatcher.cc" />
-			<table {...getTableProps()}>
-				<thead>
-					{headerGroups.map(headerGroup => (
-						<tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-								// Add the sorting props to control sorting. For this example
-								// we can add them into the header props
-								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
-									{column.render("Header")}
-									{/* Add a sort direction indicator */}
-									<span>
-										{column.isSorted
-											? column.isSortedDesc
-												? " 🔽"
-												: " 🔼"
-											: ""}
-									</span>
-								</th>
-							))}
-						</tr>
-					))}
-				</thead>
-				<tbody {...getTableBodyProps()}>
-					{firstPageRows.map((row, i) => {
-						prepareRow(row);
-						return (
-							<tr {...row.getRowProps()}>
-								{row.cells.map(cell => {
-									return (
-										<td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-									);
-								})}
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
 
+			<ResultsGrid>
+				{Object.keys(props.races).map(race => (
+					<Race key={race}>
+						<h4>{race}</h4>
+
+						<RaceYears>
+							{Object.keys(props.races[race]).map(year => (
+								<RaceYear
+									dib
+									hover_bg_lightest_blue
+									bg_light_gray
+									ba
+									bw1
+									b__white
+									f4
+									lh_copy
+									key={year + race}
+									onClick={() => setSelectedRace([race, year])}
+								>
+									{year}
+								</RaceYear>
+							))}
+						</RaceYears>
+					</Race>
+				))}
+			</ResultsGrid>
+			{raceName && (
+				<FeaturedResultsTable race={props.races[raceName][raceYear]} />
+			)}
 			<Footer />
 		</Page>
 	);

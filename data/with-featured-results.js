@@ -9,7 +9,8 @@ export const WithResults = Page => {
 
 	WithResults.getInitialProps = async ctx => {
 		const allResultsResponse = await fetch(
-			apiUrl(`/api/featured-races`, ctx.req)
+			// apiUrl(`/api/featured-races`, ctx.req)
+			"https://aef3a54d-f4ca-4386-bece-c4199f4a3927.mock.pstmn.io/api/featured-races"
 		);
 		const races = await allResultsResponse.json();
 		return {

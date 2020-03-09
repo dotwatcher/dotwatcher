@@ -20,17 +20,22 @@ export default async function handle(req, res) {
 		const formatted = results.reduce((acc, curr) => {
 			if (!curr) return acc;
 
-			const { racename, year } = curr;
+			try {
+				const { racename, year } = curr;
 
-			console.log(acc[racename][year]);
-
-			return {
-				...acc,
-				[racename]: {
-					...acc[racename],
-					[year]: acc[racename][year] ? [...acc[racename][year], curr] : [curr]
-				}
-			};
+				return {
+					...acc,
+					[racename]: {
+						...acc[racename],
+						[year]: acc[racename]
+							? [acc[racename][year], curr].flat().filter(x => x)
+							: curr
+					}
+				};
+			} catch (e) {
+				console.log(e);
+				return acc;
+			}
 		}, {});
 
 		res.json(formatted);
