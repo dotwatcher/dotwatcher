@@ -4,6 +4,7 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import EmailSignUp from "../Newsletter";
 import { initGA, logPageView } from "../../utils/analytics";
+import mq from "../../utils/media-query";
 import Cookies from "js-cookie";
 
 const Wrapper = styled.div`
@@ -43,11 +44,16 @@ const Newsletter = styled.div`
 `;
 
 const NewsletterWrapper = styled.div`
-	grid-column: 3 / span 8;
+	grid-column: 1 / span 10;
 	z-index: 1;
-	padding: var(--spacing-extra-large);
+	padding: var(--spacing-large);
 	background: var(--white);
 	position: relative;
+
+	${mq.mdUp`
+		padding: var(--spacing-extra-large);
+		grid-column: 3 / span 8;
+	`}
 `;
 
 const Close = styled.button`
