@@ -28,9 +28,13 @@ const A = styled.a`
 `;
 
 const RaceCalendar = ({ races }) => {
+	const racesSubCovid = races.filter(
+		race => race.data.slug !== "covid-19-updates"
+	);
+
 	return (
 		<React.Fragment>
-			{races.map(race => {
+			{racesSubCovid.map(race => {
 				const link = {
 					href: race.data.calendarOnly
 						? race.data.website

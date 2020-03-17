@@ -65,7 +65,11 @@ const CalanderPage = ({ races = [], router }) => {
 		}
 	}
 
-	const coloredRaces = races.map((race, i) => ({
+	const racesSubCovid = races.filter(
+		race => race.data.slug !== "covid-19-updates"
+	);
+
+	const coloredRaces = racesSubCovid.map((race, i) => ({
 		...race,
 		eventColor: eventColors[i]
 	}));
