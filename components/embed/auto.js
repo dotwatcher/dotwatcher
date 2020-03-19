@@ -63,16 +63,28 @@ class AutoEmbed extends Component {
 				/>
 			);
 		}
-		console.log(this.props);
 		if (
-			(this.state.inBrowser &&
-				this.props.href.includes("ridewithgps.com/embeds")) ||
-			this.props.href.includes("vimeo.com")
+			this.state.inBrowser &&
+			this.props.href.includes("ridewithgps.com/embeds")
 		) {
 			return (
 				<iframe
 					width="640"
 					height="724"
+					style={{ maxWidth: "100%" }}
+					src={this.props.href}
+					frameBorder="0"
+					marginHeight="0"
+					marginWidth="0"
+				/>
+			);
+		}
+
+		if (this.state.inBrowser && this.props.href.includes("player.vimeo.com")) {
+			return (
+				<iframe
+					width="600"
+					height="400"
 					style={{ maxWidth: "100%" }}
 					src={this.props.href}
 					frameBorder="0"
