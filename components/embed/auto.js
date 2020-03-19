@@ -63,10 +63,11 @@ class AutoEmbed extends Component {
 				/>
 			);
 		}
-
+		console.log(this.props);
 		if (
-			this.state.inBrowser &&
-			this.props.href.includes("ridewithgps.com/embeds")
+			(this.state.inBrowser &&
+				this.props.href.includes("ridewithgps.com/embeds")) ||
+			this.props.href.includes("vimeo.com")
 		) {
 			return (
 				<iframe
@@ -74,9 +75,9 @@ class AutoEmbed extends Component {
 					height="724"
 					style={{ maxWidth: "100%" }}
 					src={this.props.href}
-					frameborder="0"
-					marginheight="0"
-					marginwidth="0"
+					frameBorder="0"
+					marginHeight="0"
+					marginWidth="0"
 				/>
 			);
 		}
