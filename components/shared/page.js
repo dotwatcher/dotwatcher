@@ -44,7 +44,7 @@ const Newsletter = styled.div`
 `;
 
 const NewsletterWrapper = styled.div`
-	grid-column: 1 / span 10;
+	grid-column: 2 / span 10;
 	z-index: 1;
 	padding: var(--spacing-large);
 	background: var(--white);
