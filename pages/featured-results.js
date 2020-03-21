@@ -1,47 +1,85 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import Head from "next/head";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
+import Link from "next/link";
+import { compose } from "recompose";
+
 import Header from "../components/header";
 import Page from "../components/shared/page";
 import Footer from "../components/footer";
 import { WithResults } from "../data/with-featured-results";
-import { FeaturedResultsTable } from "../components/FeaturedResults";
+import { WithRiders } from "../data/with-riders";
+import ResultsFilter from "../components/results-index/results-filter";
 
-const ResultsGrid = styled.section`
-	display: flex;
-	flex-wrap: wrap;
-	box-sizing: border-box;
+const Div = styled.div`
+	${tachyons}
 `;
 
-const Race = styled.div`
-	width: 30%;
-	flex-grow: 1;
-	box-sizing: border-box;
-	margin: 15px;
-	justify-content: space-between;
-	text-align: center;
+const H1 = styled.h1`
+	${tachyons}
 `;
 
-const RaceYears = styled.ul`
+const A = styled.a`
+	${tachyons}
+`;
+
+const Span = styled.span`
+	${tachyons}
+`;
+
+const RaceWrapper = styled.ul`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
 	list-style-type: none;
-	margin: 0;
 	padding: 0;
+	margin: 0;
+`;
+
+const RaceYearsWrapper = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
-	grid-column-gap: 15px;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 `;
-const RaceYear = styled.li`
-	${tachyons};
-	text-align: center;
-	cursor: pointer;
-`;
+
 const Results = props => {
-	const [selectedRace, setSelectedRace] = useState([]);
+	const [riders, setRiders] = useState(
+		props.riders ? props.riders.results : []
+	);
+	const [races, setRaces] = useState(props.races || {});
+	const [inputValue, setinputValue] = useState("");
 
-	const [raceName, raceYear] = selectedRace;
+	const handleChange = e => {
+		let { value } = e.target;
+		value = value.toLowerCase();
 
+		if (value.length < 3) return;
+
+		setinputValue(value);
+
+		setRiders(riders.filter(rider => rider.name.includes(value)));
+
+		let _races = Object.keys(races).filter(race => {
+			return race.toLowerCase().includes(value);
+		});
+
+		_races = _races.reduce((acc, curr) => {
+			if (!curr) return acc;
+			return {
+				[curr]: props.races[curr],
+				...acc
+			};
+		}, {});
+
+		debugger;
+
+		setRaces(_races);
+	};
+
+	console.log("races ", races);
 	return (
 		<Page>
 			<Head>
@@ -77,46 +115,59 @@ const Results = props => {
 			</Head>
 			<Header title="dotwatcher.cc" />
 
-			<ResultsGrid>
-				{Object.keys(props.races).map(race => (
-					<Race key={race}>
-						<h4>{race}</h4>
+			<Div mt3 mt4_l mh6_l>
+				<H1>Featured Results</H1>
 
-						<RaceYears>
-							{Object.keys(props.races[race]).map(year => (
-								<RaceYear
-									dib
-									hover_bg_lightest_blue
-									bg_light_gray
-									ba
-									bw1
-									b__white
-									f4
-									lh_copy
-									key={year + race}
-									onClick={() => setSelectedRace([race, year])}
-								>
-									{year}
-								</RaceYear>
-							))}
-						</RaceYears>
-					</Race>
+				<Link href="/results" passHref>
+					<A db link near_black hover_blue>
+						← All results
+					</A>
+				</Link>
+
+				<input type="text" onChange={handleChange} />
+
+				<H1>Races</H1>
+
+				{Object.keys(races).length > 0 && (
+					<RaceWrapper>
+						{Object.keys(races).map((race, i) => (
+							<li key={race[race]}>
+								<Span pl2>{race}</Span>
+
+								<RaceYearsWrapper>
+									{Object.keys(races[race])
+										.filter(x => x !== "slug")
+										.map(year => (
+											<li key={race + year}>
+												<Link
+													href={`/results?year=${year}&race=${races[race].slug}`}
+													as={`/results/${year}/${races[race].slug}`}
+													passHref
+												>
+													<A db pa2 link near_black>
+														{year}
+													</A>
+												</Link>
+											</li>
+										))}
+								</RaceYearsWrapper>
+							</li>
+						))}
+					</RaceWrapper>
+				)}
+
+				<H1>Riders</H1>
+
+				{riders.map(rider => (
+					<p>{rider.name}</p>
 				))}
-			</ResultsGrid>
-			{raceName && (
-				<FeaturedResultsTable race={props.races[raceName][raceYear]} />
-			)}
+			</Div>
+
 			<Footer />
 		</Page>
 	);
 };
 
-Results.propTypes = {
-	allRaces: PropTypes.array
-};
+const enhance = compose(WithResults, WithRiders);
 
-Results.defaultProps = {
-	raceResultsByYear: []
-};
-
-export default WithResults(Results);
+export default enhance(Results);

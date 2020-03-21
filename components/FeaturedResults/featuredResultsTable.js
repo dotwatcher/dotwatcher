@@ -98,7 +98,6 @@ export default ({ race }) => {
 						return (
 							<tr {...row.getRowProps()}>
 								{row.cells.map(cell => {
-									console.log(cell);
 									return <td {...cell.getCellProps()}>{cell.render()}</td>;
 								})}
 							</tr>
