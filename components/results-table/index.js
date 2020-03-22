@@ -45,6 +45,7 @@ class ResultsTable extends React.Component {
 		this.setCategoryFilter = this.setCategoryFilter.bind(this);
 		this.setLocationFilter = this.setLocationFilter.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
+		this.sanitizeResults = this.sanitizeResults.bind(this);
 	}
 
 	setClassFilter(filter) {
@@ -80,11 +81,24 @@ class ResultsTable extends React.Component {
 		);
 	}
 
+	sanitizeResults(results) {
+		return results.map(result => ({
+			...result,
+			cap: parseInt(result.cap),
+			days: parseInt(result.days),
+			hours: parseInt(result.hours),
+			minutes: parseInt(result.minutes)
+		}));
+	}
+
 	sortColumn(sorter) {
-		console.log(this.state.selectedSort, sorter);
 		const reverse =
 			this.state.selectedSort === sorter ? !this.state.sortReveresed : false;
-		const sortedResults = arraySort(this.props.results, sorter, { reverse });
+		const sortedResults = arraySort(
+			this.sanitizeResults(this.props.results),
+			sorter,
+			{ reverse }
+		);
 
 		this.setState({
 			results: sortedResults,
