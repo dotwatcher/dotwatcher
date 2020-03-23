@@ -259,7 +259,7 @@ class ResultsTable extends React.Component {
 								tr
 								underline_hover
 								pointer
-								onClick={() => this.sortColumn(["day", "hours", "minutes"])}
+								onClick={() => this.sortColumn("position")}
 							>
 								<abbr title="Finish Time in days, hours and minutes">
 									Finish Time
