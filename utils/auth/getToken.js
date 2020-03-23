@@ -4,7 +4,7 @@ export default async () => {
 	try {
 		const res = await axios({
 			method: "get",
-			url: "/api/auth/token"
+			url: process.env.AUTH0_CALLBACK_DOMAIN + "/api/auth/token"
 		});
 
 		return {

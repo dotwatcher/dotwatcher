@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { compose, lifecycle } from "recompose";
+import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
@@ -60,12 +60,6 @@ const Span = styled.span`
 
 const BiographyInput = styled(Textarea)`
 	min-height: 155px;
-`;
-
-const ProfileImage = styled(Div)`
-	/* display: grid;
-	grid-column-gap: 30px;
-	grid-template-columns: repeat(2, 1fr); */
 `;
 
 const PictureThumb = styled.img`
@@ -166,7 +160,7 @@ const Profile = ({
 						</Link>
 					)}
 
-					<ProfileImage mb4 bb bw1 pb4_ns b__light_gray>
+					<Div mb4 bb bw1 pb4_ns b__light_gray>
 						{preview && <PictureThumb src={preview} alt="Thumnail" />}
 						<Div mt3 className="upload">
 							<Button
@@ -183,6 +177,7 @@ const Profile = ({
 								bw1
 								b__blue
 								dib
+								pointer
 								onClick={uploadWidget}
 								type="button"
 								className="upload-button"
@@ -190,7 +185,7 @@ const Profile = ({
 								Update Profile Image
 							</Button>
 						</Div>
-					</ProfileImage>
+					</Div>
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<div>
@@ -264,6 +259,7 @@ const Profile = ({
 								bw1
 								b__blue
 								dib
+								pointer
 								type="submit"
 								disabled={isSubmitting || !isValid}
 							>

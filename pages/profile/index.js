@@ -123,12 +123,13 @@ const App = ({ profile, name, user, auth0Profile }) => {
 		(async () => {
 			try {
 				const res = await axios({ method: "get", url: "/api/auth/me" });
+
 				if (!res.error && res.status === 200 && res.data) {
 					setLoggedIn(res.data);
 				}
-			} catch (e) {
+			} catch (error) {
 				setLoggedIn(false);
-				console.log(e);
+				console.log(error);
 			}
 		})();
 	}, []);
@@ -235,7 +236,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 											<li>
 												<SocialAnchor
 													title="Ride With GPS"
-													href={`https://www.strava.com/athletes/${auth0Profile.user_metadata.rideWithGPSID}`}
+													href={`https://ridewithgps.com/users/${auth0Profile.user_metadata.rideWithGPSID}`}
 												>
 													<svg
 														width="16px"
@@ -280,24 +281,6 @@ const App = ({ profile, name, user, auth0Profile }) => {
 												</SocialAnchor>
 											</li>
 										)}
-
-										{/*<li>
-										<SocialAnchor
-											href={`https://twitter.com/marksmithstuff`}
-											title="Twitter"
-										>
-											<Twitter />
-										</SocialAnchor>
-									</li>
-
-									<li>
-										<SocialAnchor
-											href={`https://www.facebook.com/alex.greenaway.9`}
-											title="Facebook"
-										>
-											<Facebook />
-										</SocialAnchor>
-									</li>*/}
 									</SocialIcons>
 								</div>
 							</Grid>

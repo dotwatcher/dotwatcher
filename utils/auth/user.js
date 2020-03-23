@@ -19,7 +19,6 @@ export default {
 				data
 			};
 		} catch (error) {
-			console.log(error);
 			return {
 				success: false,
 				error
