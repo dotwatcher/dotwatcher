@@ -306,7 +306,6 @@ const Profile = ({
 const enhance = compose(
 	withFormik({
 		mapPropsToValues: ({ meta }) => {
-			debugger;
 			if (meta.user_metadata) {
 				return meta.user_metadata;
 			}
