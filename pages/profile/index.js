@@ -221,10 +221,10 @@ const App = ({ profile, name, user, auth0Profile }) => {
 									<H1 f4 f3_l fw6 lh_title mt0>
 										Social Accounts
 									</H1>
-									{!auth0Profile.user_metadata?.stravaID ||
-									!auth0Profile.user_metadata?.rideWithGPSID ||
+									{!auth0Profile.user_metadata?.stravaID &&
+									!auth0Profile.user_metadata?.rideWithGPSID &&
 									!auth0Profile.user_metadata?.instagramHandle ? (
-										<p>No social accounts have been linked up</p>
+										<>No social accounts have been linked up</>
 									) : (
 										<SocialIcons>
 											{auth0Profile.user_metadata?.stravaID && (
