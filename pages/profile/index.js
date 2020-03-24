@@ -207,7 +207,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 										src={
 											auth0Profile.user_metadata?.userPicture
 												? auth0Profile.user_metadata.userPicture
-												: "/static/empty-profile.png"
+												: auth0Profile.picture || "/static/empty-profile.png"
 										}
 										alt={name}
 									/>
