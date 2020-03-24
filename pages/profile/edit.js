@@ -83,7 +83,7 @@ const inputs = [
 ];
 
 const getProfilePicture = ({ meta }) => {
-	if (meta.user_metadata.userPicture) {
+	if (meta.user_metadata?.userPicture) {
 		return meta.user_metadata.userPicture;
 	}
 
@@ -209,36 +209,38 @@ const Profile = ({
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<div>
-							{inputs.map((input, i) => (
-								<label key={i}>
-									<Span dib w_100 f4 mb1>
-										{input.placeholder}
-									</Span>
-									<Input
-										type="text"
-										name={input.name}
-										placeholder={input.placeholder}
-										value={values[input.name]}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										input_reset
-										ba
-										bw1
-										b__blue
-										ph3
-										pv2
-										mb3
-										f4
-										fl
-										w_100
-									/>
-									{errors[input.name] && (
-										<Span dib mb4 blue>
-											{errors[input.name]}
+							{inputs.map((input, i) => {
+								return (
+									<label key={i}>
+										<Span dib w_100 f4 mb1>
+											{input.placeholder}
 										</Span>
-									)}
-								</label>
-							))}
+										<Input
+											type="text"
+											name={input?.name}
+											placeholder={input?.placeholder}
+											value={values && values[input?.name]}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											input_reset
+											ba
+											bw1
+											b__blue
+											ph3
+											pv2
+											mb3
+											f4
+											fl
+											w_100
+										/>
+										{errors[input?.name] && (
+											<Span dib mb4 blue>
+												{errors[input?.name]}
+											</Span>
+										)}
+									</label>
+								);
+							})}
 						</div>
 
 						<div>
@@ -248,7 +250,7 @@ const Profile = ({
 								</Span>
 								<BiographyInput
 									name="biography"
-									value={values.biography}
+									value={values?.biography}
 									onChange={handleChange}
 									onBlur={handleBlur}
 									placeholder="Bio"
@@ -303,7 +305,16 @@ const Profile = ({
 
 const enhance = compose(
 	withFormik({
-		mapPropsToValues: ({ meta }) => (meta ? meta.user_metadata : {}),
+		mapPropsToValues: ({ meta }) => {
+			debugger;
+			if (meta.user_metadata) {
+				return meta.user_metadata;
+			}
+
+			return Object.keys(inputs).reduce((acc, curr) => {
+				return { [acc[curr]]: "", ...acc };
+			}, {});
+		},
 		validationSchema: yup.object().shape({
 			stravaID: yup.number("Strava ID should only contain numbers"),
 			rideWithGPSID: yup.number("Ride With GPS ID should only contain numbers")
@@ -311,9 +322,6 @@ const enhance = compose(
 		handleSubmit: async (values, { props, setSubmitting, setStatus }) => {
 			setSubmitting(true);
 			try {
-				// const db_name = ls.get(LS_RIDER_NAME);
-				// ls.remove(LS_RIDER_NAME);
-
 				await userAPI.update({
 					id: props.user.user.sub,
 					data: values
