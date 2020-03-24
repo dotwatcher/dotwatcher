@@ -148,24 +148,13 @@ const Profile = ({
 				<Div mt3 mt4_l mh6_l>
 					<h1>Profile</h1>
 
-					{meta && meta.user_metadata && meta.user_metadata.db_name && (
-						<Link
-							href={`/rider?name=${meta.user_metadata.db_name}`}
-							as={`/rider/${meta.user_metadata.db_name}`}
-							passHref
-						>
-							<A db link near_black hover_blue dim>
-								View my profile
-							</A>
-						</Link>
-					)}
-
 					<Div mb4 bb bw1 pb4_ns b__light_gray>
 						{preview && <PictureThumb src={preview} alt="Thumnail" />}
 						<Div mt3 className="upload">
 							<Button
 								f4
 								bg_blue
+								hover_bg_dark_blue
 								w_
 								pv2
 								mb3
@@ -184,6 +173,37 @@ const Profile = ({
 							>
 								Update Profile Image
 							</Button>
+
+							{meta.user_metadata?.name && (
+								<Link
+									href={`/profile?name=${meta.user_metadata.name}`}
+									as={`/profile/${meta.user_metadata.name}`}
+									passHref
+								>
+									<A>
+										<Button
+											f4
+											bg_blue
+											hover_bg_dark_blue
+											w_
+											pv2
+											mb3
+											tc
+											white
+											ttl
+											small_caps
+											ba
+											bw1
+											b__blue
+											dib
+											pointer
+											ml4
+										>
+											View my profile
+										</Button>
+									</A>
+								</Link>
+							)}
 						</Div>
 					</Div>
 
@@ -260,6 +280,7 @@ const Profile = ({
 								b__blue
 								dib
 								pointer
+								hover_bg_dark_blue
 								type="submit"
 								disabled={isSubmitting || !isValid}
 							>
