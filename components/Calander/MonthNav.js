@@ -239,7 +239,7 @@ const Nav = ({
 					onChange={handleChange}
 					name="year"
 					ref={yearRef}
-					defaultValue={years.find(y => y === intYear)}
+					value={years.find(y => y === intYear)}
 				>
 					{years.map(y => (
 						<option key={y} value={y}>
@@ -252,7 +252,7 @@ const Nav = ({
 					onChange={handleChange}
 					name="month"
 					ref={monthRef}
-					defaultValue={[...Array(12).keys()].find(m => m === intMonth)}
+					value={[...Array(12).keys()].find(m => m === intMonth)}
 				>
 					{[...Array(12).keys()].map(m => (
 						<option key={m} value={m}>
