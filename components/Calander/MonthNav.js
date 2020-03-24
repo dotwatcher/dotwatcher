@@ -195,6 +195,7 @@ const Nav = ({
 				<Button
 					f4
 					bg_blue
+					hover_bg_dark_blue
 					ph3
 					pv2
 					mb2
@@ -205,9 +206,6 @@ const Nav = ({
 					tracked
 					ttl
 					small_caps
-					ba
-					bw1
-					b__blue
 					onClick={handleTodayClick}
 				>
 					Today
