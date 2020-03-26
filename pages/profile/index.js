@@ -20,6 +20,7 @@ import apiUrl from "./../../utils/api-url";
 import ResultsTable from "../../components/results-table";
 import ResultsContribute from "../../components/results-contribute";
 import { WithProfile } from "../../data/with-profile";
+import { user as authUser } from "../../utils/auth";
 
 const Heading = styled.header`
 	${tachyons}
@@ -118,14 +119,19 @@ const App = ({ profile, name, user, auth0Profile }) => {
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await axios({ method: "get", url: "/api/auth/me" });
+				const me = await axios({ method: "get", url: "/api/auth/me" });
+				if (!me.error && me.status === 200 && me.data) {
+					const profile = await authUser.get(me.data.sub);
 
-				if (!res.error && res.status === 200 && res.data) {
-					setLoggedIn(res.data);
+					setLoggedIn({
+						...me.data,
+						user_metadata: profile.data.user_metadata
+					});
 				}
 			} catch (error) {
 				setLoggedIn(false);
@@ -135,6 +141,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 	}, []);
 
 	const handleClaim = async () => {
+		setIsLoading(true);
 		try {
 			if (!loggedIn) {
 				Router.push("/api/auth/login");
@@ -159,6 +166,8 @@ const App = ({ profile, name, user, auth0Profile }) => {
 		} catch (err) {
 			console.log(err);
 			Router.push("/api/auth/login");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -278,8 +287,10 @@ const App = ({ profile, name, user, auth0Profile }) => {
 							</Grid>
 						)}
 
-						{/* if there is a user, but no auth0 sub id.*/}
-						{
+						{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
+						{(!loggedIn.user_metadata?.name ||
+							loggedIn.user_metadata?.name.toLowerCase() ===
+								name.toLowerCase()) && (
 							<Button
 								mt4
 								f4
@@ -295,7 +306,9 @@ const App = ({ profile, name, user, auth0Profile }) => {
 								b__blue
 								dib
 								type="button"
-								disabled={profileIsClaimed && !isCurrentUserProfile}
+								disabled={
+									isLoading || (profileIsClaimed && !isCurrentUserProfile)
+								}
 								onClick={
 									isCurrentUserProfile
 										? () => Router.push("/profile/edit")
@@ -304,13 +317,15 @@ const App = ({ profile, name, user, auth0Profile }) => {
 										: () => setclaimToggle(true)
 								}
 							>
-								{isCurrentUserProfile
+								{isLoading
+									? "Loading"
+									: isCurrentUserProfile
 									? "Edit your profile"
 									: profileIsClaimed
 									? "Profile already claimed"
 									: "Claim this profile"}
 							</Button>
-						}
+						)}
 					</Div>
 
 					<H1 fl f3 f2_l fw6 lh_title>
