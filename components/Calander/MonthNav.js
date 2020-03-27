@@ -195,6 +195,7 @@ const Nav = ({
 				<Button
 					f4
 					bg_blue
+					hover_bg_dark_blue
 					ph3
 					pv2
 					mb2
@@ -205,9 +206,6 @@ const Nav = ({
 					tracked
 					ttl
 					small_caps
-					ba
-					bw1
-					b__blue
 					onClick={handleTodayClick}
 				>
 					Today
@@ -239,7 +237,7 @@ const Nav = ({
 					onChange={handleChange}
 					name="year"
 					ref={yearRef}
-					defaultValue={years.find(y => y === intYear)}
+					value={years.find(y => y === intYear)}
 				>
 					{years.map(y => (
 						<option key={y} value={y}>
@@ -252,7 +250,7 @@ const Nav = ({
 					onChange={handleChange}
 					name="month"
 					ref={monthRef}
-					defaultValue={[...Array(12).keys()].find(m => m === intMonth)}
+					value={[...Array(12).keys()].find(m => m === intMonth)}
 				>
 					{[...Array(12).keys()].map(m => (
 						<option key={m} value={m}>

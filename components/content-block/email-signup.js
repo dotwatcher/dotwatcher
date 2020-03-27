@@ -14,6 +14,7 @@ const Form = styled.form`
 `;
 const Div = styled.div`
 	${tachyons}
+	width: 100%;
 `;
 const P = styled.p`
 	${tachyons}
