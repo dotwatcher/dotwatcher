@@ -5,6 +5,7 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Router from "next/router";
 import axios from "axios";
+import mq from "../../utils/media-query";
 
 import {
 	FaStrava as Strava,
@@ -57,8 +58,12 @@ const P = styled.p`
 const Grid = styled.div`
 	${tachyons};
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
 	grid-column-gap: 30px;
+	grid-template-columns: repeat(1, 1fr);
+
+	${mq.mdUp`
+		grid-template-columns: repeat(3, 1fr);
+	`}
 `;
 
 const SocialIcons = styled.ul`
@@ -102,11 +107,16 @@ const ClaimModal = styled.div`
 `;
 
 const ClaimWrapper = styled.div`
-	grid-column: 3 / span 8;
+	grid-column: 2 / span 10;
+	padding: var(--spacing-large);
 	z-index: 1;
-	padding: var(--spacing-extra-large);
 	background: var(--white);
 	position: relative;
+
+	${mq.mdUp`
+		grid-column: 3 / span 8;
+		padding: var(--spacing-extra-large);
+	`}
 `;
 
 const SocialAnchor = ({ href, children }) => (
@@ -125,6 +135,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 		(async () => {
 			try {
 				const me = await axios({ method: "get", url: "/api/auth/me" });
+
 				if (!me.error && me.status === 200 && me.data) {
 					const profile = await authUser.get(me.data.sub);
 
@@ -190,6 +201,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 	const authID = profile[0] && profile[0].auth_id;
 	const profileIsClaimed = !!authID;
 	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
+	const noSocialAccounts = !auth0Profile?.user_metadata.length <= 0;
 
 	return (
 		<PageWrapper name={name} user={user}>
@@ -223,24 +235,34 @@ const App = ({ profile, name, user, auth0Profile }) => {
 								}
 
 								{auth0Profile.user_metadata?.biography && (
-									<P mt0>{auth0Profile.user_metadata.biography}</P>
+									<P mt2 mt0_l>
+										{auth0Profile.user_metadata.biography}
+									</P>
 								)}
 
 								<div>
 									<H1 f4 f3_l fw6 lh_title mt0>
 										Social Accounts
 									</H1>
-									{!auth0Profile.user_metadata?.stravaID &&
-									!auth0Profile.user_metadata?.rideWithGPSID &&
-									!auth0Profile.user_metadata?.instagramHandle ? (
+									{noSocialAccounts ? (
 										<>No social accounts have been linked up</>
 									) : (
 										<SocialIcons>
+											{auth0Profile.user_metadata?.twitterHanlde && (
+												<li>
+													<SocialAnchor
+														title="Twitter"
+														href={auth0Profile.user_metadata.twitterHanlde}
+													>
+														<Twitter />
+													</SocialAnchor>
+												</li>
+											)}
 											{auth0Profile.user_metadata?.stravaID && (
 												<li>
 													<SocialAnchor
 														title="Strava"
-														href={`https://www.strava.com/athletes/${auth0Profile.user_metadata.stravaID}`}
+														href={auth0Profile.user_metadata.stravaID}
 													>
 														<Strava />
 													</SocialAnchor>
@@ -250,7 +272,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 												<li>
 													<SocialAnchor
 														title="Ride With GPS"
-														href={`https://ridewithgps.com/users/${auth0Profile.user_metadata.rideWithGPSID}`}
+														href={auth0Profile.user_metadata.rideWithGPSID}
 													>
 														<svg
 															width="16px"
@@ -275,7 +297,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 												<li>
 													<SocialAnchor
 														title="Instagram"
-														href={`https://www.instagram.com/${auth0Profile.user_metadata.instagramHandle}`}
+														href={auth0Profile.user_metadata.instagramHandle}
 													>
 														<Instagram />
 													</SocialAnchor>

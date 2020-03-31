@@ -3,7 +3,6 @@ import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import * as yup from "yup";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -70,19 +69,29 @@ const PictureThumb = styled.img`
 const inputs = [
 	{
 		name: "instagramHandle",
-		placeholder: "Instagram Handle"
+		label: "Instagram Profile URL",
+		placeholder: "https://www.instagram.com/dotwatcher.cc"
 	},
 	{
 		name: "stravaID",
-		placeholder: "Strava ID"
+		label: "Strava Profile URL",
+		placeholder: "https://www.strava.com/athletes/12345"
 	},
 	{
 		name: "rideWithGPSID",
-		placeholder: "Ride With GPS ID"
+		label: "Ride With GPS Profile URL",
+		placeholder: "https://ridewithgps.com/users/12345"
+	},
+	{
+		name: "twitterHanlde",
+		label: "Twitter Profile URL",
+		placeholder: "https://twitter.com/dotwatcher"
 	}
 ];
 
 const getProfilePicture = ({ meta }) => {
+	if (!meta) return "/static/empty-profile.png";
+
 	if (meta.user_metadata?.userPicture) {
 		return meta.user_metadata.userPicture;
 	}
@@ -145,7 +154,7 @@ const Profile = ({
 			<Page>
 				<Header user={user} title="dotwatcher.cc" />
 
-				<Div mt3 mt4_l mh6_l>
+				<Div mt3 ml3 mr4 mt4_l mh6_l>
 					<h1>Profile</h1>
 
 					<Div mb4 bb bw1 pb4_ns b__light_gray>
@@ -174,7 +183,7 @@ const Profile = ({
 								Update Profile Image
 							</Button>
 
-							{meta.user_metadata?.name && (
+							{meta && meta.user_metadata?.name ? (
 								<Link
 									href={`/profile?name=${meta.user_metadata.name}`}
 									as={`/profile/${meta.user_metadata.name}`}
@@ -203,6 +212,12 @@ const Profile = ({
 										</Button>
 									</A>
 								</Link>
+							) : (
+								<Link href={`/results`} passHref>
+									<A near_black hover_blue ml4>
+										← Find my Profile
+									</A>
+								</Link>
 							)}
 						</Div>
 					</Div>
@@ -213,7 +228,7 @@ const Profile = ({
 								return (
 									<label key={i}>
 										<Span dib w_100 f4 mb1>
-											{input.placeholder}
+											{input.label}
 										</Span>
 										<Input
 											type="text"
@@ -306,7 +321,7 @@ const Profile = ({
 const enhance = compose(
 	withFormik({
 		mapPropsToValues: ({ meta }) => {
-			if (meta.user_metadata) {
+			if (meta?.user_metadata) {
 				return meta.user_metadata;
 			}
 
@@ -314,10 +329,6 @@ const enhance = compose(
 				return { [acc[curr]]: "", ...acc };
 			}, {});
 		},
-		validationSchema: yup.object().shape({
-			stravaID: yup.number("Strava ID should only contain numbers"),
-			rideWithGPSID: yup.number("Ride With GPS ID should only contain numbers")
-		}),
 		handleSubmit: async (values, { props, setSubmitting, setStatus }) => {
 			setSubmitting(true);
 			try {
