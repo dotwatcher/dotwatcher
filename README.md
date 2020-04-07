@@ -20,7 +20,18 @@ To be able to access the content for development you’ll need to create a file 
   "@pusher-secret": "",
   "@mailchimp": "",
   "@analytics": "UA-XXXXXX-X",
-  "@scrapey-api-key": ""
+  "@scrapey-api-key": "",
+  "@cloudinary-name": "",
+  "@cloudinary-preset": "",
+  "@cloudinary-key": "",
+  "@cloudinary-secret": "",
+  "@auth0-domain": "",
+  "@auth0-client-id": "",
+  "@auth0-client-secret": "",
+  "@auth0-app-client-id": "",
+  "@auth0-app-client-secret": "",
+  "@auth0-app-cookie-secret": "",
+  "@auth0-callback-domain": ""
 }
 ```
 
