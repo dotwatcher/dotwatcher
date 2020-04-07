@@ -327,11 +327,10 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 											);
 										})}
 
-										{auth0Profile.user_metadata?.otherRaces
-											.split(",")
-											.map((race) => (
-												<p>{race}</p>
-											))}
+										{auth0Profile.user_metadata?.otherRaces.length > 0 &&
+											auth0Profile.user_metadata?.otherRaces
+												.split(",")
+												.map((race) => <p>{race}</p>)}
 									</div>
 								</div>
 							</Grid>
