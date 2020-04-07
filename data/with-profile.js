@@ -2,13 +2,12 @@ import React from "react";
 import fetch from "isomorphic-fetch";
 import formatter from "./formatter";
 import apiUrl from "./../utils/api-url";
-import Axios from "axios";
 import { user as userAPI } from "../utils/auth";
 
-export const WithProfile = Page => {
-	const WithProfile = props => <Page {...props} />;
+export const WithProfile = (Page) => {
+	const WithProfile = (props) => <Page {...props} />;
 
-	WithProfile.getInitialProps = async ctx => {
+	WithProfile.getInitialProps = async (ctx) => {
 		const { name } = ctx.query;
 
 		const profileResponse = await fetch(
@@ -26,7 +25,7 @@ export const WithProfile = Page => {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
 			name,
 			profile,
-			auth0Profile: auth0Profile.success && auth0Profile.data
+			auth0Profile: auth0Profile.success && auth0Profile.data,
 		};
 	};
 

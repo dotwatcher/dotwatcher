@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
+import { user as userAPI } from "../../../utils/auth";
 
 const Div = styled.div`
 	${tachyons}
@@ -39,7 +40,7 @@ const getProfilePicture = ({ meta }) => {
 	return "/static/empty-profile.png";
 };
 
-export default ({ meta }) => {
+export default ({ meta, user }) => {
 	const profilePicture = getProfilePicture({ meta });
 
 	const [preview, setPreview] = useState(profilePicture);

@@ -70,7 +70,7 @@ const Profile = ({ user, meta, handleSubmit, ...props }) => {
 				<Div mt3 ml3 mr4 mt4_l mh6_l>
 					<h1>Profile</h1>
 
-					<ProfileHeader meta={meta} />
+					<ProfileHeader meta={meta} user={user} />
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<FormInputs meta={meta} inputs={inputs} {...props} />
