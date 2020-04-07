@@ -28,9 +28,10 @@ export default {
 	update: async ({ id, data }) => {
 		try {
 			const { token } = await getToken();
+
 			const res = await axios({
 				method: "patch",
-				url: `https:/${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
+				url: `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
 				headers: {
 					authorization: `Bearer ${token}`,
 					"Content-Type": "application/json",
