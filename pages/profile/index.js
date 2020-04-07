@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-
+import { compose } from "recompose";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Router from "next/router";
 import axios from "axios";
+import { format } from "date-fns";
 import mq from "../../utils/media-query";
 
 import {
 	FaStrava as Strava,
 	FaInstagram as Instagram,
 	FaTwitter as Twitter,
-	FaFacebook as Facebook
+	FaFacebook as Facebook,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -21,6 +22,7 @@ import apiUrl from "./../../utils/api-url";
 import ResultsTable from "../../components/results-table";
 import ResultsContribute from "../../components/results-contribute";
 import { WithProfile } from "../../data/with-profile";
+import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";
 
 const Heading = styled.header`
@@ -125,7 +127,7 @@ const SocialAnchor = ({ href, children }) => (
 	</A>
 );
 
-const App = ({ profile, name, user, auth0Profile }) => {
+const App = ({ profile, name, user, auth0Profile, races }) => {
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -141,7 +143,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 
 					setLoggedIn({
 						...me.data,
-						user_metadata: profile.data.user_metadata
+						user_metadata: profile.data.user_metadata,
 					});
 				}
 			} catch (error) {
@@ -150,6 +152,8 @@ const App = ({ profile, name, user, auth0Profile }) => {
 			}
 		})();
 	}, []);
+
+	const getRaceByID = (id) => races.find((r) => r.sys.id === id);
 
 	const handleClaim = async () => {
 		setIsLoading(true);
@@ -163,7 +167,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 				url: apiUrl(
 					`/api/rider/update?auth_id=${loggedIn.sub}&rider_name=${name}`
 				),
-				method: "PATCH"
+				method: "PATCH",
 			});
 
 			if (profile.errors) {
@@ -305,6 +309,32 @@ const App = ({ profile, name, user, auth0Profile }) => {
 											)}
 										</SocialIcons>
 									)}
+
+									<H1 f4 f3_l fw6 lh_title mt2>
+										Upcoming Races
+									</H1>
+									<div>
+										{auth0Profile.user_metadata?.races.map((race) => (
+											<Link href={`/results`} passHref>
+												<A near_black hover_blue>
+													{console.log(getRaceByID(race))}
+													<p key={race}>
+														{getRaceByID(race).data.title},{" "}
+														{format(
+															getRaceByID(race).data.raceDate,
+															"MMM YYYY"
+														)}
+													</p>
+												</A>
+											</Link>
+										))}
+
+										{auth0Profile.user_metadata?.otherRaces
+											.split(",")
+											.map((race) => (
+												<p>{race}</p>
+											))}
+									</div>
 								</div>
 							</Grid>
 						)}
@@ -374,7 +404,7 @@ const App = ({ profile, name, user, auth0Profile }) => {
 							value={claimConfim}
 							placeholder="Rider Name"
 							type="text"
-							onChange={e => setclaimConfim(e.target.value)}
+							onChange={(e) => setclaimConfim(e.target.value)}
 							input_reset
 							ba
 							bw1
@@ -425,12 +455,13 @@ const App = ({ profile, name, user, auth0Profile }) => {
 
 App.propTypes = {
 	name: PropTypes.string,
-	profile: PropTypes.array
+	profile: PropTypes.array,
 };
 
 App.defaultProps = {
 	name: "",
-	profile: []
+	profile: [],
 };
 
-export default WithProfile(App);
+const enhance = compose(WithProfile, withRaces);
+export default enhance(App);

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./";
 
 export default {
-	get: async id => {
+	get: async (id) => {
 		try {
 			const { token } = await getToken();
 
@@ -10,18 +10,18 @@ export default {
 				method: "get",
 				url: `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
 				headers: {
-					authorization: `Bearer ${token}`
-				}
+					authorization: `Bearer ${token}`,
+				},
 			});
 
 			return {
 				success: true,
-				data
+				data,
 			};
 		} catch (error) {
 			return {
 				success: false,
-				error
+				error,
 			};
 		}
 	},
@@ -30,26 +30,26 @@ export default {
 			const { token } = await getToken();
 			const res = await axios({
 				method: "patch",
-				url: `https://windett.eu.auth0.com/api/v2/users/${id}`,
+				url: `https:/${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
 				headers: {
 					authorization: `Bearer ${token}`,
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
 				},
 				data: {
-					user_metadata: data
-				}
+					user_metadata: data,
+				},
 			});
 
 			return {
 				success: true,
-				data: res.data
+				data: res.data,
 			};
 		} catch (error) {
 			console.log(error);
 			return {
 				success: false,
-				error
+				error,
 			};
 		}
-	}
+	},
 };

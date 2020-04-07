@@ -28,19 +28,15 @@ const A = styled.a`
 `;
 
 const RaceCalendar = ({ races }) => {
-	const racesSubCovid = races.filter(
-		race => race.data.slug !== "covid-19-updates"
-	);
-
 	return (
 		<React.Fragment>
-			{racesSubCovid.map(race => {
+			{races.map((race) => {
 				const link = {
 					href: race.data.calendarOnly
 						? race.data.website
 						: `/race?slug=${race.data.slug}`,
 					as: race.data.calendarOnly ? null : `/race/${race.data.slug}`,
-					target: race.data.calendarOnly ? "_blank" : "_self"
+					target: race.data.calendarOnly ? "_blank" : "_self",
 				};
 				return (
 					<CalendarDetails
@@ -76,7 +72,7 @@ const RaceCalendar = ({ races }) => {
 };
 
 RaceCalendar.propTypes = {
-	races: PropTypes.array.isRequired
+	races: PropTypes.array.isRequired,
 };
 
 export default RaceCalendar;

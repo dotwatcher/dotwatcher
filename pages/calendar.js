@@ -34,7 +34,7 @@ let eventColors = [
 	"#001b44",
 	"#004a7f",
 	"#1a73b2",
-	"#7faccc"
+	"#7faccc",
 ];
 
 const CalanderPage = ({ races = [], router, user }) => {
@@ -61,17 +61,13 @@ const CalanderPage = ({ races = [], router, user }) => {
 		multiplier = Math.ceil(multiplier);
 
 		for (let i = 1; i < multiplier; i++) {
-			eventColors = eventColors.concat(eventColors.map(x => x));
+			eventColors = eventColors.concat(eventColors.map((x) => x));
 		}
 	}
 
-	const racesSubCovid = races.filter(
-		race => race.data.slug !== "covid-19-updates"
-	);
-
-	const coloredRaces = racesSubCovid.map((race, i) => ({
+	const coloredRaces = races.map((race, i) => ({
 		...race,
-		eventColor: eventColors[i]
+		eventColor: eventColors[i],
 	}));
 
 	return (
@@ -104,7 +100,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 };
 
 CalanderPage.propTypes = {
-	races: PropTypes.array.isRequired
+	races: PropTypes.array.isRequired,
 };
 
 const enhance = compose(withRaces, withRouter);
