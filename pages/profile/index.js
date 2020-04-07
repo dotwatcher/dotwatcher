@@ -314,20 +314,22 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 										Upcoming Races
 									</H1>
 									<div>
-										{auth0Profile.user_metadata?.races.map((race) => (
-											<Link href={`/results`} passHref>
-												<A near_black hover_blue>
-													{console.log(getRaceByID(race))}
-													<p key={race}>
-														{getRaceByID(race).data.title},{" "}
-														{format(
-															getRaceByID(race).data.raceDate,
-															"MMM YYYY"
-														)}
-													</p>
-												</A>
-											</Link>
-										))}
+										{auth0Profile.user_metadata?.races.map((race) => {
+											const { slug, title, raceDate } = getRaceByID(race).data;
+											return (
+												<Link
+													passHref
+													href={`/race?slug=${slug}}`}
+													as={`/race/${slug}}`}
+												>
+													<A near_black hover_blue>
+														<p key={race}>
+															{title}, {format(raceDate, "MMM YYYY")}
+														</p>
+													</A>
+												</Link>
+											);
+										})}
 
 										{auth0Profile.user_metadata?.otherRaces
 											.split(",")
