@@ -63,9 +63,9 @@
 			"dest": "/calendar?year=$year&month=$month"
 		},
 		{
-			"source": "/profile/Zoe%20Chauderlot",
-			"destination": "/profile/Zoé%20Chauderlot",
-			"statusCode": 301
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
 		}
 	]
 }
