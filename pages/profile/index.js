@@ -12,7 +12,7 @@ import {
 	FaStrava as Strava,
 	FaInstagram as Instagram,
 	FaTwitter as Twitter,
-	FaFacebook as Facebook,
+	FaFacebook as Facebook
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -130,8 +130,12 @@ const SocialAnchor = ({ href, children }) => (
 const App = ({ profile, name, user, auth0Profile, races }) => {
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
+
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const sanitize = str => str.replace("’", "'").toLowerCase();
+	const disabled = sanitize(claimConfim) !== sanitize(name);
 
 	useEffect(() => {
 		(async () => {
@@ -143,7 +147,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 					setLoggedIn({
 						...me.data,
-						user_metadata: profile.data.user_metadata,
+						user_metadata: profile.data.user_metadata
 					});
 				}
 			} catch (error) {
@@ -153,7 +157,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		})();
 	}, []);
 
-	const getRaceByID = (id) => races.find((r) => r.sys.id === id);
+	const getRaceByID = id => races.find(r => r.sys.id === id);
 
 	const handleClaim = async () => {
 		setIsLoading(true);
@@ -167,7 +171,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 				url: apiUrl(
 					`/api/rider/update?auth_id=${loggedIn.sub}&rider_name=${name}`
 				),
-				method: "PATCH",
+				method: "PATCH"
 			});
 
 			if (profile.errors) {
@@ -314,7 +318,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 										Upcoming Races
 									</H1>
 									<div>
-										{auth0Profile.user_metadata?.races.map((race) => {
+										{auth0Profile.user_metadata?.races.map(race => {
 											const { website, title, raceDate } = getRaceByID(
 												race
 											).data;
@@ -330,7 +334,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 										{auth0Profile.user_metadata?.otherRaces.length > 0 &&
 											auth0Profile.user_metadata?.otherRaces
 												.split(",")
-												.map((race) => <p>{race}</p>)}
+												.map(race => <p>{race}</p>)}
 									</div>
 								</div>
 							</Grid>
@@ -401,7 +405,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							value={claimConfim}
 							placeholder="Rider Name"
 							type="text"
-							onChange={(e) => setclaimConfim(e.target.value)}
+							onChange={e => setclaimConfim(e.target.value)}
 							input_reset
 							ba
 							bw1
@@ -430,7 +434,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							dib
 							type="button"
 							onClick={handleClaim}
-							disabled={claimConfim.toLowerCase() !== name.toLowerCase()}
+							disabled={disabled}
 						>
 							Claim
 						</Button>
@@ -452,12 +456,12 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 App.propTypes = {
 	name: PropTypes.string,
-	profile: PropTypes.array,
+	profile: PropTypes.array
 };
 
 App.defaultProps = {
 	name: "",
-	profile: [],
+	profile: []
 };
 
 const enhance = compose(WithProfile, withRaces);
