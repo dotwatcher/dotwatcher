@@ -62,5 +62,12 @@
 			"src": "/calendar/(?<year>[^/]+)?/(?<month>[^/]+)$",
 			"dest": "/calendar?year=$year&month=$month"
 		}
+	],
+	"redirects": [
+		{
+			"source": "/profile/Zoe%20Chauderlot",
+			"destination": "/profile/Zoé%20Chauderlot",
+			"statusCode": 301
+		}
 	]
 }
