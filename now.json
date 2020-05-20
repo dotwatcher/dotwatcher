@@ -35,6 +35,16 @@
 	],
 	"routes": [
 		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Bjorn%20Lenhard",
+			"dest": "/profile/Björn%20Lenhard",
+			"status": 301
+		},
+		{
 			"src": "/page/(?<id>[^/]+)$",
 			"dest": "/page?id=$id"
 		},
@@ -61,16 +71,6 @@
 		{
 			"src": "/calendar/(?<year>[^/]+)?/(?<month>[^/]+)$",
 			"dest": "/calendar?year=$year&month=$month"
-		},
-		{
-			"src": "/profile/Zoe%20Chauderlot",
-			"dest": "/profile/Zoé%20Chauderlot",
-			"status": 301
-		},
-		{
-			"src": "/profile/Bjorn%20Lenhard",
-			"dest": "/profile/Björn%20Lenhard",
-			"status": 301
 		}
 	]
 }
