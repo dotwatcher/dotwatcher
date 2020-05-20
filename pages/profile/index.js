@@ -7,6 +7,7 @@ import Router from "next/router";
 import axios from "axios";
 import { format } from "date-fns";
 import mq from "../../utils/media-query";
+import sanitizeName from "../../utils/sanitize-name";
 
 import {
 	FaStrava as Strava,
@@ -134,8 +135,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const sanitize = str => str.replace("’", "'").toLowerCase();
-	const disabled = sanitize(claimConfim) !== sanitize(name);
+	const disabled =
+		sanitizeName(claimConfim).toLowerCase() !==
+		sanitizeName(name).toLowerCase();
 
 	useEffect(() => {
 		(async () => {
@@ -396,7 +398,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							By claiming this profile you agree that the information is correct
 							and you are the person you say you are. Dotwatcher has the right
 							to revoke your profile if we deem the information incorrect or
-							there is inmpersination
+							there is impersonation.
 						</p>
 
 						<p>To continue re-type the rider name bellow:</p>
