@@ -66,6 +66,11 @@
 			"src": "/profile/Zoe%20Chauderlot",
 			"dest": "/profile/Zoé%20Chauderlot",
 			"status": 301
+		},
+		{
+			"src": "/profile/Bjorn%20Lenhard",
+			"dest": "/profile/Björn%20Lenhard",
+			"status": 301
 		}
 	]
 }
