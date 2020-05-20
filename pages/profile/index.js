@@ -401,7 +401,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							there is impersonation.
 						</p>
 
-						<p>To continue re-type the rider name bellow:</p>
+						<p>To continue re-type the rider name below:</p>
 
 						<Input
 							value={claimConfim}
