@@ -65,3 +65,5 @@ now-secrets.json
 
 # Used for any data needed for local dev
 test-data
+
+.now

@@ -135,7 +135,7 @@ class App extends Component {
 						content="A history of results from the ultra-cycling world, in one database."
 					/>
 				</Head>
-				<Header title="dotwatcher.cc" />
+				<Header user={this.props.user} title="dotwatcher.cc" />
 				{this.props.results.length >= 1 ? (
 					<Div mt3 mt4_l mh6_l>
 						<Div pb5>

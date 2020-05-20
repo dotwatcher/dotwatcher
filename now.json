@@ -13,7 +13,18 @@
 		"PGUSER": "@pguser",
 		"PGPASSWORD": "@pgpassword",
 		"PGDATABASE": "@pgdatabase",
-		"PGPORT": "@pgport"
+		"PGPORT": "@pgport",
+		"CLOUDINARY_NAME": "@cloudinary-name",
+		"CLOUDINARY_PRESET": "@cloudinary-preset",
+		"CLOUDINARY_KEY": "@cloudinary-key",
+		"CLOUDINARY_SECRET": "@cloudinary-secret",
+		"AUTH0_DOMAIN": "@auth0-domain",
+		"AUTH0_CLIENT_ID": "@auth0-client-id",
+		"AUTH0_CLIENT_SECRET": "@auth0-client-secret",
+		"AUTH0_APP_CLIENT_ID": "@auth0-app-client-id",
+		"AUTH0_APP_CLIENT_SECRET": "@auth0-app-client-secret",
+		"AUTH0_APP_COOKIE_SECRET": "@auth0-app-cookie-secret",
+		"AUTH0_CALLBACK_DOMAIN": "@auth0-callback-domain"
 	},
 	"build": {
 		"env": {
@@ -24,7 +35,18 @@
 			"MAILCHIMP": "@mailchimp",
 			"ANALYTICS": "@analytics",
 			"SCRAPEY_API_KEY": "@scrapey-api-key",
-			"BASEURL": "@dotwatcher-url"
+			"BASEURL": "@dotwatcher-url",
+			"CLOUDINARY_NAME": "@cloudinary-name",
+			"CLOUDINARY_PRESET": "@cloudinary-preset",
+			"CLOUDINARY_KEY": "@cloudinary-key",
+			"CLOUDINARY_SECRET": "@cloudinary-secret",
+			"AUTH0_DOMAIN": "@auth0-domain",
+			"AUTH0_CLIENT_ID": "@auth0-client-id",
+			"AUTH0_CLIENT_SECRET": "@auth0-client-secret",
+			"AUTH0_APP_CLIENT_ID": "@auth0-app-client-id",
+			"AUTH0_APP_CLIENT_SECRET": "@auth0-app-client-secret",
+			"AUTH0_APP_COOKIE_SECRET": "@auth0-app-cookie-secret",
+			"AUTH0_CALLBACK_DOMAIN": "@auth0-callback-domain"
 		}
 	},
 	"builds": [
@@ -63,6 +85,10 @@
 		{
 			"src": "/results/(?<year>[^/]+)?/(?<race>[^/]+)$",
 			"dest": "/results?year=$year&race=$race"
+		},
+		{
+			"src": "/profile/edit",
+			"dest": "/profile/edit"
 		},
 		{
 			"src": "/profile/(?<name>[^/]+)$",

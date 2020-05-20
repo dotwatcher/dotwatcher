@@ -6,6 +6,7 @@ import EmailSignUp from "../Newsletter";
 import { initGA, logPageView } from "../../utils/analytics";
 import mq from "../../utils/media-query";
 import Cookies from "js-cookie";
+import { UserProvider } from "../../lib/user";
 
 const Wrapper = styled.div`
 	${tachyons}
@@ -105,27 +106,31 @@ class Page extends Component {
 
 	render() {
 		return (
-			<Wrapper sans_serif near_black pa0 ma0 className="cf">
-				{this.props.children}
+			<UserProvider
+				value={{ user: this.props.user, loading: this.props.loading }}
+			>
+				<Wrapper sans_serif near_black pa0 ma0 className="cf">
+					{this.props.children}
 
-				{this.state.showModal && (
-					<Newsletter>
-						<NewsletterWrapper>
-							<H2 ma0 mb3>
-								The DotWatcher Digest
-							</H2>
-							<P lh-copy ma0 mb3>
-								For all the latest updates from the bikepacking webosphere and
-								beyond, sign up to DotWatcher Digest.
-							</P>
-							<Close type="button" onClick={this.setCookie}>
-								X
-							</Close>
-							<EmailSignUp showPastIssues={false} onSubmit={this.setCookie} />
-						</NewsletterWrapper>
-					</Newsletter>
-				)}
-			</Wrapper>
+					{this.state.showModal && (
+						<Newsletter>
+							<NewsletterWrapper>
+								<H2 ma0 mb3>
+									The DotWatcher Digest
+								</H2>
+								<P lh-copy ma0 mb3>
+									For all the latest updates from the bikepacking webosphere and
+									beyond, sign up to DotWatcher Digest.
+								</P>
+								<Close type="button" onClick={this.setCookie}>
+									X
+								</Close>
+								<EmailSignUp showPastIssues={false} onSubmit={this.setCookie} />
+							</NewsletterWrapper>
+						</Newsletter>
+					)}
+				</Wrapper>
+			</UserProvider>
 		);
 	}
 }

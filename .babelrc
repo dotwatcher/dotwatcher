@@ -1,29 +1,24 @@
 {
   "plugins": [
+    ["@babel/plugin-proposal-optional-chaining"],
     [
-      "module-resolver", {
+      "module-resolver",
+      {
         "root": ["."],
         "alias": {
           "styles": "./styles"
         },
         "cwd": "babelrc"
-    }],
+      }
+    ],
     [
       "wrap-in-js",
       {
         "extensions": ["css$"]
       }
     ],
-    [
-      "styled-components",
-      { "ssr": true,
-        "displayName": true,
-        "preprocess": false
-      }
-    ]
+    ["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]
   ],
-  "presets": [
-    "next/babel"
-  ],
+  "presets": ["next/babel"],
   "ignore": []
 }

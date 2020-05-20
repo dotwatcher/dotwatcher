@@ -25,7 +25,7 @@ const Iframe = styled.iframe`
 	${tachyons};
 `;
 
-export default () => (
+export default ({ user }) => (
 	<Page>
 		<Head>
 			<title>Digest - DotWatcher.cc</title>
@@ -40,7 +40,7 @@ export default () => (
 			/>
 		</Head>
 
-		<Header title="dotwatcher.cc" />
+		<Header user={user} title="dotwatcher.cc" />
 
 		<Div ml2 mr2 mt3 mt4_l mh6_l>
 			<H1 f3 f1_l fw6 lh_title mb4>

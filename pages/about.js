@@ -8,7 +8,6 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Embed from "../components/embed";
 import AutoEmbed from "../components/embed/auto";
-import BodyImage from "../components/image/markdown";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import ContentBlock from "../components/content-block";
@@ -100,7 +99,7 @@ class AboutPage extends React.Component {
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 					/>
 				</Head>
-				<Header title="dotwatcher.cc" />
+				<Header user={this.props.user} title="dotwatcher.cc" />
 				<StyledWrapper fl w_100>
 					<Div fl mt5_ns pa3 pa4_ns pl5_ns>
 						<H1 f2 f1_ns fw6 lh_solid mt0 mb4>
@@ -112,8 +111,7 @@ class AboutPage extends React.Component {
 								plugins={[shortcodes]}
 								renderers={{
 									shortcode: Embed,
-									link: AutoEmbed,
-									image: BodyImage
+									link: AutoEmbed
 								}}
 							/>
 						</Div>

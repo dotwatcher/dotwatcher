@@ -278,6 +278,7 @@ class Race extends React.Component {
 					<script src="//www.instagram.com/embed.js" />
 				</Head>
 				<Header
+					user={this.props.user}
 					title="dotwatcher.cc"
 					raceName={this.props.raceName}
 					race={this.props.race}

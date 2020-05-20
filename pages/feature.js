@@ -187,7 +187,7 @@ class FeaturePage extends React.Component {
 					/>
 					<script src="//www.instagram.com/embed.js" />
 				</Head>
-				<Header title="dotwatcher.cc" />
+				<Header user={this.props.user} title="dotwatcher.cc" />
 				<StyledWrapper w_100 />
 				<Heading mh3 mh6_ns>
 					<H1 f2 f_subheadline_m f_headline_l fw6 lh_solid mv0 mh3>

@@ -20,7 +20,18 @@ To be able to access the content for development you’ll need to create a file 
   "@pusher-secret": "",
   "@mailchimp": "",
   "@analytics": "UA-XXXXXX-X",
-  "@scrapey-api-key": ""
+  "@scrapey-api-key": "",
+  "@cloudinary-name": "",
+  "@cloudinary-preset": "",
+  "@cloudinary-key": "",
+  "@cloudinary-secret": "",
+  "@auth0-domain": "",
+  "@auth0-client-id": "",
+  "@auth0-client-secret": "",
+  "@auth0-app-client-id": "",
+  "@auth0-app-client-secret": "",
+  "@auth0-app-cookie-secret": "",
+  "@auth0-callback-domain": ""
 }
 ```
 
@@ -59,3 +70,15 @@ To alias that to our domains run `now alias` (the aliases are stored in now.json
 [stream.dotwatcher.cc]: https://github.com/jonheslop/dotwatcher-stream
 [contentful api]: https://www.contentful.com/developers/docs/references/content-delivery-api
 [trackleaders]: http://trackleaders.com/
+
+## Authentication
+
+Users are able to register with Dotwatcher and assign themselves to a rider's profile. Authentication is handled by [Auth0](http://auth0.com/).
+
+A Auth0 can only be assigned to a single rider profile. When a user "claims" a Dotwacher profile an Auth0 ID is set in the riders table the "claimed_id" column.
+
+## Profiles
+
+Once a user has claimed a profile, they are able to update specific details of theres. These are saved in Auth0 as metadata on the user profile and are requested via the [Auth0 Management API](https://auth0.com/docs/api/management/v2).
+
+The user profile is automatically assigned if signed up via Google or Facebook. Alternatively a user can set their own profile via image upload. The asset is uploaded to [Cloudinary](https://cloudinary.com/), and if successfull the returned data is set in the users Auth0 profile. See [this example](https://cloudinary.com/blog/how_to_build_an_image_library_with_react_cloudinary) for reference.
