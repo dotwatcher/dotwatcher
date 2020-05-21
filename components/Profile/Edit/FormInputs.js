@@ -151,7 +151,7 @@ export default ({
 									onChange={handleChange}
 									onBlur={handleBlur}
 									value={race.sys.id}
-									checked={values.races.includes(race.sys.id)}
+									checked={values.races && values.races.includes(race.sys.id)}
 								/>
 								<span>{race.data.title}</span>
 							</RaceInput>
