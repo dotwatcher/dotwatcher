@@ -67,6 +67,16 @@
 			"status": 301
 		},
 		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Stuart%20Birnie",
+			"dest": "profile/Stuart%20Birnie%20(Hippy)",
+			"status": 301
+		},
+		{
 			"src": "/page/(?<id>[^/]+)$",
 			"dest": "/page?id=$id"
 		},
