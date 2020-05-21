@@ -6,6 +6,7 @@ import tachyons from "styled-components-tachyons";
 import Router from "next/router";
 import axios from "axios";
 import { format } from "date-fns";
+import Cookies from "js-cookie";
 import mq from "../../utils/media-query";
 import sanitizeName from "../../utils/sanitize-name";
 
@@ -141,6 +142,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 	useEffect(() => {
 		(async () => {
+			Cookies.remove("profile");
 			try {
 				const me = await axios({ method: "get", url: "/api/auth/me" });
 
@@ -166,6 +168,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		try {
 			if (!loggedIn) {
 				Router.push("/api/auth/login");
+				Cookies.set("profile", window.location.pathname);
 				return;
 			}
 
