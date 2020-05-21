@@ -68,9 +68,9 @@ export default ({
 	isValid,
 	status,
 	races,
-	meta = {},
+	meta = {}
 }) => {
-	const futureRaces = races.filter((race) =>
+	const futureRaces = races.filter(race =>
 		isAfter(new Date(race.data.raceDate), new Date())
 	);
 	const sortedRaces = futureRaces.sort((a, b) => {
@@ -143,7 +143,7 @@ export default ({
 				<Races>
 					<H3>Pick your {getYear(Date.now())} races</H3>
 					<RaceGrid>
-						{sortedRaces.map((race) => (
+						{sortedRaces.map(race => (
 							<RaceInput key={race.sys.id}>
 								<input
 									name="races"
@@ -159,7 +159,7 @@ export default ({
 					</RaceGrid>
 
 					<OtherRaces>
-						<P>Can't find your race, add them below seperated by a commar.</P>
+						<P>Can't find your race, add them below separated by a comma.</P>
 						<Input
 							w_100
 							pv2
