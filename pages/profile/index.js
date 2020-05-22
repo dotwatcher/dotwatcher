@@ -211,7 +211,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	const authID = profile[0] && profile[0].auth_id;
 	const profileIsClaimed = !!authID;
 	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
-	const noSocialAccounts = !auth0Profile?.user_metadata.length <= 0;
+	const noSocialAccounts = !auth0Profile?.user_metadata?.length <= 0;
 
 	return (
 		<PageWrapper name={name} user={user}>
