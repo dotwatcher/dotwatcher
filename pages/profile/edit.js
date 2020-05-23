@@ -36,23 +36,23 @@ const inputs = [
 	{
 		name: "instagramHandle",
 		label: "Instagram Profile",
-		placeholder: "https://www.instagram.com/dotwatcher.cc",
+		placeholder: "https://www.instagram.com/dotwatcher.cc"
 	},
 	{
 		name: "stravaID",
 		label: "Strava Profile",
-		placeholder: "https://www.strava.com/athletes/12345",
+		placeholder: "https://www.strava.com/athletes/12345"
 	},
 	{
 		name: "rideWithGPSID",
 		label: "Ride With GPS Profile",
-		placeholder: "https://ridewithgps.com/users/12345",
+		placeholder: "https://ridewithgps.com/users/12345"
 	},
 	{
 		name: "twitterHandle",
 		label: "Twitter Profile",
-		placeholder: "https://twitter.com/dotwatcher",
-	},
+		placeholder: "https://twitter.com/dotwatcher"
+	}
 ];
 
 const Profile = ({ user, meta, handleSubmit, ...props }) => {
@@ -94,7 +94,7 @@ const enhance = compose(
 				(acc, curr) => {
 					return { [acc[curr]]: "", ...acc };
 				},
-				{ races: [], otherRaces: [] }
+				{ races: [], otherRaces: "" }
 			);
 		},
 		handleSubmit: async (values, { props, setSubmitting, setStatus }) => {
@@ -103,7 +103,7 @@ const enhance = compose(
 			try {
 				const res = await userAPI.update({
 					id: props.user.user.sub,
-					data: values,
+					data: values
 				});
 
 				if (!res.success) {
@@ -117,7 +117,7 @@ const enhance = compose(
 			} finally {
 				setSubmitting(false);
 			}
-		},
+		}
 	}),
 	withRaces
 );
@@ -127,7 +127,7 @@ Profile.getInitialProps = async ({ req, res }) => {
 		const session = await auth0.getSession(req);
 		if (!session || !session.user) {
 			res.writeHead(302, {
-				Location: "/api/auth/login",
+				Location: "/api/auth/login"
 			});
 			res.end();
 			return;
