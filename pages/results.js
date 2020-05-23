@@ -22,6 +22,9 @@ const Heading = styled.header`
 const H1 = styled.h1`
 	${tachyons}
 `;
+const H3 = styled.h3`
+	${tachyons}
+`;
 const Div = styled.div`
 	${tachyons}
 `;
@@ -136,7 +139,8 @@ class App extends Component {
 					/>
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
-				{this.props.results.length >= 1 ? (
+				{console.log(this.props)}
+				{this.props.name ? (
 					<Div mt3 mt4_l mh6_l>
 						<Div pb5>
 							<Link href="/results" passHref>
@@ -161,17 +165,23 @@ class App extends Component {
 									</Description>
 								)}
 							</Heading>
-							<ResultsTable
-								type="race"
-								results={this.props.results}
-								focus={this.props.focus}
-								racerClasses={this.props.racerClasses}
-								activeClass={this.props.activeClass}
-								racerCategories={this.props.racerCategories}
-								activeCategory={this.props.activeCategory}
-								finishlocations={this.props.finishlocations}
-								activeLocation={this.props.activeLocation}
-							/>
+							{this.props.results.length ? (
+								<ResultsTable
+									type="race"
+									results={this.props.results}
+									focus={this.props.focus}
+									racerClasses={this.props.racerClasses}
+									activeClass={this.props.activeClass}
+									racerCategories={this.props.racerCategories}
+									activeCategory={this.props.activeCategory}
+									finishlocations={this.props.finishlocations}
+									activeLocation={this.props.activeLocation}
+								/>
+							) : (
+								<H3 ph3>
+									No results have been published for {this.props.name}
+								</H3>
+							)}
 							<ResultsContribute />
 						</Div>
 					</Div>
