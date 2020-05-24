@@ -343,8 +343,6 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 														})}
 
 													{auth0Profile.user_metadata?.otherRaces &&
-														typeof auth0Profile.user_metadata?.otherRaces ===
-															"string" &&
 														auth0Profile.user_metadata?.otherRaces
 															.split(",")
 															.map(race => <p>{race}</p>)}
