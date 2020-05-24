@@ -24,6 +24,12 @@ const BiographyInput = styled.textarea`
 
 const Button = styled.button`
 	${tachyons}
+
+	&:disabled {
+		cursor: not-allowed;
+		background-color: var(--moon-gray);
+		border-color: var(--moon-gray);
+	}
 `;
 
 const Div = styled.div`

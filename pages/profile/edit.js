@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Head from "next/head";
+import * as Yup from "yup";
 
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
@@ -85,6 +86,22 @@ const Profile = ({ user, meta, handleSubmit, ...props }) => {
 
 const enhance = compose(
 	withFormik({
+		validationSchema: Yup.object().shape({
+			instagramHandle: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\binstagram\b", "Please enter a valid instagram link"),
+			stravaID: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("strava\b", "Please enter a valid Strava link"),
+			rideWithGPSID: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\ridewithgps\b", "Please enter a valid Ride With GPS link"),
+			twitterHandle: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\twitter\b", "Please enter a valid Twitter link"),
+			biography: Yup.string(),
+			otherRaces: Yup.string()
+		}),
 		mapPropsToValues: ({ meta }) => {
 			if (meta?.user_metadata) {
 				return meta.user_metadata;
