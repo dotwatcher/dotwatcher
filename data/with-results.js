@@ -38,7 +38,6 @@ export const WithResults = Page => {
 					description: results[0].description
 				};
 			}
-			// console.log(results);
 			const formattedResults = formatter(results);
 			const racerClasses = [];
 			const racerCategories = ["Both"];

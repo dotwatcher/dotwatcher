@@ -36,7 +36,7 @@ class ResultsTable extends React.Component {
 		this.state = {
 			activeClassFilter: this.props.activeClass,
 			activeCategoryFilter: this.props.activeCategory,
-			activeLocationFilter: this.props.activeLocation
+			activeLocationFilter: this.props.activeLocation || ""
 		};
 
 		this.setClassFilter = this.setClassFilter.bind(this);
@@ -133,15 +133,17 @@ class ResultsTable extends React.Component {
 		const withCapNo = this.props.results[0].cap !== null;
 
 		let filteredResults = this.props.results;
+
 		if (this.props.type !== "profile") {
 			filteredResults = filteredResults.filter(
 				result => result.class === this.state.activeClassFilter
 			);
-			filteredResults = this.state.activeLocationFilter
-				? filteredResults.filter(
-						result => result.finishlocation === this.state.activeLocationFilter
-				  )
-				: filteredResults;
+
+			if (this.state.activeLocationFilter) {
+				filteredResults = filteredResults.filter(
+					result => result.finishlocation === this.state.activeLocationFilter
+				);
+			}
 
 			if (this.state.activeCategoryFilter !== "Both") {
 				filteredResults = filteredResults.filter(
