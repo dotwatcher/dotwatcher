@@ -32,7 +32,7 @@ export const WithResults = Page => {
 				);
 
 				const { results } = await allResultsResponse.json();
-				console.log(results);
+
 				return {
 					name: results[0].name,
 					description: results[0].description

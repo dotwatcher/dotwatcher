@@ -137,9 +137,11 @@ class ResultsTable extends React.Component {
 			filteredResults = filteredResults.filter(
 				result => result.class === this.state.activeClassFilter
 			);
-			filteredResults = filteredResults.filter(
-				result => result.finishlocation === this.state.activeLocationFilter
-			);
+			filteredResults = this.state.activeLocationFilter
+				? filteredResults.filter(
+						result => result.finishlocation === this.state.activeLocationFilter
+				  )
+				: filteredResults;
 
 			if (this.state.activeCategoryFilter !== "Both") {
 				filteredResults = filteredResults.filter(
