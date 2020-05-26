@@ -8,7 +8,7 @@ import tachyons from "styled-components-tachyons";
 import Header from "../components/header";
 import Page from "../components/shared/page";
 import RacePreview from "../components/race-preview";
-import Calendar from "../components/calendar-old";
+import Calendar from "../components/calendar-feed";
 import Footer from "../components/footer";
 import { withRaces } from "../data/with-races";
 
