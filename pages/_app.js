@@ -2,6 +2,11 @@ import React from "react";
 import App from "next/app";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
+import * as Sentry from "@sentry/browser";
+
+Sentry.init({
+	dsn: process.env.SENTRY_DSN
+});
 
 class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {
@@ -43,6 +48,18 @@ class MyApp extends App {
 		this.setState({
 			user: await user()
 		});
+	}
+
+	componentDidCatch(error, errorInfo) {
+		Sentry.withScope(scope => {
+			Object.keys(errorInfo).forEach(key => {
+				scope.setExtra(key, errorInfo[key]);
+			});
+
+			Sentry.captureException(error);
+		});
+
+		super.componentDidCatch(error, errorInfo);
 	}
 
 	render() {

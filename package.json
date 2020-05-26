@@ -21,6 +21,8 @@
 	"dependencies": {
 		"@auth0/nextjs-auth0": "^0.10.0",
 		"@contentful/rich-text-react-renderer": "^13.4.0",
+		"@sentry/browser": "^5.15.5",
+		"@zeit/next-source-maps": "0.0.3",
 		"auth0": "^2.21.0",
 		"axios": "^0.19.2",
 		"babel-plugin-module-resolver": "^3.2.0",

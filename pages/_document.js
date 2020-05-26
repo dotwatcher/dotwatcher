@@ -2,6 +2,16 @@ import NextDocument, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import React from "react";
 
+import * as Sentry from "@sentry/browser";
+
+process.on("unhandledRejection", err => {
+	Sentry.captureException(err);
+});
+
+process.on("uncaughtException", err => {
+	Sentry.captureException(err);
+});
+
 export default class Document extends NextDocument {
 	static getInitialProps({ renderPage }) {
 		const sheet = new ServerStyleSheet();
