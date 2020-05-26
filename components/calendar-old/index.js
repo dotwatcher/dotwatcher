@@ -30,13 +30,13 @@ const A = styled.a`
 const RaceCalendar = ({ races }) => {
 	return (
 		<React.Fragment>
-			{races.map((race) => {
+			{races.map(race => {
 				const link = {
 					href: race.data.calendarOnly
 						? race.data.website
 						: `/race?slug=${race.data.slug}`,
 					as: race.data.calendarOnly ? null : `/race/${race.data.slug}`,
-					target: race.data.calendarOnly ? "_blank" : "_self",
+					target: race.data.calendarOnly ? "_blank" : "_self"
 				};
 				return (
 					<CalendarDetails
@@ -47,7 +47,7 @@ const RaceCalendar = ({ races }) => {
 						b__light_gray
 						className="cf"
 					>
-						<Link href={link.href} as={link.as} passHref>
+						{race.data.calendarOnly ? (
 							<A
 								link
 								near_black
@@ -57,13 +57,29 @@ const RaceCalendar = ({ races }) => {
 							>
 								{race.data.title}
 
-								{race.data.calendarOnly ? <Icon> ⇲</Icon> : null}
+								<Icon> ⇲</Icon>
 
 								<Date ml2 fr_l gray>
 									{moment(race.data.raceDate).format("ll")}
 								</Date>
 							</A>
-						</Link>
+						) : (
+							<Link href={link.href} as={link.as} passHref>
+								<A
+									link
+									near_black
+									hover_blue
+									underline_hover
+									target={link.target}
+								>
+									{race.data.title}
+
+									<Date ml2 fr_l gray>
+										{moment(race.data.raceDate).format("ll")}
+									</Date>
+								</A>
+							</Link>
+						)}
 					</CalendarDetails>
 				);
 			})}
@@ -72,7 +88,7 @@ const RaceCalendar = ({ races }) => {
 };
 
 RaceCalendar.propTypes = {
-	races: PropTypes.array.isRequired,
+	races: PropTypes.array.isRequired
 };
 
 export default RaceCalendar;
