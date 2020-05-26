@@ -167,12 +167,6 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		setIsLoading(true);
 
 		try {
-			if (!loggedIn) {
-				Router.push("/login");
-				Cookies.set("profile", window.location.pathname);
-				return;
-			}
-
 			const profile = await axios({
 				url: apiUrl(
 					`/api/rider/update?auth_id=${loggedIn.sub}&rider_name=${name}`
