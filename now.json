@@ -66,6 +66,7 @@
 			"dest": "/profile/Björn%20Lenhard",
 			"status": 301
 		},
+		{ "src": "/login", "dest": "/api/auth/login" },
 		{
 			"src": "/page/(?<id>[^/]+)$",
 			"dest": "/page?id=$id"

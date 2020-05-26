@@ -165,9 +165,10 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 	const handleClaim = async () => {
 		setIsLoading(true);
+
 		try {
 			if (!loggedIn) {
-				Router.push("/api/auth/login");
+				Router.push("/login");
 				Cookies.set("profile", window.location.pathname);
 				return;
 			}
@@ -189,13 +190,13 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 			Router.push("/profile/edit");
 		} catch (err) {
 			console.log(err);
-			Router.push("/api/auth/login");
+			Router.push("/login");
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	if (!profile || !profile[0])
+	if (!profile || !profile[0]) {
 		return (
 			<PageWrapper name={name} user={user}>
 				<Div mt3 mh6_l ph3>
@@ -210,10 +211,22 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 				</Div>
 			</PageWrapper>
 		);
+	}
 
 	const authID = profile[0] && profile[0].auth_id;
 	const profileIsClaimed = !!authID;
 	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
+
+	const handleUnclaimedProfile = () => {
+		if (!user.loggedIn) {
+			Cookies.set("profile", window.location.pathname);
+			Router.push("/login");
+			return;
+		}
+
+		setclaimToggle(true);
+	};
+
 	const noSocialAccounts = !auth0Profile?.user_metadata.length <= 0;
 
 	return (
@@ -384,7 +397,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 										? () => Router.push("/profile/edit")
 										: profileIsClaimed
 										? null
-										: () => setclaimToggle(true)
+										: handleUnclaimedProfile
 								}
 							>
 								{isLoading
