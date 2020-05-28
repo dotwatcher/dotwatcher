@@ -10,10 +10,11 @@ const Img = styled.img`
 const Image = ({ src, alt }) => {
 	const videoregex = /^.*.(mp4|webm|ogg)$/;
 	const format = src.match(/\.png$/) ? "&fm=jpg" : "";
+
 	if (videoregex.test(src)) {
 		return (
 			<video width="100%" controls>
-				<source src={props.src} /> Your browser does not support the video tag.
+				<source src={src} /> Your browser does not support the video tag.
 			</video>
 		);
 	}
