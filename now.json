@@ -68,6 +68,7 @@
 			"dest": "/profile/Björn%20Lenhard",
 			"status": 301
 		},
+		{ "src": "/login", "dest": "/api/auth/login" },
 		{
 			"src": "/profile/Zoe%20Chauderlot",
 			"dest": "/profile/Zoé%20Chauderlot",
