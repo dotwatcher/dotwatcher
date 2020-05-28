@@ -62,6 +62,7 @@ now-secrets.json
 
 .vscode
 .history
+.DS_Store
 
 # Used for any data needed for local dev
 test-data

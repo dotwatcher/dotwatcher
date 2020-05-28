@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Head from "next/head";
+import * as Yup from "yup";
 
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
@@ -36,23 +37,23 @@ const inputs = [
 	{
 		name: "instagramHandle",
 		label: "Instagram Profile",
-		placeholder: "https://www.instagram.com/dotwatcher.cc",
+		placeholder: "https://www.instagram.com/dotwatcher.cc"
 	},
 	{
 		name: "stravaID",
 		label: "Strava Profile",
-		placeholder: "https://www.strava.com/athletes/12345",
+		placeholder: "https://www.strava.com/athletes/12345"
 	},
 	{
 		name: "rideWithGPSID",
 		label: "Ride With GPS Profile",
-		placeholder: "https://ridewithgps.com/users/12345",
+		placeholder: "https://ridewithgps.com/users/12345"
 	},
 	{
 		name: "twitterHandle",
 		label: "Twitter Profile",
-		placeholder: "https://twitter.com/dotwatcher",
-	},
+		placeholder: "https://twitter.com/dotwatcher"
+	}
 ];
 
 const Profile = ({ user, meta, handleSubmit, ...props }) => {
@@ -85,6 +86,22 @@ const Profile = ({ user, meta, handleSubmit, ...props }) => {
 
 const enhance = compose(
 	withFormik({
+		validationSchema: Yup.object().shape({
+			instagramHandle: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\binstagram\b", "Please enter a valid instagram link"),
+			stravaID: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("strava\b", "Please enter a valid Strava link"),
+			rideWithGPSID: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\ridewithgps\b", "Please enter a valid Ride With GPS link"),
+			twitterHandle: Yup.string()
+				.url("Link is not a valid URL, include http(s)")
+				.matches("\twitter\b", "Please enter a valid Twitter link"),
+			biography: Yup.string(),
+			otherRaces: Yup.string()
+		}),
 		mapPropsToValues: ({ meta }) => {
 			if (meta?.user_metadata) {
 				return meta.user_metadata;
@@ -94,7 +111,7 @@ const enhance = compose(
 				(acc, curr) => {
 					return { [acc[curr]]: "", ...acc };
 				},
-				{ races: [], otherRaces: [] }
+				{ races: [], otherRaces: "" }
 			);
 		},
 		handleSubmit: async (values, { props, setSubmitting, setStatus }) => {
@@ -103,7 +120,7 @@ const enhance = compose(
 			try {
 				const res = await userAPI.update({
 					id: props.user.user.sub,
-					data: values,
+					data: values
 				});
 
 				if (!res.success) {
@@ -117,7 +134,7 @@ const enhance = compose(
 			} finally {
 				setSubmitting(false);
 			}
-		},
+		}
 	}),
 	withRaces
 );
@@ -127,7 +144,7 @@ Profile.getInitialProps = async ({ req, res }) => {
 		const session = await auth0.getSession(req);
 		if (!session || !session.user) {
 			res.writeHead(302, {
-				Location: "/api/auth/login",
+				Location: "/api/auth/login"
 			});
 			res.end();
 			return;

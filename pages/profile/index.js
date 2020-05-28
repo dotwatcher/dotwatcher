@@ -325,7 +325,6 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 											)}
 										</SocialIcons>
 									)}
-
 									{auth0Profile.user_metadata?.races &&
 										auth0Profile.user_metadata?.otherRaces && (
 											<Fragment>

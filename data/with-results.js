@@ -22,7 +22,22 @@ export const WithResults = Page => {
 			const allResultsResponse = await fetch(
 				apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req)
 			);
+
 			const { results } = await allResultsResponse.json();
+
+			if (results.length < 1) {
+				// If nothing is returned, try and fetch the basic race info with no results
+				const allResultsResponse = await fetch(
+					apiUrl(`/api/race-name-from-slug?slug=${race}&year=${year}`, ctx.req)
+				);
+
+				const { results } = await allResultsResponse.json();
+
+				return {
+					name: results[0].name,
+					description: results[0].description
+				};
+			}
 			const formattedResults = formatter(results);
 			const racerClasses = [];
 			const racerCategories = ["Both"];
