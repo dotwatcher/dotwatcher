@@ -64,6 +64,16 @@
 			"status": 301
 		},
 		{
+			"src": "/profile/Ales%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoralt",
+			"status": 301
+		},
+		{
+			"src": "/profile/Alex%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoralt",
+			"status": 301
+		},
+		{
 			"src": "/profile/Bjorn%20Lenhard",
 			"dest": "/profile/Björn%20Lenhard",
 			"status": 301
