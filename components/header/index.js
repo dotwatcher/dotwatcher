@@ -177,31 +177,39 @@ const Banner = ({ title, raceName, race, user }) => {
 							</A>
 						</Link>
 					) : (
-						<Link href="/api/auth/login" as="/api/auth/login" passHref>
-							<A dib pt3 ml3_ns f5 f4_l near_black hover_blue no_underline fw5>
-								Login
-							</A>
-						</Link>
+						<A
+							href="/api/auth/login"
+							dib
+							pt3
+							ml3_ns
+							f5
+							f4_l
+							near_black
+							hover_blue
+							no_underline
+							fw5
+						>
+							Login
+						</A>
 					)}
 
 					{loggedIn && (
-						<Link href="/api/auth/logout" as="/api/auth/logout" passHref>
-							<A
-								dib
-								pt3
-								ml3_ns
-								mr2
-								mr3_ns
-								f5
-								f4_l
-								near_black
-								hover_blue
-								no_underline
-								fw5
-							>
-								Logout
-							</A>
-						</Link>
+						<A
+							href="/api/auth/logout"
+							dib
+							pt3
+							ml3_ns
+							mr2
+							mr3_ns
+							f5
+							f4_l
+							near_black
+							hover_blue
+							no_underline
+							fw5
+						>
+							Logout
+						</A>
 					)}
 				</Menu>
 			</Header>
