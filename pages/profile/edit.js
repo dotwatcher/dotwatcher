@@ -87,18 +87,16 @@ const Profile = ({ user, meta, handleSubmit, ...props }) => {
 const enhance = compose(
 	withFormik({
 		validationSchema: Yup.object().shape({
-			instagramHandle: Yup.string()
-				.url("Link is not a valid URL, include http(s)")
-				.matches("\binstagram\b", "Please enter a valid instagram link"),
-			stravaID: Yup.string()
-				.url("Link is not a valid URL, include http(s)")
-				.matches("strava\b", "Please enter a valid Strava link"),
-			rideWithGPSID: Yup.string()
-				.url("Link is not a valid URL, include http(s)")
-				.matches("\ridewithgps\b", "Please enter a valid Ride With GPS link"),
-			twitterHandle: Yup.string()
-				.url("Link is not a valid URL, include http(s)")
-				.matches("\twitter\b", "Please enter a valid Twitter link"),
+			instagramHandle: Yup.string().url(
+				"Link is not a valid URL, include http(s)"
+			),
+			stravaID: Yup.string().url("Link is not a valid URL, include http(s)"),
+			rideWithGPSID: Yup.string().url(
+				"Link is not a valid URL, include http(s)"
+			),
+			twitterHandle: Yup.string().url(
+				"Link is not a valid URL, include http(s)"
+			),
 			biography: Yup.string(),
 			otherRaces: Yup.string()
 		}),
