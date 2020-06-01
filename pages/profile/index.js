@@ -184,7 +184,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 			Router.push("/profile/edit");
 		} catch (err) {
 			console.log(err);
-			Router.push("/login");
+			Router.push("/api/auth/login");
 		} finally {
 			setIsLoading(false);
 		}
@@ -214,7 +214,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	const handleUnclaimedProfile = () => {
 		if (!user.loggedIn) {
 			Cookies.set("profile", window.location.pathname);
-			Router.push("/login");
+			Router.push("/api/auth/login");
 			return;
 		}
 
