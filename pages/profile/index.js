@@ -330,40 +330,40 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 											)}
 										</SocialIcons>
 									)}
-									{auth0Profile.user_metadata?.races &&
-										auth0Profile.user_metadata?.otherRaces && (
-											<Fragment>
-												<H1 f4 f3_l fw6 lh_title mt2>
-													Upcoming Races
-												</H1>
 
-												<div>
-													{auth0Profile.user_metadata?.races &&
-														auth0Profile.user_metadata?.races.map(race => {
-															const { website, title, raceDate } = getRaceByID(
-																race
-															).data;
-															return (
-																<A
-																	near_black
-																	hover_blue
-																	href={website}
-																	target="_blank"
-																>
-																	<p key={race}>
-																		{title}, {format(raceDate, "MMM YYYY")}
-																	</p>
-																</A>
-															);
-														})}
+									{auth0Profile.user_metadata?.races && (
+										<Fragment>
+											<H1 f4 f3_l fw6 lh_title mt2>
+												Upcoming Races
+											</H1>
 
-													{auth0Profile.user_metadata?.otherRaces &&
-														auth0Profile.user_metadata?.otherRaces
-															.split(",")
-															.map(race => <p>{race}</p>)}
-												</div>
-											</Fragment>
-										)}
+											<div>
+												{auth0Profile.user_metadata?.races &&
+													auth0Profile.user_metadata?.races.map(race => {
+														const { website, title, raceDate } = getRaceByID(
+															race
+														).data;
+														return (
+															<A
+																near_black
+																hover_blue
+																href={website}
+																target="_blank"
+															>
+																<p key={race}>
+																	{title}, {format(raceDate, "MMM YYYY")}
+																</p>
+															</A>
+														);
+													})}
+
+												{auth0Profile.user_metadata?.otherRaces &&
+													auth0Profile.user_metadata?.otherRaces
+														.split(",")
+														.map(race => <p>{race}</p>)}
+											</div>
+										</Fragment>
+									)}
 								</div>
 							</Grid>
 						)}
