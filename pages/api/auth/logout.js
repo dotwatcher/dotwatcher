@@ -4,7 +4,11 @@ export default async function logout(req, res) {
 	try {
 		await auth0.handleLogout(req, res);
 	} catch (error) {
-		console.error(error);
-		res.status(error.status || 500).end(error.message);
+		res.writeHead(302, {
+			Location:
+				"/login/error?errorLocation=auth/logout&errorLogs=" +
+				JSON.stringify(error)
+		});
+		res.end();
 	}
 }

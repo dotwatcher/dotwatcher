@@ -8,7 +8,11 @@ export default async function callback(req, res) {
 	try {
 		await auth0.handleCallback(req, res, { redirectTo });
 	} catch (error) {
-		console.error(error);
-		res.status(error.status || 500).end(error.message);
+		res.writeHead(302, {
+			Location:
+				"/login/error?errorLocation=auth/callback&errorLogs=" +
+				JSON.stringify(error)
+		});
+		res.end();
 	}
 }

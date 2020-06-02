@@ -51,15 +51,17 @@ class MyApp extends App {
 	}
 
 	componentDidCatch(error, errorInfo) {
-		Sentry.withScope(scope => {
-			Object.keys(errorInfo).forEach(key => {
-				scope.setExtra(key, errorInfo[key]);
+		if (process.env.NODE_ENV === "production") {
+			Sentry.withScope(scope => {
+				Object.keys(errorInfo).forEach(key => {
+					scope.setExtra(key, errorInfo[key]);
+				});
+
+				Sentry.captureException(error);
 			});
 
-			Sentry.captureException(error);
-		});
-
-		super.componentDidCatch(error, errorInfo);
+			super.componentDidCatch(error, errorInfo);
+		}
 	}
 
 	render() {
