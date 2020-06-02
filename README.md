@@ -8,7 +8,7 @@ All the content is on [Contentful] and is retrieved via their [node client].
 
 ## Local development
 
-To get started clone the repo and run `npm install`.
+To get started clone the repo and run `npm install` or `yarn`.
 
 To be able to access the content for development you’ll need to create a file in the base of the repo called `now-secrets.json` and inside that paste:
 
