@@ -64,6 +64,16 @@
 			"status": 301
 		},
 		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Mikko%20Makipaa",
+			"dest": "/profile/Mikko%20Mäkipää",
+			"status": 301
+		},
+		{
 			"src": "/profile/Ales%20Zavoral",
 			"dest": "/profile/Aleš%20Zavoral",
 			"status": 301
@@ -76,11 +86,6 @@
 		{
 			"src": "/profile/Bjorn%20Lenhard",
 			"dest": "/profile/Björn%20Lenhard",
-			"status": 301
-		},
-		{
-			"src": "/profile/Zoe%20Chauderlot",
-			"dest": "/profile/Zoé%20Chauderlot",
 			"status": 301
 		},
 		{
