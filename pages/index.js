@@ -45,6 +45,7 @@ const Home = ({ page, user }) => {
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
 
+	console.log(process.env.VERCEL_URL);
 	return (
 		<Page>
 			<Head>
