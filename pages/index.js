@@ -17,6 +17,8 @@ import Page from "../components/shared/page";
 import { withHomepage } from "../data/with-homepage";
 import Link from "next/link";
 
+import { AUTH0_CALLBACK_DOMAIN } from "../uitls/constants";
+
 const Div = styled.div`
 	p {
 		margin: 0;
@@ -45,7 +47,7 @@ const Home = ({ page, user }) => {
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
 
-	console.log(process.env.VERCEL_URL);
+	console.log(AUTH0_CALLBACK_DOMAIN);
 	return (
 		<Page>
 			<Head>
