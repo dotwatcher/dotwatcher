@@ -17,7 +17,7 @@ import Page from "../components/shared/page";
 import { withHomepage } from "../data/with-homepage";
 import Link from "next/link";
 
-import { AUTH0_CALLBACK_DOMAIN } from "../uitls/constants";
+import { AUTH0_CALLBACK_DOMAIN } from "../utils/contstants";
 
 const Div = styled.div`
 	p {
