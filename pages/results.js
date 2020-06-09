@@ -139,7 +139,7 @@ class App extends Component {
 					/>
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
-				{console.log(this.props)}
+
 				{this.props.name ? (
 					<Div mt3 mt4_l mh6_l>
 						<Div pb5>
