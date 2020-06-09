@@ -97,7 +97,7 @@ class Page extends Component {
 	}
 
 	setCookie() {
-		Cookies.set(this.COOKIE_NAME, true);
+		Cookies.set(this.COOKIE_NAME, true, { expires: 30 });
 
 		this.setState({
 			showModal: false
