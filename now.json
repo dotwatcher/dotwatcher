@@ -109,7 +109,6 @@
 			"src": "/feature/(?<slug>[^/]+)$",
 			"dest": "/feature?slug=$slug"
 		},
-
 		{
 			"src": "/profile/edit",
 			"dest": "/profile/edit"
