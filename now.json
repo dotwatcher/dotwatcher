@@ -59,6 +59,41 @@
 	],
 	"routes": [
 		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Mikko%20Makipaa",
+			"dest": "/profile/Mikko%20Mäkipää",
+			"status": 301
+		},
+		{
+			"src": "/profile/Ales%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoral",
+			"status": 301
+		},
+		{
+			"src": "/profile/Alex%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoral",
+			"status": 301
+		},
+		{
+			"src": "/profile/Bjorn%20Lenhard",
+			"dest": "/profile/Björn%20Lenhard",
+			"status": 301
+		},
+		{
+			"src": "/profile/Stuart%20Birnie",
+			"dest": "/profile/Stuart%20Birnie%20(Hippy)",
+			"status": 301
+		},
+		{
 			"src": "/page/(?<id>[^/]+)$",
 			"dest": "/page?id=$id"
 		},
@@ -74,10 +109,7 @@
 			"src": "/feature/(?<slug>[^/]+)$",
 			"dest": "/feature?slug=$slug"
 		},
-		{
-			"src": "/results/(?<year>[^/]+)?/(?<race>[^/]+)$",
-			"dest": "/results?year=$year&race=$race"
-		},
+
 		{
 			"src": "/profile/edit",
 			"dest": "/profile/edit"
