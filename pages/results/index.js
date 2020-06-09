@@ -7,14 +7,14 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 
 import Link from "next/link";
-import Header from "../components/header";
-import Page from "../components/shared/page";
-import Footer from "../components/footer";
-import ResultsIndex from "../components/results-index";
-import ResultsTable from "../components/results-table";
-import ResultsContribute from "../components/results-contribute";
-import { WithResults } from "../data/with-results";
-import apiUrl from "../utils/api-url";
+import Header from "../../components/header";
+import Page from "../../components/shared/page";
+import Footer from "../../components/footer";
+import ResultsIndex from "../../components/results-index";
+import ResultsTable from "../../components/results-table";
+import ResultsContribute from "../../components/results-contribute";
+import { WithResults } from "../../data/with-results";
+import apiUrl from "../../utils/api-url";
 
 const Heading = styled.header`
 	${tachyons}
@@ -139,7 +139,7 @@ class App extends Component {
 					/>
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
-				{console.log(this.props)}
+
 				{this.props.name ? (
 					<Div mt3 mt4_l mh6_l>
 						<Div pb5>

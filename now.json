@@ -110,10 +110,6 @@
 			"dest": "/feature?slug=$slug"
 		},
 		{
-			"src": "/results/(?<year>[^/]+)?/(?<race>[^/]+)$",
-			"dest": "/results?year=$year&race=$race"
-		},
-		{
 			"src": "/profile/edit",
 			"dest": "/profile/edit"
 		},
