@@ -1,5 +1,10 @@
 module.exports = {
 	plugins: [
-		require('postcss-easy-import')({prefix: '_'})
+		[
+			"postcss-easy-import",
+			{
+				prefix: "_"
+			}
+		]
 	]
 };
