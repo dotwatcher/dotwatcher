@@ -35,7 +35,7 @@ export const WithResults = Page => {
 
 				return {
 					name: results[0].name,
-					description: results[0].description
+					description: decodeURIComponent(results[0].description)
 				};
 			}
 			const formattedResults = formatter(results);
@@ -76,7 +76,7 @@ export const WithResults = Page => {
 
 			const hasNotes = notes.length > 0;
 			const name = results[0].racename;
-			const description = results[0].description;
+			const description = decodeURIComponent(results[0].description);
 			const slug = race;
 
 			return {
