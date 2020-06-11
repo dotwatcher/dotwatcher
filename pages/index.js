@@ -17,6 +17,8 @@ import Page from "../components/shared/page";
 import { withHomepage } from "../data/with-homepage";
 import Link from "next/link";
 
+import { AUTH0_CALLBACK_DOMAIN } from "../utils/contstants";
+
 const Div = styled.div`
 	p {
 		margin: 0;
@@ -44,6 +46,8 @@ const Home = ({ page, user }) => {
 	const blocksWithoutSlides = page.blocks
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
+
+	console.log(AUTH0_CALLBACK_DOMAIN);
 
 	return (
 		<Page>
