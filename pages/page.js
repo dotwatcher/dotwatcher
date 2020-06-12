@@ -17,6 +17,7 @@ import Page from "../components/shared/page";
 import { withPage } from "../data/with-page";
 import widont from "../utils/widont";
 import Link from "next/link";
+import BodyImage from "../components/image/markdown";
 
 const Div = styled.div`
 	p {
