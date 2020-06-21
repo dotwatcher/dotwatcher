@@ -25,6 +25,10 @@ const H3 = styled.h3`
 	${tachyons}
 `;
 
+const H2 = styled.h2`
+	${tachyons}
+`;
+
 const A = styled.a`
 	${tachyons}
 `;
@@ -90,11 +94,19 @@ const Input = styled.input`
 	font-size: 20px;
 	line-height: 23px;
 	padding: 8px 12px;
-	margin: var(--spacing-medium) 0;
+	/* margin: var(--spacing-medium) 0; */
 `;
 
 const Button = styled.button`
 	${tachyons};
+`;
+
+const HeadingWrap = styled(Div)`
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-column-gap: var(--spacing-medium);
+	border-bottom: 1px solid var(--light-gray);
+	margin-bottom: var(--spacing-medium);
 `;
 
 const Results = props => {
@@ -186,38 +198,68 @@ const Results = props => {
 			<Div mt3 mt4_l mh6_l>
 				<H1>Featured Results</H1>
 
-				<Search>
-					<Input
-						type="text"
-						onChange={handleChange}
-						placeholder="Find a race or rider"
-						value={searchValue}
-					/>
-					<Button
-						input_reset
-						bg_light_gray
-						hover_bg_lightest_blue
-						f5
-						tracked
-						bn
-						ttu
-						ph3
-						pv2
-						lh_solid
-						dib
-						ml4
-						type="button"
-						onClick={handleClear}
-					>
-						Clear
-					</Button>
-				</Search>
+				<HeadingWrap>
+					<Div>
+						<p>
+							Take a look back at some of favourite races below, search for a
+							rider, or view the{" "}
+							<Link href="/results">
+								<a>full collection of results</a>
+							</Link>
+							.
+						</p>
 
-				<Link href="/results" passHref>
-					<A db link near_black hover_blue underline>
-						See full results catalogue
-					</A>
-				</Link>
+						<Link href="/results">
+							<A
+								f4
+								bg_blue
+								ph3
+								pv2
+								mb3
+								center
+								tc
+								white
+								tracked
+								ttl
+								small_caps
+								ba
+								bw1
+								b__blue
+								dib
+								pointer
+							>
+								Find more results
+							</A>
+						</Link>
+					</Div>
+
+					<Search>
+						<Input
+							type="text"
+							onChange={handleChange}
+							placeholder="Find a race or rider"
+							value={searchValue}
+						/>
+						<Button
+							input_reset
+							bg_light_gray
+							hover_bg_lightest_blue
+							f5
+							tracked
+							bn
+							ttu
+							ph3
+							pv2
+							lh_solid
+							dib
+							ml4
+							type="button"
+							onClick={handleClear}
+						>
+							Clear
+						</Button>
+					</Search>
+				</HeadingWrap>
 
 				{isEmpty(races) && isEmpty(riders) && (
 					<H3>Could not find any results for "{searchValue}"</H3>
@@ -225,11 +267,10 @@ const Results = props => {
 
 				{Object.keys(races).length > 0 && (
 					<Fragment>
-						<H1>Races</H1>
 						<RaceWrapper>
 							{Object.keys(races).map((race, i) => (
 								<li key={race[race]}>
-									<Span>{race}</Span>
+									<H2>{race}</H2>
 
 									<RaceYearsWrapper>
 										{Object.keys(races[race])
