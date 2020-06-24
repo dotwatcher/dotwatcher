@@ -1,36 +1,57 @@
-// HOC for fetching results from data.dotwatcher.cc (datasette)
+import { createClient } from "contentful";
+import vars from "./api-vars";
+import Axios from "axios";
+import apiUrl from "../utils/api-url";
 
-import React from "react";
-import fetch from "isomorphic-fetch";
-import apiUrl from "./../utils/api-url";
+const client = createClient({
+	space: vars.space,
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+});
 
-export const WithResults = Page => {
-	const withResults = props => <Page {...props} />;
+const query = {
+	"sys.id": vars.pages.featuredResults,
+	include: 2
+};
 
-	withResults.getInitialProps = async ctx => {
-		const getInitialProps = Page.getInitialProps
-			? await Page.getInitialProps(ctx)
-			: {};
+const WithFeaturedResults = Page => {
+	const withFeaturedResults = props => <Page {...props} />;
 
+	withFeaturedResults.getInitialProps = async ctx => {
 		try {
-			const allResultsResponse = await fetch(
-				apiUrl(`/api/featured-races`, ctx.req)
-			);
+			const resultsResponse = await client.getEntries(query);
 
-			const races = await allResultsResponse.json();
+			const { items } = resultsResponse;
+
+			const [item] = items;
+
+			const { fields } = item;
+
+			const raceNames = fields.races.map(race => race.fields.race);
+
+			const races = async () => {
+				const { data } = await Axios({
+					method: "get",
+					url: apiUrl("/api/featured-races", ctx.req),
+					data: raceNames
+				});
+
+				return data;
+			};
 
 			return {
-				...getInitialProps,
-				races
+				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
+				fields,
+				races: await races()
 			};
 		} catch (e) {
 			console.log(e);
-
 			return {
-				...getInitialProps
+				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {})
 			};
 		}
 	};
 
-	return withResults;
+	return withFeaturedResults;
 };
+
+export default WithFeaturedResults;

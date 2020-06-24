@@ -5,11 +5,12 @@ import tachyons from "styled-components-tachyons";
 import Link from "next/link";
 import { compose } from "recompose";
 import { isEmpty } from "lodash";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 import Header from "../components/header";
 import Page from "../components/shared/page";
 import Footer from "../components/footer";
-import { WithResults } from "../data/with-featured-results";
+import WithFeaturedResults from "../data/with-featured-results";
 import { WithRiders } from "../data/with-riders";
 import mq from "../utils/media-query";
 
@@ -66,7 +67,6 @@ const RaceWrapper = styled.ul`
 
 	${mq.smUp`
 		grid-template-columns: repeat(3, 1fr);
-		grid-template-rows: repeat(2, 1fr);
 	`}
 `;
 
@@ -109,7 +109,14 @@ const HeadingWrap = styled(Div)`
 	margin-bottom: var(--spacing-medium);
 `;
 
+const MoreResults = styled.div`
+	margin-top: var(--spacing-large);
+	display: flex;
+	justify-content: space-between;
+`;
+
 const Results = props => {
+	const { fields } = props;
 	const [riders, setRiders] = useState([]);
 	const [races, setRaces] = useState(props.races || {});
 	const [searchValue, setSearchValue] = useState("");
@@ -163,7 +170,7 @@ const Results = props => {
 	return (
 		<Page>
 			<Head>
-				<title>Featured Results - DotWatcher.cc</title>
+				<title>{fields.title} - DotWatcher.cc</title>
 				<link rel="canonical" href={`https://dotwatcher.cc/featured-results`} />
 				<meta
 					property="og:title"
@@ -196,41 +203,15 @@ const Results = props => {
 			<Header title="dotwatcher.cc" />
 
 			<Div mt3 mt4_l mh6_l>
-				<H1>Featured Results</H1>
+				{fields.title && <H1>{fields.title}</H1>}
 
 				<HeadingWrap>
 					<Div>
-						<p>
-							Take a look back at some of favourite races below, search for a
-							rider, or view the{" "}
-							<Link href="/results">
-								<a>full collection of results</a>
-							</Link>
-							.
-						</p>
-
-						<Link href="/results">
-							<A
-								f4
-								bg_blue
-								ph3
-								pv2
-								mb3
-								center
-								tc
-								white
-								tracked
-								ttl
-								small_caps
-								ba
-								bw1
-								b__blue
-								dib
-								pointer
-							>
-								Find more results
-							</A>
-						</Link>
+						<div
+							dangerouslySetInnerHTML={{
+								__html: documentToHtmlString(fields.summary)
+							}}
+						/>
 					</Div>
 
 					<Search>
@@ -302,6 +283,31 @@ const Results = props => {
 								</li>
 							))}
 						</RaceWrapper>
+
+						<MoreResults>
+							<Link href="/results">
+								<A
+									f4
+									bg_blue
+									ph3
+									pv2
+									mb3
+									center
+									tc
+									white
+									tracked
+									ttl
+									small_caps
+									ba
+									bw1
+									b__blue
+									dib
+									pointer
+								>
+									{fields.moreResultsButton}
+								</A>
+							</Link>
+						</MoreResults>
 					</Fragment>
 				)}
 
@@ -342,6 +348,6 @@ const Results = props => {
 	);
 };
 
-const enhance = compose(WithResults, WithRiders);
+const enhance = compose(WithFeaturedResults, WithRiders);
 
 export default enhance(Results);

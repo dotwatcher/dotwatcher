@@ -4,12 +4,7 @@ export default async function handle(req, res) {
 	const client = await pool.connect();
 
 	try {
-		let featuredRaces = [
-			"Transcontinental Race",
-			"Tour Divide",
-			"Trans Am Bike Race",
-			"Highland Trail 550"
-		];
+		let featuredRaces = req.body;
 
 		const races = featuredRaces.join("|");
 
