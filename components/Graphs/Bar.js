@@ -18,11 +18,6 @@ const Div = styled.div`
 
 	text {
 		font-size: 12px;
-		fill: #fff;
-	}
-
-	path {
-		stroke: gray;
 	}
 
 	line {
@@ -72,28 +67,107 @@ const Div = styled.div`
 	.axis text {
 		fill: var(--blue);
 	}
+
+	.running-total {
+		stroke: var(--green);
+		fill: none;
+		stroke-width: 1.5;
+	}
+
+	.average-distance {
+		stroke: var(--light-red);
+		fill: none;
+		stroke-width: 1.5;
+	}
+
+	.total-distance-legend {
+		fill: var(--green);
+	}
+
+	.average-distance-legend {
+		fill: var(--light-red);
+	}
+
+	.current-distance-legend {
+		fill: var(--blue);
+	}
 `;
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.myRef = React.createRef();
-		this.dataset = [100, 200, 300, 400, 500];
+		this.addRunningCountToSet = this.addRunningCountToSet.bind(this);
+		this.setUpChart = this.setUpChart.bind(this);
+		this.renderLegend = this.renderLegend.bind(this);
+		this.renderAxis = this.renderAxis.bind(this);
+
+		this.margin = 120;
+		this.outerWidth = 1000;
+		this.width = this.outerWidth - 2 * this.margin;
+		this.height = 600 - 2 * this.margin;
+	}
+
+	addRunningCountToSet(data) {
+		return data.reduce((acc, curr) => {
+			const prevEntry = acc[acc.length - 1];
+			const prevTally = prevEntry ? prevEntry.runningTotal : 0;
+			return [
+				...acc,
+				{
+					...curr,
+					runningTotal: prevTally + curr.distance
+				}
+			];
+		}, []);
 	}
 
 	componentDidMount() {
-		const { data } = this.props;
+		this.setUpChart();
+	}
 
-		const margin = 80;
-		const width = 1000 - 2 * margin;
-		const height = 600 - 2 * margin;
+	renderLegend(chart) {
+		const legendX = 20;
+		const legendY = (dim = 1) => 10 + 30 * dim;
 
-		const svg = d3.select(this.myRef.current).append("svg");
+		const circle = () => chart.append("circle").attr("r", 6);
+		const text = () => chart.append("text");
 
-		const chart = svg
-			.append("g")
-			.attr("transform", `translate(${margin}, ${margin})`);
+		circle()
+			.attr("cx", legendX)
+			.attr("cy", legendY())
+			.attr("class", "total-distance-legend");
 
+		circle()
+			.attr("class", "average-distance-legend")
+			.attr("cx", legendX)
+			.attr("cy", legendY(2));
+
+		circle()
+			.attr("class", "current-distance-legend")
+			.attr("cx", legendX)
+			.attr("cy", legendY(3));
+
+		text()
+			.attr("x", legendX + 20)
+			.attr("y", legendY())
+			.text("Cummulative Distance");
+
+		text()
+			.attr("x", legendX + 20)
+			.attr("y", legendY(2))
+			.text("Average Annual Distance");
+
+		text()
+			.attr("x", legendX + 20)
+			.attr("y", legendY(3))
+			.text("Yearly Total Distance");
+	}
+
+	renderAxis({ chart, data }) {
+		const { width, height } = this;
+
+		const { totalDistance } = this.props;
 		const xScale = d3
 			.scaleBand()
 			.range([0, width])
@@ -105,8 +179,10 @@ class App extends React.Component {
 			.range([height, 0])
 			.domain([0, Math.max(...data.map(d => d.distance)) + 200]);
 
-		// vertical grid lines
-		// const makeXLines = () => d3.axisBottom().scale(xScale);
+		const yScaleRight = d3
+			.scaleLinear()
+			.range([height, 0])
+			.domain([0, totalDistance + 200]);
 
 		const makeYLines = () => d3.axisLeft().scale(yScale);
 
@@ -121,14 +197,11 @@ class App extends React.Component {
 			.attr("class", "axis y-axis")
 			.call(d3.axisLeft(yScale));
 
-		// vertical grid lines
-		// chart.append('g')
-		//   .attr('class', 'grid')
-		//   .attr('transform', `translate(0, ${height})`)
-		//   .call(makeXLines()
-		//     .tickSize(-height, 0, 0)
-		//     .tickFormat('')
-		//   )
+		chart
+			.append("g")
+			.attr("class", "axis y-axis-right")
+			.attr("transform", `translate(${width}, 0)`)
+			.call(d3.axisRight(yScaleRight));
 
 		chart
 			.append("g")
@@ -138,6 +211,63 @@ class App extends React.Component {
 					.tickSize(-width, 0, 0)
 					.tickFormat("")
 			);
+
+		return {
+			xScale,
+			yScale,
+			yScaleRight
+		};
+	}
+
+	setUpChart() {
+		let { data, averageAnnualDistance } = this.props;
+
+		data = this.addRunningCountToSet(data);
+
+		const { width, height, margin } = this;
+
+		const svg = d3.select(this.myRef.current).append("svg");
+
+		const chart = svg
+			.append("g")
+			.attr("transform", `translate(${margin}, ${margin})`);
+
+		this.renderLegend(svg);
+		const { xScale, yScale, yScaleRight } = this.renderAxis({ chart, data });
+
+		// Running Total line
+		const line = d3
+			.line()
+			.x(d => xScale(d.year))
+			.y(d => yScaleRight(d.runningTotal))
+			.curve(d3.curveCatmullRom.alpha(0.5));
+
+		chart
+			.append("path")
+			.datum(data)
+			.attr("class", "running-total")
+			.attr("data-legend", "Cummulative Distance")
+			.attr("d", line);
+
+		// Average Annual Distance
+		chart
+			.append("path")
+			.datum(data)
+			.attr("class", "average-distance")
+			.attr("data-legend", "Average Annual Disatnce")
+			.attr(
+				"d",
+				d3
+					.line()
+					.x(d => xScale(d.year))
+					.y(d => yScale(averageAnnualDistance))
+			);
+
+		chart
+			.append("g")
+			.attr("class", "legend")
+			.attr("transform", "translate(50,30)")
+			.style("font-size", "12px");
 
 		const barGroups = chart
 			.selectAll()
@@ -204,14 +334,6 @@ class App extends React.Component {
 				chart.selectAll(".divergence").remove();
 			});
 
-		// barGroups
-		// 	.append("text")
-		// 	.attr("x", a => xScale(a.year) + xScale.bandwidth() / 2)
-		// 	.attr("y", a => yScale(a.distance) + 30)
-		// 	.attr("text-anchor", "middle")
-		// 	.attr("class", "barValue")
-		// 	.text(a => `${a.distance} Km`);
-
 		svg
 			.append("text")
 			.attr("class", "label")
@@ -220,6 +342,15 @@ class App extends React.Component {
 			.attr("transform", "rotate(-90)")
 			.attr("text-anchor", "middle")
 			.text("Distance");
+
+		svg
+			.append("text")
+			.attr("class", "label")
+			.attr("x", -(height / 2) - margin)
+			.attr("y", this.outerWidth - 50)
+			.attr("transform", "rotate(-90)")
+			.attr("text-anchor", "middle")
+			.text("Cummulative Distance");
 
 		svg
 			.append("text")
@@ -235,7 +366,7 @@ class App extends React.Component {
 			.attr("x", width / 2 + margin)
 			.attr("y", 40)
 			.attr("text-anchor", "middle")
-			.text("Annual Race Distances");
+			.text("Distances over time");
 	}
 
 	render() {
