@@ -11,7 +11,7 @@ import BarGraph from "../../components/Graphs/Bar";
 
 export default props => {
 	// const data = [{ index, date, value }]
-	const data = uniqueYears(props.profile).reduce((acc, curr, index) => {
+	let data = uniqueYears(props.profile).reduce((acc, curr, index) => {
 		if (curr) {
 			return [
 				...acc,
@@ -26,11 +26,13 @@ export default props => {
 		return acc;
 	}, []);
 
+	data = data.sort((a, b) => a.year - b.year);
+
+	const total = totalDistanceOfRaces(props.profile);
+
 	return (
 		<div>
-			<p>
-				All time distance {formatDistance(totalDistanceOfRaces(props.profile))}
-			</p>
+			{/*<p>All time distance {formatDistance(total)}</p>
 
 			<p>Average Distance {formatDistance(averageDistance(props.profile))}</p>
 
@@ -39,9 +41,13 @@ export default props => {
 					{year} Distance{" "}
 					{formatDistance(totalDistanceByYear({ races: props.profile, year }))}
 				</p>
-			))}
+			))}*/}
 
-			<BarGraph data={data} />
+			<BarGraph
+				data={data}
+				totalDistance={total}
+				averageAnnualDistance={averageDistance(props.profile)}
+			/>
 		</div>
 	);
 };
