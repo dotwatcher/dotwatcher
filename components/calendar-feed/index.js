@@ -38,6 +38,7 @@ const RaceCalendar = ({ races }) => {
 					as: race.data.calendarOnly ? null : `/race/${race.data.slug}`,
 					target: race.data.calendarOnly ? "_blank" : "_self"
 				};
+
 				return (
 					<CalendarDetails
 						key={race.sys.id}
@@ -53,6 +54,7 @@ const RaceCalendar = ({ races }) => {
 								near_black
 								hover_blue
 								underline_hover
+								href={race.data.website}
 								target={link.target}
 							>
 								{race.data.title}
