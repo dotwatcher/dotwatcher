@@ -42,6 +42,8 @@ class App extends Component {
 
 		this.handleSearchUpdate = debounce(this.handleSearchUpdate.bind(this), 200);
 
+		this.hasNotes = this.hasNotes.bind(this);
+
 		this.state = {
 			races: this.props.allRaces,
 			riders: [],
@@ -97,6 +99,10 @@ class App extends Component {
 		} catch (err) {
 			console.log(err);
 		}
+	}
+
+	hasNotes() {
+		return this.props.results.some(result => !!result.notes);
 	}
 
 	render() {
@@ -165,6 +171,7 @@ class App extends Component {
 									</Description>
 								)}
 							</Heading>
+
 							{this.props.results.length ? (
 								<ResultsTable
 									type="race"
@@ -176,6 +183,7 @@ class App extends Component {
 									activeCategory={this.props.activeCategory}
 									finishlocations={this.props.finishlocations}
 									activeLocation={this.props.activeLocation}
+									hasNotes={this.hasNotes()}
 								/>
 							) : (
 								<H3 ph3>
