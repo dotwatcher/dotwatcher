@@ -7,6 +7,7 @@ import arraySort from "array-sort";
 
 import slugify from "../../utils/slugify";
 import ResultsFilter from "../results-filter";
+import { filter } from "lodash";
 
 const Div = styled.div`
 	${tachyons}
@@ -185,6 +186,8 @@ class ResultsTable extends React.Component {
 				);
 			}
 		}
+
+		filteredResults = filteredResults.sort((a, b) => b.year - a.year);
 
 		return (
 			<Div>
