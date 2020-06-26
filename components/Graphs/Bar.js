@@ -107,7 +107,7 @@ class App extends React.Component {
 		this.width = this.outerWidth - 2 * this.margin;
 		this.height = 600 - 2 * this.margin;
 	}
-
+	//
 	addRunningCountToSet(data) {
 		return data.reduce((acc, curr) => {
 			const prevEntry = acc[acc.length - 1];
