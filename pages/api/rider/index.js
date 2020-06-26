@@ -6,8 +6,10 @@ export default async function handle(req, res) {
 
 	try {
 		const { rows: results } = await client.query(
-			`SELECT riders.name, riders.auth_id, races.name AS racename, races.year, results.position, results.cap, results.class, results.days, results.hours, results.minutes, results.result, results.bike, results.category FROM results, riders, races WHERE riders.id = results.riderid AND races.id = results.raceid AND LOWER(riders.name) LIKE LOWER('%${name}%')`
+			`SELECT riders.name, riders.auth_id, races.name AS racename, races.year, races.length, results.position, results.cap, results.class, results.days, results.hours, results.minutes, results.result, results.bike, results.category FROM results, riders, races WHERE riders.id = results.riderid AND races.id = results.raceid AND LOWER(riders.name) LIKE LOWER('%${name}%')`
 		);
+
+		console.log("asdsad");
 		res.json({ results });
 	} catch (error) {
 		res.json({ error });

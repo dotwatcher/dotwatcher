@@ -4,9 +4,11 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
 
-Sentry.init({
-	dsn: process.env.SENTRY_DSN
-});
+if (process.env.NODE_ENV === "production") {
+	Sentry.init({
+		dsn: process.env.SENTRY_DSN
+	});
+}
 
 class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {
