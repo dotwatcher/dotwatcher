@@ -4,13 +4,15 @@ import React from "react";
 
 import * as Sentry from "@sentry/browser";
 
-process.on("unhandledRejection", err => {
-	Sentry.captureException(err);
-});
+if (process.env.NODE_ENV === "production") {
+	process.on("unhandledRejection", err => {
+		Sentry.captureException(err);
+	});
 
-process.on("uncaughtException", err => {
-	Sentry.captureException(err);
-});
+	process.on("uncaughtException", err => {
+		Sentry.captureException(err);
+	});
+}
 
 export default class Document extends NextDocument {
 	static getInitialProps({ renderPage }) {
