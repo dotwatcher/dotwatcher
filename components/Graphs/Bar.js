@@ -361,7 +361,7 @@ class App extends React.Component {
 
 		await this.setState({ data: this.addRunningCountToSet(data) });
 
-		const { width, height, margin } = this;
+		const { margin } = this;
 
 		const svg = d3.select(this.myRef.current).append("svg");
 
@@ -378,12 +378,6 @@ class App extends React.Component {
 
 		// Average Annual Distance
 		this.renderAverageLine({ chart, xScale, yScale });
-
-		chart
-			.append("g")
-			.attr("class", "legend")
-			.attr("transform", "translate(50,30)")
-			.style("font-size", "12px");
 	}
 
 	render() {
