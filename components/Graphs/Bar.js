@@ -164,8 +164,9 @@ class App extends React.Component {
 			.text("Yearly Total Distance");
 	}
 
-	renderAxis({ chart, data }) {
-		const { width, height } = this;
+	renderAxis({ chart, svg }) {
+		const { data } = this.state;
+		const { width, height, outerWidth, margin } = this;
 
 		const { totalDistance } = this.props;
 		const xScale = d3
@@ -212,6 +213,40 @@ class App extends React.Component {
 					.tickFormat("")
 			);
 
+		svg
+			.append("text")
+			.attr("class", "label")
+			.attr("x", -(height / 2) - margin)
+			.attr("y", margin / 2.4)
+			.attr("transform", "rotate(-90)")
+			.attr("text-anchor", "middle")
+			.text("Distance");
+
+		svg
+			.append("text")
+			.attr("class", "label")
+			.attr("x", -(height / 2) - margin)
+			.attr("y", this.outerWidth - 50)
+			.attr("transform", "rotate(-90)")
+			.attr("text-anchor", "middle")
+			.text("Cummulative Distance");
+
+		svg
+			.append("text")
+			.attr("class", "label")
+			.attr("x", width / 2 + margin)
+			.attr("y", height + margin * 1.5)
+			.attr("text-anchor", "middle")
+			.text("Year");
+
+		svg
+			.append("text")
+			.attr("class", "title")
+			.attr("x", width / 2 + margin)
+			.attr("y", 40)
+			.attr("text-anchor", "middle")
+			.text("Distances over time");
+
 		return {
 			xScale,
 			yScale,
@@ -219,56 +254,9 @@ class App extends React.Component {
 		};
 	}
 
-	setUpChart() {
-		let { data, averageAnnualDistance } = this.props;
-
-		data = this.addRunningCountToSet(data);
-
-		const { width, height, margin } = this;
-
-		const svg = d3.select(this.myRef.current).append("svg");
-
-		const chart = svg
-			.append("g")
-			.attr("transform", `translate(${margin}, ${margin})`);
-
-		this.renderLegend(svg);
-		const { xScale, yScale, yScaleRight } = this.renderAxis({ chart, data });
-
-		// Running Total line
-		const line = d3
-			.line()
-			.x(d => xScale(d.year))
-			.y(d => yScaleRight(d.runningTotal))
-			.curve(d3.curveCatmullRom.alpha(0.5));
-
-		chart
-			.append("path")
-			.datum(data)
-			.attr("class", "running-total")
-			.attr("data-legend", "Cummulative Distance")
-			.attr("d", line);
-
-		// Average Annual Distance
-		chart
-			.append("path")
-			.datum(data)
-			.attr("class", "average-distance")
-			.attr("data-legend", "Average Annual Disatnce")
-			.attr(
-				"d",
-				d3
-					.line()
-					.x(d => xScale(d.year))
-					.y(d => yScale(averageAnnualDistance))
-			);
-
-		chart
-			.append("g")
-			.attr("class", "legend")
-			.attr("transform", "translate(50,30)")
-			.style("font-size", "12px");
-
+	renderBars({ xScale, yScale, chart }) {
+		const { data } = this.state;
+		const { width, height } = this;
 		const barGroups = chart
 			.selectAll()
 			.data(data)
@@ -333,40 +321,69 @@ class App extends React.Component {
 				chart.selectAll("#limit").remove();
 				chart.selectAll(".divergence").remove();
 			});
+	}
 
-		svg
-			.append("text")
-			.attr("class", "label")
-			.attr("x", -(height / 2) - margin)
-			.attr("y", margin / 2.4)
-			.attr("transform", "rotate(-90)")
-			.attr("text-anchor", "middle")
-			.text("Distance");
+	renderTotalLine({ chart, xScale, yScaleRight }) {
+		const { data } = this.state;
+		const line = d3
+			.line()
+			.x(d => xScale(d.year))
+			.y(d => yScaleRight(d.runningTotal))
+			.curve(d3.curveCatmullRom.alpha(0.5));
 
-		svg
-			.append("text")
-			.attr("class", "label")
-			.attr("x", -(height / 2) - margin)
-			.attr("y", this.outerWidth - 50)
-			.attr("transform", "rotate(-90)")
-			.attr("text-anchor", "middle")
-			.text("Cummulative Distance");
+		chart
+			.append("path")
+			.datum(data)
+			.attr("class", "running-total")
+			.attr("data-legend", "Cummulative Distance")
+			.attr("d", line);
+	}
 
-		svg
-			.append("text")
-			.attr("class", "label")
-			.attr("x", width / 2 + margin)
-			.attr("y", height + margin * 1.5)
-			.attr("text-anchor", "middle")
-			.text("Year");
+	renderAverageLine({ chart, xScale, yScale }) {
+		const { averageAnnualDistance } = this.props;
+		const { data } = this.state;
+		chart
+			.append("path")
+			.datum(data)
+			.attr("class", "average-distance")
+			.attr("data-legend", "Average Annual Disatnce")
+			.attr(
+				"d",
+				d3
+					.line()
+					.x(d => xScale(d.year))
+					.y(d => yScale(averageAnnualDistance))
+			);
+	}
 
-		svg
-			.append("text")
-			.attr("class", "title")
-			.attr("x", width / 2 + margin)
-			.attr("y", 40)
-			.attr("text-anchor", "middle")
-			.text("Distances over time");
+	async setUpChart() {
+		const { data } = this.props;
+
+		await this.setState({ data: this.addRunningCountToSet(data) });
+
+		const { width, height, margin } = this;
+
+		const svg = d3.select(this.myRef.current).append("svg");
+
+		const chart = svg
+			.append("g")
+			.attr("transform", `translate(${margin}, ${margin})`);
+
+		this.renderLegend(svg);
+		const { xScale, yScale, yScaleRight } = this.renderAxis({ chart, svg });
+		this.renderBars({ chart, xScale, yScale });
+
+		// Running Total line
+		this.renderTotalLine({ chart, xScale, yScaleRight });
+
+		// Average Annual Distance
+		this.renderAverageLine({ chart, xScale, yScale });
+
+		chart
+			.append("g")
+			.attr("class", "legend")
+			.attr("transform", "translate(50,30)")
+			.style("font-size", "12px");
 	}
 
 	render() {
