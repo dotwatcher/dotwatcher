@@ -106,6 +106,10 @@ class App extends React.Component {
 		this.outerWidth = 1000;
 		this.width = this.outerWidth - 2 * this.margin;
 		this.height = 600 - 2 * this.margin;
+
+		this.state = {
+			data: []
+		};
 	}
 	//
 	addRunningCountToSet(data) {
@@ -122,7 +126,11 @@ class App extends React.Component {
 		}, []);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		const { data } = this.props;
+
+		await this.setState({ data: this.addRunningCountToSet(data) });
+
 		this.setUpChart();
 	}
 
@@ -356,11 +364,7 @@ class App extends React.Component {
 			);
 	}
 
-	async setUpChart() {
-		const { data } = this.props;
-
-		await this.setState({ data: this.addRunningCountToSet(data) });
-
+	setUpChart() {
 		const { margin } = this;
 
 		const svg = d3.select(this.myRef.current).append("svg");
