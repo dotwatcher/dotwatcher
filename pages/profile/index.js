@@ -222,10 +222,10 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	};
 
 	const noSocialAccounts =
-		!auth0Profile ||
-		!auth0Profile.user_metadata?.twitterHanlde ||
-		!auth0Profile.user_metadata?.stravaID ||
-		!auth0Profile.user_metadata?.rideWithGPSID ||
+		!auth0Profile &&
+		!auth0Profile.user_metadata?.twitterHanlde &&
+		!auth0Profile.user_metadata?.stravaID &&
+		!auth0Profile.user_metadata?.rideWithGPSID &&
 		!auth0Profile.user_metadata?.instagramHandle;
 
 	return (
