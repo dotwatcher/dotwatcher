@@ -73,10 +73,6 @@
 			"dest": "/profile/edit"
 		},
 		{
-			"src": "/profile/(?<name>[^/]+)$",
-			"dest": "/profile?name=$name"
-		},
-		{
 			"src": "/calendar/(?<year>[^/]+)?/(?<month>[^/]+)$",
 			"dest": "/calendar?year=$year&month=$month"
 		}
