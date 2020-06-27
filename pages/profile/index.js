@@ -10,6 +10,9 @@ import mq from "../../utils/media-query";
 import sanitizeName from "../../utils/sanitize-name";
 import ProfileDetails from "../../components/Profile/Details";
 import ProfileStats from "../../components/Profile/Stats";
+import ProfileAwards from "../../components/Profile/Awards";
+
+import { Accordion, AccordionItem } from "../../components/UI/Accordion";
 
 import Link from "next/link";
 
@@ -214,12 +217,24 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						races={races}
 					/>
 
-					<ProfileStats profile={profile} name={name} />
+					<Accordion>
+						<AccordionItem id="awards" title="Distance Achievements">
+							<ProfileAwards profile={profile} />
+						</AccordionItem>
+						<AccordionItem id="stats" title="Stats">
+							<ProfileStats profile={profile} name={name} />
+						</AccordionItem>
+						<AccordionItem id="stats" title="Latest Results">
+							<ResultsTable type="profile" results={profile} />
+						</AccordionItem>
+					</Accordion>
 
-					<H1 fl f3 f2_l fw6 lh_title>
+					{/*<ProfileStats profile={profile} name={name} />*/}
+
+					{/*<H1 fl f3 f2_l fw6 lh_title>
 						Latest Results
-					</H1>
-					<ResultsTable type="profile" results={profile} />
+					</H1>*/}
+					{/*<ResultsTable type="profile" results={profile} />*/}
 					<ResultsContribute />
 				</Div>
 			</Div>

@@ -7,6 +7,13 @@ import {
 	addArray
 } from "../../utils/distance";
 
+import styled from "styled-components";
+import tachyons from "styled-components-tachyons";
+
+const Div = styled.div`
+	${tachyons}
+`;
+
 import BarGraph from "../../components/Graphs/Bar";
 
 export default props => {
@@ -31,7 +38,7 @@ export default props => {
 	const total = totalDistanceOfRaces(props.profile);
 
 	return (
-		<div>
+		<Div mb pb4 bb b__light_gray>
 			{/*<p>All time distance {formatDistance(total)}</p>
 
 			<p>Average Distance {formatDistance(averageDistance(props.profile))}</p>
@@ -48,6 +55,6 @@ export default props => {
 				totalDistance={total}
 				averageAnnualDistance={averageDistance(props.profile)}
 			/>
-		</div>
+		</Div>
 	);
 };
