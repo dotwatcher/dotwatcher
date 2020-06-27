@@ -38,7 +38,7 @@ export default props => {
 	const total = totalDistanceOfRaces(props.profile);
 
 	return (
-		<Div mb pb4 bb b__light_gray>
+		<Div>
 			{/*<p>All time distance {formatDistance(total)}</p>
 
 			<p>Average Distance {formatDistance(averageDistance(props.profile))}</p>
