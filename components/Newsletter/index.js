@@ -127,6 +127,7 @@ const CustomForm = ({
 				ba
 				bw1
 				b__blue
+				pointer
 				type="submit"
 			>
 				Subscribe

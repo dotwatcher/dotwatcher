@@ -13,6 +13,19 @@ import {
 	FaFacebook as Facebook
 } from "react-icons/fa";
 
+const SubmitButton = styled(Button)`
+	&:focus,
+	&:hover {
+		border-color: var(--dark-blue);
+		background-color: var(--dark-blue);
+		outline: 0;
+	}
+	&:active {
+		border-color: var(--gold);
+		background-color: var(--gold);
+	}
+`;
+
 const Grid = styled(Div)`
 	display: grid;
 	grid-column-gap: 30px;
@@ -60,6 +73,14 @@ export default ({
 }) => {
 	const getRaceByID = id => races.find(r => r.sys.id === id);
 
+	const meta = property => {
+		if (!property) return false;
+
+		if (!auth0Profile || !auth0Profile.user_metadata) return false;
+
+		return auth0Profile.user_metadata[property];
+	};
+
 	return (
 		<Div mb pb4 bb b__light_gray>
 			{!!authID && (
@@ -68,17 +89,17 @@ export default ({
 						<Img
 							mw_100
 							src={
-								auth0Profile.user_metadata?.userPicture
-									? auth0Profile.user_metadata.userPicture
+								meta("userPicture")
+									? meta("userPicture")
 									: auth0Profile.picture || "/static/empty-profile.png"
 							}
 							alt={name}
 						/>
 					}
 
-					{auth0Profile.user_metadata?.biography && (
+					{meta("biography") && (
 						<P mt2 mt0_l>
-							{auth0Profile.user_metadata.biography}
+							{meta("biography")}
 						</P>
 					)}
 
@@ -89,31 +110,28 @@ export default ({
 									Social Accounts
 								</H1>
 								<SocialIcons>
-									{auth0Profile.user_metadata?.twitterHanlde && (
+									{meta("twitterHanlde") && (
 										<li>
 											<SocialAnchor
 												title="Twitter"
-												href={auth0Profile.user_metadata.twitterHanlde}
+												href={meta("twitterHanlde")}
 											>
 												<Twitter />
 											</SocialAnchor>
 										</li>
 									)}
-									{auth0Profile.user_metadata?.stravaID && (
+									{meta("stravaID") && (
 										<li>
-											<SocialAnchor
-												title="Strava"
-												href={auth0Profile.user_metadata.stravaID}
-											>
+											<SocialAnchor title="Strava" href={meta("stravaID")}>
 												<Strava />
 											</SocialAnchor>
 										</li>
 									)}
-									{auth0Profile.user_metadata?.rideWithGPSID && (
+									{meta("rideWithGPSID") && (
 										<li>
 											<SocialAnchor
 												title="Ride With GPS"
-												href={auth0Profile.user_metadata.rideWithGPSID}
+												href={meta("rideWithGPSID")}
 											>
 												<svg
 													width="16px"
@@ -134,11 +152,11 @@ export default ({
 											</SocialAnchor>
 										</li>
 									)}
-									{auth0Profile.user_metadata?.instagramHandle && (
+									{meta("instagramHandle") && (
 										<li>
 											<SocialAnchor
 												title="Instagram"
-												href={auth0Profile.user_metadata.instagramHandle}
+												href={meta("instagramHandle")}
 											>
 												<Instagram />
 											</SocialAnchor>
@@ -148,15 +166,15 @@ export default ({
 							</Fragment>
 						)}
 
-						{auth0Profile.user_metadata?.races && (
+						{meta("races") && (
 							<Fragment>
 								<H1 f4 f3_l fw6 lh_title mt2>
 									Upcoming Races
 								</H1>
 
 								<div>
-									{auth0Profile.user_metadata?.races &&
-										auth0Profile.user_metadata?.races.map(race => {
+									{meta("races") &&
+										meta("races").map(race => {
 											const { website, title, raceDate } = getRaceByID(
 												race
 											).data;
@@ -169,8 +187,8 @@ export default ({
 											);
 										})}
 
-									{auth0Profile.user_metadata?.otherRaces &&
-										auth0Profile.user_metadata?.otherRaces
+									{meta("otherRaces") &&
+										meta("otherRaces")
 											.split(",")
 											.map(race => <p>{race}</p>)}
 								</div>
@@ -181,9 +199,8 @@ export default ({
 			)}
 
 			{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
-			{(!loggedIn.user_metadata?.name ||
-				loggedIn.user_metadata?.name.toLowerCase() === name.toLowerCase()) && (
-				<Button
+			{(!meta("name") || meta("name").toLowerCase() === name.toLowerCase()) && (
+				<SubmitButton
 					mt4
 					f4
 					bg_blue
@@ -197,6 +214,7 @@ export default ({
 					bw1
 					b__blue
 					dib
+					pointer
 					type="button"
 					disabled={isLoading || (profileIsClaimed && !isCurrentUserProfile)}
 					onClick={
@@ -214,7 +232,7 @@ export default ({
 						: profileIsClaimed
 						? "Profile already claimed"
 						: "Claim this profile"}
-				</Button>
+				</SubmitButton>
 			)}
 		</Div>
 	);
