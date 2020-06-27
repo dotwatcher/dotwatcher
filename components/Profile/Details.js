@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Fragment } from "react";
 import mq from "../../utils/media-query";
 import { format } from "date-fns";
+import Router from "next/router";
+import { P, Div, H1, Button, A, Img } from "../UI/Tachyons";
 
 import {
 	FaStrava as Strava,
@@ -10,22 +12,6 @@ import {
 	FaTwitter as Twitter,
 	FaFacebook as Facebook
 } from "react-icons/fa";
-
-const Div = styled.div`
-	${tachyons}
-`;
-
-const H1 = styled.h1`
-	${tachyons}
-`;
-
-const Button = styled.button`
-	${tachyons}
-`;
-
-const A = styled.a`
-	${tachyons}
-`;
 
 const Grid = styled(Div)`
 	display: grid;
@@ -52,10 +38,6 @@ const SocialIcons = styled.ul`
 			cursor: pointer;
 		}
 	}
-`;
-
-const Img = styled.img`
-	${tachyons}
 `;
 
 const SocialAnchor = ({ href, children }) => (
