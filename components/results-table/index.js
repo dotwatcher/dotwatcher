@@ -229,6 +229,11 @@ class ResultsTable extends React.Component {
 											? result.minutes.toString().padStart(2, "0")
 											: "00") + "m"
 									: null;
+
+							const sanitizeName = result.racename
+								.toLowerCase()
+								.replace(/\s/g, "-")
+								.replace(":", "");
 							return (
 								<ResultsRow key={result["rowid"] + `-${id}`} id={id}>
 									{this.props.type === "profile" ? (
@@ -236,18 +241,14 @@ class ResultsTable extends React.Component {
 											<Link
 												href={`/results?year=${
 													result.year
-												}&race=${result.racename
-													.toLowerCase()
-													.replace(/\s/g, "-")}-${result.year}&focus=${slugify(
+												}&race=${sanitizeName}-${result.year}&focus=${slugify(
 													result.name
 												)}&activeClass=${result.class}`}
-												as={`/results/${
+												as={`/results/${result.year}/${sanitizeName}-${
 													result.year
-												}/${result.racename
-													.toLowerCase()
-													.replace(/\s/g, "-")}-${result.year}?focus=${slugify(
-													result.name
-												)}&activeClass=${result.class}`}
+												}?focus=${slugify(result.name)}&activeClass=${
+													result.class
+												}`}
 												passHref
 											>
 												<A link near_black hover_blue underline>
