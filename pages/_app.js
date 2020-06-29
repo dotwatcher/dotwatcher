@@ -5,7 +5,8 @@ import axios from "axios";
 import * as Sentry from "@sentry/browser";
 
 Sentry.init({
-	dsn: process.env.SENTRY_DSN
+	dsn: process.env.SENTRY_DSN,
+	release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
 });
 
 class MyApp extends App {
@@ -28,6 +29,7 @@ class MyApp extends App {
 	}
 
 	async componentDidMount() {
+		console.log(process.env.VERCEL_GITHUB_COMMIT_SHA);
 		const user = async () => {
 			try {
 				const res = await axios({ method: "get", url: "/api/auth/me" });
