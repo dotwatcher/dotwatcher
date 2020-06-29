@@ -29,7 +29,6 @@ class MyApp extends App {
 	}
 
 	async componentDidMount() {
-		console.log(process.env.VERCEL_GITHUB_COMMIT_SHA);
 		const user = async () => {
 			try {
 				const res = await axios({ method: "get", url: "/api/auth/me" });
