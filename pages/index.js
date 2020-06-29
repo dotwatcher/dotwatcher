@@ -47,8 +47,6 @@ const Home = ({ page, user }) => {
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
 
-	console.log(AUTH0_CALLBACK_DOMAIN);
-
 	return (
 		<Page>
 			<Head>
