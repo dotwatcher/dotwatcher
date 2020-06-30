@@ -3,11 +3,10 @@ import App from "next/app";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
-import dynamic from "next/dynamic";
+import smoothscroll from "smoothscroll-polyfill";
 
-if (!("scrollBehavior" in document.documentElement.style)) {
-	dynamic(() => import("scroll-behavior-polyfill"));
-}
+// kick off the polyfill!
+smoothscroll.polyfill();
 
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
