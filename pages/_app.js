@@ -5,8 +5,10 @@ import axios from "axios";
 import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
 
-// kick off the polyfill!
-smoothscroll.polyfill();
+if (typeof window !== "undefined") {
+	// kick off the polyfill!
+	smoothscroll.polyfill();
+}
 
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
