@@ -10,12 +10,11 @@ export default async function callback(req, res) {
 		await auth0.handleCallback(req, res, { redirectTo });
 	} catch (error) {
 		await Sentry.captureMessage("Error in api/auth/callback", "critical");
-		res.writeHead(302, { Location: "/api/auth/login" });
-		// res.writeHead(302, {
-		// 	Location:
-		// 		"/login/error?errorLocation=auth/callback&errorLogs=" +
-		// 		JSON.stringify(error)
-		// });
+		res.writeHead(302, {
+			Location:
+				"/login/error?errorLocation=auth/callback&errorLogs=" +
+				JSON.stringify(error)
+		});
 		res.end();
 	}
 }
