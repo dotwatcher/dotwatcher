@@ -5,6 +5,7 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Head from "next/head";
 import * as Yup from "yup";
+import * as Sentry from "@sentry/browser";
 
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
@@ -141,12 +142,19 @@ Profile.getInitialProps = async ({ req, res }) => {
 	if (typeof window === "undefined") {
 		const session = await auth0.getSession(req);
 		if (!session || !session.user) {
+			if (process.env.NODE_ENV === "production") {
+				console.log("Unable to get session ", session);
+
+				await Sentry.captureException("Cannot get session " + session);
+			}
+
 			res.writeHead(302, {
 				Location: "/api/auth/login"
 			});
 			res.end();
 			return;
 		}
+
 		const meta = await userAPI.get(session.user.sub);
 
 		return { user: session.user, meta: meta.data };

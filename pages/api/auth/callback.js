@@ -5,14 +5,18 @@ export default async function callback(req, res) {
 
 	const redirectTo = profile || "/profile/edit";
 
-	try {
-		await auth0.handleCallback(req, res, { redirectTo });
-	} catch (error) {
-		res.writeHead(302, {
-			Location:
-				"/login/error?errorLocation=auth/callback&errorLogs=" +
-				JSON.stringify(error)
-		});
-		res.end();
-	}
+	// try {
+	await auth0.handleCallback(req, res, {
+		getState: req => {
+			return { redirectTo };
+		}
+	});
+	// } catch (error) {
+	// 	res.writeHead(302, {
+	// 		Location:
+	// 			"/login/error?errorLocation=auth/callback&errorLogs=" +
+	// 			JSON.stringify(error)
+	// 	});
+	// 	res.end();
+	// }
 }
