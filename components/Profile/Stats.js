@@ -38,23 +38,10 @@ export default props => {
 	const total = totalDistanceOfRaces(props.profile);
 
 	return (
-		<Div>
-			{/*<p>All time distance {formatDistance(total)}</p>
-
-			<p>Average Distance {formatDistance(averageDistance(props.profile))}</p>
-
-			{uniqueYears(props.profile).map(year => (
-				<p key={year}>
-					{year} Distance{" "}
-					{formatDistance(totalDistanceByYear({ races: props.profile, year }))}
-				</p>
-			))}*/}
-
-			<BarGraph
-				data={data}
-				totalDistance={total}
-				averageAnnualDistance={averageDistance(props.profile)}
-			/>
-		</Div>
+		<BarGraph
+			data={data}
+			totalDistance={total}
+			averageAnnualDistance={averageDistance(props.profile)}
+		/>
 	);
 };

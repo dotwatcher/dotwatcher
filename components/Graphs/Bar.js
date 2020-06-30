@@ -91,6 +91,19 @@ const Div = styled.div`
 	.current-distance-legend {
 		fill: var(--blue);
 	}
+
+	div.tooltip {
+		position: absolute;
+		text-align: center;
+		width: 140px;
+		height: 50px;
+		padding: 2px;
+		font: 12px sans-serif;
+		background: lightgreen;
+		border: 0px;
+		border-radius: 8px;
+		pointer-events: none;
+	}
 `;
 
 class App extends React.Component {
@@ -333,11 +346,15 @@ class App extends React.Component {
 
 	renderTotalLine({ chart, xScale, yScaleRight }) {
 		const { data } = this.state;
+
+		const tooltipHeight = 50;
+		const tooltipWidth = 50;
+
 		const line = d3
 			.line()
-			.x(d => xScale(d.year))
+			.x(d => xScale(d.year) + xScale.bandwidth() / 2)
 			.y(d => yScaleRight(d.runningTotal))
-			.curve(d3.curveCatmullRom.alpha(0.5));
+			.curve(d3.curveMonotoneX);
 
 		chart
 			.append("path")
@@ -345,6 +362,68 @@ class App extends React.Component {
 			.attr("class", "running-total")
 			.attr("data-legend", "Cummulative Distance")
 			.attr("d", line);
+
+		const tooltip = chart
+			.append("rect")
+			.attr("class", "running-total-tooltip")
+			.attr("width", tooltipWidth)
+			.attr("height", tooltipHeight)
+			.attr("fill", "none")
+			.attr("stroke", "red")
+			.attr("opacity", 0);
+
+		chart
+			.selectAll("circle")
+			.data(data)
+			.enter()
+			.append("circle")
+			.attr("r", 6)
+			.attr("cx", function(d) {
+				return xScale(d.year) + xScale.bandwidth() / 2;
+			})
+			.attr("cy", function(d) {
+				return yScaleRight(d.runningTotal);
+			})
+			.style("fill", "green")
+			.on("mouseover", function(d) {
+				// div.style("opacity", 0.9);
+				const [x, y] = d3.mouse(this);
+				const { year, distance, totalDistance } = d;
+				console.log(d);
+				tooltip
+					.attr("x", x - 25)
+					.attr("y", y - (tooltipWidth + tooltipWidth / 2))
+					.attr("opacity", 1);
+
+				tooltip
+					.append("text")
+					.attr("x", x - 25)
+					.attr("y", y - (tooltipWidth + tooltipWidth / 2))
+					.text(function(d) {
+						// console.log(d);
+						return `
+							Year: ${year},
+							Distance: ${distance},
+							TotalDistance: ${totalDistance}
+						`;
+					});
+				// div.attr("x", g => xScale(g.year)).attr("y", g => yScale(g.distance));
+				// div
+				// 	.html(
+				// 		"MegaWatts: " +
+				// 			d.year +
+				// 			"</br>" +
+				// 			"Turbines: " +
+				// 			d.runningTotal +
+				// 			"</br>" +
+				// 			"MW/T: "
+				// 	)
+				// 	.style("left", d3.event.pageX + "px")
+				// 	.style("top", d3.event.pageY - 28 + "px");
+			})
+			.on("mouseout", function(d) {
+				// div.style("opacity", 0);
+			});
 	}
 
 	renderAverageLine({ chart, xScale, yScale }) {
