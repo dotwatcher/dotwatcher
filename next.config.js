@@ -6,10 +6,6 @@ module.exports = withSourceMaps({
 	webpack: (config, { isServer }) => {
 		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
 
-		if (!isServer) {
-			config.resolve.alias["@sentry/node"] = "@sentry/browser";
-		}
-
 		return config;
 	}
 });
