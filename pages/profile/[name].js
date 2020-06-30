@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { compose } from "recompose";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import tachyons from "styled-components-tachyons";
 import Router from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import mq from "../../utils/media-query";
 import sanitizeName from "../../utils/sanitize-name";
 import ProfileDetails from "../../components/Profile/Details";
@@ -92,15 +93,20 @@ const ClaimWrapper = styled.div`
 `;
 
 const App = ({ profile, name, user, auth0Profile, races }) => {
+	const router = useRouter();
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
 
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
+	const statsRef = useRef(null);
+
 	const disabled =
 		sanitizeName(claimConfim).toLowerCase() !==
 		sanitizeName(name).toLowerCase();
+
+	const showStats = router.asPath.includes("#statistics");
 
 	useEffect(() => {
 		(async () => {
@@ -122,6 +128,19 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 			}
 		})();
 	}, []);
+
+	useEffect(() => {
+		console.log(statsRef);
+		if (statsRef.current && showStats) {
+			setTimeout(() => {
+				window.scrollTo({
+					left: 0,
+					top: statsRef.current.offsetTop,
+					behavior: "smooth"
+				});
+			}, 500);
+		}
+	}, [statsRef]);
 
 	const handleClaim = async () => {
 		setIsLoading(true);
@@ -221,20 +240,20 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						<AccordionItem id="awards" title="Distance Achievements">
 							<ProfileAwards profile={profile} />
 						</AccordionItem>
-						<AccordionItem id="stats" title="Stats">
+
+						<AccordionItem
+							id="stats"
+							title="Stats"
+							isOpen={showStats}
+							ref={statsRef}
+						>
 							<ProfileStats profile={profile} name={name} />
 						</AccordionItem>
-						<AccordionItem id="stats" title="Latest Results">
+
+						<AccordionItem id="stats" title="Latest Results" isOpen>
 							<ResultsTable type="profile" results={profile} />
 						</AccordionItem>
 					</Accordion>
-
-					{/*<ProfileStats profile={profile} name={name} />*/}
-
-					{/*<H1 fl f3 f2_l fw6 lh_title>
-						Latest Results
-					</H1>*/}
-					{/*<ResultsTable type="profile" results={profile} />*/}
 					<ResultsContribute />
 				</Div>
 			</Div>

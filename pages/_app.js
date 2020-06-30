@@ -4,6 +4,10 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
 
+if (!("scrollBehavior" in document.documentElement.style)) {
+	await import("scroll-behavior-polyfill");
+}
+
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
 		dsn: process.env.SENTRY_DSN,

@@ -39,7 +39,7 @@ const Item = styled.li`
 	}
 `;
 
-export const AccordionItem = ({ id, title, children, iconColor }) => {
+const accordionItem = ({ id, title, children, iconColor, isOpen }, ref) => {
 	let [isContentVisible, setContentVisible] = useState(true);
 
 	const elementId = (((1 + Math.random()) * 0x10000) | 0)
@@ -58,16 +58,14 @@ export const AccordionItem = ({ id, title, children, iconColor }) => {
 	};
 
 	useEffect(() => {
-		setContentVisible((isContentVisible = !isContentVisible));
+		setContentVisible(isOpen);
 	}, []);
 
 	return (
-		<Item>
+		<Item ref={ref}>
 			<AccordionTitle>
 				<SButton
-					onClick={() =>
-						setContentVisible((isContentVisible = !isContentVisible))
-					}
+					onClick={() => setContentVisible(!isContentVisible)}
 					toggleVisibility={() => toggleVisibility()}
 					aria-controls={`content-${elementId}`}
 					aria-expanded={isContentVisible}
@@ -89,6 +87,8 @@ export const AccordionItem = ({ id, title, children, iconColor }) => {
 		</Item>
 	);
 };
+
+export const AccordionItem = React.forwardRef(accordionItem);
 
 export const Accordion = ({ children }) => (
 	<AccordionList style={{ listStyle: "none" }}>{children}</AccordionList>
