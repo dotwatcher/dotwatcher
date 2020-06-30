@@ -3,9 +3,10 @@ import App from "next/app";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
+import dynamic from "next/dynamic";
 
 if (!("scrollBehavior" in document.documentElement.style)) {
-	await import("scroll-behavior-polyfill");
+	dynamic(() => import("scroll-behavior-polyfill"));
 }
 
 if (process.env.NODE_ENV === "production") {
