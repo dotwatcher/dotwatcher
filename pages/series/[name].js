@@ -163,61 +163,66 @@ const Series = ({ race, user }) => {
 							</P>
 						)}
 
-						<H2>Reports</H2>
-						<EditionsGrid pb4 bb bw1 b__light_gray>
-							{race.fields.previousReports &&
-								raceReports().map((race, index) => (
-									<Year
-										dib
-										hover_bg_lightest_blue
-										bg_light_gray
-										ba
-										bw1
-										b__white
-										f4
-										lh_copy
-										key={index}
-									>
-										<Link
-											href={`/race?slug=${race.fields.slug}`}
-											as={`/race/${race.fields.slug}`}
-											passHref
+						{race.fields.previousReports && (
+							<Fragment>
+								<H2>Reports</H2>
+								<EditionsGrid pb4 bb bw1 b__light_gray>
+									{raceReports().map((race, index) => (
+										<Year
+											dib
+											hover_bg_lightest_blue
+											bg_light_gray
+											ba
+											bw1
+											b__white
+											f4
+											lh_copy
+											key={index}
 										>
-											<A db pa2 link near_black data-id={race.id}>
-												{race.fields.slug}
-											</A>
-										</Link>
-									</Year>
-								))}
-						</EditionsGrid>
-
-						<H2>Results</H2>
-						<EditionsGrid pb4 bb bw1 b__light_gray>
-							{race.races &&
-								race.races.map((race, index) => (
-									<Year
-										dib
-										hover_bg_lightest_blue
-										bg_light_gray
-										ba
-										bw1
-										b__white
-										f4
-										lh_copy
-										key={index}
-									>
-										<Link
-											href={`/results?year=${race.year}&race=${race.slug}`}
-											as={`/results/${race.year}/${race.slug}`}
-											passHref
+											<Link
+												href={`/race?slug=${race.fields.slug}`}
+												as={`/race/${race.fields.slug}`}
+												passHref
+											>
+												<A db pa2 link near_black data-id={race.id}>
+													{race.fields.slug}
+												</A>
+											</Link>
+										</Year>
+									))}
+								</EditionsGrid>
+							</Fragment>
+						)}
+						{race.races && (
+							<Fragment>
+								<H2>Results</H2>
+								<EditionsGrid pb4 bb bw1 b__light_gray>
+									{race.races.map((race, index) => (
+										<Year
+											dib
+											hover_bg_lightest_blue
+											bg_light_gray
+											ba
+											bw1
+											b__white
+											f4
+											lh_copy
+											key={index}
 										>
-											<A db pa2 link near_black data-id={race.id}>
-												{race.year}
-											</A>
-										</Link>
-									</Year>
-								))}
-						</EditionsGrid>
+											<Link
+												href={`/results?year=${race.year}&race=${race.slug}`}
+												as={`/results/${race.year}/${race.slug}`}
+												passHref
+											>
+												<A db pa2 link near_black data-id={race.id}>
+													{race.year}
+												</A>
+											</Link>
+										</Year>
+									))}
+								</EditionsGrid>
+							</Fragment>
+						)}
 					</RaceOverview>
 				</RaceGrid>
 			</Div>
