@@ -72,7 +72,9 @@ const EditionsGrid = styled.ul`
 `;
 
 const Series = ({ race, user }) => {
-	console.log(race);
+	const raceReports = () =>
+		race.fields.previousReports.filter(race => race.fields);
+
 	return (
 		<Page>
 			<Head>
@@ -161,8 +163,35 @@ const Series = ({ race, user }) => {
 							</P>
 						)}
 
-						<H2>Previous Editions</H2>
+						<H2>Reports</H2>
+						<EditionsGrid pb4 bb bw1 b__light_gray>
+							{race.fields.previousReports &&
+								raceReports().map((race, index) => (
+									<Year
+										dib
+										hover_bg_lightest_blue
+										bg_light_gray
+										ba
+										bw1
+										b__white
+										f4
+										lh_copy
+										key={index}
+									>
+										<Link
+											href={`/race?slug=${race.fields.slug}`}
+											as={`/race/${race.fields.slug}`}
+											passHref
+										>
+											<A db pa2 link near_black data-id={race.id}>
+												{race.fields.slug}
+											</A>
+										</Link>
+									</Year>
+								))}
+						</EditionsGrid>
 
+						<H2>Results</H2>
 						<EditionsGrid pb4 bb bw1 b__light_gray>
 							{race.races &&
 								race.races.map((race, index) => (
