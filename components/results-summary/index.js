@@ -33,9 +33,22 @@ const ResultsSummary = ({ race, filtered }) => {
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<H2 ma0 f3 fw6>
-					{race.name}
-				</H2>
+				<Link
+					href={{
+						pathname: "/series/[name]/",
+						query: {
+							name: race.name
+						}
+					}}
+					as={`/series/${race.name}`}
+					passHref
+				>
+					<A black no-underline underline-hover>
+						<H2 ma0 f3 fw6>
+							{race.name}
+						</H2>
+					</A>
+				</Link>
 			</Header>
 			<Years list ma0 pa0 tc>
 				{race.events.map((event, index) => {

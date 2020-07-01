@@ -7,7 +7,8 @@ const contentful = {
 		featureCategories: 'featureCategory',
 		feature: 'feature',
 		page: 'page',
-		infoPage: 'infoPage'
+		infoPage: 'infoPage',
+		raceSeries: "raceSeries",
 	},
 	pages: {
 		homepage: "t21qqU9uHAqaOUKW0WAIa",

@@ -2,11 +2,7 @@ import { createClient } from "contentful";
 import vars from "./api-vars";
 import Axios from "axios";
 import apiUrl from "../utils/api-url";
-
-const client = createClient({
-	space: vars.space,
-	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-});
+import client from "../utils/contentful";
 
 const query = {
 	"sys.id": vars.pages.featuredResults,

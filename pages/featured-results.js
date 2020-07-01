@@ -34,10 +34,6 @@ const A = styled.a`
 	${tachyons}
 `;
 
-const Span = styled.span`
-	${tachyons}
-`;
-
 const Li = styled.li`
 	${tachyons}
 `;
@@ -64,15 +60,20 @@ const RaceWrapper = styled.ul`
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
 
 	${mq.smUp`
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	`}
+
+	${mq.mdUp`
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	`}
 `;
 
 const RaceYearsWrapper = styled.ul`
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
@@ -88,13 +89,13 @@ const Search = styled.div`
 `;
 
 const Input = styled.input`
-	width: 300px;
+	max-width: 300px;
 	display: inline-block;
 	border: 2px solid var(--black);
 	font-size: 20px;
 	line-height: 23px;
 	padding: 8px 12px;
-	/* margin: var(--spacing-medium) 0; */
+	margin-right: var(--spacing-large);
 `;
 
 const Button = styled.button`
@@ -233,7 +234,6 @@ const Results = props => {
 							pv2
 							lh_solid
 							dib
-							ml4
 							type="button"
 							onClick={handleClear}
 						>
@@ -250,8 +250,21 @@ const Results = props => {
 					<Fragment>
 						<RaceWrapper>
 							{Object.keys(races).map((race, i) => (
-								<li key={race[race]}>
-									<H2>{race}</H2>
+								<li key={i}>
+									<Link
+										href={{
+											pathname: "/series/[name]/",
+											query: {
+												name: race
+											}
+										}}
+										as={`/series/${race}`}
+										passHref
+									>
+										<A black no-underline underline-hover>
+											<H2>{race}</H2>
+										</A>
+									</Link>
 
 									<RaceYearsWrapper>
 										{Object.keys(races[race])
