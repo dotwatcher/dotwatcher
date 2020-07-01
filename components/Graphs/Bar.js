@@ -349,7 +349,7 @@ class App extends React.Component {
 
 		const tooltipHeight = 50;
 		const tooltipWidth = 50;
-
+		//
 		const line = d3
 			.line()
 			.x(d => xScale(d.year) + xScale.bandwidth() / 2)
