@@ -368,9 +368,15 @@ class App extends React.Component {
 			.attr("class", "running-total-tooltip")
 			.attr("width", tooltipWidth)
 			.attr("height", tooltipHeight)
-			.attr("fill", "none")
+			.attr("fill", "transparent")
 			.attr("stroke", "red")
 			.attr("opacity", 0);
+
+		const tooltipText = chart
+			.append("text")
+			.attr("opacity", 0)
+			.attr("width", tooltipWidth)
+			.attr("height", tooltipHeight);
 
 		chart
 			.selectAll("circle")
@@ -386,43 +392,32 @@ class App extends React.Component {
 			})
 			.style("fill", "green")
 			.on("mouseover", function(d) {
-				// div.style("opacity", 0.9);
 				const [x, y] = d3.mouse(this);
-				const { year, distance, totalDistance } = d;
-				console.log(d);
-				tooltip
-					.attr("x", x - 25)
-					.attr("y", y - (tooltipWidth + tooltipWidth / 2))
-					.attr("opacity", 1);
+				const { year, distance, runningTotal } = d;
 
-				tooltip
-					.append("text")
-					.attr("x", x - 25)
-					.attr("y", y - (tooltipWidth + tooltipWidth / 2))
-					.text(function(d) {
-						// console.log(d);
-						return `
+				// tooltip
+				// 	.attr("x", x - 25)
+				// 	.attr("y", y - (tooltipWidth + tooltipWidth / 2))
+				// 	.attr("class", `tooltip-${x}`)
+				// 	.attr("opacity", 1);
+
+				tooltipText
+					.attr("x", x - tooltipWidth)
+					.attr("y", y - tooltipHeight)
+					.attr("class", `tooltip-text-${x}`)
+					.attr("opacity", 1)
+					.text(
+						d => `
 							Year: ${year},
 							Distance: ${distance},
-							TotalDistance: ${totalDistance}
-						`;
-					});
-				// div.attr("x", g => xScale(g.year)).attr("y", g => yScale(g.distance));
-				// div
-				// 	.html(
-				// 		"MegaWatts: " +
-				// 			d.year +
-				// 			"</br>" +
-				// 			"Turbines: " +
-				// 			d.runningTotal +
-				// 			"</br>" +
-				// 			"MW/T: "
-				// 	)
-				// 	.style("left", d3.event.pageX + "px")
-				// 	.style("top", d3.event.pageY - 28 + "px");
+							TotalDistance: ${runningTotal}
+						`
+					);
 			})
 			.on("mouseout", function(d) {
-				// div.style("opacity", 0);
+				const [x, y] = d3.mouse(this);
+
+				chart.selectAll(`tooltip-${x}`).remove();
 			});
 	}
 
