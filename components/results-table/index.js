@@ -187,6 +187,7 @@ class ResultsTable extends React.Component {
 								Class/Category
 							</ResultsHeadCell>
 							<ResultsHeadCell>Result</ResultsHeadCell>
+							<ResultsHeadCell>Nationality</ResultsHeadCell>
 							<ResultsHeadCell dn dtc_ns>
 								Bike
 							</ResultsHeadCell>
@@ -286,6 +287,7 @@ class ResultsTable extends React.Component {
 										{result.category.substring(0, 1)}
 									</ResultsCell>
 									<ResultsCell>{result.result}</ResultsCell>
+									<ResultsCell>{result.nationality}</ResultsCell>
 									<ResultsCell dn dtc_ns>
 										{result.bike}
 									</ResultsCell>
