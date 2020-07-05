@@ -106,9 +106,12 @@ class App extends Component {
 	}
 
 	render() {
-		const results = this.props.results.sort(
-			(a, b) => a.position && a.position - b.position
-		);
+		let results = this.props.results.filter(r => r.position);
+		let unpositioned = this.props.results.filter(r => !r.position);
+
+		results = results.sort((a, b) => a.position - b.position);
+
+		results = [...results, ...unpositioned];
 
 		return (
 			<Page>
