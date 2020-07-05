@@ -106,6 +106,10 @@ class App extends Component {
 	}
 
 	render() {
+		const results = this.props.results.sort(
+			(a, b) => a.position && a.position - b.position
+		);
+
 		return (
 			<Page>
 				<Head>
@@ -175,7 +179,7 @@ class App extends Component {
 							{this.props.results.length ? (
 								<ResultsTable
 									type="race"
-									results={this.props.results}
+									results={results}
 									focus={this.props.focus}
 									racerClasses={this.props.racerClasses}
 									activeClass={this.props.activeClass}
