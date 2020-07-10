@@ -23,11 +23,6 @@
 			"status": 301
 		},
 		{
-			"src": "/profile/MARKUS%20ZIMMERMANN",
-			"dest": "/profile/Markus%20Zimmermann",
-			"status": 301
-		},
-		{
 			"src": "/profile/Mikko%20Makipaa",
 			"dest": "/profile/Mikko%20Mäkipää",
 			"status": 301
