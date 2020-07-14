@@ -52,7 +52,7 @@ export default ({ meta, user }) => {
 				upload_preset: process.env.CLOUDINARY_PRESET,
 				api_key: process.env.CLOUDINARY_KEY,
 				api_secret: process.env.CLOUDINARY_SECRET,
-				secure: true,
+				secure: true
 			},
 			async (error, result) => {
 				if (result) {
@@ -72,30 +72,12 @@ export default ({ meta, user }) => {
 	return (
 		<Div mb4 bb bw1 pb4_ns b__light_gray>
 			{preview && <PictureThumb src={preview} alt="Thumnail" />}
-			<Div mt3 className="upload">
-				<Button
-					f4
-					bg_blue
-					hover_bg_dark_blue
-					w_
-					pv2
-					mb3
-					tc
-					white
-					ttl
-					small_caps
-					ba
-					bw1
-					b__blue
-					dib
-					pointer
-					onClick={uploadWidget}
-					type="button"
-					className="upload-button"
-				>
+			<Div mt3>
+				<A near_black hover_blue underline onClick={uploadWidget} type="button">
 					Update Profile Image
-				</Button>
-
+				</A>
+			</Div>
+			<Div mt3 bt bw1 b__light_gray pt4 mt4>
 				{meta && meta.user_metadata?.name ? (
 					<Link
 						href={`/profile?name=${meta.user_metadata.name}`}
@@ -119,7 +101,6 @@ export default ({ meta, user }) => {
 								b__blue
 								dib
 								pointer
-								ml4
 							>
 								View my profile
 							</Button>
@@ -127,8 +108,26 @@ export default ({ meta, user }) => {
 					</Link>
 				) : (
 					<Link href={`/results`} passHref>
-						<A near_black hover_blue ml4>
-							← Find my Profile
+						<A>
+							<Button
+								f4
+								bg_blue
+								hover_bg_dark_blue
+								w_
+								pv2
+								mb3
+								tc
+								white
+								ttl
+								small_caps
+								ba
+								bw1
+								b__blue
+								dib
+								pointer
+							>
+								← Find my Profile
+							</Button>
 						</A>
 					</Link>
 				)}
