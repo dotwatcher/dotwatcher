@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import Cookies from "js-cookie";
 import mq from "../../utils/media-query";
 import sanitizeName from "../../utils/sanitize-name";
+import getNationalFlag from "../../utils/get-national-flag";
 
 import {
 	FaStrava as Strava,
@@ -129,7 +130,7 @@ const SocialAnchor = ({ href, children }) => (
 	</A>
 );
 
-const App = ({ profile, name, user, auth0Profile, races }) => {
+const App = ({ profile, name, user, auth0Profile, races, ...props }) => {
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
 
@@ -207,6 +208,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		);
 	}
 
+	const nationality = profile[0] && profile[0].nationality;
+
 	const authID = profile[0] && profile[0].auth_id;
 	const profileIsClaimed = !!authID;
 	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
@@ -220,6 +223,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 		setclaimToggle(true);
 	};
+
+	debugger;
 
 	const noSocialAccounts =
 		!!auth0Profile &&
@@ -240,7 +245,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 					<Heading fl w_100 mb3>
 						<H1 f3 f1_l fw6 lh_title>
-							{name}
+							{name} {getNationalFlag(nationality)}
 						</H1>
 					</Heading>
 
@@ -412,7 +417,11 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 					<H1 fl f3 f2_l fw6 lh_title>
 						Latest Results
 					</H1>
-					<ResultsTable type="profile" results={profile} />
+					<ResultsTable
+						showNationality={false}
+						type="profile"
+						results={profile}
+					/>
 					<ResultsContribute />
 				</Div>
 			</Div>
