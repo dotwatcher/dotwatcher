@@ -108,6 +108,7 @@ class App extends Component {
 	render() {
 		// Sort by Rank, then sort by Scratched / OTL Finish
 		let results = this.props.results.filter(r => r.position);
+		results = results.sort((a, b) => a.position - b.position);
 		let unpositioned = this.props.results.filter(r => !r.position);
 		unpositioned = unpositioned.sort((a, b) => b.finsihed > a.finsihed);
 
