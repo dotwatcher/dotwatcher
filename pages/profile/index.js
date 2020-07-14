@@ -224,8 +224,6 @@ const App = ({ profile, name, user, auth0Profile, races, ...props }) => {
 		setclaimToggle(true);
 	};
 
-	debugger;
-
 	const noSocialAccounts =
 		!!auth0Profile &&
 		!auth0Profile.user_metadata?.twitterHanlde &&

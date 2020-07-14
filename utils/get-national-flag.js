@@ -11,5 +11,11 @@ export default nationality => {
 
 	const slug = nationality.toLowerCase().replace(/\s/g, "-");
 
-	return <Img src={`${imagePath}/${slug}.svg`} alt={nationality} />;
+	return (
+		<Img
+			src={`${imagePath}/${slug}.svg`}
+			alt={nationality}
+			title={nationality}
+		/>
+	);
 };
