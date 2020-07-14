@@ -73,7 +73,14 @@ export default ({ meta, user }) => {
 		<Div mb4 bb bw1 pb4_ns b__light_gray>
 			{preview && <PictureThumb src={preview} alt="Thumnail" />}
 			<Div mt3>
-				<A near_black hover_blue underline onClick={uploadWidget} type="button">
+				<A
+					pointer
+					near_black
+					hover_blue
+					underline
+					onClick={uploadWidget}
+					type="button"
+				>
 					Update Profile Image
 				</A>
 			</Div>
