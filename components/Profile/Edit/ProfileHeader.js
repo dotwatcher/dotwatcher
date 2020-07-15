@@ -98,7 +98,6 @@ export default ({ meta, user }) => {
 								hover_bg_dark_blue
 								w_
 								pv2
-								mb3
 								tc
 								white
 								ttl
@@ -122,7 +121,6 @@ export default ({ meta, user }) => {
 								hover_bg_dark_blue
 								w_
 								pv2
-								mb3
 								tc
 								white
 								ttl
