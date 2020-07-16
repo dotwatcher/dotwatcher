@@ -10,14 +10,9 @@ import {
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-const Div = styled.div`
-	${tachyons}
-`;
-
 import BarGraph from "../../components/Graphs/Bar";
 
 export default props => {
-	// const data = [{ index, date, value }]
 	let data = uniqueYears(props.profile).reduce((acc, curr, index) => {
 		if (curr) {
 			return [

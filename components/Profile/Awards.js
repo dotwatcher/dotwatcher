@@ -56,20 +56,9 @@ const Awards = styled.div`
 export default ({ profile }) => {
 	const total = totalDistanceOfRaces(profile);
 
+	console.log(total);
+
 	const achievedAwards = awards.filter(award => award.distance <= total);
-
-	{
-		/*<p>All time distance {formatDistance(total)}</p>
-
-			<p>Average Distance {formatDistance(averageDistance(props.profile))}</p>
-
-			{uniqueYears(props.profile).map(year => (
-				<p key={year}>
-					{year} Distance{" "}
-					{formatDistance(totalDistanceByYear({ races: props.profile, year }))}
-				</p>
-			))}*/
-	}
 
 	return (
 		<Div>
