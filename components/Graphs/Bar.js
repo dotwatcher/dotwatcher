@@ -3,9 +3,18 @@ import * as d3 from "d3";
 import styled from "styled-components";
 
 const Div = styled.div`
-	svg {
-		width: 100%;
-		height: 600px;
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding-bottom: 100%; /* aspect ratio */
+	vertical-align: top;
+	overflow: hidden;
+
+	.svg-content-responsive {
+		display: inline-block;
+		position: absolute;
+		top: 10px;
+		left: 0;
 	}
 
 	.bar {
@@ -115,16 +124,24 @@ class App extends React.Component {
 		this.renderLegend = this.renderLegend.bind(this);
 		this.renderAxis = this.renderAxis.bind(this);
 
-		this.margin = 120;
-		this.outerWidth = 1000;
-		this.width = this.outerWidth - 2 * this.margin;
-		this.height = 600 - 2 * this.margin;
+		this.margin = 80;
+		this.outerWidth = 600;
+		this.width = this.outerWidth;
+		this.height = 400;
 
 		this.state = {
 			data: []
 		};
 	}
-	//
+
+	async componentDidMount() {
+		const { data } = this.props;
+
+		await this.setState({ data: this.addRunningCountToSet(data) });
+
+		this.setUpChart();
+	}
+
 	addRunningCountToSet(data) {
 		return data.reduce((acc, curr) => {
 			const prevEntry = acc[acc.length - 1];
@@ -139,17 +156,13 @@ class App extends React.Component {
 		}, []);
 	}
 
-	async componentDidMount() {
-		const { data } = this.props;
-
-		await this.setState({ data: this.addRunningCountToSet(data) });
-
-		this.setUpChart();
-	}
-
-	renderLegend(chart) {
+	renderLegend(svg) {
 		const legendX = 20;
 		const legendY = (dim = 1) => 10 + 30 * dim;
+
+		const { margin } = this;
+
+		const chart = svg.append("g").attr("transform", `translate(0, -30)`);
 
 		const circle = () => chart.append("circle").attr("r", 6);
 		const text = () => chart.append("text");
@@ -247,7 +260,7 @@ class App extends React.Component {
 			.append("text")
 			.attr("class", "label")
 			.attr("x", -(height / 2) - margin)
-			.attr("y", this.outerWidth - 50)
+			.attr("y", 750)
 			.attr("transform", "rotate(-90)")
 			.attr("text-anchor", "middle")
 			.text("Cummulative Distance");
@@ -275,9 +288,14 @@ class App extends React.Component {
 		};
 	}
 
-	renderBars({ xScale, yScale, chart }) {
+	renderBars({ xScale, yScale, svg }) {
 		const { data } = this.state;
-		const { width, height } = this;
+		const { width, height, margin } = this;
+
+		const chart = svg
+			.append("g")
+			.attr("transform", `translate(${margin}, ${margin})`);
+
 		const barGroups = chart
 			.selectAll()
 			.data(data)
@@ -344,12 +362,17 @@ class App extends React.Component {
 			});
 	}
 
-	renderTotalLine({ chart, xScale, yScaleRight }) {
+	renderTotalLine({ xScale, yScaleRight, svg }) {
 		const { data } = this.state;
+		const { margin } = this;
 
 		const tooltipHeight = 50;
 		const tooltipWidth = 50;
-		//
+
+		const chart = svg
+			.append("g")
+			.attr("transform", `translate(${margin}, ${margin})`);
+
 		const line = d3
 			.line()
 			.x(d => xScale(d.year) + xScale.bandwidth() / 2)
@@ -408,22 +431,28 @@ class App extends React.Component {
 					.attr("opacity", 1)
 					.text(
 						d => `
-							Year: ${year},
-							Distance: ${distance},
-							TotalDistance: ${runningTotal}
+							Year: ${year}km,
+							Distance: ${distance}km,
+							Total Distance: ${runningTotal}
 						`
 					);
 			})
 			.on("mouseout", function(d) {
 				const [x, y] = d3.mouse(this);
 
-				chart.selectAll(`tooltip-${x}`).remove();
+				// chart.selectAll(`.tooltip-${x}`).remove();
 			});
 	}
 
-	renderAverageLine({ chart, xScale, yScale }) {
+	renderAverageLine({ svg, xScale, yScale }) {
 		const { averageAnnualDistance } = this.props;
 		const { data } = this.state;
+		const { margin } = this;
+
+		const chart = svg
+			.append("g")
+			.attr("transform", `translate(${margin}, ${margin})`);
+
 		chart
 			.append("path")
 			.datum(data)
@@ -441,7 +470,14 @@ class App extends React.Component {
 	setUpChart() {
 		const { margin } = this;
 
-		const svg = d3.select(this.myRef.current).append("svg");
+		const svg = d3
+			.select(this.myRef.current)
+			.append("svg")
+			//responsive SVG needs these 2 attributes and no width and height attr
+			.attr("preserveAspectRatio", "xMinYMin")
+			.attr("viewBox", `0 0 750 550`)
+			//class to make it responsive
+			.classed("svg-content-responsive", true);
 
 		const chart = svg
 			.append("g")
@@ -449,13 +485,13 @@ class App extends React.Component {
 
 		this.renderLegend(svg);
 		const { xScale, yScale, yScaleRight } = this.renderAxis({ chart, svg });
-		this.renderBars({ chart, xScale, yScale });
+		this.renderBars({ svg, xScale, yScale });
 
 		// Running Total line
-		this.renderTotalLine({ chart, xScale, yScaleRight });
+		this.renderTotalLine({ svg, xScale, yScaleRight });
 
 		// Average Annual Distance
-		this.renderAverageLine({ chart, xScale, yScale });
+		this.renderAverageLine({ svg, xScale, yScale });
 	}
 
 	render() {
