@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Head from "next/head";
-import Page from "../components/shared/page";
+import Page from "../../components/shared/page";
 
 /**
  * CSS for iFrame is found in /static/digest.css as we aren't using styled-components here

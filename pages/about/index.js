@@ -6,16 +6,16 @@ import ReactMarkdown from "react-markdown";
 import shortcodes from "remark-shortcodes";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Embed from "../components/embed";
-import AutoEmbed from "../components/embed/auto";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import ContentBlock from "../components/content-block";
-import Carousel from "../components/carousel";
-import Page from "../components/shared/page";
-import { withAbout } from "../data/with-about";
-import widont from "../utils/widont";
-import ContributorsGrid from "../components/contributor-info/grid";
+import Embed from "../../components/embed";
+import AutoEmbed from "../../components/embed/auto";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import ContentBlock from "../../components/content-block";
+import Carousel from "../../components/carousel";
+import Page from "../../components/shared/page";
+import { withAbout } from "../../data/with-about";
+import widont from "../../utils/widont";
+import ContributorsGrid from "../../components/contributor-info/grid";
 
 const Div = styled.div`
 	p {

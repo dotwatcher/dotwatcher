@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 
 import Head from "next/head";
-import Page from "../components/shared/page";
-import Header from "../components/header";
-import Footer from "../components/footer";
+import Page from "../../components/shared/page";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
 
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Newsletter from "../components/Newsletter";
+import Newsletter from "../../components/Newsletter";
 
 const H1 = styled.h1`
 	${tachyons}
@@ -53,7 +53,7 @@ export default ({ user }) => (
 					Sign up to Dotwatcher Digest or view the previous editions&nbsp;below.
 				</p>
 			</Div>
-			<Iframe src="/digest-archive" />
+			<Iframe src="/digest/archive" />
 		</Div>
 		<Footer />
 	</Page>

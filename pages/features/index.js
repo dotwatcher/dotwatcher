@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-import Header from "../components/header";
-import Page from "../components/shared/page";
-import Footer from "../components/footer";
-import FeaturePreview from "../components/feature-preview";
-import { WithFeatures } from "../data/with-features";
+import Header from "../../components/header";
+import Page from "../../components/shared/page";
+import Footer from "../../components/footer";
+import FeaturePreview from "../../components/feature-preview";
+import { WithFeatures } from "../../data/with-features";
 
 const Heading = styled.header`
 	${tachyons}

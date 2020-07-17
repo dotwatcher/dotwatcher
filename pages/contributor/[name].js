@@ -6,15 +6,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-import { WithContributor } from "../data/with-contributor";
-import Header from "../components/header";
-import Page from "../components/shared/page";
-import Footer from "../components/footer";
-import Richtext from "../components/rich-text";
-import InstagramLogo from "../components/shared/icons/instagram";
-import TwitterLogo from "../components/shared/icons/twitter";
-import StravaLogo from "../components/shared/icons/strava";
-import Contribute from "../components/contributor-info/contribute";
+import { WithContributor } from "../../data/with-contributor";
+import Header from "../../components/header";
+import Page from "../../components/shared/page";
+import Footer from "../../components/footer";
+import Richtext from "../../components/rich-text";
+import InstagramLogo from "../../components/shared/icons/instagram";
+import TwitterLogo from "../../components/shared/icons/twitter";
+import StravaLogo from "../../components/shared/icons/strava";
+import Contribute from "../../components/contributor-info/contribute";
 
 const Heading = styled.header`
 	${tachyons}

@@ -4,19 +4,19 @@ import Head from "next/head";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import ContentBlock from "../components/content-block";
-import Carousel from "../components/carousel";
-import Page from "../components/shared/page";
-import ContributorInfo from "../components/contributor-info";
-import { withFeature } from "../data/with-feature";
-import EmailSignup from "../components/content-block/email-signup";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import ContentBlock from "../../components/content-block";
+import Carousel from "../../components/carousel";
+import Page from "../../components/shared/page";
+import ContributorInfo from "../../components/contributor-info";
+import { withFeature } from "../../data/with-feature";
+import EmailSignup from "../../components/content-block/email-signup";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
 import Link from "next/link";
 import { DiscussionEmbed, CommentCount } from "disqus-react";
-import mq from "../utils/media-query";
+import mq from "../../utils/media-query";
 
 const Div = styled.div`
 	p {

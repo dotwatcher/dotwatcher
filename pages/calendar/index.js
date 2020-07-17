@@ -6,11 +6,11 @@ import addMonths from "date-fns/add_months";
 import subMonths from "date-fns/sub_months";
 
 import Head from "next/head";
-import Page from "../components/shared/page";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import Calendar from "../components/Calander";
-import { withRaces } from "../data/with-races";
+import Page from "../../components/shared/page";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import Calendar from "../../components/Calander";
+import { withRaces } from "../../data/with-races";
 
 // Colors taken from index.css
 // Un shuffled array
@@ -34,7 +34,7 @@ let eventColors = [
 	"#001b44",
 	"#004a7f",
 	"#1a73b2",
-	"#7faccc",
+	"#7faccc"
 ];
 
 const CalanderPage = ({ races = [], router, user }) => {
@@ -61,13 +61,13 @@ const CalanderPage = ({ races = [], router, user }) => {
 		multiplier = Math.ceil(multiplier);
 
 		for (let i = 1; i < multiplier; i++) {
-			eventColors = eventColors.concat(eventColors.map((x) => x));
+			eventColors = eventColors.concat(eventColors.map(x => x));
 		}
 	}
 
 	const coloredRaces = races.map((race, i) => ({
 		...race,
-		eventColor: eventColors[i],
+		eventColor: eventColors[i]
 	}));
 
 	return (
@@ -100,7 +100,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 };
 
 CalanderPage.propTypes = {
-	races: PropTypes.array.isRequired,
+	races: PropTypes.array.isRequired
 };
 
 const enhance = compose(withRaces, withRouter);
