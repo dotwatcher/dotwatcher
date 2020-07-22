@@ -27,11 +27,16 @@ const P = styled.p`
 
 export default props => {
 	if (!props.auth0Profile) {
+		const handleClick = e => {
+			e.preventDefault();
+
+			props.handleUnclaimedProfile();
+		};
 		return (
 			<P lh_copy f5 f4_l>
 				More statistics will be available when this rider has claimed their
 				profile. If that's you,{" "}
-				<A link near_black hover_blue underline pointer href="/api/auth/login">
+				<A link near_black hover_blue underline pointer onClick={handleClick}>
 					sign up now
 				</A>
 				!

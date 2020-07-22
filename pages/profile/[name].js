@@ -261,6 +261,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 								profile={profile}
 								name={name}
 								auth0Profile={auth0Profile}
+								handleUnclaimedProfile={handleUnclaimedProfile}
 							/>
 						</AccordionItem>
 
