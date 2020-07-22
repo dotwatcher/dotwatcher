@@ -1,14 +1,14 @@
 // HOC for fetching entries from contentful
 
-import React from 'react';
-import {createClient} from 'contentful';
-import vars from './api-vars';
-import fetch from 'isomorphic-fetch';
+import React from "react";
+import { createClient } from "contentful";
+import vars from "./api-vars";
+import fetch from "isomorphic-fetch";
 
 export const WithEntries = Page => {
-	const WithEntries = props => <Page {...props}/>;
+	const WithEntries = props => <Page {...props} />;
 
-	WithEntries.getInitialProps = async ({query: {slug}}) => {
+	WithEntries.getInitialProps = async ({ query: { slug } }) => {
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -16,10 +16,10 @@ export const WithEntries = Page => {
 
 		const contenfulQuery = {
 			content_type: vars.content_type.posts,
-			'fields.race.sys.contentType.sys.id': vars.content_type.categories,
-			'fields.race.fields.slug': slug,
-			'order': '-sys.createdAt',
-			'include': 3
+			"fields.race.sys.contentType.sys.id": vars.content_type.categories,
+			"fields.race.fields.slug": slug,
+			order: "-sys.createdAt",
+			include: 3
 		};
 
 		const response = await client.getEntries(contenfulQuery);
@@ -53,20 +53,22 @@ export const WithEntries = Page => {
 			posts.push(entry);
 		}
 
-		let discourseReplyCount = 0
+		let discourseReplyCount = 0;
 		if (race.fields.discourseId) {
-			discourseReplyCount = await fetch(`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`)
+			discourseReplyCount = await fetch(
+				`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`
+			)
 				.then(response => {
 					if (response.status >= 400) {
-						return null
+						return null;
 					}
 					return response.json();
 				})
 				.then(data => {
-					return data ? data.posts_count : null
+					return data ? data.posts_count : null;
 				})
 				.catch(error => {
-					return null
+					return null;
 				});
 		}
 

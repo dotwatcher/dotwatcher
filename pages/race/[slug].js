@@ -5,21 +5,21 @@ import React from "react";
 import { createClient } from "contentful";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Button from "../components/shared/button";
-import SocialIcons from "../components/shared/social-icons";
-import Header from "../components/header";
-import KeyEvents from "../components/key-events";
-import MapContainer from "../components/map-container";
-import Page from "../components/shared/page";
-import Post from "../components/post";
-import StaticTopRiders from "../components/top-riders/static";
-import DynamicTopRiders from "../components/top-riders/dynamic";
-import FactFile from "../components/fact-file";
-import Tabs from "../components/tabs";
-import Community from "../components/community";
-import Wrapper from "../components/shared/wrapper";
-import vars from "../data/api-vars";
-import { WithEntries } from "../data/with-entries";
+import Button from "../../components/shared/button";
+import SocialIcons from "../../components/shared/social-icons";
+import Header from "../../components/header";
+import KeyEvents from "../../components/key-events";
+import MapContainer from "../../components/map-container";
+import Page from "../../components/shared/page";
+import Post from "../../components/post";
+import StaticTopRiders from "../../components/top-riders/static";
+import DynamicTopRiders from "../../components/top-riders/dynamic";
+import FactFile from "../../components/fact-file";
+import Tabs from "../../components/tabs";
+import Community from "../../components/community";
+import Wrapper from "../../components/shared/wrapper";
+import vars from "../../data/api-vars";
+import { WithEntries } from "../../data/with-entries";
 
 const H1 = styled.h1`
 	${tachyons}
