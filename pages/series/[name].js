@@ -92,7 +92,9 @@ const getLatestWinner = results =>
 	results &&
 	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
 
-const Series = ({ race, user }) => {
+const Series = ({ race, user, ...props }) => {
+	const raceName = race.fields.name;
+
 	const raceReports = () =>
 		race.fields.previousReports.filter(race => race.fields);
 
@@ -163,11 +165,8 @@ const Series = ({ race, user }) => {
 	return (
 		<Page>
 			<Head>
-				<title>{race.fields.name} – DotWatcher.cc</title>
-				<meta
-					property="og:title"
-					content={`${race.fields.name} – DotWatcher.cc`}
-				/>
+				<title>{raceName} – DotWatcher.cc</title>
+				<meta property="og:title" content={`${raceName} – DotWatcher.cc`} />
 				<meta
 					property="og:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
@@ -181,10 +180,7 @@ const Series = ({ race, user }) => {
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
-				<meta
-					name="twitter:title"
-					content={`${race.fields.name} – DotWatcher.cc`}
-				/>
+				<meta name="twitter:title" content={`${raceName} – DotWatcher.cc`} />
 				<meta
 					name="twitter:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
@@ -207,14 +203,14 @@ const Series = ({ race, user }) => {
 				<Img
 					w100
 					src={race.fields.heroImage.fields.file.url + "?w=1500"}
-					alt={race.fields.name}
+					alt={raceName}
 					title={race.fields.title}
 				/>
 			)}
 
 			<Div pa2 mt3 mt4_l mh6_l>
 				<H1 f3 f1_l fw6 lh_title mb0>
-					{race.fields.name}
+					{raceName}
 				</H1>
 
 				<RaceGrid>
@@ -227,7 +223,7 @@ const Series = ({ race, user }) => {
 									<P>
 										Overall:{" "}
 										<Link href={`/profile/${latestWinner.name}`} passHref>
-											<A link dark_gray underline>
+											<A link dark_gray underline title={latestWinner.name}>
 												{latestWinner.name}
 											</A>
 										</Link>
@@ -240,7 +236,7 @@ const Series = ({ race, user }) => {
 									<P>
 										Men's:{" "}
 										<Link href={`/profile/${mensWinner.name}`} passHref>
-											<A link dark_gray underline>
+											<A link dark_gray underline title={mensWinner.name}>
 												{mensWinner.name}
 											</A>
 										</Link>
@@ -253,7 +249,7 @@ const Series = ({ race, user }) => {
 									<P>
 										Women's:{" "}
 										<Link href={`/profile/${womensWinner.name}`} passHref>
-											<A link dark_gray underline>
+											<A link dark_gray underline title={womensWinner.name}>
 												{womensWinner.name}
 											</A>
 										</Link>
@@ -266,13 +262,13 @@ const Series = ({ race, user }) => {
 									<P>
 										Pair's:{" "}
 										<Link href={`/profile/${pairAWinner.name}`} passHref>
-											<A link dark_gray underline>
+											<A link dark_gray underline title={pairAWinner.name}>
 												{pairAWinner.name}
 											</A>
 										</Link>{" "}
 										&{" "}
 										<Link href={`/profile/${pairBWinner.name}`} passHref>
-											<A link dark_gray underline>
+											<A link dark_gray underline title={pairBWinner.name}>
 												{pairBWinner.name}
 											</A>
 										</Link>
@@ -282,25 +278,36 @@ const Series = ({ race, user }) => {
 
 							{!!mostWins && (
 								<Fragment>
-									<H4>Most Wins:</H4>
+									<H4>Most Wins ({mostWins[0].races.length}):</H4>
 									{mostWins.map((winner, i) => {
 										return (
 											<Fragment key={i}>
 												<P>
 													<Link href={`/profile/${winner.name}`}>
-														<A link dark_gray underline pointer>
-															{winner.name}
+														<A
+															link
+															dark_gray
+															underline
+															pointer
+															title={winner.name}
+														>
+															{winner.name}:
 														</A>
-													</Link>{" "}
-													({winner.races.length}):{" "}
+													</Link>
 													{winner.races.map((r, i) => (
-														<WinnerRace>
+														<WinnerRace key={i}>
 															<Link
 																href={`/results?year=${r.year}&race=${r.slug}`}
 																as={`/results/${r.year}/${r.slug}`}
 																passHref
 															>
-																<A link dark_gray underline pointer>
+																<A
+																	link
+																	dark_gray
+																	underline
+																	pointer
+																	title={`${raceName}: ${r.year}`}
+																>
 																	{r.year}
 																</A>
 															</Link>
@@ -363,7 +370,14 @@ const Series = ({ race, user }) => {
 												as={`/race/${race.fields.slug}`}
 												passHref
 											>
-												<A db pa2 link near_black data-id={race.id}>
+												<A
+													db
+													pa2
+													link
+													near_black
+													data-id={race.id}
+													title={`${raceName} Report ${race.fields.slug}`}
+												>
 													{race.fields.slug}
 												</A>
 											</Link>
@@ -393,7 +407,14 @@ const Series = ({ race, user }) => {
 												as={`/results/${race.year}/${race.slug}`}
 												passHref
 											>
-												<A db pa2 link near_black data-id={race.id}>
+												<A
+													db
+													pa2
+													link
+													near_black
+													data-id={race.id}
+													title={`${raceName}: ${race.year}`}
+												>
 													{race.year}
 												</A>
 											</Link>
