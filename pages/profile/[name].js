@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import mq from "../../utils/media-query";
 import sanitizeName from "../../utils/sanitize-name";
+import getNationalFlag from "../../utils/get-national-flag";
 import ProfileDetails from "../../components/Profile/Details";
 import ProfileStats from "../../components/Profile/Stats";
 import ProfileAwards from "../../components/Profile/Awards";
@@ -174,9 +175,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		return (
 			<PageWrapper name={name} user={user}>
 				<Div mt3 mh6_l ph3>
-					<Heading fl w_100 mb3 ph3>
+					<Heading fl w_100 mb3>
 						<H1 f3 f1_l fw6 lh_title>
-							{name}
+							{name} {getNationalFlag(nationality)}
 						</H1>
 					</Heading>
 					<Div fl w_100 ph3 mb6>
@@ -212,6 +213,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 	const achievedAwards = awards.filter(award => award.distance <= total);
 
+	const nationality = profile[0] && profile[0].nationality;
+
 	return (
 		<PageWrapper name={name} user={user}>
 			<Div mt3 mh6_l ph3>
@@ -224,7 +227,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 					<Heading fl w_100 mb3>
 						<H1 f3 f1_l fw6 lh_title>
-							{name}
+							{name} {getNationalFlag(nationality)}
 						</H1>
 					</Heading>
 
@@ -262,7 +265,11 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						</AccordionItem>
 
 						<AccordionItem id="stats" title="Latest Results" isOpen>
-							<ResultsTable type="profile" results={profile} />
+							<ResultsTable
+								type="profile"
+								results={profile}
+								showNationality={false}
+							/>
 						</AccordionItem>
 					</Accordion>
 					<ResultsContribute />
