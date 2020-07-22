@@ -30,7 +30,7 @@ const WithSeries = Page => {
 				}
 			});
 
-			race = { ...race, races: data.results };
+			race = { ...race, races: data.races };
 
 			return {
 				race,

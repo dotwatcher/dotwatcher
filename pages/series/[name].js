@@ -20,6 +20,10 @@ const H2 = styled.h2`
 	${tachyons}
 `;
 
+const H4 = styled.h2`
+	${tachyons}
+`;
+
 const Div = styled.div`
 	${tachyons}
 `;
@@ -44,7 +48,7 @@ const RaceGrid = styled.div`
 	display: grid;
 	grid-column-gap: var(--spacing-large);
 	grid-row-gap: var(--spacing-medium);
-	grid-template-columns: 50% 50%;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	grid-template-areas:
 		"details details"
 		"overview overview";
@@ -65,15 +69,96 @@ const EditionsGrid = styled.ul`
 	margin: 0;
 	padding: 0;
 	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 	grid-column-gap: var(--spacing-medium);
 	grid-row-gap: var(--spacing-medium);
 	text-align: center;
+
+	${mq.smUp`
+		grid-template-columns: repeat(12, 1fr);
+	`}
 `;
+
+const Winners = styled.div`
+	border-bottom: 1px solid var(--light-gray);
+`;
+
+const WinnerRace = styled.div`
+	margin: 0 var(--spacing-small);
+	display: inline-block;
+`;
+
+const getLatestWinner = results =>
+	results &&
+	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
 
 const Series = ({ race, user }) => {
 	const raceReports = () =>
 		race.fields.previousReports.filter(race => race.fields);
+
+	const [latestRace] =
+		race.races &&
+		race.races.length > 0 &&
+		race.races.sort((a, b) => b.year - a.year);
+
+	const getLatestWinnerByClass = classification => {
+		const results = latestRace.results.filter(
+			r => r.class.toLowerCase() === classification.toLowerCase()
+		);
+
+		return getLatestWinner(results);
+	};
+
+	const getLatestWinnerByGender = gender => {
+		const results = latestRace.results.filter(
+			r =>
+				r.category.toLowerCase() === gender.toLowerCase() && r.class !== "PAIR"
+		);
+
+		return getLatestWinner(results);
+	};
+
+	const getLatestOverallWinner = race => {
+		const results = race.results.filter(r => r.class === "SOLO");
+
+		return getLatestWinner(results);
+	};
+
+	const getModalWinners = () => {
+		let winners = race.races.map(race => getLatestOverallWinner(race)[0]);
+
+		// Create objects of winners races
+		const winsObj = winners.reduce((acc, curr) => {
+			return {
+				...acc,
+				[curr.name]: acc[curr.name] ? [...acc[curr.name], curr] : [curr]
+			};
+		}, {});
+
+		// Sort in win order
+		let [mostWinsRider] = Object.keys(winsObj).sort(
+			(a, b) => winsObj[b].length - winsObj[a].length
+		);
+
+		// Get the highest wins count
+		const mostWinsRiderQty = winsObj[mostWinsRider].length;
+
+		if (mostWinsRiderQty <= 1) return false;
+
+		// Check if there are multiple with the same amount of wins
+		winners = Object.keys(winsObj).filter(
+			winner => winsObj[winner].length === mostWinsRiderQty,
+			[]
+		);
+
+		return winners.map(w => ({ name: w, races: winsObj[w] }));
+	};
+
+	const [pairAWinner, pairBWinner] = getLatestWinnerByClass("PAIR");
+	const [mensWinner] = getLatestWinnerByGender("MEN");
+	const [womensWinner] = getLatestWinnerByGender("WOMEN");
+	const [latestWinner] = getLatestOverallWinner(latestRace);
+	const mostWins = getModalWinners();
 
 	return (
 		<Page>
@@ -127,21 +212,115 @@ const Series = ({ race, user }) => {
 				/>
 			)}
 
-			<Div mt3 mt4_l mh6_l>
+			<Div pa2 mt3 mt4_l mh6_l>
 				<H1 f3 f1_l fw6 lh_title mb0>
 					{race.fields.name}
 				</H1>
 
 				<RaceGrid>
 					<RaceDetails>
+						<Winners>
+							<H4>Latest Winners ({latestWinner.year}): </H4>
+
+							{latestWinner && (
+								<Fragment>
+									<P>
+										Overall:{" "}
+										<Link href={`/profile/${latestWinner.name}`} passHref>
+											<A link dark_gray underline>
+												{latestWinner.name}
+											</A>
+										</Link>
+									</P>
+								</Fragment>
+							)}
+
+							{mensWinner && (
+								<Fragment>
+									<P>
+										Men's:{" "}
+										<Link href={`/profile/${mensWinner.name}`} passHref>
+											<A link dark_gray underline>
+												{mensWinner.name}
+											</A>
+										</Link>
+									</P>
+								</Fragment>
+							)}
+
+							{womensWinner && (
+								<Fragment>
+									<P>
+										Women's:{" "}
+										<Link href={`/profile/${womensWinner.name}`} passHref>
+											<A link dark_gray underline>
+												{womensWinner.name}
+											</A>
+										</Link>
+									</P>
+								</Fragment>
+							)}
+
+							{pairAWinner && (
+								<Fragment>
+									<P>
+										Pair's:{" "}
+										<Link href={`/profile/${pairAWinner.name}`} passHref>
+											<A link dark_gray underline>
+												{pairAWinner.name}
+											</A>
+										</Link>{" "}
+										&{" "}
+										<Link href={`/profile/${pairBWinner.name}`} passHref>
+											<A link dark_gray underline>
+												{pairBWinner.name}
+											</A>
+										</Link>
+									</P>
+								</Fragment>
+							)}
+
+							{!!mostWins && (
+								<Fragment>
+									<H4>Most Wins:</H4>
+									{mostWins.map((winner, i) => {
+										return (
+											<Fragment key={i}>
+												<P>
+													<Link href={`/profile/${winner.name}`}>
+														<A link dark_gray underline pointer>
+															{winner.name}
+														</A>
+													</Link>{" "}
+													({winner.races.length}):{" "}
+													{winner.races.map((r, i) => (
+														<WinnerRace>
+															<Link
+																href={`/results?year=${r.year}&race=${r.slug}`}
+																as={`/results/${r.year}/${r.slug}`}
+																passHref
+															>
+																<A link dark_gray underline pointer>
+																	{r.year}
+																</A>
+															</Link>
+														</WinnerRace>
+													))}
+												</P>
+											</Fragment>
+										);
+									})}
+								</Fragment>
+							)}
+						</Winners>
+
 						{race.fields.website && (
 							<Fragment>
-								<p>
-									Website:
-									<a href={race.fields.website} target="_blank">
+								<P>
+									<A href={race.fields.website} target="_blank">
 										{race.fields.website}
-									</a>
-								</p>
+									</A>
+								</P>
 							</Fragment>
 						)}
 
