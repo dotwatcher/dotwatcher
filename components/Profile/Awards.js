@@ -56,8 +56,6 @@ const Awards = styled.div`
 export default ({ profile }) => {
 	const total = totalDistanceOfRaces(profile);
 
-	console.log(total);
-
 	const achievedAwards = awards.filter(award => award.distance <= total);
 
 	return (

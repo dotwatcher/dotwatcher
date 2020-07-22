@@ -2,15 +2,18 @@ import {
 	totalDistanceOfRaces,
 	totalDistanceByYear,
 	uniqueYears,
-	averageDistance,
-	formatDistance,
-	addArray
+	averageDistance
 } from "../../utils/distance";
 
 import styled from "styled-components";
-import tachyons from "styled-components-tachyons";
 
 import BarGraph from "../../components/Graphs/Bar";
+
+const Div = styled.div`
+	margin-top: var(--spacing-extra-large);
+	max-width: 900px;
+	margin: 0 auto;
+`;
 
 export default props => {
 	let data = uniqueYears(props.profile).reduce((acc, curr, index) => {
@@ -33,10 +36,12 @@ export default props => {
 	const total = totalDistanceOfRaces(props.profile);
 
 	return (
-		<BarGraph
-			data={data}
-			totalDistance={total}
-			averageAnnualDistance={averageDistance(props.profile)}
-		/>
+		<Div>
+			<BarGraph
+				data={data}
+				totalDistance={total}
+				averageAnnualDistance={averageDistance(props.profile)}
+			/>
+		</Div>
 	);
 };

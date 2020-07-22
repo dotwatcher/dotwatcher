@@ -49,3 +49,5 @@ export const averageDistance = races => {
 };
 
 export const formatDistance = distance => distance + " KM";
+
+export const format = distance => distance.toLocaleString() + "km";

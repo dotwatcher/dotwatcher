@@ -1,12 +1,13 @@
 import React from "react";
 import * as d3 from "d3";
 import styled from "styled-components";
+import { format } from "../../utils/distance";
 
 const Div = styled.div`
 	display: inline-block;
 	position: relative;
 	width: 100%;
-	padding-bottom: 100%; /* aspect ratio */
+	padding-bottom: 75%; /* aspect ratio */
 	vertical-align: top;
 	overflow: hidden;
 
@@ -418,29 +419,21 @@ class App extends React.Component {
 				const [x, y] = d3.mouse(this);
 				const { year, distance, runningTotal } = d;
 
-				// tooltip
-				// 	.attr("x", x - 25)
-				// 	.attr("y", y - (tooltipWidth + tooltipWidth / 2))
-				// 	.attr("class", `tooltip-${x}`)
-				// 	.attr("opacity", 1);
-
-				tooltipText
+				const text = tooltipText
 					.attr("x", x - tooltipWidth)
 					.attr("y", y - tooltipHeight)
 					.attr("class", `tooltip-text-${x}`)
 					.attr("opacity", 1)
 					.text(
 						d => `
-							Year: ${year}km,
-							Distance: ${distance}km,
-							Total Distance: ${runningTotal}
+							Year: ${year},
+							Distance: ${format(distance)},
+							Total : ${format(runningTotal)}
 						`
 					);
 			})
 			.on("mouseout", function(d) {
 				const [x, y] = d3.mouse(this);
-
-				// chart.selectAll(`.tooltip-${x}`).remove();
 			});
 	}
 
@@ -462,7 +455,7 @@ class App extends React.Component {
 				"d",
 				d3
 					.line()
-					.x(d => xScale(d.year))
+					.x(d => xScale(d.year) + xScale.bandwidth() / 2)
 					.y(d => yScale(averageAnnualDistance))
 			);
 	}
