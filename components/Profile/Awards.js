@@ -1,6 +1,3 @@
-import awards from "../../lib/awards";
-import { totalDistanceOfRaces } from "../../utils/distance";
-
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import mq from "../../utils/media-query";
@@ -53,15 +50,11 @@ const Awards = styled.div`
 	`}
 `;
 
-export default ({ profile }) => {
-	const total = totalDistanceOfRaces(profile);
-
-	const achievedAwards = awards.filter(award => award.distance <= total);
-
+export default ({ awards = [] }) => {
 	return (
 		<Div>
 			<Awards>
-				{achievedAwards.map((award, ind) => (
+				{awards.map((award, ind) => (
 					<Award key={ind}>
 						<img src={award.roundal} title={award.name} alt={award.name} />
 
