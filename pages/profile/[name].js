@@ -251,7 +251,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						<AccordionItem
 							id="stats"
 							title="Stats"
-							isOpen={true}
+							isOpen={showStats}
 							ref={statsRef}
 						>
 							<ProfileStats
