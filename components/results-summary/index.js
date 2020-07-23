@@ -34,7 +34,7 @@ const ResultsSummary = ({ race, filtered }) => {
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<Link href={`/series/${race.name}`}>
+				<Link href={"/series/[name]"} as={`/series/${race.name}`} passHref>
 					<A
 						black
 						no_underline
@@ -50,19 +50,18 @@ const ResultsSummary = ({ race, filtered }) => {
 				</Link>
 			</Header>
 			<Years list ma0 pa0 tc>
-				{race.events.map((event, index) => {
-					return (
-						<Year
-							dib
-							hover_bg_lightest_blue
-							bg_light_gray
-							ba
-							bw1
-							b__white
-							f4
-							lh_copy
-							key={index}
-						>
+				{race.events.map((event, index) => (
+					<Year
+						dib
+						hover_bg_lightest_blue
+						bg_light_gray
+						ba
+						bw1
+						b__white
+						f4
+						lh_copy
+						key={index}
+					>
 							<Link
 								href={`/results/${event.year}/${event.slug}`}
 								passHref
@@ -72,8 +71,8 @@ const ResultsSummary = ({ race, filtered }) => {
 								</A>
 							</Link>
 						</Year>
-					);
-				})}
+					)
+				)}
 			</Years>
 		</Div>
 	);

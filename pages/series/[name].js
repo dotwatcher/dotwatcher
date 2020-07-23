@@ -73,10 +73,6 @@ const EditionsGrid = styled.ul`
 	grid-column-gap: var(--spacing-medium);
 	grid-row-gap: var(--spacing-medium);
 	text-align: center;
-
-	${mq.smUp`
-		grid-template-columns: repeat(12, 1fr);
-	`}
 `;
 
 const Winners = styled.div`
@@ -185,7 +181,7 @@ const Series = ({ race, user }) => {
 					name="twitter:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
-				*
+
 				<meta
 					property="og:image"
 					content={
@@ -222,7 +218,11 @@ const Series = ({ race, user }) => {
 								<Fragment>
 									<P>
 										Overall:{" "}
-										<Link href={`/profile/${latestWinner.name}`} passHref>
+										<Link
+											href="/profile/[name]"
+											as={`/profile/${latestWinner.name}`}
+											passHref
+										>
 											<A link dark_gray underline title={latestWinner.name}>
 												{latestWinner.name}
 											</A>
@@ -235,7 +235,11 @@ const Series = ({ race, user }) => {
 								<Fragment>
 									<P>
 										Men's:{" "}
-										<Link href={`/profile/${mensWinner.name}`} passHref>
+										<Link
+											href="/profile/[name]"
+											as={`/profile/${mensWinner.name}`}
+											passHref
+										>
 											<A link dark_gray underline title={mensWinner.name}>
 												{mensWinner.name}
 											</A>
@@ -248,7 +252,11 @@ const Series = ({ race, user }) => {
 								<Fragment>
 									<P>
 										Women's:{" "}
-										<Link href={`/profile/${womensWinner.name}`} passHref>
+										<Link
+											href="/profile/[name]"
+											as={`/profile/${womensWinner.name}`}
+											passHref
+										>
 											<A link dark_gray underline title={womensWinner.name}>
 												{womensWinner.name}
 											</A>
@@ -260,14 +268,22 @@ const Series = ({ race, user }) => {
 							{pairAWinner && (
 								<Fragment>
 									<P>
-										Pair's:{" "}
-										<Link href={`/profile/${pairAWinner.name}`} passHref>
+										Pairs:{" "}
+										<Link
+											href="/profile/[name]"
+											as={`/profile/${pairAWinner.name}`}
+											passHref
+										>
 											<A link dark_gray underline title={pairAWinner.name}>
 												{pairAWinner.name}
 											</A>
 										</Link>{" "}
 										&{" "}
-										<Link href={`/profile/${pairBWinner.name}`} passHref>
+										<Link
+											href="/profile/[name]"
+											as={`/profile/${pairBWinner.name}`}
+											passHref
+										>
 											<A link dark_gray underline title={pairBWinner.name}>
 												{pairBWinner.name}
 											</A>
@@ -297,7 +313,7 @@ const Series = ({ race, user }) => {
 													{winner.races.map((r, i) => (
 														<WinnerRace key={i}>
 															<Link
-																href={`/results?year=${r.year}&race=${r.slug}`}
+																href={`/results/[year]/[race]`}
 																as={`/results/${r.year}/${r.slug}`}
 																passHref
 															>
@@ -366,7 +382,7 @@ const Series = ({ race, user }) => {
 											key={index}
 										>
 											<Link
-												href={`/race?slug=${race.fields.slug}`}
+												href="/race/[slug]"
 												as={`/race/${race.fields.slug}`}
 												passHref
 											>
@@ -403,7 +419,7 @@ const Series = ({ race, user }) => {
 											key={index}
 										>
 											<Link
-												href={`/results?year=${race.year}&race=${race.slug}`}
+												href="/results/[year]/[slug]"
 												as={`/results/${race.year}/${race.slug}`}
 												passHref
 											>

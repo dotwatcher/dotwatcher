@@ -336,7 +336,13 @@ class ResultsTable extends React.Component {
 											href={`/profile/${result.name}`}
 											passHref
 										>
-											<A link near_black hover_blue underline>
+											<A
+												link
+												near_black
+												hover_blue
+												underline
+												title={result.name}
+											>
 												{result.name}
 											</A>
 										</Link>

@@ -159,6 +159,7 @@ class App extends Component {
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
 
+<<<<<<< HEAD
 				<Div mt3 mt4_l mh6_l>
 					<Div pb5>
 						<Link href="/results" passHref>
@@ -181,6 +182,105 @@ class App extends Component {
 										);
 									})}
 								</Description>
+||||||| parent of 7c0b9d6... clean up routing
+				{this.props.name ? (
+					<Div mt3 mt4_l mh6_l>
+						<Div pb5>
+							<Link href="/results" passHref>
+								<A ph3 db link near_black hover_blue>
+									← All results
+								</A>
+							</Link>
+							<Heading fl w_100 mb4 ph3>
+								<H1 f3 f1_l fw6 lh_title mb0>
+									{this.props.name} {this.props.year} results
+								</H1>
+								{this.props.description && (
+									<Description measure_wide f4 lh_copy>
+										{JSON.stringify(this.props.description) !== `"null"` &&
+											this.props.description.split("\n").map((item, key) => {
+												return (
+													<Fragment key={key}>
+														{item}
+														<br />
+													</Fragment>
+												);
+											})}
+									</Description>
+								)}
+							</Heading>
+
+							{this.props.results.length ? (
+								<ResultsTable
+									type="race"
+									results={results}
+									focus={this.props.focus}
+									racerClasses={this.props.racerClasses}
+									activeClass={this.props.activeClass}
+									racerCategories={this.props.racerCategories}
+									activeCategory={this.props.activeCategory}
+									finishlocations={this.props.finishlocations}
+									activeLocation={this.props.activeLocation}
+									hasNotes={this.hasNotes()}
+								/>
+							) : (
+								<H3 ph3>
+									No results have been published for {this.props.name}
+								</H3>
+=======
+				{this.props.name ? (
+					<Div mt3 mt4_l mh6_l>
+						<Div pb5>
+							<Link href="/results">
+								<A
+									ph3
+									db
+									link
+									near_black
+									hover_blue
+									passHref
+									title="All Results"
+								>
+									← All results
+								</A>
+							</Link>
+							<Heading fl w_100 mb4 ph3>
+								<H1 f3 f1_l fw6 lh_title mb0>
+									{this.props.name} {this.props.year} results
+								</H1>
+								{this.props.description && (
+									<Description measure_wide f4 lh_copy>
+										{JSON.stringify(this.props.description) !== `"null"` &&
+											this.props.description.split("\n").map((item, key) => {
+												return (
+													<Fragment key={key}>
+														{item}
+														<br />
+													</Fragment>
+												);
+											})}
+									</Description>
+								)}
+							</Heading>
+
+							{this.props.results.length ? (
+								<ResultsTable
+									type="race"
+									results={results}
+									focus={this.props.focus}
+									racerClasses={this.props.racerClasses}
+									activeClass={this.props.activeClass}
+									racerCategories={this.props.racerCategories}
+									activeCategory={this.props.activeCategory}
+									finishlocations={this.props.finishlocations}
+									activeLocation={this.props.activeLocation}
+									hasNotes={this.hasNotes()}
+								/>
+							) : (
+								<H3 ph3>
+									No results have been published for {this.props.name}
+								</H3>
+>>>>>>> 7c0b9d6... clean up routing
 							)}
 						</Heading>
 

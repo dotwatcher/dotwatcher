@@ -66,8 +66,6 @@ export default ({ race }) => {
 		useSortBy
 	);
 
-	console.log(race);
-
 	return (
 		<Styles>
 			<table {...getTableProps()}>
