@@ -64,25 +64,27 @@ class App extends Component {
 				<Header user={this.props.user} title="dotwatcher.cc" />
 				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
 					<Div pb5>
-						{currentRaces.length > 0 ? (
+						{currentRaces.length > 0 && (
 							<Heading fl w_100 mb4 ph3>
 								<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
 									Live coverage
 								</H1>
 							</Heading>
-						) : null}
-						{currentRaces.map(race => {
-							return <RacePreview key={race.sys.id} data={race.data} />;
-						})}
+						)}
+
+						{currentRaces.map(race => (
+							<RacePreview key={race.sys.id} data={race.data} />
+						))}
 
 						<PastHeading fl w_100 mb4 ph3>
 							<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
 								Past races
 							</H1>
 						</PastHeading>
-						{pastRaces.map(race => {
-							return <RacePreview key={race.sys.id} data={race.data} />;
-						})}
+
+						{pastRaces.map(race => (
+							<RacePreview key={race.sys.id} data={race.data} />
+						))}
 					</Div>
 				</Div>
 				<Div mt3 mt4_l ph5 ph3_l fl w_100 w_25_l>

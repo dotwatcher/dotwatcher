@@ -298,12 +298,13 @@ class Race extends React.Component {
 					relative
 					id="events-wrap"
 				>
-					{this.props.race.fields.leaderboard === true ? (
+					{this.props.race.fields.leaderboard === true && (
 						<DynamicTopRiders race={this.props.race} />
-					) : null}
-					{this.props.race.fields.staticLeaderboard ? (
+					)}
+
+					{this.props.race.fields.staticLeaderboard && (
 						<StaticTopRiders race={this.props.race} />
-					) : null}
+					)}
 
 					{this.props.race.fields.whatsAppId && (
 						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
@@ -336,9 +337,12 @@ class Race extends React.Component {
 							</header>
 						</Div>
 					)}
+
 					<FactFile race={this.props.race} />
+
 					<KeyEvents posts={this.props.posts} skip={this.state.skip} />
 				</KeyEventsWrapper>
+
 				<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
 					{this.props.race.fields.discourseId && this.props.replies ? (
 						<React.Fragment>
