@@ -236,7 +236,9 @@ class ResultsTable extends React.Component {
 							const sanitizeName = result.racename
 								.toLowerCase()
 								.replace(/\s/g, "-")
-								.replace(":", "");
+								.replace(":", "")
+								.replace("(", "")
+								.replace(")", "");
 							return (
 								<ResultsRow key={result["rowid"] + `-${id}`} id={id}>
 									{this.props.type === "profile" ? (
