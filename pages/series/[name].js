@@ -88,75 +88,22 @@ const getLatestWinner = results =>
 	results &&
 	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
 
-const Series = ({ race, user }) => {
+const Series = ({
+	race,
+	user,
+	mensWinner,
+	womensWinner,
+	latestWinner,
+	mostWins,
+	pairsWinners,
+	latestRace
+}) => {
 	const raceName = race.fields.name;
 
 	const raceReports = () =>
 		race.fields.previousReports.filter(race => race.fields);
 
-	const [latestRace] =
-		race.races &&
-		race.races.length > 0 &&
-		race.races.sort((a, b) => b.year - a.year);
-
-	const getLatestWinnerByClass = classification => {
-		const results = latestRace.results.filter(
-			r => r.class.toLowerCase() === classification.toLowerCase()
-		);
-
-		return getLatestWinner(results);
-	};
-
-	const getLatestWinnerByGender = gender => {
-		const results = latestRace.results.filter(
-			r =>
-				r.category.toLowerCase() === gender.toLowerCase() && r.class !== "PAIR"
-		);
-
-		return getLatestWinner(results);
-	};
-
-	const getLatestOverallWinner = race => {
-		const results = race.results.filter(r => r.class === "SOLO");
-
-		return getLatestWinner(results);
-	};
-
-	const getModalWinners = () => {
-		let winners = race.races.map(race => getLatestOverallWinner(race)[0]);
-
-		// Create objects of winners races
-		const winsObj = winners.reduce((acc, curr) => {
-			return {
-				...acc,
-				[curr.name]: acc[curr.name] ? [...acc[curr.name], curr] : [curr]
-			};
-		}, {});
-
-		// Sort in win order
-		let [mostWinsRider] = Object.keys(winsObj).sort(
-			(a, b) => winsObj[b].length - winsObj[a].length
-		);
-
-		// Get the highest wins count
-		const mostWinsRiderQty = winsObj[mostWinsRider].length;
-
-		if (mostWinsRiderQty <= 1) return false;
-
-		// Check if there are multiple with the same amount of wins
-		winners = Object.keys(winsObj).filter(
-			winner => winsObj[winner].length === mostWinsRiderQty,
-			[]
-		);
-
-		return winners.map(w => ({ name: w, races: winsObj[w] }));
-	};
-
-	const [pairAWinner, pairBWinner] = getLatestWinnerByClass("PAIR");
-	const [mensWinner] = getLatestWinnerByGender("MEN");
-	const [womensWinner] = getLatestWinnerByGender("WOMEN");
-	const [latestWinner] = getLatestOverallWinner(latestRace);
-	const mostWins = getModalWinners();
+	const [pairAWinner, pairBWinner] = pairsWinners;
 
 	return (
 		<Page>
@@ -223,7 +170,13 @@ const Series = ({ race, user }) => {
 											as={`/profile/${latestWinner.name}`}
 											passHref
 										>
-											<A link dark_gray underline title={latestWinner.name}>
+											<A
+												link
+												dark_gray
+												hover_gray
+												underline
+												title={latestWinner.name}
+											>
 												{latestWinner.name}
 											</A>
 										</Link>
@@ -240,7 +193,13 @@ const Series = ({ race, user }) => {
 											as={`/profile/${mensWinner.name}`}
 											passHref
 										>
-											<A link dark_gray underline title={mensWinner.name}>
+											<A
+												link
+												dark_gray
+												hover_gray
+												underline
+												title={mensWinner.name}
+											>
 												{mensWinner.name}
 											</A>
 										</Link>
@@ -257,7 +216,13 @@ const Series = ({ race, user }) => {
 											as={`/profile/${womensWinner.name}`}
 											passHref
 										>
-											<A link dark_gray underline title={womensWinner.name}>
+											<A
+												link
+												dark_gray
+												hover_gray
+												underline
+												title={womensWinner.name}
+											>
 												{womensWinner.name}
 											</A>
 										</Link>
@@ -274,7 +239,13 @@ const Series = ({ race, user }) => {
 											as={`/profile/${pairAWinner.name}`}
 											passHref
 										>
-											<A link dark_gray underline title={pairAWinner.name}>
+											<A
+												link
+												dark_gray
+												hover_gray
+												underline
+												title={pairAWinner.name}
+											>
 												{pairAWinner.name}
 											</A>
 										</Link>{" "}
@@ -284,7 +255,13 @@ const Series = ({ race, user }) => {
 											as={`/profile/${pairBWinner.name}`}
 											passHref
 										>
-											<A link dark_gray underline title={pairBWinner.name}>
+											<A
+												link
+												dark_gray
+												hover_gray
+												underline
+												title={pairBWinner.name}
+											>
 												{pairBWinner.name}
 											</A>
 										</Link>
@@ -305,6 +282,7 @@ const Series = ({ race, user }) => {
 															dark_gray
 															underline
 															pointer
+															hover_gray
 															title={winner.name}
 														>
 															{winner.name}:
@@ -322,6 +300,7 @@ const Series = ({ race, user }) => {
 																	dark_gray
 																	underline
 																	pointer
+																	hover_gray
 																	title={`${raceName}: ${r.year}`}
 																>
 																	{r.year}

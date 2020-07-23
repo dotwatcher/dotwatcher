@@ -34,7 +34,7 @@ const ResultsSummary = ({ race, filtered }) => {
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<Link href={"/series/[name]"} as={`/series/${race.name}`} passHref>
+				<Link href={"/series/[name]"} href={`/series/${race.name}`}>
 					<A
 						black
 						no_underline
