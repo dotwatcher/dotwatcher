@@ -92,7 +92,7 @@ const getLatestWinner = results =>
 	results &&
 	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
 
-const Series = ({ race, user, ...props }) => {
+const Series = ({ race, user }) => {
 	const raceName = race.fields.name;
 
 	const raceReports = () =>

@@ -30,20 +30,19 @@ const Year = styled.li`
 
 const ResultsSummary = ({ race, filtered }) => {
 	if (filtered !== "" && filtered !== race.name) return null;
+	
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<Link
-					href={{
-						pathname: "/series/[name]/",
-						query: {
-							name: race.name
-						}
-					}}
-					as={`/series/${race.name}`}
-					passHref
-				>
-					<A black no-underline underline-hover>
+				<Link href={`/series/${race.name}`}>
+					<A
+						black
+						no_underline
+						underline_hover
+						hover_blue
+						pointer
+						title={race.name}
+					>
 						<H2 ma0 f3 fw6>
 							{race.name}
 						</H2>

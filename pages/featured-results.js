@@ -261,7 +261,7 @@ const Results = props => {
 										as={`/series/${race}`}
 										passHref
 									>
-										<A black no-underline underline-hover>
+										<A black no_underline hover_underline hover_blue>
 											<H2>{race}</H2>
 										</A>
 									</Link>
