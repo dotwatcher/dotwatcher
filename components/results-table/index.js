@@ -134,6 +134,10 @@ class ResultsTable extends React.Component {
 
 		let filteredResults = this.props.results;
 
+		if (this.props.type === "profile") {
+			filteredResults = filteredResults.sort((a, b) => b.year - a.year);
+		}
+
 		if (this.props.type !== "profile") {
 			filteredResults = filteredResults.filter(
 				result => result.class === this.state.activeClassFilter
@@ -236,9 +240,7 @@ class ResultsTable extends React.Component {
 							const sanitizeName = result.racename
 								.toLowerCase()
 								.replace(/\s/g, "-")
-								.replace(":", "")
-								.replace("(", "")
-								.replace(")", "");
+								.replace(":", "");
 							return (
 								<ResultsRow key={result["rowid"] + `-${id}`} id={id}>
 									{this.props.type === "profile" ? (
