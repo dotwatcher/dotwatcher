@@ -239,6 +239,7 @@ class ResultsTable extends React.Component {
 								.replace(":", "")
 								.replace("(", "")
 								.replace(")", "");
+							// adasdasd
 							return (
 								<ResultsRow key={result["rowid"] + `-${id}`} id={id}>
 									{this.props.type === "profile" ? (
