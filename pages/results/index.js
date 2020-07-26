@@ -1,42 +1,19 @@
 import React, { Component, Fragment } from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import tachyons from "styled-components-tachyons";
+
 import axios from "axios";
 import debounce from "lodash.debounce";
 
-import Link from "next/link";
 import Header from "../../components/header";
 import Page from "../../components/shared/page";
 import Footer from "../../components/footer";
 import ResultsIndex from "../../components/results-index";
-import ResultsTable from "../../components/results-table";
-import ResultsContribute from "../../components/results-contribute";
+
 import { WithResults } from "../../data/with-results";
 import apiUrl from "../../utils/api-url";
 
-const Heading = styled.header`
-	${tachyons}
-`;
-const H1 = styled.h1`
-	${tachyons}
-`;
-const H3 = styled.h3`
-	${tachyons}
-`;
-const Div = styled.div`
-	${tachyons}
-`;
-const A = styled.a`
-	${tachyons}
-`;
-
-const Description = styled.p`
-	${tachyons}
-`;
-
-class App extends Component {
+class Results extends Component {
 	constructor(props) {
 		super(props);
 
@@ -103,17 +80,9 @@ class App extends Component {
 		return (
 			<Page>
 				<Head>
-					<title>
-						{this.props.name} {this.props.year} Results - DotWatcher.cc
-					</title>
-					<link
-						rel="canonical"
-						href={`https://dotwatcher.cc/results/${this.props.year}/${this.props.slug}`}
-					/>
-					<meta
-						property="og:title"
-						content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}
-					/>
+					<title>Results - DotWatcher.cc</title>
+					<link rel="canonical" href="https://dotwatcher.cc/results" />
+					<meta property="og:title" content="Results - DotWatcher.cc" />
 					<meta
 						property="og:description"
 						content="A history of results from the ultra-cycling world, in one database."
@@ -125,10 +94,7 @@ class App extends Component {
 					<meta name="twitter:card" content="summary_large_image" />
 					<meta name="twitter:site" content="@dotwatcher" />
 					<meta name="twitter:creator" content="@dotwatcher" />
-					<meta
-						name="twitter:title"
-						content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}
-					/>
+					<meta name="twitter:title" content="Results - DotWatcher.cc" />
 					<meta
 						name="twitter:description"
 						content="A history of results from the ultra-cycling world, in one database."
@@ -140,66 +106,20 @@ class App extends Component {
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
 
-				{this.props.name ? (
-					<Div mt3 mt4_l mh6_l>
-						<Div pb5>
-							<Link href="/results" passHref>
-								<A ph3 db link near_black hover_blue>
-									← All results
-								</A>
-							</Link>
-							<Heading fl w_100 mb4 ph3>
-								<H1 f3 f1_l fw6 lh_title mb0>
-									{this.props.name} {this.props.year} results
-								</H1>
-								{this.props.description && (
-									<Description measure_wide f4 lh_copy>
-										{this.props.description.split("\n").map((item, key) => {
-											return (
-												<Fragment key={key}>
-													{item}
-													<br />
-												</Fragment>
-											);
-										})}
-									</Description>
-								)}
-							</Heading>
-							{this.props.results.length ? (
-								<ResultsTable
-									type="race"
-									results={this.props.results}
-									focus={this.props.focus}
-									racerClasses={this.props.racerClasses}
-									activeClass={this.props.activeClass}
-									racerCategories={this.props.racerCategories}
-									activeCategory={this.props.activeCategory}
-									finishlocations={this.props.finishlocations}
-									activeLocation={this.props.activeLocation}
-								/>
-							) : (
-								<H3 ph3>
-									No results have been published for {this.props.name}
-								</H3>
-							)}
-							<ResultsContribute />
-						</Div>
-					</Div>
-				) : (
-					<ResultsIndex
-						allRiders={this.state.riders}
-						allRaces={this.state.races}
-						loading={this.state.loading}
-						handleSearchUpdate={this.handleSearchUpdate}
-					/>
-				)}
+				<ResultsIndex
+					allRiders={this.state.riders}
+					allRaces={this.state.races}
+					loading={this.state.loading}
+					handleSearchUpdate={this.handleSearchUpdate}
+				/>
+
 				<Footer />
 			</Page>
 		);
 	}
 }
 
-App.propTypes = {
+Results.propTypes = {
 	race: PropTypes.string,
 	year: PropTypes.string,
 	results: PropTypes.array,
@@ -207,7 +127,7 @@ App.propTypes = {
 	focus: PropTypes.string
 };
 
-App.defaultProps = {
+Results.defaultProps = {
 	race: "",
 	year: "",
 	results: [],
@@ -215,4 +135,4 @@ App.defaultProps = {
 	focus: ""
 };
 
-export default WithResults(App);
+export default WithResults(Results);
