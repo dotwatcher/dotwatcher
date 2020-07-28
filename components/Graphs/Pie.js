@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const createGraph = ({ ref, data }) => {
 	const width = 540;
@@ -7,45 +7,30 @@ const createGraph = ({ ref, data }) => {
 	const radius = Math.min(width, height) / 2;
 
 	const svg = d3
-		.select(ref.current)
+		.select(".graph-entry")
 		.append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
 		.attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-	const color = d3.scaleOrdinal([
-		"#66c2a5",
-		"#fc8d62",
-		"#8da0cb",
-		"#e78ac3",
-		"#a6d854",
-		"#ffd92f"
-	]);
+	const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-	const pie = d3
-		.pie()
-		.value(d => d.count)
-		.sort(null);
+	const pie = d3.pie().value(d => d.count);
 
 	const arc = d3
 		.arc()
 		.innerRadius(0)
 		.outerRadius(radius);
 
-	function type(d) {
-		d.apples = Number(d.apples);
-		d.oranges = Number(d.oranges);
-		return d;
-	}
-
 	function arcTween(a) {
 		const i = d3.interpolate(this._current, a);
 		this._current = i(1);
+
 		return t => arc(i(t));
 	}
 
-	d3.selectAll("input").on("change", update);
+	d3.selectAll(".data-update").on("change", update);
 
 	function update(val = this.value) {
 		// Join new data
@@ -64,67 +49,135 @@ const createGraph = ({ ref, data }) => {
 			.attr("fill", (d, i) => color(i))
 			.attr("d", arc)
 			.attr("stroke", "white")
-			.attr("stroke-width", "6px")
+			.attr("stroke-width", "2px")
 			.each(function(d) {
 				this._current = d;
 			});
 	}
 
-	update("apples");
-};
-
-const dataset = {
-	apples: [
-		{ region: "North", count: "53245" },
-		{ region: "South", count: "28479" },
-		{ region: "East", count: "19697" },
-		{ region: "West", count: "24037" },
-		{ region: "Central", count: "40245" }
-	],
-	oranges: [
-		{ region: "North", count: "200" },
-		{ region: "South", count: "200" },
-		{ region: "East", count: "200" },
-		{ region: "West", count: "200" },
-		{ region: "Central", count: "200" }
-	]
+	update(Object.keys(data)[0]);
 };
 
 export default ({ data, definitions }) => {
-	const ref = useRef(null);
+	// const mock = {
+	// 	apples: [
+	// 		{ region: "North", count: "53245" },
+	// 		{ region: "South", count: "28479" },
+	// 		{ region: "East", count: "19697" },
+	// 		{ region: "West", count: "24037" },
+	// 		{ region: "Central", count: "40245" }
+	// 	],
+	// 	oranges: [
+	// 		{ region: "North", count: "200" },
+	// 		{ region: "South", count: "200" },
+	// 		{ region: "East", count: "200" },
+	// 		{ region: "West", count: "200" },
+	// 		{ region: "Central", count: "200" }
+	// 	]
+	// };
 
-	const transformedData = definitions.flatMap(definition => {
+	const mock = {
+		result: [
+			{
+				region: "Finished",
+				count: "32"
+			},
+			{
+				region: "Scratcged",
+				count: "32"
+			}
+		],
+		nationality: [
+			{
+				region: "USA",
+				count: "25"
+			},
+			{
+				region: "ICELAND",
+				count: "1"
+			},
+			{
+				region: "IRELAND",
+				count: "1"
+			},
+			{
+				region: "FRANCE",
+				count: "5"
+			},
+			{
+				region: "AUSTRALIA",
+				count: "7"
+			},
+			{
+				region: "ITALY",
+				count: "21"
+			},
+			{
+				region: "NORWAY",
+				count: "15"
+			},
+			{
+				region: "NEW ZEALAND",
+				count: "72"
+			}
+		],
+		category: [
+			{
+				region: "Men",
+				count: "25"
+			},
+			{
+				region: "Women",
+				count: "7"
+			}
+		]
+	};
+
+	const dataset = mock;
+
+	const transformedData = definitions.reduce((acc, curr) => {
+		if (!curr) return acc;
+
 		var counts = {};
 
-		let values = data.map(d => d[definition.identifier]);
+		let values = data.map(d => d[curr.identifier]);
 
 		// Convert values into an object where key is name, and value is occurance in array
 		values.forEach(x => {
 			counts[x] = (counts[x] || 0) + 1;
 		});
 
-		return Object.keys(counts).map(x => ({
-			value: x === "null" ? "Not Specified" : x,
-			type: definition.label,
-			count: counts[x]
-		}));
-	});
+		return {
+			...acc,
+			[curr.identifier]: Object.keys(counts).map(c => ({
+				region: c,
+				count: counts[c].toString()
+			}))
+		};
+	}, {});
 
 	useEffect(() => {
-		if (ref && ref.current && data) {
-			createGraph({ ref, data: dataset });
-		}
+		createGraph({ data: mock });
 	}, []);
 
+	const [checked, setchecked] = useState(Object.keys(transformedData)[0]);
+
 	return (
-		<div ref={ref}>
+		<div className="graph-entry">
 			<form>
-				<label>
-					<input type="radio" name="dataset" value="apples" checked /> Apples
-				</label>
-				<label>
-					<input type="radio" name="dataset" value="oranges" /> Oranges
-				</label>
+				{definitions.map((definition, i) => (
+					<label key={definition.identifier}>
+						<input
+							className="data-update"
+							type="radio"
+							name="dataset"
+							value={definition.identifier}
+							checked={definition.identifier === checked}
+							onChange={e => setchecked(e.target.value)}
+						/>{" "}
+						{definition.label}
+					</label>
+				))}
 			</form>
 		</div>
 	);
