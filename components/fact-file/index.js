@@ -50,16 +50,16 @@ const FactFile = ({ race }) => (
 				</Stat>
 			</Wrap>
 		)}
-		{race.fields.raceEndDate && (
+		{/*race.fields.raceEndDate && (
 			<Wrap>
 				<Label dib f6 mr1>
-					Start Date:
+					End Date:
 				</Label>
 				<Stat dib f6 fw6>
 					{moment(race.fields.raceEndDate).format("LLLL")}
 				</Stat>
 			</Wrap>
-		)}
+		)*/}
 		{race.fields.length && (
 			<Wrap>
 				<Label dib f6 mr1>
