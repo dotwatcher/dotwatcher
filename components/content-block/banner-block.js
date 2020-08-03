@@ -179,7 +179,7 @@ const HomepagePrimary = ({ block, index, count }) => {
 					as={`/race/${block.race.fields.slug}`}
 					passHref
 				>
-					<A link db bg={block.image.fields.file.url} className="cf">
+					<A link db bg={block.image.fields.file.url}>
 						<InfoWrap pa4 pr5_ns relative z_2 className="infowrap cf">
 							<Div>
 								{Title}

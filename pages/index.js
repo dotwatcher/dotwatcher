@@ -88,9 +88,9 @@ const Home = ({ page, user }) => {
 				title="dotwatcher.cc — Long distance self-supported bike race coverage"
 			/>
 			<Div fl w_100 className="cf">
-				{bannerBlocks.length ? (
+				{bannerBlocks.length && (
 					<Banner blocks={bannerBlocks} count={bannerBlocks.length} />
-				) : null}
+				)}
 
 				<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
 					<Div
