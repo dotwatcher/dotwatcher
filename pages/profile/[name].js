@@ -245,11 +245,11 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 					/>
 
 					<Accordion>
-						{achievedAwards.length > 0 && (
+						{/*achievedAwards.length > 0 && (
 							<AccordionItem id="awards" title="Distance Achievements">
 								<ProfileAwards profile={profile} awards={achievedAwards} />
 							</AccordionItem>
-						)}
+						)*/}
 
 						<AccordionItem
 							id="stats"
