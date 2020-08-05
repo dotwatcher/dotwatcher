@@ -6,18 +6,18 @@ import fetch from "isomorphic-fetch";
 import { createClient } from "contentful";
 import vars from "./api-vars";
 
-export const withRaces = Page => {
-	const WithRaces = props => <Page {...props} />;
+export const withRaces = (Page) => {
+	const WithRaces = (props) => <Page {...props} />;
 
-	WithRaces.getInitialProps = async ctx => {
+	WithRaces.getInitialProps = async (ctx) => {
 		const client = createClient({
 			space: vars.space,
-			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 		});
 
 		const racesQuery = {
 			content_type: vars.content_type.categories,
-			order: "-fields.raceDate"
+			order: "-fields.raceDate",
 		};
 
 		const racesResponse = await client.getEntries(racesQuery);
@@ -27,7 +27,7 @@ export const withRaces = Page => {
 		for (const item of racesResponse.items) {
 			const entry = {
 				sys: {
-					id: item.sys.id
+					id: item.sys.id,
 				},
 				data: {
 					title: item.fields.title,
@@ -44,12 +44,12 @@ export const withRaces = Page => {
 					terrain: item.fields.terrain,
 					year: moment(item.fields.raceDate).format("YYYY"),
 					calendarOnly: item.fields.calendarOnly,
-					website: item.fields.website
-				}
+					website: item.fields.website,
+				},
 			};
 
 			if (item.fields.icon) {
-				entry.data.icon = racesResponse.includes.Asset.find(obj => {
+				entry.data.icon = racesResponse.includes.Asset.find((obj) => {
 					return obj.sys.id === item.fields.icon.sys.id;
 				});
 			}
@@ -67,11 +67,11 @@ export const withRaces = Page => {
 			races.push(entry);
 		}
 
-		races = races.filter(race => race.data.slug !== "covid-19-updates");
+		races = races.filter((race) => race.data.slug !== "covid-19-updates");
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
-			races
+			races,
 		};
 	};
 

@@ -3,19 +3,11 @@ import App from "next/app";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
-import smoothscroll from "smoothscroll-polyfill";
 
-if (typeof window !== "undefined") {
-	// kick off the polyfill!
-	smoothscroll.polyfill();
-}
-
-if (process.env.NODE_ENV === "production") {
-	Sentry.init({
-		dsn: process.env.SENTRY_DSN,
-		release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
-	});
-}
+Sentry.init({
+	dsn: process.env.SENTRY_DSN,
+	release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
+});
 
 class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {

@@ -9,7 +9,7 @@ import * as Sentry from "@sentry/browser";
 
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
-import { fetchUser } from "../../utils/user";
+import { fetchUser } from "../../lib/user";
 import Page from "../../components/shared/page";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
