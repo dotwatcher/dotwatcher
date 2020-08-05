@@ -134,6 +134,10 @@ class ResultsTable extends React.Component {
 
 		let filteredResults = this.props.results;
 
+		if (this.props.type === "profile") {
+			filteredResults = filteredResults.sort((a, b) => b.year - a.year);
+		}
+
 		if (this.props.type !== "profile") {
 			filteredResults = filteredResults.filter(
 				result => result.class === this.state.activeClassFilter
