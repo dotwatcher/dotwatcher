@@ -35,7 +35,7 @@ const Div = styled.div`
 	}
 
 	line#limit {
-		stroke: #fed966;
+		stroke: var(--blue);
 		stroke-width: 3;
 		stroke-dasharray: 3 6;
 	}
@@ -424,11 +424,12 @@ class App extends React.Component {
 					.attr("y", y - tooltipHeight)
 					.attr("class", `tooltip-text-${x}`)
 					.attr("opacity", 1)
-					.text(
+					.html(
+						// No idea why the dx has to be so odd. need to look at again
 						d => `
-							Year: ${year},
-							Distance: ${format(distance)},
-							Total : ${format(runningTotal)}
+							<tspan dx='1em' dy='1.2em'>Year: ${year}</tspan>
+							<tspan dx='-4.8em' dy='1.2em'>Distance: ${format(distance)}</tspan>
+							<tspan dx='-7.8em' dy='1.2em'>Total: ${format(runningTotal)}</tspan>
 						`
 					);
 			})
