@@ -8,7 +8,7 @@ import fetch from "isomorphic-fetch";
 export const WithEntries = Page => {
 	const WithEntries = props => <Page {...props} />;
 
-	WithEntries.getInitialProps = async ({ query: { slug } }) => {
+	WithEntries.getInitialProps = async ({ query: { slug, reverse } }) => {
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -18,7 +18,7 @@ export const WithEntries = Page => {
 			content_type: vars.content_type.posts,
 			"fields.race.sys.contentType.sys.id": vars.content_type.categories,
 			"fields.race.fields.slug": slug,
-			order: "-sys.createdAt",
+			order: reverse ? "sys.createdAt" : "-sys.createdAt",
 			include: 3
 		};
 

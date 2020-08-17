@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Pusher from "pusher-js";
 import React from "react";
 import { createClient } from "contentful";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Button from "../../components/shared/button";
 import SocialIcons from "../../components/shared/social-icons";
@@ -20,6 +20,9 @@ import Community from "../../components/community";
 import Wrapper from "../../components/shared/wrapper";
 import vars from "../../data/api-vars";
 import { WithEntries } from "../../data/with-entries";
+import Link from "next/link";
+import { compose } from "recompose";
+import { withRouter } from "next/router";
 
 const H1 = styled.h1`
 	${tachyons}
@@ -41,6 +44,21 @@ const A = styled.a`
 
 const Div = styled.div`
 	${tachyons}
+`;
+
+const OrderButtons = styled.div`
+	display: flex;
+`;
+const OrderButton = styled(Button)`
+	${({ selected }) =>
+		selected
+			? css`
+					background: var(--blue);
+			  `
+			: css`
+					background: transparent;
+					color: var(--near_black);
+			  `}
 `;
 
 const Notification = styled(Button)`
@@ -363,6 +381,29 @@ class Race extends React.Component {
 					) : null}
 					<Feed id="posts">
 						{newPostsNotification}
+
+						<OrderButtons>
+							<Link
+								href="/race/[slug]?reverse=true"
+								as={`/race/${this.props.router.query.slug}?reverse=true`}
+								passHref
+							>
+								<OrderButton selected={this.props.router.query.reverse}>
+									Oldest First
+								</OrderButton>
+							</Link>
+
+							<Link
+								href="/race/[slug]"
+								as={`/race/${this.props.router.query.slug}`}
+								passHref
+							>
+								<OrderButton selected={!this.props.router.query.reverse}>
+									Newest First
+								</OrderButton>
+							</Link>
+						</OrderButtons>
+
 						{this.props.posts.map((item, index) => {
 							if (index <= this.state.skip) {
 								return (
@@ -411,4 +452,6 @@ Race.propTypes = {
 	raceImage: PropTypes.string.isRequired
 };
 
-export default WithEntries(Race);
+const enhance = compose(WithEntries, withRouter);
+
+export default enhance(Race);
