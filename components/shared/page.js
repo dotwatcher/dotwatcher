@@ -6,7 +6,7 @@ import EmailSignUp from "../Newsletter";
 import { initGA, logPageView } from "../../utils/analytics";
 import mq from "../../utils/media-query";
 import Cookies from "js-cookie";
-import { UserProvider } from "../../utils/user";
+import { UserProvider } from "../../lib/user";
 
 const Wrapper = styled.div`
 	${tachyons}
