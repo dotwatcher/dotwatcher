@@ -48,12 +48,17 @@ const Div = styled.div`
 
 const OrderButtons = styled.div`
 	display: flex;
+	justify-content: space-evenly;
+	padding: 30px 0;
 `;
-const OrderButton = styled(Button)`
+const OrderButton = styled.a`
+	padding: 15px 30px;
+
 	${({ selected }) =>
 		selected
 			? css`
 					background: var(--blue);
+					color: var(--white);
 			  `
 			: css`
 					background: transparent;
@@ -388,7 +393,7 @@ class Race extends React.Component {
 								as={`/race/${this.props.router.query.slug}?reverse=true`}
 								passHref
 							>
-								<OrderButton selected={this.props.router.query.reverse}>
+								<OrderButton selected={!!this.props.router.query.reverse}>
 									Oldest First
 								</OrderButton>
 							</Link>
