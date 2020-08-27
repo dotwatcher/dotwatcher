@@ -8,22 +8,6 @@ const Grid = styled.div`
 	@media screen and (min-width: 64em) {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-
-		${props =>
-			props.count === 1 &&
-			css`
-				div:first-child {
-					grid-column: 1 / span 3;
-				}
-			`}
-
-		${props =>
-			props.count > 2 &&
-			css`
-				div:nth-child(3) {
-					grid-column: 1 / span 3;
-				}
-			`}
 	}
 	${tachyons}
 `;

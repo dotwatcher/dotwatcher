@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import tachyons from "styled-components-tachyons";
 import moment from "moment";
 import Link from "next/link";
@@ -81,12 +81,21 @@ const InfoWrap = styled.div`
 `;
 
 const HomepagePrimary = ({ block, index, count }) => {
-	let span = "inherit";
-	if (index === 0 && count === 3) {
-		span = "1 / span 3";
-	}
 	const Race = styled.div`
-		grid-column: ${span};
+		${count === 1 &&
+			css`
+				&:first-child {
+					grid-column: 1 / span 3;
+				}
+			`}
+
+		${count > 2 &&
+			css`
+				&:nth-child(1) {
+					grid-column: 1 / span 3;
+				}
+			`}
+
 		margin: 0;
 
 		&.primary {
