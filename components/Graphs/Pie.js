@@ -88,6 +88,7 @@ const createGraph = ({ re, data }) => {
 
 export default ({ data }) => {
 	const nationalities = data.map(d => d.nationality).filter(n => n);
+	const nullValues = data.map(d => d.nationality).filter(n => !n);
 	var counts = {};
 
 	nationalities.forEach(x => {
@@ -107,8 +108,13 @@ export default ({ data }) => {
 
 	return (
 		<div>
-			<h4>Nationality</h4>
+			<h3>Nationality</h3>
+
 			<div className="graph-entry"></div>
+
+			{nullValues.length > 0 && (
+				<p>* {nullValues.length} entrants have no registered nationality</p>
+			)}
 		</div>
 	);
 };
