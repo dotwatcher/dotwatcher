@@ -7,7 +7,6 @@ export default ({ data }) => {
 
   return (
     <div>
-      <h3>Gender</h3>
       <p>Male: {percentage(male)}</p>
       <p>Female: {percentage(female)}</p>
       {other > 0 && <p>N/A: {percentage(other)}</p>}

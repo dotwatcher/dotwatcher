@@ -100,7 +100,7 @@ export default ({ data }) => {
 		value: counts[c]
 	}));
 
-	if (sumData.length <= 1) return null;
+	if (sumData.length < 1) return null;
 
 	useEffect(() => {
 		createGraph({ data: sumData });
@@ -108,8 +108,6 @@ export default ({ data }) => {
 
 	return (
 		<div>
-			<h3>Nationality</h3>
-
 			<div className="graph-entry"></div>
 
 			{nullValues.length > 0 && (
