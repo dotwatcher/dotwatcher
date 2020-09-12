@@ -98,9 +98,7 @@ export default ({
 					}
 
 					{meta("biography") && (
-						<P mt2 mt0_l>
-							{meta("biography")}
-						</P>
+						<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
 					)}
 
 					<div>
