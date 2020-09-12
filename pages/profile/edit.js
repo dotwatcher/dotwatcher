@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
@@ -57,7 +57,16 @@ const inputs = [
 	}
 ];
 
-const Profile = ({ user, meta, handleSubmit, ...props }) => {
+const Profile = ({ user, meta, handleSubmit, setValues, values, ...props }) => {
+	const [biographyValue, setBigoraphyValue] = useState(
+		props.values && props.values.biography
+	);
+
+	const handleBiographyChange = async content => {
+		await setBigoraphyValue(content);
+		await setValues({ ...values, biography: biographyValue });
+	};
+
 	return (
 		<Fragment>
 			<Head>
@@ -75,7 +84,13 @@ const Profile = ({ user, meta, handleSubmit, ...props }) => {
 					<ProfileHeader meta={meta} user={user} />
 
 					<Form w_100 dib onSubmit={handleSubmit}>
-						<FormInputs meta={meta} inputs={inputs} {...props} />
+						<FormInputs
+							meta={meta}
+							inputs={inputs}
+							biographyValue={biographyValue}
+							setBiographyValue={handleBiographyChange}
+							{...props}
+						/>
 					</Form>
 				</Div>
 
@@ -141,6 +156,7 @@ const enhance = compose(
 Profile.getInitialProps = async ({ req, res }) => {
 	if (typeof window === "undefined") {
 		const session = await auth0.getSession(req);
+
 		if (!session || !session.user) {
 			if (process.env.NODE_ENV === "production") {
 				console.log("Unable to get session ", session);

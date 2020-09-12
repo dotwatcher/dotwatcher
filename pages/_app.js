@@ -4,6 +4,7 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
+import "react-quill/dist/quill.snow.css";
 
 if (typeof window !== "undefined") {
 	// kick off the polyfill!

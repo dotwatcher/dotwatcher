@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import isAfter from "date-fns/is_after";
 import getYear from "date-fns/get_year";
-import { user } from "../../../utils/auth";
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Input = styled.input`
 	${tachyons}
@@ -74,6 +76,8 @@ export default ({
 	isValid,
 	status,
 	races,
+	biographyValue,
+	setBiographyValue,
 	meta = {}
 }) => {
 	const futureRaces = races.filter(race =>
@@ -125,22 +129,11 @@ export default ({
 					<Span dib w_100 f4 mb1>
 						Biography
 					</Span>
-					<BiographyInput
-						name="biography"
-						value={values?.biography}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						placeholder="Bio"
-						input_reset
-						ba
-						bw1
-						b__blue
-						ph3
-						pv2
-						mb3
-						f4
-						fl
-						w_100
+
+					<ReactQuill
+						theme="snow"
+						value={biographyValue}
+						onChange={setBiographyValue}
 					/>
 				</label>
 			</div>
