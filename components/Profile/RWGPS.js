@@ -34,7 +34,7 @@ const RWGPSProfile = ({ auth0Profile, name }) => {
 		try {
 			const { data } = await Axios({
 				method: "get",
-				url: `/api/rwgps/user/${auth0Profile.user_metadata.rwgps.userID}?rideLimit=10`,
+				url: `/api/rwgps/user/${auth0Profile.user_metadata.rwgps.userID}?rideLimit=5`,
 				headers: {
 					"x-rwgps-token": auth0Profile.user_metadata.rwgps.authToken
 				}
