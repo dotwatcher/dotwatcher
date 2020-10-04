@@ -1,10 +1,32 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { AccordionItem } from "../../components/UI/Accordion";
 import { format } from "date-fns";
-import { formatDuration } from "date-fns";
+import styled from "styled-components";
 
-const RWGPSProfile = ({ auth0Profile, ...props }) => {
+import { AccordionItem } from "../../components/UI/Accordion";
+import { secondsToHours, averageSpeed } from "../../utils/journey-metrics";
+
+const RidesList = styled.ul`
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+`;
+
+const Ride = styled.li`
+	padding-bottom: var(--spacing-small);
+
+	border-top: var(--gray) 1px solid;
+`;
+
+const P = styled.p``;
+
+const Flex = styled.section`
+	display: flex;
+	justify-content: space-around;
+	background: var(--light-gray);
+`;
+
+const RWGPSProfile = ({ auth0Profile, name }) => {
 	const [profile, setprofile] = useState(false);
 
 	const fetchProfile = async auth0Profile => {
@@ -12,7 +34,7 @@ const RWGPSProfile = ({ auth0Profile, ...props }) => {
 		try {
 			const { data } = await Axios({
 				method: "get",
-				url: `/api/rwgps/user/${auth0Profile.user_metadata.rwgps.userID}`,
+				url: `/api/rwgps/user/${auth0Profile.user_metadata.rwgps.userID}?rideLimit=10`,
 				headers: {
 					"x-rwgps-token": auth0Profile.user_metadata.rwgps.authToken
 				}
@@ -41,43 +63,68 @@ const RWGPSProfile = ({ auth0Profile, ...props }) => {
 
 			{user && (
 				<a target="_blank" href={`https://ridewithgps.com/users/${user.id}`}>
-					View {user.name} profile
+					Go to {name}'s full profile
 				</a>
 			)}
 
 			{rides && (
 				<>
-					<h3>Latest rides</h3>
+					<h3>Recent rides</h3>
 
-					<ul>
-						{rides.results.map((ride, id) => (
-							<li>
-								<p>
+					<RidesList>
+						{rides.results.map(ride => (
+							<Ride key={ride.id}>
+								<div>
+									<div>
+										<P>
+											<span>
+												{format(
+													new Date(ride.departed_at),
+													"MMM Do YYYY h:mma"
+												)}
+											</span>{" "}
+											<spam>
+												{ride.locality}, {ride.country_code}
+											</spam>
+										</P>
+									</div>
+
+									<Flex>
+										<P>{(ride.distance / 1000).toFixed(2)} km</P>
+										<P>{ride.elevation_gain.toFixed()} meters elevation</P>
+
+										<P>{secondsToHours(ride.moving_time)}</P>
+
+										<P>
+											{averageSpeed({
+												distance: ride.distance,
+												time: ride.moving_time,
+												returnFormat: "kph"
+											}).toFixed(1)}{" "}
+											km/h
+										</P>
+									</Flex>
+								</div>
+
+								<P>
 									<a
 										href={`https://ridewithgps.com/trips/${ride.id}`}
 										target="_blank"
 									>
 										View full route
 									</a>
-								</p>
+								</P>
 
-								<p>
-									{format(new Date(ride.departed_at), "h:mm a, MMM Do YYYY ")}
-								</p>
-
-								<p>{(ride.distance / 1000).toFixed(2)} km</p>
-								<p>{ride.elevation_gain.toFixed()} meters</p>
-
-								<p>{ride.moving_time}</p>
-								<p>
-									{formatDuration(
-										{ seconds: ride.moving_time },
-										{ format: ["hours", "seconds"] }
-									)}
-								</p>
-							</li>
+								{/*	<div>
+									<iframe
+										src={`https://ridewithgps.com/embeds?type=trip&id=${ride.id}&metricUnits=true`}
+										style="width: 1px; min-width: 100%; height: 550px; border: none;"
+										scrolling="no"
+									></iframe>
+							< /div> */}
+							</Ride>
 						))}
-					</ul>
+					</RidesList>
 				</>
 			)}
 		</AccordionItem>
