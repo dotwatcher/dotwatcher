@@ -103,21 +103,18 @@ const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props })
 						disconnectRWGPS={disconnectRWGPS}
 					/>
 
-					{meta && !meta.user_metadata?.rwgps && (
-						<Div bw1 b__blue ba mb4 ph3>
-							<p>
-								We are updating how Dotwatcher talks to Ride With GPS, to stay
-								up to date with the latest features and to make sure your
-								account will have the most functionality, you can link
-								Dotwatcher.cc to Ride With GPS above.
-							</p>
+					<Div bw1 b__blue ba mb4 ph3>
+						<p>
+							We are updating how Dotwatcher talks to Ride With GPS, to stay up
+							to date with the latest features and to make sure your account
+							will have the most functionality, you can link Dotwatcher.cc to
+							Ride With GPS above.
+						</p>
 
-							<p>
-								By [date here] we will be removing the Ride With GPS field
-								below.
-							</p>
-						</Div>
-					)}
+						<p>
+							By [date here] we will be removing the Ride With GPS field below.
+						</p>
+					</Div>
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<FormInputs
