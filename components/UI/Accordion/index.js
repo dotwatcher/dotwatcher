@@ -67,8 +67,8 @@ const accordionItem = ({ id, title, children, iconColor, isOpen }, ref) => {
 				<SButton
 					onClick={() => setContentVisible(!isContentVisible)}
 					toggleVisibility={() => toggleVisibility()}
-					aria-controls={`content-${elementId}`}
-					aria-expanded={isContentVisible}
+					ariaControls={`content-${elementId}`}
+					ariaExpanded={isContentVisible}
 					id={`control-${elementId}`}
 					isContentVisible={isContentVisible}
 				>
@@ -77,9 +77,9 @@ const accordionItem = ({ id, title, children, iconColor, isOpen }, ref) => {
 			</AccordionTitle>
 			{isContentVisible && (
 				<ContentContainer
-					aria-hidden={!isContentVisible}
+					ariaHidden={!isContentVisible}
 					isContentVisible={isContentVisible}
-					id={`content-${id}`}
+					id={`content-${elementId}`}
 				>
 					{children}
 				</ContentContainer>

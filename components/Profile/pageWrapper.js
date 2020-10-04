@@ -3,7 +3,7 @@ import Header from "../header";
 import Page from "../shared/page";
 import Footer from "../footer";
 
-export default ({ children, name, user }) => (
+const PageWrapper = ({ children, name, user }) => (
 	<Page>
 		<Head>
 			<title>{name}’s race results - DotWatcher.cc</title>
@@ -47,3 +47,5 @@ export default ({ children, name, user }) => (
 		<Footer />
 	</Page>
 );
+
+export default PageWrapper;

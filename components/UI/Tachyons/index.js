@@ -28,6 +28,14 @@ export const Button = styled.button`
 export const Div = styled.div`
 	${tachyons}
 `;
+export const Input = styled.input`
+	${tachyons}
+`;
+
+export const Form = styled.form`
+	${tachyons}
+`;
+
 export const Span = styled.span`
 	${tachyons}
 `;

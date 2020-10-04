@@ -25,7 +25,7 @@ const P = styled.p`
 	${tachyons}
 `;
 
-export default props => {
+const ProfileStats = props => {
 	if (!props.auth0Profile) {
 		const handleClick = e => {
 			e.preventDefault();
@@ -73,3 +73,5 @@ export default props => {
 		</Div>
 	);
 };
+
+export default ProfileStats;

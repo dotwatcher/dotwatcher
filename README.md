@@ -82,3 +82,5 @@ A Auth0 can only be assigned to a single rider profile. When a user "claims" a D
 Once a user has claimed a profile, they are able to update specific details of theres. These are saved in Auth0 as metadata on the user profile and are requested via the [Auth0 Management API](https://auth0.com/docs/api/management/v2).
 
 The user profile is automatically assigned if signed up via Google or Facebook. Alternatively a user can set their own profile via image upload. The asset is uploaded to [Cloudinary](https://cloudinary.com/), and if successfull the returned data is set in the users Auth0 profile. See [this example](https://cloudinary.com/blog/how_to_build_an_image_library_with_react_cloudinary) for reference.
+
+## API

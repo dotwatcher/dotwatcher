@@ -7,12 +7,14 @@ import Router from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import mq from "../../utils/media-query";
+
 import sanitizeName from "../../utils/sanitize-name";
 import getNationalFlag from "../../utils/get-national-flag";
 import ProfileDetails from "../../components/Profile/Details";
 import ProfileStats from "../../components/Profile/Stats";
 import ProfileAwards from "../../components/Profile/Awards";
+import ProfileRWGPS from "../../components/Profile/RWGPS";
+import Modal, { ModalWrapper } from "../../components/UI/Modal";
 import awards from "../../lib/awards";
 import { totalDistanceOfRaces } from "../../utils/distance";
 
@@ -57,42 +59,6 @@ const A = styled.a`
 
 const P = styled.p`
 	${tachyons}
-`;
-
-const ClaimModal = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	z-index: 2;
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
-	align-items: center;
-
-	&:before {
-		content: "";
-		display: inline-block;
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-		background-color: rgba(62, 62, 62, 0.7);
-	}
-`;
-
-const ClaimWrapper = styled.div`
-	grid-column: 2 / span 10;
-	padding: var(--spacing-large);
-	z-index: 1;
-	background: var(--white);
-	position: relative;
-
-	${mq.mdUp`
-		grid-column: 3 / span 8;
-		padding: var(--spacing-extra-large);
-	`}
 `;
 
 const App = ({ profile, name, user, auth0Profile, races }) => {
@@ -265,6 +231,10 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							/>
 						</AccordionItem>
 
+						{!!auth0Profile.user_metadata?.rwgps && (
+							<ProfileRWGPS auth0Profile={auth0Profile} />
+						)}
+
 						<AccordionItem id="stats" title="Latest Results" isOpen>
 							<ResultsTable
 								type="profile"
@@ -278,8 +248,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 			</Div>
 
 			{claimToggle && (
-				<ClaimModal>
-					<ClaimWrapper>
+				<Modal>
+					<ModalWrapper>
 						<p>
 							By claiming this profile you agree that the information is correct
 							and you are the person you say you are. Dotwatcher has the right
@@ -335,8 +305,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						>
 							Cancel
 						</P>
-					</ClaimWrapper>
-				</ClaimModal>
+					</ModalWrapper>
+				</Modal>
 			)}
 		</PageWrapper>
 	);

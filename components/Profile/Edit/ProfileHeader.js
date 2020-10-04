@@ -26,6 +26,11 @@ const PictureThumb = styled.img`
 	max-width: 200px;
 `;
 
+const ButtonsWrapper = styled(Div)`
+	display: flex;
+	justify-content: space-between;
+`;
+
 const getProfilePicture = ({ meta }) => {
 	if (!meta) return "/static/empty-profile.png";
 
@@ -40,10 +45,12 @@ const getProfilePicture = ({ meta }) => {
 	return "/static/empty-profile.png";
 };
 
-export default ({ meta, user }) => {
+export default ({ meta, user, setshowConnectAccount, disconnectRWGPS }) => {
 	const profilePicture = getProfilePicture({ meta });
 
 	const [preview, setPreview] = useState(profilePicture);
+
+	const toggleRWGPSConnect = () => setshowConnectAccount(true);
 
 	const uploadWidget = () => {
 		cloudinary.openUploadWidget(
@@ -84,58 +91,106 @@ export default ({ meta, user }) => {
 					Update Profile Image
 				</A>
 			</Div>
-			<Div mt3 bt bw1 b__light_gray pt4 mt4>
-				{meta && meta.user_metadata?.name ? (
-					<Link
-						href={`/profile/${meta.user_metadata.name}`}
-						passHref
-					>
-						<A>
-							<Button
-								f4
-								bg_blue
-								hover_bg_dark_blue
-								w_
-								pv2
-								tc
-								white
-								ttl
-								small_caps
-								ba
-								bw1
-								b__blue
-								dib
-								pointer
-							>
-								View my profile
-							</Button>
-						</A>
-					</Link>
-				) : (
-					<Link href={`/results`} passHref>
-						<A>
-							<Button
-								f4
-								bg_blue
-								hover_bg_dark_blue
-								w_
-								pv2
-								tc
-								white
-								ttl
-								small_caps
-								ba
-								bw1
-								b__blue
-								dib
-								pointer
-							>
-								← Find my Profile
-							</Button>
-						</A>
-					</Link>
-				)}
-			</Div>
+
+			<ButtonsWrapper mt3 bt bw1 b__light_gray pt4 mt4>
+				<Div>
+					{meta && meta.user_metadata?.name ? (
+						<Link
+							href={`/profile?name=${meta.user_metadata.name}`}
+							as={`/profile/${meta.user_metadata.name}`}
+							passHref
+						>
+							<A>
+								<Button
+									f4
+									bg_blue
+									hover_bg_dark_blue
+									w_
+									pv2
+									tc
+									white
+									ttl
+									small_caps
+									ba
+									bw1
+									b__blue
+									dib
+									pointer
+								>
+									View my profile
+								</Button>
+							</A>
+						</Link>
+					) : (
+						<Link href={`/results`} passHref>
+							<A>
+								<Button
+									f4
+									bg_blue
+									hover_bg_dark_blue
+									w_
+									pv2
+									tc
+									white
+									ttl
+									small_caps
+									ba
+									bw1
+									b__blue
+									dib
+									pointer
+								>
+									← Find my Profile
+								</Button>
+							</A>
+						</Link>
+					)}
+				</Div>
+
+				<Div>
+					{meta && !meta.user_metadata?.rwgps ? (
+						<Button
+							f4
+							bg_blue
+							hover_bg_dark_blue
+							w_
+							pv2
+							tc
+							white
+							ttl
+							small_caps
+							ba
+							bw1
+							b__blue
+							dib
+							pointer
+							onClick={toggleRWGPSConnect}
+						>
+							Connect RideWithGPS Account
+						</Button>
+					) : (
+						<Button
+							f4
+							bg_blue
+							hover_bg_dark_blue
+							w_
+							pv2
+							tc
+							white
+							ttl
+							small_caps
+							ba
+							bw1
+							b__blue
+							dib
+							pointer
+							onClick={disconnectRWGPS}
+						>
+							Disconnect RideWithGPS Account
+						</Button>
+					)}
+				</Div>
+			</ButtonsWrapper>
 		</Div>
 	);
 };

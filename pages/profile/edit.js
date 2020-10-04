@@ -6,14 +6,20 @@ import tachyons from "styled-components-tachyons";
 import Head from "next/head";
 import * as Yup from "yup";
 import * as Sentry from "@sentry/browser";
+import Router from "next/router";
 
+import User from "../../utils/auth/user";
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
 import { fetchUser } from "../../utils/user";
 import Page from "../../components/shared/page";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { ProfileHeader, FormInputs } from "../../components/Profile/Edit";
+import {
+	ProfileHeader,
+	FormInputs,
+	RideWithGPSConnection
+} from "../../components/Profile/Edit";
 
 import { user as userAPI } from "../../utils/auth";
 import mq from "../../utils/media-query";
@@ -60,9 +66,20 @@ const inputs = [
 const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props }) => {
 	const [biographyValue, setBigoraphyValue] = useState(meta.user_metadata ? meta.user_metadata.biography : '');
 
+	const [showConnectAccount, setshowConnectAccount] = useState(false);
+
 	const handleBiographyChange = async content => {
 		await setBigoraphyValue(content);
-		await setValues({ ...values, biography: biographyValue });
+		await setValues({ ...values, biography: content });
+	};
+
+	const disconnectRWGPS = async () => {
+		await User.update({
+			id: user.user.sub,
+			data: { ...meta.user_metadata, rwgps: false }
+		});
+
+		Router.reload(window.location.pathname);
 	};
 
 	return (
@@ -79,7 +96,28 @@ const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props })
 				<Div mt3 ml3 mr4 mt4_l mh6_l>
 					<h1>Profile</h1>
 
-					<ProfileHeader meta={meta} user={user} />
+					<ProfileHeader
+						meta={meta}
+						user={user}
+						setshowConnectAccount={setshowConnectAccount}
+						disconnectRWGPS={disconnectRWGPS}
+					/>
+
+					{meta && !meta.user_metadata?.rwgps && (
+						<Div bw1 b__blue ba mb4 ph3>
+							<p>
+								We are updating how Dotwatcher talks to Ride With GPS, to stay
+								up to date with the latest features and to make sure your
+								account will have the most functionality, you can link
+								Dotwatcher.cc to Ride With GPS above.
+							</p>
+
+							<p>
+								By [date here] we will be removing the Ride With GPS field
+								below.
+							</p>
+						</Div>
+					)}
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<FormInputs
@@ -91,6 +129,14 @@ const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props })
 						/>
 					</Form>
 				</Div>
+
+				{showConnectAccount && (
+					<RideWithGPSConnection
+						user={user}
+						meta={meta}
+						setshowConnectAccount={setshowConnectAccount}
+					/>
+				)}
 
 				<Footer />
 			</Page>
