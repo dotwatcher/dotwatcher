@@ -1,4 +1,4 @@
-import { getUserFromCredentials } from "../../../utils/rwgps";
+import { getUserFromCredentials } from "../../../../utils/rwgps";'
 
 export default async (req, res) => {
 	switch (req.method.toLowerCase()) {
