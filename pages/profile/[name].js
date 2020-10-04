@@ -88,7 +88,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 					setLoggedIn({
 						...me.data,
-						user_metadata: profile.data.user_metadata
+						user_metadata: profile.data && profile.data.user_metadata
 					});
 				}
 			} catch (error) {
