@@ -231,7 +231,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							/>
 						</AccordionItem>
 
-						{!!auth0Profile.user_metadata?.rwgps && (
+						{auth0Profile && auth0Profile.user_metadata?.rwgps && (
 							<ProfileRWGPS auth0Profile={auth0Profile} name={name} />
 						)}
 
