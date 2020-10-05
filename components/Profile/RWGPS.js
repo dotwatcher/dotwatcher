@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { AccordionItem } from "../../components/UI/Accordion";
 import { secondsToHours, averageSpeed } from "../../utils/journey-metrics";
 
+import { A, P } from "../../components/UI/Tachyons";
+
 const RidesList = styled.ul`
 	list-style-type: none;
 	padding: 0;
@@ -13,12 +15,9 @@ const RidesList = styled.ul`
 `;
 
 const Ride = styled.li`
-	padding-bottom: var(--spacing-small);
-
+	padding-bottom: var(--spacing-medium);
 	border-top: var(--gray) 1px solid;
 `;
-
-const P = styled.p``;
 
 const Flex = styled.section`
 	display: flex;
@@ -62,9 +61,14 @@ const RWGPSProfile = ({ auth0Profile, name }) => {
 			{profile.loading && <p>Fetching profile...</p>}
 
 			{user && (
-				<a target="_blank" href={`https://ridewithgps.com/users/${user.id}`}>
+				<A
+					target="_blank"
+					href={`https://ridewithgps.com/users/${user.id}`}
+					black
+					hover_blue
+				>
 					Go to {name}'s full profile
-				</a>
+				</A>
 			)}
 
 			{rides && (
@@ -83,9 +87,20 @@ const RWGPSProfile = ({ auth0Profile, name }) => {
 													"MMM Do YYYY h:mma"
 												)}
 											</span>{" "}
-											<spam>
+											<span>
 												{ride.locality}, {ride.country_code}
-											</spam>
+											</span>
+											{". "}
+											<span>
+												<A
+													href={`https://ridewithgps.com/trips/${ride.id}`}
+													target="_blank"
+													black
+													hover_blue
+												>
+													View full route
+												</A>
+											</span>
 										</P>
 									</div>
 
@@ -105,15 +120,6 @@ const RWGPSProfile = ({ auth0Profile, name }) => {
 										</P>
 									</Flex>
 								</div>
-
-								<P>
-									<a
-										href={`https://ridewithgps.com/trips/${ride.id}`}
-										target="_blank"
-									>
-										View full route
-									</a>
-								</P>
 
 								{/*	<div>
 									<iframe
