@@ -173,9 +173,9 @@ export default ({
 								<div>
 									{meta("races") &&
 										meta("races").map(race => {
-											const { website, title, raceDate } = getRaceByID(
-												race
-											).data;
+											const idRace = getRaceByID(race);
+											if (!idRace) return null;
+											const { website, title, raceDate } = idRace.data;
 											return (
 												<A near_black hover_blue href={website} target="_blank">
 													<p key={race}>
