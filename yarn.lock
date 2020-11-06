@@ -1941,10 +1941,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-auth0@^2.21.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/auth0/-/auth0-2.27.0.tgz#613b62e5cdbda695645dc632f88c30c0e7b73b92"
-  integrity sha512-xDWH9uK+wc8NSoiA11pKKzInX1IlI8fHy4ViEmP5INI5Ee2cUq70QUfdvjcabOKzi6qHGqpQL5QC02Q/SLP3Tg==
+auth0@^2.27.1:
+  version "2.27.1"
+  resolved "https://registry.yarnpkg.com/auth0/-/auth0-2.27.1.tgz#a9bcc766a4c89e12893092611c66d25f9313f6c9"
+  integrity sha512-RpjH7jCSR3YydqK18aXwXUJG5nZfg0Z31Uwp6g9TKtFZG5v79ogwrt+yNYPzV6IgDZH2c7ADSjkeOO75MSCvqg==
   dependencies:
     axios "^0.19.2"
     bluebird "^3.5.5"
