@@ -99,8 +99,7 @@ class Long extends Component {
 				) : null}
 				<H1 f2 fw6 lh_title mt0>
 					<Link
-						href={`/post?id=${this.props.id}`}
-						as={`/post/${this.props.id}`}
+						href={`/post/${this.props.id}`}
 						passHref
 					>
 						<A link near_black hover_blue>

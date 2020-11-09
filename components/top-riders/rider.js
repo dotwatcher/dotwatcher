@@ -35,8 +35,7 @@ const Rider = ({ rider, numbered, position }) => {
 			<RiderName fl f6>
 				{numbered ? `${position}. ` : null}
 				<Link
-					href={`/profile?name=${numberlessName}`}
-					as={`/profile/${numberlessName}`}
+					href={`/profile/${numberlessName}`}
 					passHref
 				>
 					<A

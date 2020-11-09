@@ -157,7 +157,7 @@ class ContentPage extends React.Component {
 										image: BodyImage
 									}}
 								/>
-								<Link href="/about" as="/about" passHref>
+								<Link href="/about" passHref>
 									<A link near_black hover_blue>
 										Learn more »
 									</A>

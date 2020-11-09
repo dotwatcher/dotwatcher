@@ -37,6 +37,7 @@ const ContentBlock = ({ block, feature }) => {
 	if (block.layout === "Image") {
 		const imageData = block.image.fields;
 		imageData.description = block.words;
+		
 		return (
 			<Div mh3 mh4_m ml5_l>
 				<Image data={block.image.fields} />

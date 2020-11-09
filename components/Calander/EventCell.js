@@ -98,7 +98,7 @@ const Event = ({
 				{children}
 			</A>
 		) : (
-			<Link passHref href={`/race?slug=${slug}`} as={`/race/${slug}`}>
+			<Link passHref href={`/race/${slug}`}>
 				<A {...props}>{children}</A>
 			</Link>
 		);

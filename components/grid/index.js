@@ -4,6 +4,7 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import widont from "../../utils/widont";
 import Link from "next/link";
+import Image from '../NextImage'
 
 const Div = styled.div`
 	${tachyons}
@@ -72,8 +73,7 @@ const Grid = ({ blocks }) => {
 
 						return (
 							<Link
-								href={`/feature?slug=${block.feature}`}
-								as={`/feature/${block.feature}`}
+								href={`/feature/${block.feature}`}
 								passHref
 							>
 								<A db link near_black hover_blue key={block.sys.id}>
@@ -86,9 +86,11 @@ const Grid = ({ blocks }) => {
 					return (
 						<Route key={block.sys.id} absoluteURL={block.link}>
 							<Div>
-								<Img
-									mw_100
-									src={`${block.image.fields.file.url}?w=800&h=500&fit=fill&q=60`}
+								<Image
+									height={600}
+									src={block.image.fields.file.url}
+									alt={block.heading}
+									title={block.heading}
 								/>
 							</Div>
 							{i < 2 ? (
@@ -108,7 +110,7 @@ const Grid = ({ blocks }) => {
 						</Route>
 					);
 				})}
-				<Link href="/features" as="/features" passHref>
+				<Link href="/features" passHref>
 					<A
 						lh_solid
 						f4

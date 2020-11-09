@@ -7,6 +7,7 @@ import Link from "next/link";
 import Placeholder from "../placeholder";
 import widont from "../../utils/widont";
 import Section from "./section";
+import Image from '../NextImage'
 
 const A = styled.a`
 	${tachyons}
@@ -68,18 +69,12 @@ const RacePreview = ({ data }) => {
 		<Div className="with-divider cf">
 			<RaceFigure ma0 pa0 fl ph3>
 				<Link
-					href={`/race?slug=${data.slug}`}
-					as={`/race/${data.slug}`}
+					href={`/race/${data.slug}`}
 					passHref
 				>
 					<a>
 						{data.icon ? (
-							<Img
-								mw_100
-								srcSet={`${data.icon.fields.file.url}?w=600&h=150&fm=jpg&q=50 768w, ${data.icon.fields.file.url}?w=1200&h=1200&fm=jpg&q=50 769w`}
-								src={`${data.icon.fields.file.url}?w=1200&h=1200&fm=jpg&q=50`}
-								alt={data.icon.fields.description}
-							/>
+							<Image width={300} height={300} src={data.icon.fields.file.url}	alt={data.icon.fields.description} 	title={data.icon.fields.description} />
 						) : (
 							<Placeholder w_100 h_100 pv6 bg_light_gray />
 						)}
@@ -88,8 +83,7 @@ const RacePreview = ({ data }) => {
 			</RaceFigure>
 			<Div fl_ns ph3 w_50_m w_60_l mb4>
 				<Link
-					href={`/race?slug=${data.slug}`}
-					as={`/race/${data.slug}`}
+					href={`/race/${data.slug}`}
 					passHref
 				>
 					<A link near_black>
@@ -174,8 +168,7 @@ const RacePreview = ({ data }) => {
 										<ResultsCell f6 lh_copy fw6>
 											{i + 1}.&nbsp;
 											<Link
-												href={`/profile?name=${result.Rider}`}
-												as={`/profile/${result.Rider}`}
+												href={`/profile/${result.Rider}`}
 												passHref
 											>
 												<A
@@ -200,8 +193,7 @@ const RacePreview = ({ data }) => {
 						</tbody>
 					</Results>
 					<Link
-						href={`/results?year=${data.year}&race=${data.title}`}
-						as={`/results/${data.year}/${data.title}`}
+						href={`/results/${data.year}/${data.title}`}
 						passHref
 					>
 						<A link near_black f6 fw6 db>

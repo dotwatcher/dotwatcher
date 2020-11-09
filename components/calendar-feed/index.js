@@ -66,7 +66,7 @@ const RaceCalendar = ({ races }) => {
 								</Date>
 							</A>
 						) : (
-							<Link href={link.href} as={link.as} passHref>
+							<Link href={link.href} passHref>
 								<A
 									link
 									near_black

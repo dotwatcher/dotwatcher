@@ -1,4 +1,5 @@
-import NextDocument, { Head, Main, NextScript } from "next/document";
+
+import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from "styled-components";
 import React from "react";
 
@@ -27,7 +28,7 @@ export default class Document extends NextDocument {
 
 	render() {
 		return (
-			<html>
+			<Html>
 				<Head>
 					{this.props.styleTags}
 					<link rel="stylesheet" href="/static/index.css" />
@@ -35,10 +36,7 @@ export default class Document extends NextDocument {
 						name="description"
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 					/>
-					<meta
-						name="viewport"
-						content="initial-scale=1.0, width=device-width"
-					/>
+				
 					<link
 						rel="icon"
 						type="image/png"
@@ -78,7 +76,7 @@ export default class Document extends NextDocument {
 					<Main />
 					<NextScript />
 				</body>
-			</html>
+			</Html>
 		);
 	}
 }

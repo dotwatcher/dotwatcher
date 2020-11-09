@@ -139,7 +139,7 @@ const Banner = ({ title, raceName, race, user }) => {
 							Features
 						</A>
 					</Link>
-					<Link href="/about" as="/about" passHref>
+					<Link href="/about" passHref>
 						<A
 							dib
 							pt3
@@ -158,7 +158,7 @@ const Banner = ({ title, raceName, race, user }) => {
 					</Link>
 
 					{loggedIn ? (
-						<Link href="/profile/edit" as="/profile/edit" passHref>
+						<Link href="/profile/edit" passHref>
 							<A
 								dib
 								pt3

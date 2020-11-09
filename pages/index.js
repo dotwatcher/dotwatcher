@@ -17,8 +17,6 @@ import Page from "../components/shared/page";
 import { withHomepage } from "../data/with-homepage";
 import Link from "next/link";
 
-import { AUTH0_CALLBACK_DOMAIN } from "../utils/contstants";
-
 const Div = styled.div`
 	p {
 		margin: 0;
@@ -43,6 +41,7 @@ const Home = ({ page, user }) => {
 		block => block.layout === "Carousel slide"
 	);
 	const grid = gridBlocks.length ? <Grid blocks={gridBlocks} /> : null;
+	
 	const blocksWithoutSlides = page.blocks
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
@@ -124,7 +123,7 @@ const Home = ({ page, user }) => {
 									link: AutoEmbed
 								}}
 							/>
-							<Link href="/about" as="/about" passHref>
+							<Link href="/about" passHref>
 								<A link underline white hover_near_black mt3 db>
 									Learn more »
 								</A>
@@ -134,9 +133,8 @@ const Home = ({ page, user }) => {
 				</Div>
 
 				{grid}
-				{blocksWithoutSlides.map(block => {
-					return <ContentBlock key={block.sys.id} block={block} />;
-				})}
+
+				{blocksWithoutSlides.map(block => <ContentBlock key={block.sys.id} block={block} /> )}
 			</Div>
 			<Footer />
 		</Page>

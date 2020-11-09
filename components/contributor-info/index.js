@@ -29,7 +29,7 @@ const ContributorInfo = ({ contributor }) => {
   return (
     <ContributorWrap mh3 mh6_ns>
       <Contributor f4 mt4 mh3 bg_near_white measure>
-        <Link href={`/contributor?name=${contributor.slug}`} as={`/contributor/${contributor.slug}`} passHref >
+        <Link href={`/contributor/${contributor.slug}`} passHref >
           <A db link near_black>
             <Figure w3 dib v_mid>
               <Img img db bg_light_gray br_100

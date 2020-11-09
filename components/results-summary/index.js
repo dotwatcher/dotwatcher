@@ -52,8 +52,7 @@ const ResultsSummary = ({ race, filtered }) => {
 							key={index}
 						>
 							<Link
-								href={`/results?year=${event.year}&race=${event.slug}`}
-								as={`/results/${event.year}/${event.slug}`}
+								href={`/results/${event.year}/${event.slug}`}
 								passHref
 							>
 								<A db pa2 link near_black data-id={event.id}>

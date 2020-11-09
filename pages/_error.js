@@ -145,8 +145,7 @@ const ErrorPage = ({ features }) => {
 						{articles.map((article, key) => (
 							<Link
 								key={key}
-								href={`/feature?slug=${article.data.slug}`}
-								as={`/feature/${article.data.slug}`}
+								href={`/feature/${article.data.slug}`}
 								passHref
 							>
 								<Feautre

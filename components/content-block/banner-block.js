@@ -184,8 +184,7 @@ const HomepagePrimary = ({ block, index, count }) => {
 				className={`cf ${index === 0 && count % 2 ? "primary" : "secondary"}`}
 			>
 				<Link
-					href={`/race?slug=${block.race.fields.slug}`}
-					as={`/race/${block.race.fields.slug}`}
+					href={`/race/${block.race.fields.slug}`}
 					passHref
 				>
 					<A link db bg={block.image.fields.file.url}>
@@ -215,8 +214,7 @@ const HomepagePrimary = ({ block, index, count }) => {
 		return (
 			<Div mh4_m mb4 mb5_ns className="cf">
 				<Link
-					href={`/feature?slug=${block.feature}`}
-					as={`/feature/${block.feature}`}
+					href={`/feature/${block.feature}`}
 					passHref
 				>
 					<A db cover bg_center bg={block.image.fields.file.url} className="cf">

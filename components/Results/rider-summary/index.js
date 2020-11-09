@@ -45,8 +45,7 @@ const RiderSummary = ({ riders = [] }) => (
 				id={rider.id}
 			>
 				<Link
-					href={`/profile?name=${rider.name}`}
-					as={`/profile/${rider.name}`}
+					href={`/profile/${rider.name}`}
 					passHref
 				>
 					<A link near_black>

@@ -24,27 +24,7 @@ import Link from "next/link";
 import { compose } from "recompose";
 import { withRouter } from "next/router";
 
-const H1 = styled.h1`
-	${tachyons}
-`;
-
-const H2 = styled.h2`
-	${tachyons}
-`;
-
-const P = styled.p`
-	${tachyons}
-`;
-const Span = styled.span`
-	${tachyons}
-`;
-const A = styled.a`
-	${tachyons}
-`;
-
-const Div = styled.div`
-	${tachyons}
-`;
+import {H1, H2, P, Span, A, Div } from '../../components/UI/Tachyons'
 
 const OrderButtons = styled.div`
 	display: flex;
@@ -389,8 +369,7 @@ class Race extends React.Component {
 
 						<OrderButtons>
 							<Link
-								href="/race/[slug]?reverse=true"
-								as={`/race/${this.props.router.query.slug}?reverse=true`}
+								href={`/race/${this.props.router.query.slug}?reverse=true`}
 								passHref
 							>
 								<OrderButton selected={!!this.props.router.query.reverse}>
@@ -399,8 +378,7 @@ class Race extends React.Component {
 							</Link>
 
 							<Link
-								href="/race/[slug]"
-								as={`/race/${this.props.router.query.slug}`}
+								href={`/race/${this.props.router.query.slug}`}
 								passHref
 							>
 								<OrderButton selected={!this.props.router.query.reverse}>

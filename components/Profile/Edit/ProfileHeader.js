@@ -87,8 +87,7 @@ export default ({ meta, user }) => {
 			<Div mt3 bt bw1 b__light_gray pt4 mt4>
 				{meta && meta.user_metadata?.name ? (
 					<Link
-						href={`/profile?name=${meta.user_metadata.name}`}
-						as={`/profile/${meta.user_metadata.name}`}
+						href={`/profile/${meta.user_metadata.name}`}
 						passHref
 					>
 						<A>

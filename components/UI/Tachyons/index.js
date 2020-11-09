@@ -28,3 +28,6 @@ export const Button = styled.button`
 export const Div = styled.div`
 	${tachyons}
 `;
+export const Span = styled.span`
+	${tachyons}
+`;

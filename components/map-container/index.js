@@ -91,8 +91,7 @@ class MapContainer extends Component {
 					/>
 					<Tips absolute_l z_2 tc>
 						<Link
-							href={`/page?id=6CO2ZfSWlyOkcQsG62iGaE`}
-							as="/page/6CO2ZfSWlyOkcQsG62iGaE"
+							href="/page/6CO2ZfSWlyOkcQsG62iGaE"
 							passHref
 						>
 							<A

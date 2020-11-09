@@ -76,8 +76,7 @@ class PostPage extends React.Component {
 				/>
 				<PostWrapper fl w_100 w_50_l pa4>
 					<Link
-						href={`/race?slug=${this.props.posts[0].data.categories.fields.slug}`}
-						as={`/race/${this.props.posts[0].data.categories.fields.slug}`}
+						href={`/race/${this.props.posts[0].data.categories.fields.slug}`}
 						passHref
 					>
 						<A near_black f6 href="#">
