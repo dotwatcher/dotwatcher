@@ -11,7 +11,13 @@ module.exports = withSourceMaps({
     loader: 'default',
   },
 	webpack: (config, { isServer }) => {
-		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
+    config.plugins.push(new webpack.EnvironmentPlugin(process.env));
+    
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'react-dom$': 'react-dom/profiling',
+      'scheduler/tracing': 'scheduler/tracing-profiling',
+    }
 
 		return config;
 	}
