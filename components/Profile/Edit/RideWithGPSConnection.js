@@ -38,11 +38,15 @@ const RWGPSConnection = ({
 	return (
 		<Modal>
 			<ModalWrapper>
-				<h2>Connect your RideWithGPS Account</h2>
+				<h2>Connect your Ride With GPS Account</h2>
 
 				<p>
-					Enter your details for RideWithGPS to pair your account with
+					Enter your details for Ride With GPS to pair your account with
 					dotwatcher.cc.
+				</p>
+
+				<p>
+					If you have forgotten your password, head over to <a href="https://ridewithgps.com/" target="_blank">Ride With GPS</a> to reset it.
 				</p>
 
 				{status && (
