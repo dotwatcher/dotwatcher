@@ -55,9 +55,13 @@ class MyApp extends App {
 			}
 		};
 
-		this.setState({
-			user: await user()
-		});
+		const status = await user()
+
+		if (status.loggedIn) {	
+			this.setState({
+				user: status
+			});
+		}
 	}
 
 	componentDidCatch(error, errorInfo) {
