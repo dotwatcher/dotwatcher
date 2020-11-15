@@ -77,7 +77,7 @@ export default ({ meta, user, setshowConnectAccount, disconnectRWGPS }) => {
 	};
 
 	return (
-		<Div mb4 bb bw1 pb4_ns b__light_gray>
+		<Div mb4 bb bw1 pb4 b__light_gray>
 			{preview && <PictureThumb src={preview} alt="Thumnail" />}
 			<Div mt3>
 				<A
@@ -92,7 +92,7 @@ export default ({ meta, user, setshowConnectAccount, disconnectRWGPS }) => {
 				</A>
 			</Div>
 
-			<ButtonsWrapper mt3 bt bw1 b__light_gray pt4 mt4>
+			<ButtonsWrapper bt bw1 b__light_gray pt4 mt4>
 				<Div>
 					{meta && meta.user_metadata?.name ? (
 						<Link
