@@ -42,3 +42,7 @@ export const Span = styled.span`
 export const Header = styled.header`
 	${tachyons}
 `;
+
+export const Image = styled.img`
+	${tachyons}
+`;

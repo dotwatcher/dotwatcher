@@ -14,14 +14,17 @@ const SButton = styled.button`
 	align-items: center;
 	background-color: transparent;
 	border-color: transparent;
-
 	background-repeat: no-repeat;
 	padding-left: var(--spacing-large);
 
 	background-image: ${({ isContentVisible }) =>
 		isContentVisible
 			? 'url("/static/icons/down-arrow.svg")'
-			: 'url("/static/icons/up-arrow.svg")'};
+		: 'url("/static/icons/up-arrow.svg")'};
+			
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 const ContentContainer = styled.div`
@@ -30,8 +33,6 @@ const ContentContainer = styled.div`
 	${({ isContentVisible }) =>
 		isContentVisible ? "display: block;" : "display: none;"}
 `;
-
-const AccordionTitle = styled(H3)``;
 
 const Item = styled.li`
 	& + & {
@@ -63,7 +64,7 @@ const accordionItem = ({ id, title, children, iconColor, isOpen }, ref) => {
 
 	return (
 		<Item ref={ref}>
-			<AccordionTitle>
+			<H3>
 				<SButton
 					onClick={() => setContentVisible(!isContentVisible)}
 					toggleVisibility={() => toggleVisibility()}
@@ -74,7 +75,7 @@ const accordionItem = ({ id, title, children, iconColor, isOpen }, ref) => {
 				>
 					{title}
 				</SButton>
-			</AccordionTitle>
+			</H3>
 			{isContentVisible && (
 				<ContentContainer
 					ariaHidden={!isContentVisible}

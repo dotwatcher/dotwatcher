@@ -3,6 +3,7 @@ import Axios from "axios";
 import { format } from "date-fns";
 import styled from "styled-components";
 
+import { Image , Div } from '../../components/UI/Tachyons'
 import { AccordionItem } from "../../components/UI/Accordion";
 import { secondsToHours, averageSpeed } from "../../utils/journey-metrics";
 
@@ -23,6 +24,12 @@ const Flex = styled.section`
 	display: flex;
 	justify-content: space-around;
 	background: var(--light-gray);
+`;
+
+const UserName = styled(Div)`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
 
 const RWGPSProfile = ({ auth0Profile, name }) => {
@@ -60,17 +67,21 @@ const RWGPSProfile = ({ auth0Profile, name }) => {
 		<AccordionItem id="RWGPS" title="Ride With GPS">
 			{profile.loading && <p>Fetching profile...</p>}
 
-			{user && (
-				<A
+			<UserName>
+				{user && (
+					<A
 					target="_blank"
 					href={`https://ridewithgps.com/users/${user.id}`}
 					black
 					hover_blue
-				>
+					>
 					Go to {name}'s full profile
-				</A>
-			)}
-
+					</A>
+					)}
+					
+				<Image src="https://images.ctfassets.net/6hyijb95boju/5n5lVR7jKaaJeH9YEt16Gv/f7cf005d6b6e5b957549816bcc898618/RWGPS_horizontal-logo_226.png?w=100" alt={`Go to ${name}'s full profile`} title={`Go to ${name}'s full profile`} />
+			</UserName>
+			
 			{rides && (
 				<>
 					<h3>Recent rides</h3>
