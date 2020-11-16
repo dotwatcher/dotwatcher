@@ -58,11 +58,11 @@ const inputs = [
 ];
 
 const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props }) => {
-	const [biographyValue, setBigoraphyValue] = useState(false);
+	const [biographyValue, setBigoraphyValue] = useState('');
 
-	meta.user_metadata && useEffect(() => {
-		setBigoraphyValue(meta.user_metadata.biography)
-	})
+	// meta.user_metadata && useEffect(() => {
+	// 	setBigoraphyValue(meta.user_metadata.biography)
+	// })
 
 	const handleBiographyChange = async content => {
 		await setBigoraphyValue(content);
