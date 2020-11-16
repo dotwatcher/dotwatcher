@@ -39,7 +39,7 @@ let eventColors = [
 
 const CalanderPage = ({ races = [], router, user }) => {
 
-	const [ year, month ] = router.query.params;
+	const [year, month] = router.query.params || [];
 
 	// new Date month arguement is index of month, similar to array index's, December === month 12 - 1 for index
 	const date = year && month ? new Date(year, month - 1) : Date.now();
