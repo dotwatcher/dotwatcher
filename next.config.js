@@ -44,7 +44,7 @@ module.exports = withSourceMaps({
    async headers() {
     return [
       {
-        source: "/api/:params*",
+        source: "/api/*",
         headers: [
           {
             key: "Access-Control-Allow-Origin",
