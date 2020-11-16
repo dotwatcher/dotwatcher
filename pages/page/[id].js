@@ -6,18 +6,18 @@ import ReactMarkdown from "react-markdown";
 import shortcodes from "remark-shortcodes";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Embed from "../components/embed";
-import AutoEmbed from "../components/embed/auto";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import ContentBlock from "../components/content-block";
-import Grid from "../components/grid";
-import Banner from "../components/content-block/banner";
-import Page from "../components/shared/page";
-import { withPage } from "../data/with-page";
-import widont from "../utils/widont";
+import Embed from "../../components/embed";
+import AutoEmbed from "../../components/embed/auto";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import ContentBlock from "../../components/content-block";
+import Grid from "../../components/grid";
+import Banner from "../../components/content-block/banner";
+import Page from "../../components/shared/page";
+import { withPage } from "../../data/with-page";
+import widont from "../../utils/widont";
 import Link from "next/link";
-import BodyImage from "../components/image/markdown";
+import BodyImage from "../../components/image/markdown";
 
 const Div = styled.div`
 	p {

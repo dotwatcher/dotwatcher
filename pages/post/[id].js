@@ -4,13 +4,14 @@ import Head from "next/head";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Header from "../components/header";
 import Link from "next/link";
-import Page from "../components/shared/page";
-import SocialIcons from "../components/shared/social-icons";
-import Post from "../components/post";
-import { withEntry } from "../data/with-entry";
-import MapContainer from "../components/map-container";
+
+import Header from "../../components/header";
+import Page from "../../components/shared/page";
+import SocialIcons from "../../components/shared/social-icons";
+import Post from "../../components/post";
+import { withEntry } from "../../data/with-entry";
+import MapContainer from "../../components/map-container";
 
 const PostWrapper = styled.div`
 	@media screen and (min-width: 64em) {
