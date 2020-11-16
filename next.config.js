@@ -42,15 +42,23 @@ module.exports = withSourceMaps({
     return riders;
   },
    async headers() {
-     return [
+    return [
       {
-        source: "/api/(.*)",
+        source: "/api/:params*",
         headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          { key: "Access-Control-Allow-Headers", value: "Origin, X-Requested-With, Content-Type, Accept" },
-          { key: "Access-Control-Allow-Credentials", value: "true"}
-        ],
-        continue: true
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*"
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Origin, X-Requested-With, Content-Type, Accept"
+          },
+          {
+            key: "Access-Control-Allow-Credentials",
+            value: "true"
+          }
+        ]
 		  }
     ];
   },
