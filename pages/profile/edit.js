@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { compose } from "recompose";
 import { withFormik } from "formik";
 import styled from "styled-components";
@@ -57,10 +57,12 @@ const inputs = [
 	}
 ];
 
-const Profile = ({ user, meta, handleSubmit, setValues, values, ...props }) => {
-	const [biographyValue, setBigoraphyValue] = useState(
-		meta.user_metadata && meta.user_metadata.biography
-	);
+const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props }) => {
+	const [biographyValue, setBigoraphyValue] = useState(false);
+
+	useEffect(() => {
+		meta.user_metadata && setBigoraphyValue(meta.user_metadata.biography)
+	})
 
 	const handleBiographyChange = async content => {
 		await setBigoraphyValue(content);
