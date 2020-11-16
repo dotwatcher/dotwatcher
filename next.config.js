@@ -41,6 +41,19 @@ module.exports = withSourceMaps({
 
     return riders;
   },
+   async headers() {
+     return [
+      {
+        src: "/api/(.*)",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Headers", value: "Origin, X-Requested-With, Content-Type, Accept" },
+          { key: "Access-Control-Allow-Credentials", value: "true"}
+        ],
+        continue: true
+		  }
+    ];
+  },
 	webpack: (config, { isServer }) => {
     config.plugins.push(new webpack.EnvironmentPlugin(process.env));
     
