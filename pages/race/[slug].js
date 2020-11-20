@@ -1,7 +1,7 @@
 import Head from "next/head";
 import PropTypes from "prop-types";
 import Pusher from "pusher-js";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createClient } from "contentful";
 import styled, { css } from "styled-components";
 import tachyons from "styled-components-tachyons";
@@ -65,28 +65,48 @@ const pusher = new Pusher(process.env.PUSHER_KEY, {
 });
 const channel = pusher.subscribe("dotwatcher");
 
-class Race extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			skip: 5,
-			loading: false,
-			newPost: false,
-			newPostIDs: [],
-			activeTab: "feed"
-		};
+const Race = (props) => {
+	const [state, setState] = useState({
+		skip: 5,
+		loading: false,
+		newPost: false,
+		newPostIDs: [],
+		activeTab: "feed"
+	})
 
-		this.setActiveTab = this.setActiveTab.bind(this);
-	}
 
-	setActiveTab(tab) {
-		this.setState({
-			activeTab: tab
+	console.log('adasdsadsa')
+	useEffect(() => {
+		if (location.hash === "#chat") {
+			setActiveTab("community");
+		}
+
+		channel.bind("new-post", newPostEvent => {
+			const isNewPost =
+				props.posts.find(obj =>  obj.sys.id === newPostEvent.post) === undefined;
+
+			if (newPostEvent.category === props.raceID && isNewPost) {
+				setState(prev => ({
+					...prev,
+					newPost: true,
+					newPostIDs: [newPostEvent.post, ...state.newPostIDs]
+				}));
+			}
 		});
+
+		() => channel.unbind("new-post")
+	}, [])
+
+	const setActiveTab = tab => {
+		setState(prev => ({
+			...prev,
+			activeTab: tab
+		}));
 	}
 
-	async fetchPosts(id) {
-		this.setState({ loading: true });
+	const fetchPosts = async (id) => {
+		setState(prev => ({ ...prev, loading: true }));
+
 		const client = createClient({
 			space: vars.space,
 			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -117,312 +137,290 @@ class Race extends React.Component {
 				});
 			}
 
-			this.props.posts.unshift(entry);
+			props.posts.unshift(entry);
 		}
-		await this.setState({
+		await setState(prev => ({
+			...prev, 
 			loading: false
-		});
+		}));
 	}
 
-	componentDidMount() {
-		if (location.hash === "#chat") {
-			this.setActiveTab("community");
-		}
-
-		channel.bind("new-post", newPostEvent => {
-			const isNewPost =
-				this.props.posts.find(obj => {
-					return obj.sys.id === newPostEvent.post;
-				}) === undefined;
-
-			if (newPostEvent.category === this.props.raceID && isNewPost) {
-				this.setState({
-					newPost: true,
-					newPostIDs: [newPostEvent.post, ...this.state.newPostIDs]
-				});
-			}
-		});
+	const showNextPageOfPosts = () => {
+		setState(prevState => ({ ...prevState, skip: state.skip + 5 }));
 	}
 
-	showNextPageOfPosts() {
-		this.setState(prevState => ({ ...prevState, skip: this.state.skip + 5 }));
-	}
+	const loadPost = () => {
+		state.newPostIDs.forEach(postID => fetchPosts(postID));
 
-	loadPost() {
-		this.state.newPostIDs.forEach(postID => {
-			this.fetchPosts(postID);
-		});
-		this.setState({
+		setState({
 			newPost: false,
 			newPostIDs: []
 		});
 	}
 
-	render() {
-		const KeyEventsWrapper = styled.div`
-			@media screen and (max-width: 30em) {
-				&:after {
-					content: "";
-					border-top: 0.125rem solid var(--light-gray);
-					position: absolute;
-					width: calc(100% - 2 * var(--spacing-medium));
-					bottom: 0;
-					left: var(--spacing-medium);
-					height: var(--spacing-medium);
-				}
+	const KeyEventsWrapper = styled.div`
+		@media screen and (max-width: 30em) {
+			&:after {
+				content: "";
+				border-top: 0.125rem solid var(--light-gray);
+				position: absolute;
+				width: calc(100% - 2 * var(--spacing-medium));
+				bottom: 0;
+				left: var(--spacing-medium);
+				height: var(--spacing-medium);
 			}
-
-			@media screen and (min-width: 64em) {
-				margin-left: ${this.props.trackleadersID ? "40%" : 0};
-			}
-			${tachyons}
-		`;
-
-		const Feed = styled.div`
-			display: ${this.state.activeTab === "feed" ? "block" : "none"};
-			${tachyons}
-		`;
-		const CommunityWrap = styled.div`
-			display: ${this.state.activeTab === "community" ? "block" : "none"};
-			${tachyons}
-		`;
-
-		const morePostsButton = (
-			<Button
-				db
-				w5
-				loading={this.state.loading}
-				onClick={this.showNextPageOfPosts.bind(this)}
-			>
-				{this.state.loading ? "Loading..." : "Load more posts"}
-			</Button>
-		);
-
-		let morePosts = null;
-		if (this.props.totalPosts > this.state.skip) {
-			morePosts = morePostsButton;
-		} else if (this.props.posts.length === 0) {
-			morePosts = null;
-		} else {
-			morePosts = (
-				<H1 mt3 tc moon_gray tracked ttu i>
-					Fin
-				</H1>
-			);
 		}
 
-		let newPostsNotification = null;
-		const updateMessageQualifier =
-			this.state.newPostIDs.length > 1 ? "updates" : "update";
-		if (this.state.newPost) {
-			newPostsNotification = (
-				<Notification
-					fixed
-					z_1
-					loading={this.state.loading}
-					onClick={this.loadPost.bind(this)}
-					href="#posts"
-				>
-					{this.state.loading
-						? `Loading...`
-						: `${this.state.newPostIDs.length} new ${updateMessageQualifier}`}
-				</Notification>
-			);
+		@media screen and (min-width: 64em) {
+			margin-left: ${props.trackleadersID ? "40%" : 0};
 		}
+		${tachyons}
+	`;
 
-		return (
-			<Page>
-				<Head>
-					<title>{this.props.raceName} – DotWatcher.cc</title>
-					<meta
-						property="og:title"
-						content={`${this.props.raceName} – DotWatcher.cc`}
-					/>
-					<meta
-						property="og:description"
-						content={
-							this.props.race.fields.shortDescription
-								? this.props.race.fields.shortDescription
-								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-						}
-					/>
-					<meta property="og:image" content={this.props.raceImage} />
-					<meta name="twitter:card" content="summary" />
-					<meta name="twitter:site" content="@dotwatcher" />
-					<meta name="twitter:creator" content="@dotwatcher" />
-					<meta
-						name="twitter:title"
-						content={`${this.props.raceName} – DotWatcher.cc`}
-					/>
-					<meta
-						name="twitter:description"
-						content={
-							this.props.race.fields.shortDescription
-								? this.props.race.fields.shortDescription
-								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-						}
-					/>
-					<meta name="twitter:image" content={this.props.raceImage} />
-					<meta
-						name="description"
-						content={
-							this.props.race.fields.shortDescription
-								? this.props.race.fields.shortDescription
-								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-						}
-					/>
-					<meta name="twitter:label1" content="Location" />
-					<meta
-						name="twitter:data1"
-						content={this.props.race.fields.location}
-					/>
-					<meta name="twitter:label2" content="Length" />
-					<meta name="twitter:data2" content={this.props.race.fields.length} />
-					<script src="//www.instagram.com/embed.js" />
-				</Head>
-				<Header
-					user={this.props.user}
-					title="dotwatcher.cc"
-					raceName={this.props.raceName}
-					race={this.props.race}
-				/>
-				{this.props.trackleadersID ? (
-					<MapContainer raceID={this.props.trackleadersID} />
-				) : null}
-				<KeyEventsWrapper
-					fl
-					ph3
-					ph4_ns
-					pb2
-					w_100
-					w_30_m
-					w_20_l
-					mt4_l
-					relative
-					id="events-wrap"
-				>
-					{this.props.race.fields.leaderboard === true && (
-						<DynamicTopRiders race={this.props.race} />
-					)}
+	const Feed = styled.div`
+		display: ${state.activeTab === "feed" ? "block" : "none"};
+		${tachyons}
+	`;
+	const CommunityWrap = styled.div`
+		display: ${state.activeTab === "community" ? "block" : "none"};
+		${tachyons}
+	`;
 
-					{this.props.race.fields.staticLeaderboard && (
-						<StaticTopRiders race={this.props.race} />
-					)}
+	const morePostsButton = (
+		<Button
+			db
+			w5
+			loading={state.loading}
+			onClick={showNextPageOfPosts}
+		>
+			{state.loading ? "Loading..." : "Load more posts"}
+		</Button>
+	);
 
-					{this.props.race.fields.whatsAppId && (
-						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
-							<header>
-								<H2
-									ttu
-									tracked
-									f5
-									fw6
-									mt0
-									pb1
-									bb
-									bw1
-									b__light_gray
-									measure_narrow
-								>
-									Join the Conversation on WhatsApp
-								</H2>
-
-								<A
-									link
-									near_black
-									hover_blue
-									underline
-									href={`https://chat.whatsapp.com/${this.props.race.fields.whatsAppId}`}
-									target="_blank"
-								>
-									Click Here
-								</A>
-							</header>
-						</Div>
-					)}
-
-					<FactFile race={this.props.race} />
-
-					<KeyEvents posts={this.props.posts} skip={this.state.skip} />
-				</KeyEventsWrapper>
-
-				<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
-					{this.props.race.fields.discourseId && this.props.replies ? (
-						<React.Fragment>
-							<Tabs
-								setActiveTabFeed={() => this.setActiveTab("feed")}
-								setActiveTabCommunity={() => this.setActiveTab("community")}
-								activeTab={this.state.activeTab}
-								count={this.props.replies}
-								promo={this.props.race.fields.chatPromo}
-							/>
-							<CommunityWrap>
-								<Community
-									id={this.props.race.fields.discourseId}
-									active={this.state.activeTab === "community"}
-								/>
-							</CommunityWrap>
-						</React.Fragment>
-					) : null}
-					<Feed id="posts">
-						{newPostsNotification}
-
-						<OrderButtons>
-							<Link
-								href={`/race/${this.props.router.query.slug}?reverse=true`}
-								passHref
-							>
-								<OrderButton selected={!!this.props.router.query.reverse}>
-									Oldest First
-								</OrderButton>
-							</Link>
-
-							<Link
-								href={`/race/${this.props.router.query.slug}`}
-								passHref
-							>
-								<OrderButton selected={!this.props.router.query.reverse}>
-									Newest First
-								</OrderButton>
-							</Link>
-						</OrderButtons>
-
-						{this.props.posts.map((item, index) => {
-							if (index <= this.state.skip) {
-								return (
-									<Post
-										key={item.sys.id}
-										id={item.sys.id}
-										data={item.data}
-										index={index}
-									/>
-								);
-							}
-						})}
-						{morePosts}
-						<P measure lh_copy f6 silver>
-							If you would like to get in touch email us at{" "}
-							<A
-								link
-								gray
-								underline
-								hover_blue
-								href="mailto:info@dotwatcher.cc"
-							>
-								info@dotwatcher.cc
-							</A>
-						</P>
-						<P measure f6 silver>
-							<Span silver dib mr2 v_btm>
-								Follow along at
-							</Span>{" "}
-							<SocialIcons size="1" colour="gray" />
-						</P>
-					</Feed>
-				</Wrapper>
-			</Page>
+	let morePosts = null;
+	if (props.totalPosts > state.skip) {
+		morePosts = morePostsButton;
+	} else if (props.posts.length === 0) {
+		morePosts = null;
+	} else {
+		morePosts = (
+			<H1 mt3 tc moon_gray tracked ttu i>
+				Fin
+			</H1>
 		);
 	}
+
+	let newPostsNotification = null;
+	const updateMessageQualifier =
+		state.newPostIDs.length > 1 ? "updates" : "update";
+	if (state.newPost) {
+		newPostsNotification = (
+			<Notification
+				fixed
+				z_1
+				loading={state.loading}
+				onClick={loadPost}
+				href="#posts"
+			>
+				{state.loading
+					? `Loading...`
+					: `${state.newPostIDs.length} new ${updateMessageQualifier}`}
+			</Notification>
+		);
+	}
+
+	return (
+		<Page>
+			<Head>
+				<title>{props.raceName} – DotWatcher.cc</title>
+				<meta
+					property="og:title"
+					content={`${props.raceName} – DotWatcher.cc`}
+				/>
+				<meta
+					property="og:description"
+					content={
+						props.race.fields.shortDescription
+							? props.race.fields.shortDescription
+							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					}
+				/>
+				<meta property="og:image" content={props.raceImage} />
+				<meta name="twitter:card" content="summary" />
+				<meta name="twitter:site" content="@dotwatcher" />
+				<meta name="twitter:creator" content="@dotwatcher" />
+				<meta
+					name="twitter:title"
+					content={`${props.raceName} – DotWatcher.cc`}
+				/>
+				<meta
+					name="twitter:description"
+					content={
+						props.race.fields.shortDescription
+							? props.race.fields.shortDescription
+							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					}
+				/>
+				<meta name="twitter:image" content={props.raceImage} />
+				<meta
+					name="description"
+					content={
+						props.race.fields.shortDescription
+							? props.race.fields.shortDescription
+							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					}
+				/>
+				<meta name="twitter:label1" content="Location" />
+				<meta
+					name="twitter:data1"
+					content={props.race.fields.location}
+				/>
+				<meta name="twitter:label2" content="Length" />
+				<meta name="twitter:data2" content={props.race.fields.length} />
+				<script src="//www.instagram.com/embed.js" />
+			</Head>
+			<Header
+				user={props.user}
+				title="dotwatcher.cc"
+				raceName={props.raceName}
+				race={props.race}
+			/>
+			{props.trackleadersID ? (
+				<MapContainer raceID={props.trackleadersID} />
+			) : null}
+			<KeyEventsWrapper
+				fl
+				ph3
+				ph4_ns
+				pb2
+				w_100
+				w_30_m
+				w_20_l
+				mt4_l
+				relative
+				id="events-wrap"
+			>
+				{props.race.fields.leaderboard === true && (
+					<DynamicTopRiders race={props.race} />
+				)}
+
+				{props.race.fields.staticLeaderboard && (
+					<StaticTopRiders race={props.race} />
+				)}
+
+				{props.race.fields.whatsAppId && (
+					<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
+						<header>
+							<H2
+								ttu
+								tracked
+								f5
+								fw6
+								mt0
+								pb1
+								bb
+								bw1
+								b__light_gray
+								measure_narrow
+							>
+								Join the Conversation on WhatsApp
+							</H2>
+
+							<A
+								link
+								near_black
+								hover_blue
+								underline
+								href={`https://chat.whatsapp.com/${props.race.fields.whatsAppId}`}
+								target="_blank"
+							>
+								Click Here
+							</A>
+						</header>
+					</Div>
+				)}
+
+				<FactFile race={props.race} />
+
+				<KeyEvents posts={props.posts} skip={state.skip} />
+			</KeyEventsWrapper>
+
+			<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
+				{props.race.fields.discourseId && props.replies ? (
+					<React.Fragment>
+						<Tabs
+							setActiveTabFeed={() => setActiveTab("feed")}
+							setActiveTabCommunity={() => setActiveTab("community")}
+							activeTab={state.activeTab}
+							count={props.replies}
+							promo={props.race.fields.chatPromo}
+						/>
+						<CommunityWrap>
+							<Community
+								id={props.race.fields.discourseId}
+								active={state.activeTab === "community"}
+							/>
+						</CommunityWrap>
+					</React.Fragment>
+				) : null}
+				<Feed id="posts">
+					{newPostsNotification}
+
+					<OrderButtons>
+						<Link
+							href={`/race/${props.router.query.slug}?reverse=true`}
+							passHref
+						>
+							<OrderButton selected={!!props.router.query.reverse}>
+								Oldest First
+							</OrderButton>
+						</Link>
+
+						<Link
+							href={`/race/${props.router.query.slug}`}
+							passHref
+						>
+							<OrderButton selected={!props.router.query.reverse}>
+								Newest First
+							</OrderButton>
+						</Link>
+					</OrderButtons>
+
+					{props.posts.map((item, index) => {
+						if (index <= state.skip) {
+							return (
+								<Post
+									key={item.sys.id}
+									id={item.sys.id}
+									data={item.data}
+									index={index}
+								/>
+							);
+						}
+					})}
+					{morePosts}
+					<P measure lh_copy f6 silver>
+						If you would like to get in touch email us at{" "}
+						<A
+							link
+							gray
+							underline
+							hover_blue
+							href="mailto:info@dotwatcher.cc"
+						>
+							info@dotwatcher.cc
+						</A>
+					</P>
+					<P measure f6 silver>
+						<Span silver dib mr2 v_btm>
+							Follow along at
+						</Span>{" "}
+						<SocialIcons size="1" colour="gray" />
+					</P>
+				</Feed>
+			</Wrapper>
+		</Page>
+	);
 }
 
 Race.propTypes = {

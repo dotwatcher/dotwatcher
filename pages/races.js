@@ -22,7 +22,7 @@ const Div = styled.div`
 	${tachyons}
 `;
 
-class App extends Component {
+class Races extends Component {
 	render() {
 		const currentRaces = this.props.races.filter(
 			race =>
@@ -101,12 +101,12 @@ class App extends Component {
 	}
 }
 
-App.propTypes = {
+Races.propTypes = {
 	races: PropTypes.array
 };
 
-App.defaultProps = {
+Races.defaultProps = {
 	races: []
 };
 
-export default withRaces(App);
+export default withRaces(Races);

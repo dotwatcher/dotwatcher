@@ -40,9 +40,7 @@ const H3 = styled.h3`
 const A = styled.a`
 	${tachyons}
 `;
-const Img = styled.img`
-	${tachyons}
-`;
+
 const RelatedGrid = styled.div`
 	display: grid;
 	grid-gap: var(--spacing-medium);
@@ -136,6 +134,8 @@ class FeaturePage extends React.Component {
 			identifier: this.props.feature.id,
 			title: this.props.feature.title
 		};
+
+
 		return (
 			<Page>
 				<Head>
