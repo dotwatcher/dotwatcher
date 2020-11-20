@@ -9,7 +9,7 @@ import Button from "../../components/shared/button";
 import SocialIcons from "../../components/shared/social-icons";
 import Header from "../../components/header";
 import KeyEvents from "../../components/key-events";
-import MapContainer from "../../components/map-container";
+import MapContainer from "../../components/MapContainer";
 import Page from "../../components/shared/page";
 import Post from "../../components/post";
 import StaticTopRiders from "../../components/top-riders/static";
@@ -23,6 +23,7 @@ import { WithEntries } from "../../data/with-entries";
 import Link from "next/link";
 import { compose } from "recompose";
 import { withRouter } from "next/router";
+import mq from "../../utils/media-query";
 
 import {H1, H2, P, Span, A, Div } from '../../components/UI/Tachyons'
 
@@ -58,6 +59,26 @@ const Notification = styled(Button)`
 	}
 `;
 
+const Flex = styled.div`
+
+	${mq.mdUp`
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+	`}
+`;
+
+const Map = styled.div`
+	${mq.mdUp`
+		grid-column: 1 / span 5;
+	`}
+`;
+
+const LiveFeedWrap = styled(Div)`
+	${mq.mdUp`
+		grid-column: 8 / span 5;
+	`}
+`
+
 // Pusher.logToConsole = true;
 const pusher = new Pusher(process.env.PUSHER_KEY, {
 	cluster: "eu",
@@ -74,8 +95,6 @@ const Race = (props) => {
 		activeTab: "feed"
 	})
 
-
-	console.log('adasdsadsa')
 	useEffect(() => {
 		if (location.hash === "#chat") {
 			setActiveTab("community");
@@ -171,9 +190,14 @@ const Race = (props) => {
 			}
 		}
 
-		@media screen and (min-width: 64em) {
+		/* @media screen and (min-width: 64em) {
 			margin-left: ${props.trackleadersID ? "40%" : 0};
-		}
+		} */
+
+		${mq.mdUp`
+			grid-column: 6 / span 2;
+		`}
+
 		${tachyons}
 	`;
 
@@ -285,67 +309,70 @@ const Race = (props) => {
 				raceName={props.raceName}
 				race={props.race}
 			/>
-			{props.trackleadersID ? (
-				<MapContainer raceID={props.trackleadersID} />
-			) : null}
-			<KeyEventsWrapper
-				fl
-				ph3
-				ph4_ns
-				pb2
-				w_100
-				w_30_m
-				w_20_l
-				mt4_l
-				relative
-				id="events-wrap"
-			>
-				{props.race.fields.leaderboard === true && (
-					<DynamicTopRiders race={props.race} />
-				)}
+		
+			<Flex>
+				{props.trackleadersID ? (
+					<Map>
+						<MapContainer raceID={props.trackleadersID} />
+					</Map>
+				) : <h1>Tracking not available yet</h1>}
+				
+				<KeyEventsWrapper
+					fl
+					ph3
+					ph4_ns
+					pb2
+					mt2_l
+					relative
+					id="events-wrap"
+				>
+					{props.race.fields.leaderboard === true && (
+						<DynamicTopRiders race={props.race} />
+					)}
 
-				{props.race.fields.staticLeaderboard && (
-					<StaticTopRiders race={props.race} />
-				)}
+					{props.race.fields.staticLeaderboard && (
+						<StaticTopRiders race={props.race} />
+					)}
 
-				{props.race.fields.whatsAppId && (
-					<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
-						<header>
-							<H2
-								ttu
-								tracked
-								f5
-								fw6
-								mt0
-								pb1
-								bb
-								bw1
-								b__light_gray
-								measure_narrow
-							>
-								Join the Conversation on WhatsApp
-							</H2>
+					{props.race.fields.whatsAppId && (
+						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
+							<header>
+								<H2
+									ttu
+									tracked
+									f5
+									fw6
+									mt0
+									pb1
+									bb
+									bw1
+									b__light_gray
+									measure_narrow
+								>
+									Join the Conversation on WhatsApp
+								</H2>
 
-							<A
-								link
-								near_black
-								hover_blue
-								underline
-								href={`https://chat.whatsapp.com/${props.race.fields.whatsAppId}`}
-								target="_blank"
-							>
-								Click Here
-							</A>
-						</header>
-					</Div>
-				)}
+								<A
+									link
+									near_black
+									hover_blue
+									underline
+									href={`https://chat.whatsapp.com/${props.race.fields.whatsAppId}`}
+									target="_blank"
+								>
+									Click Here
+								</A>
+							</header>
+						</Div>
+					)}
 
-				<FactFile race={props.race} />
+					<FactFile race={props.race} />
 
-				<KeyEvents posts={props.posts} skip={state.skip} />
-			</KeyEventsWrapper>
+					<KeyEvents posts={props.posts} skip={state.skip} />
+				</KeyEventsWrapper>
 
-			<Wrapper ph3 pb2 w_100 w_70_m w_40_l>
+				<LiveFeedWrap>
+					<Wrapper ph3 pb2>
 				{props.race.fields.discourseId && props.replies ? (
 					<React.Fragment>
 						<Tabs
@@ -419,6 +446,8 @@ const Race = (props) => {
 					</P>
 				</Feed>
 			</Wrapper>
+				</LiveFeedWrap>
+			</Flex>
 		</Page>
 	);
 }
