@@ -83,7 +83,7 @@ export const WithEntries = Page => {
 					method: 'get',
 					url: trackleadersID + 'api/dotwatcher',
 					headers: {
-						"X-Apikey": "y9og968s49wBIZc1YFmD"
+						"X-Apikey": process.env.TRACKLEADERS_API_KEY
 					}
 				})
 
