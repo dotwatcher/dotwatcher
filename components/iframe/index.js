@@ -8,10 +8,10 @@ import mq from "../../utils/media-query";
 
 const Map = styled.iframe`
 	${tachyons}
-	height: 100%;
-	${mq.smUp`
+	/* height: 100%; */
+	/* ${mq.smUp`
 		height: calc(100vh - 89px);
-	`}
+	`} */
 `;
 
 class Iframe extends Component {
