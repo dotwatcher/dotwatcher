@@ -23,6 +23,7 @@ import { WithEntries } from "../../data/with-entries";
 import Link from "next/link";
 import { compose } from "recompose";
 import { withRouter } from "next/router";
+import FollowMyChallangeLeaderBoard from '../../components/Race/followMyChallange'
 import mq from "../../utils/media-query";
 
 import {H1, H2, P, Span, A, Div } from '../../components/UI/Tachyons'
@@ -190,10 +191,6 @@ const Race = (props) => {
 			}
 		}
 
-		/* @media screen and (min-width: 64em) {
-			margin-left: ${props.trackleadersID ? "40%" : 0};
-		} */
-
 		${mq.mdUp`
 			grid-column: 6 / span 2;
 		`}
@@ -326,13 +323,18 @@ const Race = (props) => {
 					relative
 					id="events-wrap"
 				>
-					{props.race.fields.leaderboard === true && (
-						<DynamicTopRiders race={props.race} />
-					)}
 
-					{props.race.fields.staticLeaderboard && (
-						<StaticTopRiders race={props.race} />
-					)}
+					{props.followMyChallange ? <FollowMyChallangeLeaderBoard {...props.followMyChallange} /> :
+						<Fragment>
+							{props.race.fields.leaderboard === true && (
+								<DynamicTopRiders race={props.race} />
+							)}
+
+							{props.race.fields.staticLeaderboard && (
+								<StaticTopRiders race={props.race} />
+							)}		
+						</Fragment>
+					}
 
 					{props.race.fields.whatsAppId && (
 						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
@@ -459,7 +461,11 @@ Race.propTypes = {
 	raceName: PropTypes.string.isRequired,
 	raceID: PropTypes.string.isRequired,
 	race: PropTypes.object.isRequired,
-	raceImage: PropTypes.string.isRequired
+	raceImage: PropTypes.string.isRequired,
+	followMyChallange: PropTypes.oneOfType([
+		PropTypes.bool,
+		PropTypes.shape({})
+	])
 };
 
 const enhance = compose(WithEntries, withRouter);

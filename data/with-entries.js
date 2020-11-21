@@ -4,6 +4,7 @@ import React from "react";
 import { createClient } from "contentful";
 import vars from "./api-vars";
 import fetch from "isomorphic-fetch";
+import Axios from "axios";
 
 export const WithEntries = Page => {
 	const WithEntries = props => <Page {...props} />;
@@ -25,11 +26,11 @@ export const WithEntries = Page => {
 		const response = await client.getEntries(contenfulQuery);
 
 		const totalPosts = response.total;
-		const posts = [];
+
 		const race = response.items[0].fields.race;
 
-		for (const item of response.items) {
-			const entry = {
+		const posts = response.items.map(item => {
+			return {
 				sys: {
 					id: item.sys.id
 				},
@@ -41,19 +42,16 @@ export const WithEntries = Page => {
 					body: item.fields.body,
 					categories: item.fields.category,
 					keyEvent: item.fields.keyPost,
-					embed: item.fields.embed
+					embed: item.fields.embed,
+					image: item.fields.featuredImage && response.includes.Asset.find(obj => {
+						return obj.sys.id === item.fields.featuredImage.sys.id;
+					})
 				}
-			};
-
-			if (item.fields.featuredImage) {
-				entry.data.image = response.includes.Asset.find(obj => {
-					return obj.sys.id === item.fields.featuredImage.sys.id;
-				});
 			}
-			posts.push(entry);
-		}
+		});
 
 		let discourseReplyCount = 0;
+
 		if (race.fields.discourseId) {
 			discourseReplyCount = await fetch(
 				`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`
@@ -72,6 +70,29 @@ export const WithEntries = Page => {
 				});
 		}
 
+		const trackleadersID = race.fields.trackleadersRaceId;
+
+		const followMyChallangeData = async () => {
+
+			if (!trackleadersID.toLowerCase().includes('followmychallenge')) {
+				return false
+			}
+
+			try {
+				const { data } = await Axios({
+					method: 'get',
+					url: trackleadersID + 'api/dotwatcher',
+					headers: {
+						"X-Apikey": "y9og968s49wBIZc1YFmD"
+					}
+				})
+
+				return data;
+			} catch (error) {
+				return error
+			}
+		}
+
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
 			posts,
@@ -79,9 +100,12 @@ export const WithEntries = Page => {
 			race: race,
 			raceID: race.sys.id,
 			raceName: race.fields.title,
-			trackleadersID: race.fields.trackleadersRaceId,
+			trackleadersID,
 			raceImage: race.fields.icon.fields.file.url,
-			replies: discourseReplyCount
+			replies: discourseReplyCount,
+			followMyChallange: {
+				leaderboard: await followMyChallangeData()
+			}
 		};
 	};
 
