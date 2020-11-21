@@ -44,7 +44,6 @@ const FollowMyChallange = ({ leaderboard }) => {
     [...acc, { category: condendensedLeaders[ind][0].category, leaderboard: curr }]
   ), []) 
 
-  // return null;
 
 	return (
 		<Fragment>
@@ -64,7 +63,12 @@ const FollowMyChallange = ({ leaderboard }) => {
 
               <List>
                 {leaders.leaderboard.map(rider => (
-                  <ListItem><Postion>{rider.position_text}</Postion>{rider.name}</ListItem>
+                  <ListItem>
+                    <Postion>{rider.position_text}</Postion>
+                    {rider.name}
+                    {rider.FIN && rider.position_text === '1st' && ' (Winner)'}
+                    {rider.DSQ || rider.DNF && ' (Scratched)'}
+                  </ListItem>
                 ))}
               </List>
             </LeaderCategory>

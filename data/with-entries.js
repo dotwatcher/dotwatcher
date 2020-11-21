@@ -89,9 +89,12 @@ export const WithEntries = Page => {
 
 				return data;
 			} catch (error) {
-				return error
+				console.log(error)
+				return { error }
 			}
 		}
+
+		const FMCData = await followMyChallangeData();
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
@@ -103,8 +106,8 @@ export const WithEntries = Page => {
 			trackleadersID,
 			raceImage: race.fields.icon.fields.file.url,
 			replies: discourseReplyCount,
-			followMyChallange: {
-				leaderboard: await followMyChallangeData()
+			followMyChallange: FMCData && !FMCData.error && {
+				leaderboard: FMCData
 			}
 		};
 	};

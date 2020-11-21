@@ -1,7 +1,7 @@
 import Head from "next/head";
 import PropTypes from "prop-types";
 import Pusher from "pusher-js";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { createClient } from "contentful";
 import styled, { css } from "styled-components";
 import tachyons from "styled-components-tachyons";
@@ -324,17 +324,15 @@ const Race = (props) => {
 					id="events-wrap"
 				>
 
-					{props.followMyChallange ? <FollowMyChallangeLeaderBoard {...props.followMyChallange} /> :
-						<Fragment>
-							{props.race.fields.leaderboard === true && (
-								<DynamicTopRiders race={props.race} />
-							)}
+					{props.followMyChallange && <FollowMyChallangeLeaderBoard {...props.followMyChallange} />}
 
-							{props.race.fields.staticLeaderboard && (
-								<StaticTopRiders race={props.race} />
-							)}		
-						</Fragment>
-					}
+					{props.race.fields.leaderboard === true && (
+						<DynamicTopRiders race={props.race} />
+					)}
+
+					{props.race.fields.staticLeaderboard && (
+						<StaticTopRiders race={props.race} />
+					)}		
 
 					{props.race.fields.whatsAppId && (
 						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
