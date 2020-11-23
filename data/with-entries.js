@@ -5,6 +5,7 @@ import { createClient } from "contentful";
 import vars from "./api-vars";
 import fetch from "isomorphic-fetch";
 import Axios from "axios";
+import https from 'https'
 
 export const WithEntries = Page => {
 	const WithEntries = props => <Page {...props} />;
@@ -50,38 +51,35 @@ export const WithEntries = Page => {
 			}
 		});
 
-		let discourseReplyCount = 0;
-
-		if (race.fields.discourseId) {
-			discourseReplyCount = await fetch(
+		let discourseReplyCount = race.fields.discourseId ? await fetch(
 				`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`
-			)
-				.then(response => {
-					if (response.status >= 400) {
-						return null;
-					}
-					return response.json();
-				})
-				.then(data => {
-					return data ? data.posts_count : null;
-				})
-				.catch(error => {
+			).then(response => {
+				if (response.status >= 400) {
 					return null;
-				});
-		}
+				}
+				return response.json();
+			}).then(data => {
+				return data ? data.posts_count : null;
+			}).catch(error => {
+				return null;
+			}) : 0;
 
 		const trackleadersID = race.fields.trackleadersRaceId;
 
 		const followMyChallangeData = async () => {
-
+			console.log('adasdasdsadss', trackleadersID)
 			if (!trackleadersID.toLowerCase().includes('followmychallenge')) {
 				return false
 			}
+			console.log('hello')
 
 			try {
 				const { data } = await Axios({
 					method: 'get',
 					url: trackleadersID + 'api/dotwatcher',
+					httpsAgent: new https.Agent({  
+  					rejectUnauthorized: false
+					}),
 					headers: {
 						"X-Apikey": process.env.TRACKLEADERS_API_KEY
 					}

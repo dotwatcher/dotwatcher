@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import Image from 'next/image';
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import TimeAgo from 'react-timeago';
@@ -41,9 +41,17 @@ const FollowMyChallange = ({ leaderboard }) => {
   let condendensedLeaders = leaderboard.map(x => x.slice(0, 10));
 
   condendensedLeaders = condendensedLeaders.reduce((acc, curr, ind) => (
-    [...acc, { category: condendensedLeaders[ind][0].category, leaderboard: curr }]
+    [...acc, {
+      category: condendensedLeaders[ind][0].category,
+      isCrew: condendensedLeaders[ind][0].CREW,
+      leaderboard: curr
+    }]
   ), []) 
 
+  // Filter out CREW trackers
+  condendensedLeaders = condendensedLeaders.filter(leaderboard => !leaderboard.isCrew)
+  
+  console.log(condendensedLeaders)
 
 	return (
 		<Fragment>
@@ -53,7 +61,11 @@ const FollowMyChallange = ({ leaderboard }) => {
             Live Leaderboard
           </H2>
           
-          <P>Supported by: <br /> <A target="_blank" href="https://www.followmychallenge.com/" link near_black hover_blue dim underline>Follow My Challange</A></P>
+          <P>Supported by
+            <A target="_blank" href="https://www.followmychallenge.com/?dwcc" link near_black hover_blue dim underline>
+              <Image src="/static/images/fmc.svg" alt="Follow My Challange" title="Follow My Challange" width="320" height="56" />
+            </A>
+          </P>
         </Header>
         
         <Div measure_narrow>
