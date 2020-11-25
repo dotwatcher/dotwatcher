@@ -67,11 +67,10 @@ export const WithEntries = Page => {
 		const trackleadersID = race.fields.trackleadersRaceId;
 
 		const followMyChallangeData = async () => {
-			console.log('adasdasdsadss', trackleadersID)
+
 			if (!trackleadersID.toLowerCase().includes('followmychallenge')) {
 				return false
 			}
-			console.log('hello')
 
 			try {
 				const { data } = await Axios({

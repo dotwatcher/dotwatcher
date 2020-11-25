@@ -48,15 +48,18 @@ const FollowMyChallange = ({ leaderboard }) => {
     }]
   ), []) 
 
+  const allRiders = condendensedLeaders.flatMap(category => category.leaderboard)
+  const allRidersCount = allRiders.length;
+  const scratched = allRiders.filter( r => r.DSQ || r.DNF)
+  const finished = allRiders.filter(r => r.FIN)
+  
   // Filter out CREW trackers
   condendensedLeaders = condendensedLeaders.filter(leaderboard => !leaderboard.isCrew)
-  
-  console.log(condendensedLeaders)
 
 	return (
 		<Fragment>
 			<Div fl w_100 pr3 pr0_ns mb4>
-				<Header>
+				<Header bb bw1 b__light_gray>
 					<H2 ttu tracked f5 fw6 mt0 pb1 bb bw1 b__light_gray measure_narrow>
             Live Leaderboard
           </H2>
@@ -67,15 +70,21 @@ const FollowMyChallange = ({ leaderboard }) => {
             </A>
           </P>
         </Header>
+
+        <Header bb bw1 b__light_gray>
+          <P>Total Racers: {allRidersCount}</P>
+          <P>Scratched: {Math.round((scratched.length / allRidersCount) * 100)}% ( {scratched.length} ) </P>
+          <P>Finished: {Math.round((finished.length / allRidersCount) * 100)}% ( {finished.length} ) </P>
+        </Header>
         
         <Div measure_narrow>
-          {condendensedLeaders.map(leaders => (
-            <LeaderCategory>
+          {condendensedLeaders.map((leaders, ind) => (
+            <LeaderCategory key={ind}>
               <H4>{leaders.category}</H4>
 
               <List>
-                {leaders.leaderboard.map(rider => (
-                  <ListItem>
+                {leaders.leaderboard.map((rider, ind) => (
+                  <ListItem key={ind}>
                     <Postion>{rider.position_text}</Postion>
                     {rider.name}
                     {rider.FIN && rider.position_text === '1st' && ' (Winner)'}
