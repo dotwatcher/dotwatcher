@@ -75,7 +75,7 @@ export const WithEntries = Page => {
 			try {
 				const { data } = await Axios({
 					method: 'get',
-					url: trackleadersID + 'api/dotwatcher',
+					url: trackleadersID + 'api/dotwatcher/',
 					httpsAgent: new https.Agent({  
   					rejectUnauthorized: false
 					}),
