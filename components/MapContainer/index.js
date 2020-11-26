@@ -15,6 +15,11 @@ const Wrapper = styled(Div)`
 	/* top: ${({ offset }) => offset ? "inherit" : "89px"}; */
 	padding: var(--spacing-small);
 	position: relative;
+
+	${mq.mdUp`
+		position: sticky;
+		top: 80px;
+	`}
 `;
 
 const Tips = styled(Div)`
