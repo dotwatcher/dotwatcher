@@ -20,14 +20,18 @@ const List = styled.ul`
 const ListItem = styled.li`
   display: flex;
   justify-content: end;
+  font-size: 0.9rem;
 
   & + & {
     margin-top: var(--spacing-small);
   }
 `;
 
-const Postion = styled.span`
+const Stat = styled(P)`
+  font-size: 0.9rem;
+`;
 
+const Postion = styled.span`
   /**
     30px is the space of a double digit integer place the number end bit (10th) 
     Will keep sapcing consistance down the leaderboard
@@ -72,9 +76,9 @@ const FollowMyChallange = ({ leaderboard }) => {
         </Header>
 
         <Header bb bw1 b__light_gray>
-          <P>Total Racers: {allRidersCount}</P>
-          <P>Scratched: {Math.round((scratched.length / allRidersCount) * 100)}% ( {scratched.length} ) </P>
-          <P>Finished: {Math.round((finished.length / allRidersCount) * 100)}% ( {finished.length} ) </P>
+          <Stat>Total Racers: {allRidersCount}</Stat>
+          <Stat>Scratched: {Math.round((scratched.length / allRidersCount) * 100)}% ( {scratched.length} ) </Stat>
+          <Stat>Finished: {Math.round((finished.length / allRidersCount) * 100)}% ( {finished.length} ) </Stat>
         </Header>
         
         <Div measure_narrow>
