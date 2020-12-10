@@ -10,11 +10,12 @@ import Link from "next/link";
 import Header from "../../../components/header";
 import Page from "../../../components/shared/page";
 import Footer from "../../../components/footer";
-import ResultsIndex from "../../../components/results-index";
 import ResultsTable from "../../../components/results-table";
 import ResultsContribute from "../../../components/results-contribute";
 import { WithResults } from "../../../data/with-results";
 import apiUrl from "../../../utils/api-url";
+import { compose } from "recompose";
+import { withRouter } from 'next/router'
 
 const Heading = styled.header`
 	${tachyons}
@@ -158,61 +159,52 @@ class App extends Component {
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
 
-				{this.props.name ? (
-					<Div mt3 mt4_l mh6_l>
-						<Div pb5>
-							<Link href="/results" passHref>
-								<A ph3 db link near_black hover_blue>
-									← All results
-								</A>
-							</Link>
-							<Heading fl w_100 mb4 ph3>
-								<H1 f3 f1_l fw6 lh_title mb0>
-									{this.props.name} {this.props.year} results
-								</H1>
-								{this.props.description && (
-									<Description measure_wide f4 lh_copy>
-										{this.props.description.split("\n").map((item, key) => {
-											return (
-												<Fragment key={key}>
-													{item}
-													<br />
-												</Fragment>
-											);
-										})}
-									</Description>
-								)}
-							</Heading>
-
-							{this.props.results.length ? (
-								<ResultsTable
-									type="race"
-									results={results}
-									focus={this.props.focus}
-									racerClasses={this.props.racerClasses}
-									activeClass={this.props.activeClass}
-									racerCategories={this.props.racerCategories}
-									activeCategory={this.props.activeCategory}
-									finishlocations={this.props.finishlocations}
-									activeLocation={this.props.activeLocation}
-									hasNotes={this.hasNotes()}
-								/>
-							) : (
-								<H3 ph3>
-									No results have been published for {this.props.name}
-								</H3>
+				<Div mt3 mt4_l mh6_l>
+					<Div pb5>
+						<Link href="/results" passHref>
+							<A ph3 db link near_black hover_blue>
+								← All results
+							</A>
+						</Link>
+						<Heading fl w_100 mb4 ph3>
+							<H1 f3 f1_l fw6 lh_title mb0>
+								{this.props.name} {this.props.year} Results
+							</H1>
+							{this.props.description && (
+								<Description measure_wide f4 lh_copy>
+									{this.props.description.split("\n").map((item, key) => {
+										return (
+											<Fragment key={key}>
+												{item}
+												<br />
+											</Fragment>
+										);
+									})}
+								</Description>
 							)}
-							<ResultsContribute />
-						</Div>
+						</Heading>
+
+						{this.props.results.length ? (
+							<ResultsTable
+								type="race"
+								results={results}
+								focus={this.props.focus}
+								racerClasses={this.props.racerClasses}
+								activeClass={this.props.activeClass}
+								racerCategories={this.props.racerCategories}
+								activeCategory={this.props.activeCategory}
+								finishlocations={this.props.finishlocations}
+								activeLocation={this.props.activeLocation}
+								hasNotes={this.hasNotes()}
+							/>
+						) : (
+							<H3 ph3>
+								No results have been published for {this.props.router.query.race || 'this race'}.
+							</H3>
+						)}
+						<ResultsContribute />
 					</Div>
-				) : (
-					<ResultsIndex
-						allRiders={this.state.riders}
-						allRaces={this.state.races}
-						loading={this.state.loading}
-						handleSearchUpdate={this.handleSearchUpdate}
-					/>
-				)}
+				</Div>
 				<Footer />
 			</Page>
 		);
@@ -235,4 +227,9 @@ App.defaultProps = {
 	focus: ""
 };
 
-export default WithResults(App);
+const enhance = compose(
+	WithResults,
+	withRouter
+)
+
+export default enhance(App);

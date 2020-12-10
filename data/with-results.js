@@ -33,11 +33,14 @@ export const WithResults = Page => {
 
 				const { results } = await allResultsResponse.json();
 
+				const [firstResult] = results;
+
 				return {
-					name: results[0].name,
-					description: decodeURIComponent(results[0].description)
+					name: firstResult && firstResult.name,
+					description: firstResult && decodeURIComponent(firstResult.description)
 				};
 			}
+			
 			const formattedResults = formatter(results);
 			const racerClasses = [];
 			const racerCategories = ["Both"];
