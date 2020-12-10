@@ -31,3 +31,6 @@ export const Div = styled.div`
 export const Span = styled.span`
 	${tachyons}
 `;
+export const Header = styled.header`
+	${tachyons}
+`;

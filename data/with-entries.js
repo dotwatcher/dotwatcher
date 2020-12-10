@@ -4,6 +4,8 @@ import React from "react";
 import { createClient } from "contentful";
 import vars from "./api-vars";
 import fetch from "isomorphic-fetch";
+import Axios from "axios";
+import https from 'https'
 
 export const WithEntries = Page => {
 	const WithEntries = props => <Page {...props} />;
@@ -25,11 +27,11 @@ export const WithEntries = Page => {
 		const response = await client.getEntries(contenfulQuery);
 
 		const totalPosts = response.total;
-		const posts = [];
+
 		const race = response.items[0].fields.race;
 
-		for (const item of response.items) {
-			const entry = {
+		const posts = response.items.map(item => {
+			return {
 				sys: {
 					id: item.sys.id
 				},
@@ -41,36 +43,55 @@ export const WithEntries = Page => {
 					body: item.fields.body,
 					categories: item.fields.category,
 					keyEvent: item.fields.keyPost,
-					embed: item.fields.embed
+					embed: item.fields.embed,
+					image: item.fields.featuredImage && response.includes.Asset.find(obj => {
+						return obj.sys.id === item.fields.featuredImage.sys.id;
+					})
 				}
-			};
-
-			if (item.fields.featuredImage) {
-				entry.data.image = response.includes.Asset.find(obj => {
-					return obj.sys.id === item.fields.featuredImage.sys.id;
-				});
 			}
-			posts.push(entry);
+		});
+
+		let discourseReplyCount = race.fields.discourseId ? await fetch(
+				`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`
+			).then(response => {
+				if (response.status >= 400) {
+					return null;
+				}
+				return response.json();
+			}).then(data => {
+				return data ? data.posts_count : null;
+			}).catch(error => {
+				return null;
+			}) : 0;
+
+		const trackleadersID = race.fields.trackleadersRaceId;
+
+		const followMyChallangeData = async () => {
+
+			if (!trackleadersID.toLowerCase().includes('followmychallenge')) {
+				return false
+			}
+
+			try {
+				const { data } = await Axios({
+					method: 'get',
+					url: trackleadersID + 'api/dotwatcher/',
+					httpsAgent: new https.Agent({  
+  					rejectUnauthorized: false
+					}),
+					headers: {
+						"X-Apikey": process.env.TRACKLEADERS_API_KEY
+					}
+				})
+
+				return data;
+			} catch (error) {
+				console.log(error)
+				return { error }
+			}
 		}
 
-		let discourseReplyCount = 0;
-		if (race.fields.discourseId) {
-			discourseReplyCount = await fetch(
-				`https://community.dotwatcher.cc/t/${race.fields.discourseId}.json`
-			)
-				.then(response => {
-					if (response.status >= 400) {
-						return null;
-					}
-					return response.json();
-				})
-				.then(data => {
-					return data ? data.posts_count : null;
-				})
-				.catch(error => {
-					return null;
-				});
-		}
+		const FMCData = await followMyChallangeData();
 
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
@@ -79,9 +100,12 @@ export const WithEntries = Page => {
 			race: race,
 			raceID: race.sys.id,
 			raceName: race.fields.title,
-			trackleadersID: race.fields.trackleadersRaceId,
+			trackleadersID,
 			raceImage: race.fields.icon.fields.file.url,
-			replies: discourseReplyCount
+			replies: discourseReplyCount,
+			followMyChallange: FMCData && !FMCData.error && {
+				leaderboard: FMCData
+			}
 		};
 	};
 
