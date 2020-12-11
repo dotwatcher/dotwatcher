@@ -93,7 +93,7 @@ class Races extends Component {
 							Calendar
 						</H1>
 					</Heading>
-					<Calendar races={futureRaces} />
+					{futureRaces.length > 0 ? <Calendar races={futureRaces} /> : <p>We haven't quite got round to updating our calendar yet.</p>}
 				</Div>
 				<Footer />
 			</Page>
