@@ -52,7 +52,7 @@ const FollowMyChallange = ({ leaderboard }) => {
     }]
   ), []) 
 
-  const allRiders = condendensedLeaders.flatMap(category => category.leaderboard)
+  const allRiders = leaderboard.flatMap( x => x).filter(  x => !x.CREW)
   const allRidersCount = allRiders.length;
   const scratched = allRiders.filter( r => r.DSQ || r.DNF)
   const finished = allRiders.filter(r => r.FIN)
