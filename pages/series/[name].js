@@ -6,6 +6,8 @@ import withSeries from "../../data/withSeries";
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { getYear } from "date-fns";
+
 import Richtext from "../../components/rich-text";
 import Page from "../../components/shared/page";
 import Header from "../../components/header";
@@ -140,6 +142,7 @@ const Series = ({
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 			</Head>
+			
 			<Header user={user} title="dotwatcher.cc" />
 
 			{race.fields.heroImage && race.fields.heroImage.fields.file.url && (
@@ -166,8 +169,7 @@ const Series = ({
 									<P>
 										Overall:{" "}
 										<Link
-											href="/profile/[name]"
-											as={`/profile/${latestWinner.name}`}
+											href={`/profile/${latestWinner.name}`}
 											passHref
 										>
 											<A
@@ -189,8 +191,7 @@ const Series = ({
 									<P>
 										Men's:{" "}
 										<Link
-											href="/profile/[name]"
-											as={`/profile/${mensWinner.name}`}
+											href={`/profile/${mensWinner.name}`}
 											passHref
 										>
 											<A
@@ -212,8 +213,7 @@ const Series = ({
 									<P>
 										Women's:{" "}
 										<Link
-											href="/profile/[name]"
-											as={`/profile/${womensWinner.name}`}
+											href={`/profile/${womensWinner.name}`}
 											passHref
 										>
 											<A
@@ -235,8 +235,7 @@ const Series = ({
 									<P>
 										Pairs:{" "}
 										<Link
-											href="/profile/[name]"
-											as={`/profile/${pairAWinner.name}`}
+											href={`/profile/${pairAWinner.name}`}
 											passHref
 										>
 											<A
@@ -251,8 +250,7 @@ const Series = ({
 										</Link>{" "}
 										&{" "}
 										<Link
-											href="/profile/[name]"
-											as={`/profile/${pairBWinner.name}`}
+											href={`/profile/${pairBWinner.name}`}
 											passHref
 										>
 											<A
@@ -347,6 +345,7 @@ const Series = ({
 						{race.fields.previousReports && (
 							<Fragment>
 								<H2>Reports</H2>
+								
 								<EditionsGrid pb4 bb bw1 b__light_gray>
 									{raceReports().map((race, index) => (
 										<Year
@@ -361,8 +360,7 @@ const Series = ({
 											key={index}
 										>
 											<Link
-												href="/race/[slug]"
-												as={`/race/${race.fields.slug}`}
+												href={`/race/${race.fields.slug}`}
 												passHref
 											>
 												<A
@@ -371,9 +369,9 @@ const Series = ({
 													link
 													near_black
 													data-id={race.id}
-													title={`${raceName} Report ${race.fields.slug}`}
+													title={`${raceName} Report ${getYear(race.fields.raceDate)}`}
 												>
-													{race.fields.slug}
+													{getYear(race.fields.raceDate)}
 												</A>
 											</Link>
 										</Year>
@@ -398,8 +396,7 @@ const Series = ({
 											key={index}
 										>
 											<Link
-												href="/results/[year]/[slug]"
-												as={`/results/${race.year}/${race.slug}`}
+												href={`/results/${race.year}/${race.slug}`}
 												passHref
 											>
 												<A
