@@ -5,6 +5,7 @@ import mq from "../../utils/media-query";
 import { format } from "date-fns";
 import Router from "next/router";
 import { P, Div, H1, Button, A, Img } from "../UI/Tachyons";
+import { isAfter } from 'date-fns'
 
 import {
 	FaStrava as Strava,
@@ -80,6 +81,15 @@ export default ({
 
 		return auth0Profile.user_metadata[property];
 	};
+
+	// Get all future rider races
+	const upcomingRaces = meta('races') && meta('races').filter(race => {
+		const idRace = getRaceByID(race);
+		return idRace && isAfter(idRace.raceDate, Date.now())
+	});
+
+
+
 
 	return (
 		<Div mb pb4 bb b__light_gray>
@@ -164,21 +174,18 @@ export default ({
 							</Fragment>
 						)}
 
-						{meta("races") && (
+						{upcomingRaces.length > 0 && (
 							<Fragment>
 								<H1 f4 f3_l fw6 lh_title mt2>
 									Upcoming Races
 								</H1>
 
 								<div>
-									{meta("races") &&
-										meta("races").map(race => {
-											const idRace = getRaceByID(race);
-											if (!idRace) return null;
-											const { website, title, raceDate } = idRace.data;
+									{upcomingRaces.map((race, ind) => {
+											const { website, title, raceDate } = race.data;
 											return (
 												<A near_black hover_blue href={website} target="_blank">
-													<p key={race}>
+													<p key={ind}>
 														{title}, {format(raceDate, "MMM YYYY")}
 													</p>
 												</A>
