@@ -20,16 +20,10 @@
 	},
 	"dependencies": {
 		"@auth0/nextjs-auth0": "^0.13.0",
-<<<<<<< HEAD
-		"@contentful/rich-text-react-renderer": "^14.1.2",
-||||||| parent of a93d81f... featured results in contentul
 		"@contentful/rich-text-react-renderer": "^13.4.0",
-=======
-		"@contentful/rich-text-html-renderer": "^14.1.1",
-		"@contentful/rich-text-react-renderer": "^13.4.0",
->>>>>>> a93d81f... featured results in contentul
 		"@sentry/browser": "^5.15.5",
 		"@zeit/next-source-maps": "0.0.3",
+		"array-sort": "^1.0.0",
 		"auth0": "^2.27.1",
 		"axios": "^0.19.2",
 		"babel-plugin-module-resolver": "^3.2.0",
