@@ -13,9 +13,9 @@ import Page from "../../components/shared/page";
 import Footer from "../../components/footer";
 import FeaturePreview from "../../components/feature-preview";
 import { withFeatureCategories } from "../../data/with-feature-categories";
+import { WithFeatures } from "../../data/with-features";
 import NothingFound from "../../components/NothingFound";
 import CategoriesList from "../../components/Features/CategoriesList";
-import { WithFeatures } from "../../data/with-features";
 
 const Heading = styled.header`
 	${tachyons}
@@ -27,10 +27,21 @@ const Div = styled.div`
 	${tachyons}
 `;
 
-const Features = props => {
-	const [category] = props.data.category.items;
+const Categories = styled(Div)`
+	grid-column: 10 / span 3;
+`;
 
-	console.log(props);
+const Items = styled(Div)`
+	grid-column: 1 / span 9;
+`;
+
+const Grid = styled(Div)`
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+`;
+
+const Features = props => {
+	const [category] = props.category.items;
 
 	const router = useRouter();
 
@@ -76,17 +87,23 @@ const Features = props => {
 						<p>{documentToReactComponents(category.fields.description)}</p>
 					</Heading>
 
-					<CategoriesList categories={props.categories} />
+					<Grid>
+						<Items>
+							{props.categoryEntries &&
+								props.categoryEntries.items &&
+								props.categoryEntries.items.map(feature => (
+									<FeaturePreview
+										data={feature.fields}
+										id={feature.sys.id}
+										key={feature.sys.id}
+									/>
+								))}
+						</Items>
 
-					{props.data.entries.items.map(feature => (
-						<FeaturePreview
-							data={feature.fields}
-							id={feature.sys.id}
-							key={feature.sys.id}
-						/>
-					))}
-
-					<CategoriesList categories={props.categories} />
+						<Categories>
+							<CategoriesList categories={props.categories} />
+						</Categories>
+					</Grid>
 				</Div>
 			</Div>
 			<Footer />
@@ -99,12 +116,11 @@ Features.propTypes = {
 };
 
 Features.defaultProps = {
-	data: {},
+	category: {},
+	categoryEntries: [],
 	user: {}
 };
 
 const enhance = compose(withFeatureCategories, WithFeatures);
 
-const Feature = enhance(Features);
-
-export default Feature;
+export default enhance(Features);

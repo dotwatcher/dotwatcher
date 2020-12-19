@@ -4,15 +4,15 @@ import React from "react";
 import { createClient } from "contentful";
 import vars from "./api-vars";
 
+const client = createClient({
+	space: vars.space,
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+});
+
 export const withFeatureCategories = Page => {
-	const withFeatureCategories = props => <Page {...props} />;
+	const WithFeatureCategories = props => <Page {...props} />;
 
-	withFeatureCategories.getInitialProps = async ctx => {
-		const client = createClient({
-			space: vars.space,
-			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-		});
-
+	WithFeatureCategories.getInitialProps = async ctx => {
 		try {
 			const category = await client.getEntries({
 				content_type: vars.content_type.featureCategories,
@@ -20,7 +20,7 @@ export const withFeatureCategories = Page => {
 				include: 2
 			});
 
-			const entries =
+			let categoryEntries =
 				category.items.length > 0
 					? await client.getEntries({
 							content_type: vars.content_type.feature,
@@ -28,22 +28,34 @@ export const withFeatureCategories = Page => {
 							include: 2,
 							order: "-sys.createdAt"
 					  })
-					: [];
+					: { items: [] };
+
+			categoryEntries = {
+				items: categoryEntries.items.map(i => ({
+					sys: i.sys,
+					fields: {
+						title: i.fields.title,
+						slug: i.fields.slug,
+						excerpt: i.fields.excerpt,
+						image: categoryEntries.includes.Asset.find(
+							asset => asset.sys.id === i.fields.featuredImage.sys.id
+						)
+					}
+				}))
+			};
 
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
-				data: {
-					category,
-					entries
-				}
+				category,
+				categoryEntries
 			};
 		} catch (error) {
 			return {
-				error,
-				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {})
+				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
+				error
 			};
 		}
 	};
 
-	return withFeatureCategories;
+	return WithFeatureCategories;
 };
