@@ -10,6 +10,8 @@ import Footer from "../../components/footer";
 import FeaturePreview from "../../components/feature-preview";
 import { WithFeatures } from "../../data/with-features";
 
+import CategoriesList from "../../components/Features/CategoriesList";
+
 const Heading = styled.header`
 	${tachyons}
 `;
@@ -20,51 +22,56 @@ const Div = styled.div`
 	${tachyons}
 `;
 
-class App extends Component {
-	render() {
-		return (
-			<Page>
-				<Head>
-					<title>Features - DotWatcher.cc</title>
-					<meta property="og:title" content="Features - DotWatcher.cc" />
-					<meta
-						property="og:description"
-						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
-					/>
-					<meta
-						property="og:image"
-						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
-					/>
-				</Head>
-				<Header user={this.props.user} title="dotwatcher.cc" />
-				<Div mt3 mt4_l mh6_l>
-					<Div pb5>
-						<Heading fl w_100 mb4 ph3>
-							<H1 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
-								Features
-							</H1>
-						</Heading>
-						{this.props.features.map(feature => (
-							<FeaturePreview
-								data={feature.data}
-								id={feature.sys.id}
-								key={feature.sys.id}
-							/>
-						))}
-					</Div>
+const Features = props => {
+	return (
+		<Page>
+			<Head>
+				<title>Features - DotWatcher.cc</title>
+				<meta property="og:title" content="Features - DotWatcher.cc" />
+				<meta
+					property="og:description"
+					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+				/>
+				<meta
+					property="og:image"
+					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
+				/>
+			</Head>
+
+			<Header user={props.user} title="dotwatcher.cc" />
+
+			<Div mt3 mt4_l mh6_l>
+				<Div pb5>
+					<Heading w_100 mb4 ph3>
+						<H1 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
+							Features
+						</H1>
+					</Heading>
+
+					<CategoriesList categories={props.categories} />
+
+					{props.features.map(feature => (
+						<FeaturePreview
+							data={feature.data}
+							id={feature.sys.id}
+							key={feature.sys.id}
+						/>
+					))}
 				</Div>
-				<Footer />
-			</Page>
-		);
-	}
-}
-
-App.propTypes = {
-	features: PropTypes.array
+			</Div>
+			<Footer />
+		</Page>
+	);
 };
 
-App.defaultProps = {
-	features: []
+Features.propTypes = {
+	features: PropTypes.array,
+	categories: PropTypes.array
 };
 
-export default WithFeatures(App);
+Features.defaultProps = {
+	features: [],
+	categories: []
+};
+
+export default WithFeatures(Features);

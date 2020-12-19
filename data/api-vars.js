@@ -4,6 +4,7 @@ const contentful = {
 		posts: '2wKn6yEnZewu2SCCkus4as',
 		categories: '5KMiN6YPvi42icqAUQMCQe',
 		leaderboard: 'leaderboard',
+		featureCategories: 'featureCategory',
 		feature: 'feature',
 		page: 'page',
 		infoPage: 'infoPage'
