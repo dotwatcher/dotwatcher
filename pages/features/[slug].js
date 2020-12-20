@@ -80,8 +80,8 @@ const Features = props => {
 			<Div mt3 mt4_l mh6_l>
 				<Div pb5>
 					<Heading w_100 mb4 ph3>
-						<H1 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
-							{category.fields.name}
+						<H1 fw6 ttu tracked bb bw1 b__light_gray pb1>
+							Features: {category.fields.name}
 						</H1>
 
 						<p>{documentToReactComponents(category.fields.description)}</p>
