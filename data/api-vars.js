@@ -5,7 +5,8 @@ const contentful = {
 		categories: '5KMiN6YPvi42icqAUQMCQe',
 		leaderboard: 'leaderboard',
 		feature: 'feature',
-		page: 'page'
+		page: 'page',
+		infoPage: 'infoPage'
 	},
 	pages: {
 		homepage: 't21qqU9uHAqaOUKW0WAIa',
