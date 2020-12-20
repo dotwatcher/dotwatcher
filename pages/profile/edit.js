@@ -63,14 +63,23 @@ const inputs = [
 	}
 ];
 
-const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props }) => {
-	const [biographyValue, setBigoraphyValue] = useState(meta.user_metadata ? meta.user_metadata.biography : '');
+const Profile = ({
+	user,
+	meta = {},
+	handleSubmit,
+	setValues,
+	values,
+	...props
+}) => {
+	const [biographyValue, setBigoraphyValue] = useState(
+		meta.user_metadata ? meta.user_metadata.biography : ""
+	);
 
 	const [showConnectAccount, setshowConnectAccount] = useState(false);
 
 	const handleBiographyChange = async content => {
-		await setBigoraphyValue(content);
 		await setValues({ ...values, biography: content });
+		await setBigoraphyValue(content);
 	};
 
 	const disconnectRWGPS = async () => {
@@ -105,14 +114,15 @@ const Profile = ({ user, meta = {}, handleSubmit, setValues, values, ...props })
 
 					<Div bw1 b__blue ba mb4 ph3>
 						<p>
-							We are updating how Dotwatcher talks to Ride With GPS, to stay up
-							to date with the latest features and to make sure your account
+							We are updating how Dotwatcher works with Ride With GPS, to stay
+							up to date with the latest features and to make sure your account
 							will have the most functionality, you can link Dotwatcher.cc to
 							Ride With GPS above.
 						</p>
 
 						<p>
-							By [date here] we will be removing the Ride With GPS field below.
+							From the 1st March 2021 we will be removing the Ride With GPS
+							field below.
 						</p>
 					</Div>
 
