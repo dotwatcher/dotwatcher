@@ -6,7 +6,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import Page from "../../components/shared/page";
 import withInfoPage from "../../data/with-info-page";
-import { Div } from "../../components/UI/Tachyons";
+import { Div, H1 } from "../../components/UI/Tachyons";
 
 const Info = ({ page, user }) => {
 	if (!page) {
@@ -42,7 +42,9 @@ const Info = ({ page, user }) => {
 				</Head>
 				<Header user={user} title="dotwatcher.cc" />
 
-				<h1>Page not Found</h1>
+				<Div mt3 mt4_l mh6_l>
+					<h1>Page not Found</h1>
+				</Div>
 
 				<Footer />
 			</Page>
@@ -83,7 +85,10 @@ const Info = ({ page, user }) => {
 			</Head>
 			<Header user={user} title="dotwatcher.cc" />
 
-			<Div>{documentToReactComponents(page.fields.content)}</Div>
+			<Div mt3 mt4_l mh6_l>
+				<H1>{page.fields.title}</H1>
+				{documentToReactComponents(page.fields.content)}
+			</Div>
 
 			<Footer />
 		</Page>
