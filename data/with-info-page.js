@@ -1,28 +1,41 @@
 import React from "react";
-import { createClient } from 'contentful';
-import vars from './api-vars';
+import { createClient } from "contentful";
+import vars from "./api-vars";
 
 const client = createClient({
-  space: vars.space,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+	space: vars.space,
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 });
 
-const WithInfoPage = (Page) => {
-	const withInfoPgae = (props) => <Page {...props} />;
+const WithInfoPage = Page => {
+	const WithInfoPage = props => <Page {...props} />;
 
-	withInfoPgae.getInitialProps = async (ctx) => {
-    const { slug } = ctx.query;
-    
-    client.getEntries({
-      content_type: '<content_type_id>'
-    })
+	WithInfoPage.getInitialProps = async ctx => {
+		try {
+			let page = await client.getEntries({
+				content_type: vars.content_type.infoPage,
+				"fields.slug": ctx.query.slug,
+				include: 2
+			});
 
-		return {
-			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
-		};
+			[page] = page.items;
+
+			console.log(page);
+
+			return {
+				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
+				page
+			};
+		} catch (error) {
+			console.log(error);
+			return {
+				...(Page.getInitialProps ? await Page.getInitialProps() : {}),
+				error
+			};
+		}
 	};
 
 	return WithInfoPage;
 };
 
-export default WithInfoPage
+export default WithInfoPage;
