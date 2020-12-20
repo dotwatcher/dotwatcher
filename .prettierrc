@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 100,
+  "prettier.useTabs": false,
+  "prettier.arrowParens": "avoid",
+  "window.zoomLevel": 0,
+  "files.insertFinalNewline": true,
+  "search.exclude": {
+    "**/.history": true
+  }
+}
