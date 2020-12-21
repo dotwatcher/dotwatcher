@@ -88,7 +88,6 @@ const client = createClient({
 });
 
 const ErrorPage = () => {
-	// const articles = [features[0], features[1]];
 	const [features, setfeatures] = useState([]);
 
 	useEffect(() => {
@@ -135,8 +134,8 @@ const ErrorPage = () => {
 					</H2>
 
 					<P lh_title mb4>
-						It doesn't look like that page excists, maybe something below is
-						what you were looking for.
+						It doesn't look like that page exists, maybe something below is what
+						you were looking for.
 					</P>
 
 					<Buttons>
