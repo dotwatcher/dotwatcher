@@ -43,8 +43,6 @@ const Grid = styled(Div)`
 const Features = props => {
 	const category = props.category.items ? props.category.items[0] : [];
 
-	console.log(props);
-
 	const router = useRouter();
 
 	const isIndex = !router.query.slug;
