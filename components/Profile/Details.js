@@ -1,4 +1,4 @@
-import tachyons from "styled-components-tachyons";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { Fragment } from "react";
 import mq from "../../utils/media-query";
@@ -13,6 +13,7 @@ import {
 	FaTwitter as Twitter,
 	FaFacebook as Facebook
 } from "react-icons/fa";
+import Axios from "axios";
 
 const SubmitButton = styled(Button)`
 	&:focus,
@@ -60,7 +61,7 @@ const SocialAnchor = ({ href, children }) => (
 	</A>
 );
 
-export default ({
+const ProfileDetails = ({
 	authID,
 	auth0Profile,
 	name,
@@ -159,6 +160,7 @@ export default ({
 											</SocialAnchor>
 										</li>
 									)}
+
 									{meta("instagramHandle") && (
 										<li>
 											<SocialAnchor
@@ -241,3 +243,5 @@ export default ({
 		</Div>
 	);
 };
+
+export default ProfileDetails;

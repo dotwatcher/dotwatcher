@@ -12,7 +12,7 @@ const enumTransform = string => {
 	}
 };
 
-export default results =>
+const formatter = results =>
 	results.map(result => {
 		result.cap = result.cap && result.cap.replace(/'/g, "");
 		result.class = result.class && enumTransform(result.class);
@@ -21,3 +21,5 @@ export default results =>
 		result.result = result.result && enumTransform(result.result);
 		return result;
 	});
+
+export default formatter;

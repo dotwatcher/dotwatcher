@@ -154,7 +154,7 @@ export default ({
 
 			<div>
 				<Races>
-					<H3>Pick your {getYear(Date.now())} races</H3>
+					<H3>What are your upcoming races?</H3>
 					<RaceGrid>
 						{sortedRaces.map(race => (
 							<RaceInput key={race.sys.id}>
