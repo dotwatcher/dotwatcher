@@ -110,11 +110,13 @@ const Series = ({
 
 	const [pairAWinner, pairBWinner] = pairsWinners;
 
+	const title = `${raceName} – Race Series - DotWatcher.cc`;
+
 	return (
 		<Page>
 			<Head>
-				<title>{raceName} – DotWatcher.cc</title>
-				<meta property="og:title" content={`${raceName} – DotWatcher.cc`} />
+				<title>title</title>
+				<meta property="og:title" content={title} />
 				<meta
 					property="og:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
@@ -128,7 +130,7 @@ const Series = ({
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
-				<meta name="twitter:title" content={`${raceName} – DotWatcher.cc`} />
+				<meta name="twitter:title" content={title} />
 				<meta
 					name="twitter:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
