@@ -1,11 +1,11 @@
 // HOC for fetching features from contentful
 
-import React from 'react';
-import {createClient} from 'contentful';
-import vars from './api-vars';
+import React from "react";
+import { createClient } from "contentful";
+import vars from "./api-vars";
 
 export const WithFeatures = Page => {
-	const WithFeatures = props => <Page {...props}/>;
+	const WithFeatures = props => <Page {...props} />;
 
 	WithFeatures.getInitialProps = async () => {
 		const client = createClient({
@@ -15,7 +15,7 @@ export const WithFeatures = Page => {
 
 		const contenfulQuery = {
 			content_type: vars.content_type.feature,
-			order: '-sys.createdAt'
+			order: "-sys.createdAt"
 		};
 
 		const response = await client.getEntries(contenfulQuery);
@@ -39,7 +39,6 @@ export const WithFeatures = Page => {
 			if (item.fields.contentBlock) {
 				for (const contentBlock of item.fields.contentBlock) {
 					if (contentBlock.fields) {
-
 						const block = {
 							sys: {
 								id: contentBlock.sys.id
@@ -71,9 +70,15 @@ export const WithFeatures = Page => {
 			}
 		}
 
+		const categories = await client.getEntries({
+			content_type: vars.content_type.featureCategories,
+			include: 2
+		});
+
 		return {
 			...(Page.getInitialProps ? await Page.getInitialProps() : {}),
-			features
+			features,
+			categories
 		};
 	};
 

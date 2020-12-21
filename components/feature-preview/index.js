@@ -15,7 +15,7 @@ const Figure = styled.figure`${tachyons}`;
 const Img = styled.img`${tachyons}`;
 const P = styled.p`${tachyons}`;
 
-const FeaturePreview = ({data, id}) => {
+const FeaturePreview = ( {data = {}, id }) => {
 	const disqusShortname = 'dotwatcher';
 	const disqusConfig = {
 		url: `https://dotwatcher.cc/feature/${data.slug}`,
