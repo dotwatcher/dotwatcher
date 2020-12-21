@@ -16,6 +16,7 @@ import Banner from "../components/content-block/banner";
 import Page from "../components/shared/page";
 import { withHomepage } from "../data/with-homepage";
 import Link from "next/link";
+import { Article } from "../components/UI/Tachyons";
 
 const Div = styled.div`
 	p {
@@ -41,7 +42,7 @@ const Home = ({ page, user }) => {
 		block => block.layout === "Carousel slide"
 	);
 	const grid = gridBlocks.length ? <Grid blocks={gridBlocks} /> : null;
-	
+
 	const blocksWithoutSlides = page.blocks
 		.filter(block => block.layout !== "Carousel slide")
 		.filter(block => block.layout !== "Homepage");
@@ -86,7 +87,7 @@ const Home = ({ page, user }) => {
 				user={user}
 				title="dotwatcher.cc — Long distance self-supported bike race coverage"
 			/>
-			<Div fl w_100 className="cf">
+			<Article fl w_100>
 				{bannerBlocks.length && (
 					<Banner blocks={bannerBlocks} count={bannerBlocks.length} />
 				)}
@@ -134,8 +135,10 @@ const Home = ({ page, user }) => {
 
 				{grid}
 
-				{blocksWithoutSlides.map(block => <ContentBlock key={block.sys.id} block={block} /> )}
-			</Div>
+				{blocksWithoutSlides.map(block => (
+					<ContentBlock key={block.sys.id} block={block} />
+				))}
+			</Article>
 			<Footer />
 		</Page>
 	);

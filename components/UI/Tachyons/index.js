@@ -46,3 +46,11 @@ export const Header = styled.header`
 export const Image = styled.img`
 	${tachyons}
 `;
+
+export const Footer = styled.footer`
+	${tachyons}
+`;
+
+export const Article = styled.article`
+	${tachyons}
+`;
