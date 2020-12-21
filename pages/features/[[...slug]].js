@@ -45,6 +45,8 @@ const Features = props => {
 
 	const router = useRouter();
 
+	const isIndex = !router.query.slug;
+
 	if (!category) {
 		return (
 			<NothingFound user={props.user}>
@@ -53,11 +55,15 @@ const Features = props => {
 		);
 	}
 
-	const title = category.fields.name
+	const title = isIndex
+		? `Features - DotWatcher.cc`
+		: category.fields.name
 		? `Features - ${category.fields.name} - DotWatcher.cc`
 		: `Features - DotWatcher.cc`;
 
-	const description = category.fields.shortDescription
+	const description = isIndex
+		? `Features - DotWatcher.cc`
+		: category.fields.shortDescription
 		? category.fields.shortDescription
 		: `Features - ${category.fields.name} - DotWatcher.cc`;
 
@@ -81,10 +87,12 @@ const Features = props => {
 				<Div pb5>
 					<Heading w_100 mb4 ph3>
 						<H1 fw6 ttu tracked bb bw1 b__light_gray pb1>
-							Features: {category.fields.name}
+							Features: {isIndex ? "All" : category.fields.name}
 						</H1>
 
-						<p>{documentToReactComponents(category.fields.description)}</p>
+						{!isIndex && (
+							<p>{documentToReactComponents(category.fields.description)}</p>
+						)}
 					</Heading>
 
 					<Grid>

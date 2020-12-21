@@ -9,16 +9,21 @@ const client = createClient({
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 });
 
+const query = {
+	content_type: vars.content_type.featureCategories,
+	include: 2
+};
+
 export const withFeatureCategories = Page => {
 	const WithFeatureCategories = props => <Page {...props} />;
 
 	WithFeatureCategories.getInitialProps = async ctx => {
+		const slug = ctx.query.slug && ctx.query.slug[0];
+
 		try {
-			const category = await client.getEntries({
-				content_type: vars.content_type.featureCategories,
-				"fields.slug": ctx.query.slug,
-				include: 2
-			});
+			const category = slug
+				? await client.getEntries({ "fields.slug": slug, ...query })
+				: await client.getEntries(query);
 
 			let categoryEntries =
 				category.items.length > 0
