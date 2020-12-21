@@ -50,7 +50,7 @@ const Awards = styled.div`
 	`}
 `;
 
-export default ({ awards = [] }) => {
+const RiderAwards = ({ awards = [] }) => {
 	return (
 		<Div>
 			<Awards>
@@ -67,3 +67,5 @@ export default ({ awards = [] }) => {
 		</Div>
 	);
 };
+
+export default RiderAwards;

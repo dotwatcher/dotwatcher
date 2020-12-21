@@ -6,7 +6,8 @@ const Img = styled.img`
 `;
 
 const imagePath = "/static/flags";
-export default nationality => {
+
+const getFlag = nationality => {
 	if (!nationality) return null;
 
 	const slug = nationality.toLowerCase().replace(/\s/g, "-");
@@ -19,3 +20,5 @@ export default nationality => {
 		/>
 	);
 };
+
+export default getFlag;

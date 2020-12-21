@@ -1,0 +1,61 @@
+{
+	"version": 2,
+	"alias": ["www.dotwatcher.cc", "dotwatcher.cc"],
+	"routes": [
+		{
+			"src": "/api/(.*)",
+			"headers": {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+				"Access-Control-Allow-Credentials": "true"
+			},
+			"continue": true
+		},
+		{
+			"src": "/profile/Zoe%20Chauderlot",
+			"dest": "/profile/Zoé%20Chauderlot",
+			"status": 301
+		},
+		{
+			"src": "/profile/Mikko%20Makipaa",
+			"dest": "/profile/Mikko%20Mäkipää",
+			"status": 301
+		},
+		{
+			"src": "/profile/Ales%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoral",
+			"status": 301
+		},
+		{
+			"src": "/profile/Alex%20Zavoral",
+			"dest": "/profile/Aleš%20Zavoral",
+			"status": 301
+		},
+		{
+			"src": "/profile/Bjorn%20Lenhard",
+			"dest": "/profile/Björn%20Lenhard",
+			"status": 301
+		},
+		{
+			"src": "/profile/Stuart%20Birnie",
+			"dest": "/profile/Stuart%20Birnie%20(Hippy)",
+			"status": 301
+		},
+		{
+			"src": "/page/(?<id>[^/]+)$",
+			"dest": "/page?id=$id"
+		},
+		{
+			"src": "/post/(?<id>[^/]+)$",
+			"dest": "/post?id=$id"
+		},
+		{
+			"src": "/profile/edit",
+			"dest": "/profile/edit"
+		},
+		{
+			"src": "/calendar/(?<year>[^/]+)?/(?<month>[^/]+)$",
+			"dest": "/calendar?year=$year&month=$month"
+		}
+	]
+}

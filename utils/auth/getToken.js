@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AUTH0_CALLBACK_DOMAIN } from "../../utils/contstants";
 
-export default async () => {
+const getAuthToken = async () => {
 	try {
 		const res = await axios({
 			method: "get",
@@ -19,3 +19,5 @@ export default async () => {
 		};
 	}
 };
+
+export default getAuthToken;

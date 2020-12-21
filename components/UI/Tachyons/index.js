@@ -28,12 +28,25 @@ export const Button = styled.button`
 export const Div = styled.div`
 	${tachyons}
 `;
+export const Input = styled.input`
+	${tachyons}
+`;
+
+export const Form = styled.form`
+	${tachyons}
+`;
+
 export const Span = styled.span`
 	${tachyons}
 `;
 export const Header = styled.header`
 	${tachyons}
 `;
+
+export const Image = styled.img`
+	${tachyons}
+`;
+
 export const Footer = styled.footer`
 	${tachyons}
 `;

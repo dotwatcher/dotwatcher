@@ -1,1 +1,3 @@
-export default str => str.replace("’", "'");
+const sanitize = str => str.replace("’", "'");
+
+export default sanitize;
