@@ -121,8 +121,8 @@ const Profile = ({
 						</p>
 
 						<p>
-							From the 1st March 2021 we will be removing the Ride With GPS
-							field below.
+							From the <strong>1st March 2021</strong> we will be removing the
+							Ride With GPS field below.
 						</p>
 					</Div>
 
