@@ -49,9 +49,11 @@ const Features = props => {
 
 	if (!category) {
 		return (
-			<NothingFound user={props.user}>
-				<P>There are no features matching {router.query.slug}</P>
-			</NothingFound>
+			<Page>
+				<NothingFound user={props.user}>
+					<P>There are no features matching {router.query.slug}</P>
+				</NothingFound>
+			</Page>
 		);
 	}
 
