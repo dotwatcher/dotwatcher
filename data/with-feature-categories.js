@@ -9,10 +9,19 @@ const client = createClient({
 	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 });
 
-const query = {
-	content_type: vars.content_type.featureCategories,
-	include: 2
-};
+const formatEntries = entries => ({
+	items: entries.items.map(i => ({
+		sys: i.sys,
+		fields: {
+			title: i.fields.title,
+			slug: i.fields.slug,
+			excerpt: i.fields.excerpt,
+			image: entries.includes.Asset.find(
+				asset => asset.sys.id === i.fields.featuredImage.sys.id
+			)
+		}
+	}))
+});
 
 export const withFeatureCategories = Page => {
 	const WithFeatureCategories = props => <Page {...props} />;
@@ -20,45 +29,55 @@ export const withFeatureCategories = Page => {
 	WithFeatureCategories.getInitialProps = async ctx => {
 		const slug = ctx.query.slug && ctx.query.slug[0];
 
-		try {
-			const category = slug
-				? await client.getEntries({ "fields.slug": slug, ...query })
-				: await client.getEntries(query);
+		if (!slug) {
+			try {
+				let categoryEntries = await client.getEntries({
+					content_type: vars.content_type.feature,
+					include: 2,
+					order: "-sys.createdAt"
+				});
 
-			let categoryEntries =
-				category.items.length > 0
-					? await client.getEntries({
-							content_type: vars.content_type.feature,
-							links_to_entry: category.items[0].sys.id,
-							include: 2,
-							order: "-sys.createdAt"
-					  })
-					: { items: [] };
+				categoryEntries = formatEntries(categoryEntries);
 
-			categoryEntries = {
-				items: categoryEntries.items.map(i => ({
-					sys: i.sys,
-					fields: {
-						title: i.fields.title,
-						slug: i.fields.slug,
-						excerpt: i.fields.excerpt,
-						image: categoryEntries.includes.Asset.find(
-							asset => asset.sys.id === i.fields.featuredImage.sys.id
-						)
-					}
-				}))
-			};
+				return {
+					...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
+					categoryEntries
+				};
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			try {
+				const category = await client.getEntries({
+					"fields.slug": slug,
+					content_type: vars.content_type.featureCategories,
+					include: 2
+				});
 
-			return {
-				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
-				category,
-				categoryEntries
-			};
-		} catch (error) {
-			return {
-				...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
-				error
-			};
+				let categoryEntries =
+					category.items.length > 0
+						? await client.getEntries({
+								content_type: vars.content_type.feature,
+								links_to_entry: category.items[0].sys.id,
+								include: 2,
+								order: "-sys.createdAt"
+						  })
+						: { items: [] };
+
+				categoryEntries = formatEntries(categoryEntries);
+
+				return {
+					...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
+					category,
+					categoryEntries
+				};
+			} catch (error) {
+				console.log(error);
+				return {
+					...(Page.getInitialProps ? await Page.getInitialProps(ctx) : {}),
+					error
+				};
+			}
 		}
 	};
 
