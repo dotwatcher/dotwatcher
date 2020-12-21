@@ -114,9 +114,9 @@ const Profile = ({
 
 					<Div bw1 b__blue ba mb4 ph3>
 						<p>
-							We are updating how Dotwatcher works with Ride With GPS, to stay
+							We are updating how DotWatcher works with Ride With GPS, to stay
 							up to date with the latest features and to make sure your account
-							will have the most functionality, you can link Dotwatcher.cc to
+							will have the most functionality, you can link DotWatcher.cc to
 							Ride With GPS above.
 						</p>
 
