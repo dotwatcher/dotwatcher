@@ -78,8 +78,8 @@ const Profile = ({
 	const [showConnectAccount, setshowConnectAccount] = useState(false);
 
 	const handleBiographyChange = async content => {
-		await setValues({ ...values, biography: content });
 		await setBigoraphyValue(content);
+		await setValues({ ...values, biography: content });
 	};
 
 	const disconnectRWGPS = async () => {
