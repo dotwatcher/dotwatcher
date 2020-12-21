@@ -13,14 +13,14 @@ const WithSeries = Page => {
 	withSeries.getInitialProps = async ctx => {
 		const { name } = ctx.query;
 
-		const query = {
-			include: 2,
-			"fields.race": name,
-			content_type: vars.content_type.raceSeries
-		};
+		console.log(name);
 
 		try {
-			const res = await client.getEntries(query);
+			const res = await client.getEntries({
+				include: 2,
+				"fields.race": name,
+				content_type: vars.content_type.raceSeries
+			});
 
 			const { items } = res;
 

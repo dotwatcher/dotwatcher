@@ -115,7 +115,7 @@ const Series = ({
 	return (
 		<Page>
 			<Head>
-				<title>title</title>
+				<title>{title}</title>
 				<meta property="og:title" content={title} />
 				<meta
 					property="og:description"
@@ -147,7 +147,6 @@ const Series = ({
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 			</Head>
-
 			<Header user={user} title="dotwatcher.cc" />
 
 			{race.fields.heroImage && race.fields.heroImage.fields.file.url && (
@@ -160,6 +159,22 @@ const Series = ({
 			)}
 
 			<Div pa2 mt3 mt4_l mh6_l>
+				<Div>
+					<Link href="/results">
+						<A
+							db
+							link
+							near_black
+							hover_blue
+							pointer
+							passHref
+							title="Find more races"
+						>
+							← Find more races
+						</A>
+					</Link>
+				</Div>
+
 				<H1 f3 f1_l fw6 lh_title mb0>
 					{raceName}
 				</H1>
@@ -280,9 +295,10 @@ const Series = ({
 															hover_gray
 															title={winner.name}
 														>
-															{winner.name}:
+															{winner.name}
 														</A>
 													</Link>
+													:
 													{winner.races.map((r, i) => (
 														<WinnerRace key={i}>
 															<Link
@@ -419,6 +435,4 @@ const Series = ({
 	);
 };
 
-const enhance = compose(withSeries);
-
-export default enhance(Series);
+export default withSeries(Series);
