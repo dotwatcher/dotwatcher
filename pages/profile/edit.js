@@ -98,6 +98,8 @@ const Profile = ({
 					src="//widget.cloudinary.com/global/all.js"
 					type="text/javascript"
 				></script>
+
+				<title>Edit my Profile</title>
 			</Head>
 			<Page>
 				<Header user={user} title="dotwatcher.cc" />
