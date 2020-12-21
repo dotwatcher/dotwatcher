@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SocialIcons from "../shared/social-icons";
 import Newsletter from "../Newsletter";
 import Link from "next/link";
-import { Div, H2, P, A } from "../UI/Tachyons";
+import { Div, H2, P, A, Footer } from "../UI/Tachyons";
 
 const InfoPages = styled(Div)`
 	a + a {
@@ -11,9 +11,9 @@ const InfoPages = styled(Div)`
 	}
 `;
 
-const Footer = () => {
+const AppFooter = () => {
 	return (
-		<Div fl w_100 bg_near_white mt4 className="cf">
+		<Footer fl w_100 bg_near_white mt4 className="cf">
 			<Div pv3 mh6_l>
 				<Div>
 					<Div fl w_100 w_50_ns ph3 mb4>
@@ -29,7 +29,7 @@ const Footer = () => {
 						<Newsletter />
 					</Div>
 
-					<Div fr="true" w_100 w_25_ns ph3 mb4>
+					<Div fr w_100 w_25_ns ph3 mb4>
 						<H2 f3 mb2 fw6>
 							Contact
 						</H2>
@@ -51,21 +51,23 @@ const Footer = () => {
 				</Div>
 			</Div>
 
-			<InfoPages ph3 mb4 mh6_l fl w_100>
-				<Link href="/info/data-policy">
-					<A link near_black underline hover_blue pointer>
-						Data Policy
-					</A>
-				</Link>
+			<InfoPages pv3 w_100 fl>
+				<Div ph3 mb4 mh6_l>
+					<Link href="/info/data-policy">
+						<A link near_black underline hover_blue pointer>
+							Data Policy
+						</A>
+					</Link>
 
-				<Link href="/info/submissions">
-					<A link near_black underline hover_blue pointer>
-						Submit to Dotwatcher
-					</A>
-				</Link>
+					<Link href="/info/submissions">
+						<A link near_black underline hover_blue pointer>
+							Submit to Dotwatcher
+						</A>
+					</Link>
+				</Div>
 			</InfoPages>
-		</Div>
+		</Footer>
 	);
 };
 
-export default Footer;
+export default AppFooter;

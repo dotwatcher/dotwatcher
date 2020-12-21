@@ -109,7 +109,7 @@ class Page extends Component {
 			<UserProvider
 				value={{ user: this.props.user, loading: this.props.loading }}
 			>
-				<Wrapper sans_serif near_black pa0 ma0 className="cf">
+				<Wrapper sans_serif near_black pa0 ma0>
 					{this.props.children}
 
 					{this.state.showModal && (

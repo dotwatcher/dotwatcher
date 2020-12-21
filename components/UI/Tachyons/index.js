@@ -34,3 +34,10 @@ export const Span = styled.span`
 export const Header = styled.header`
 	${tachyons}
 `;
+export const Footer = styled.footer`
+	${tachyons}
+`;
+
+export const Article = styled.article`
+	${tachyons}
+`;
