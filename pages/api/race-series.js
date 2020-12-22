@@ -3,8 +3,9 @@ import pool from "../../database";
 export default async function handle(req, res) {
 	const client = await pool.connect();
 
-	let { name } = req.body;
+	let { name } = req.query;
 
+	console.log(name);
 	if (!name) {
 		res.json({
 			error: "No name passed in request body"

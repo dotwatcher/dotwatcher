@@ -1,16 +1,24 @@
 {
 	"version": 2,
 	"alias": ["www.dotwatcher.cc", "dotwatcher.cc"],
-	"routes": [
+	"headers": [
 		{
-			"src": "/api/(.*)",
-			"headers": {
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-				"Access-Control-Allow-Credentials": "true"
-			},
-			"continue": true
-		},
+			"source": "/api/(.*)",
+			"headers": [
+				{ "key": "Access-Control-Allow-Credentials", "value": "true" },
+				{ "key": "Access-Control-Allow-Origin", "value": "*" },
+				{
+					"key": "Access-Control-Allow-Methods",
+					"value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+				},
+				{
+					"key": "Access-Control-Allow-Headers",
+					"value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+				}
+			]
+		}
+	],
+	"routes": [
 		{
 			"src": "/profile/Zoe%20Chauderlot",
 			"dest": "/profile/Zoé%20Chauderlot",
@@ -40,22 +48,6 @@
 			"src": "/profile/Stuart%20Birnie",
 			"dest": "/profile/Stuart%20Birnie%20(Hippy)",
 			"status": 301
-		},
-		{
-			"src": "/page/(?<id>[^/]+)$",
-			"dest": "/page?id=$id"
-		},
-		{
-			"src": "/post/(?<id>[^/]+)$",
-			"dest": "/post?id=$id"
-		},
-		{
-			"src": "/profile/edit",
-			"dest": "/profile/edit"
-		},
-		{
-			"src": "/calendar/(?<year>[^/]+)?/(?<month>[^/]+)$",
-			"dest": "/calendar?year=$year&month=$month"
-		}
+		}:"X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
 	]
 }

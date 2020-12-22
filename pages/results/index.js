@@ -104,6 +104,7 @@ class Results extends Component {
 						content="A history of results from the ultra-cycling world, in one database."
 					/>
 				</Head>
+
 				<Header user={this.props.user} title="dotwatcher.cc" />
 
 				<ResultsIndex

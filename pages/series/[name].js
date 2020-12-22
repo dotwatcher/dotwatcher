@@ -85,7 +85,8 @@ const Series = ({
 	latestWinner,
 	mostWins,
 	pairsWinners,
-	latestRace
+	latestRace,
+	...props
 }) => {
 	const router = useRouter();
 
@@ -260,47 +261,45 @@ const Series = ({
 							{!!mostWins && (
 								<Fragment>
 									<H4>Most Wins ({mostWins[0].races.length}):</H4>
-									{mostWins.map((winner, i) => {
-										return (
-											<Fragment key={i}>
-												<P>
-													<Link href={`/profile/${winner.name}`}>
-														<A
-															link
-															dark_gray
-															underline
-															pointer
-															hover_blue
-															title={winner.name}
+									{mostWins.map((winner, i) => (
+										<Fragment key={i}>
+											<P>
+												<Link href={`/profile/${winner.name}`}>
+													<A
+														link
+														dark_gray
+														underline
+														pointer
+														hover_blue
+														title={winner.name}
+													>
+														{winner.name}
+													</A>
+												</Link>
+												:
+												{winner.races.map((r, i) => (
+													<WinnerRace key={i}>
+														<Link
+															href={`/results/[year]/[race]`}
+															as={`/results/${r.year}/${r.slug}`}
+															passHref
 														>
-															{winner.name}
-														</A>
-													</Link>
-													:
-													{winner.races.map((r, i) => (
-														<WinnerRace key={i}>
-															<Link
-																href={`/results/[year]/[race]`}
-																as={`/results/${r.year}/${r.slug}`}
-																passHref
+															<A
+																link
+																dark_gray
+																underline
+																pointer
+																hover_blue
+																title={`${raceName}: ${r.year}`}
 															>
-																<A
-																	link
-																	dark_gray
-																	underline
-																	pointer
-																	hover_blue
-																	title={`${raceName}: ${r.year}`}
-																>
-																	{r.year}
-																</A>
-															</Link>
-														</WinnerRace>
-													))}
-												</P>
-											</Fragment>
-										);
-									})}
+																{r.year}
+															</A>
+														</Link>
+													</WinnerRace>
+												))}
+											</P>
+										</Fragment>
+									))}
 								</Fragment>
 							)}
 						</Winners>

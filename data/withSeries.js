@@ -7,13 +7,11 @@ const getLatestWinner = results =>
 	results &&
 	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
 
-const WithSeries = Page => {
-	const withSeries = props => <Page {...props} />;
+const withSeries = Page => {
+	const WithSeries = props => <Page {...props} />;
 
-	withSeries.getInitialProps = async ctx => {
+	WithSeries.getInitialProps = async ctx => {
 		const { name } = ctx.query;
-
-		console.log(name);
 
 		try {
 			const res = await client.getEntries({
@@ -27,11 +25,8 @@ const WithSeries = Page => {
 			let [race] = items;
 
 			const { data } = await axios({
-				url: apiUrl(`/api/race-series`, ctx.req),
-				method: "get",
-				data: {
-					name
-				}
+				url: apiUrl(`/api/race-series?name=${name}`, ctx.req),
+				method: "get"
 			});
 
 			race = { ...race, races: data.races };
@@ -119,7 +114,7 @@ const WithSeries = Page => {
 			};
 		}
 	};
-	return withSeries;
+	return WithSeries;
 };
 
-export default WithSeries;
+export default withSeries;

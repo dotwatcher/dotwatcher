@@ -30,19 +30,12 @@ const Year = styled.li`
 
 const ResultsSummary = ({ race, filtered }) => {
 	if (filtered !== "" && filtered !== race.name) return null;
-	
+
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<Link href={"/series/[name]"} href={`/series/${race.name}`}>
-					<A
-						black
-						no_underline
-						underline_hover
-						hover_blue
-						pointer
-						title={race.name}
-					>
+				<Link href={`/series/${race.name}`} passHref>
+					<A black underline_hover hover_blue pointer title={race.name}>
 						<H2 ma0 f3 fw6>
 							{race.name}
 						</H2>
@@ -62,17 +55,13 @@ const ResultsSummary = ({ race, filtered }) => {
 						lh_copy
 						key={index}
 					>
-							<Link
-								href={`/results/${event.year}/${event.slug}`}
-								passHref
-							>
-								<A db pa2 link near_black data-id={event.id}>
-									{event.year}
-								</A>
-							</Link>
-						</Year>
-					)
-				)}
+						<Link href={`/results/${event.year}/${event.slug}`} passHref>
+							<A db pa2 link near_black data-id={event.id}>
+								{event.year}
+							</A>
+						</Link>
+					</Year>
+				))}
 			</Years>
 		</Div>
 	);
