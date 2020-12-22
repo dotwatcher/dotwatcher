@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { compose } from "recompose";
 import tachyons from "styled-components-tachyons";
 import styled from "styled-components";
 import withSeries from "../../data/withSeries";
@@ -9,39 +8,26 @@ import Link from "next/link";
 import { getYear } from "date-fns";
 import { useRouter } from "next/router";
 
+import Instagram from "../../components/UI/Icons/instagram";
+import Website from "../../components/UI/Icons/website";
+import Twitter from "../../components/UI/Icons/twitter";
+import Facebook from "../../components/UI/Icons/facebook";
 import Richtext from "../../components/rich-text";
 import Page from "../../components/shared/page";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import mq from "../../utils/media-query";
-
-const H1 = styled.h1`
-	${tachyons}
-`;
-
-const H2 = styled.h2`
-	${tachyons}
-`;
-
-const H4 = styled.h2`
-	${tachyons}
-`;
-
-const Div = styled.div`
-	${tachyons}
-`;
-
-const P = styled.p`
-	${tachyons}
-`;
-
-const A = styled.a`
-	${tachyons}
-`;
-
-const Img = styled.img`
-	${tachyons}
-`;
+import {
+	P,
+	H1,
+	H2,
+	H4,
+	Div,
+	A,
+	Image,
+	Li,
+	Ul
+} from "../../components/UI/Tachyons";
 
 const Year = styled.li`
 	${tachyons}
@@ -150,7 +136,7 @@ const Series = ({
 			<Header user={user} title="dotwatcher.cc" />
 
 			{race.fields.heroImage && race.fields.heroImage.fields.file.url && (
-				<Img
+				<Image
 					w100
 					src={race.fields.heroImage.fields.file.url + "?w=1500"}
 					alt={raceName}
@@ -192,91 +178,83 @@ const Series = ({
 							<H4>Latest Winners ({latestWinner.year}): </H4>
 
 							{latestWinner && (
-								<Fragment>
-									<P>
-										Overall:{" "}
-										<Link href={`/profile/${latestWinner.name}`} passHref>
-											<A
-												link
-												dark_gray
-												hover_gray
-												underline
-												title={latestWinner.name}
-											>
-												{latestWinner.name}
-											</A>
-										</Link>
-									</P>
-								</Fragment>
+								<P>
+									Overall:{" "}
+									<Link href={`/profile/${latestWinner.name}`} passHref>
+										<A
+											link
+											dark_gray
+											hover_blue
+											underline
+											title={latestWinner.name}
+										>
+											{latestWinner.name}
+										</A>
+									</Link>
+								</P>
 							)}
 
 							{mensWinner && (
-								<Fragment>
-									<P>
-										Men's:{" "}
-										<Link href={`/profile/${mensWinner.name}`} passHref>
-											<A
-												link
-												dark_gray
-												hover_gray
-												underline
-												title={mensWinner.name}
-											>
-												{mensWinner.name}
-											</A>
-										</Link>
-									</P>
-								</Fragment>
+								<P>
+									Men's:{" "}
+									<Link href={`/profile/${mensWinner.name}`} passHref>
+										<A
+											link
+											dark_gray
+											hover_blue
+											underline
+											title={mensWinner.name}
+										>
+											{mensWinner.name}
+										</A>
+									</Link>
+								</P>
 							)}
 
 							{womensWinner && (
-								<Fragment>
-									<P>
-										Women's:{" "}
-										<Link href={`/profile/${womensWinner.name}`} passHref>
-											<A
-												link
-												dark_gray
-												hover_gray
-												underline
-												title={womensWinner.name}
-											>
-												{womensWinner.name}
-											</A>
-										</Link>
-									</P>
-								</Fragment>
+								<P>
+									Women's:{" "}
+									<Link href={`/profile/${womensWinner.name}`} passHref>
+										<A
+											link
+											dark_gray
+											hover_blue
+											underline
+											title={womensWinner.name}
+										>
+											{womensWinner.name}
+										</A>
+									</Link>
+								</P>
 							)}
 
 							{pairAWinner && (
-								<Fragment>
-									<P>
-										Pairs:{" "}
-										<Link href={`/profile/${pairAWinner.name}`} passHref>
-											<A
-												link
-												dark_gray
-												hover_gray
-												underline
-												title={pairAWinner.name}
-											>
-												{pairAWinner.name}
-											</A>
-										</Link>{" "}
-										&{" "}
-										<Link href={`/profile/${pairBWinner.name}`} passHref>
-											<A
-												link
-												dark_gray
-												hover_gray
-												underline
-												title={pairBWinner.name}
-											>
-												{pairBWinner.name}
-											</A>
-										</Link>
-									</P>
-								</Fragment>
+								<P>
+									Pairs:{" "}
+									<Link href={`/profile/${pairAWinner.name}`} passHref>
+										<A
+											link
+											dark_gray
+											hover_blue
+											underline
+											title={pairAWinner.name}
+										>
+											{pairAWinner.name}
+										</A>
+									</Link>{" "}
+									&{" "}
+									<Link href={`/profile/${pairBWinner.name}`} passHref>
+										<A
+											link
+											dark_gray
+											hover_blue
+											underline
+											title={pairBWinner.name}
+										>
+											{pairBWinner.name}
+										</A>
+									</Link>
+								</P>
 							)}
 
 							{!!mostWins && (
@@ -292,7 +270,7 @@ const Series = ({
 															dark_gray
 															underline
 															pointer
-															hover_gray
+															hover_blue
 															title={winner.name}
 														>
 															{winner.name}
@@ -311,7 +289,7 @@ const Series = ({
 																	dark_gray
 																	underline
 																	pointer
-																	hover_gray
+																	hover_blue
 																	title={`${raceName}: ${r.year}`}
 																>
 																	{r.year}
@@ -327,26 +305,63 @@ const Series = ({
 							)}
 						</Winners>
 
-						{race.fields.website && (
-							<Fragment>
-								<P>
-									<A href={race.fields.website} target="_blank">
-										{race.fields.website}
+						<Ul mt_4>
+							{race.fields.website && (
+								<Li dib>
+									<A
+										black
+										hover_blue
+										pointer
+										href={race.fields.website}
+										target="_blank"
+									>
+										<Website width={30} />
 									</A>
-								</P>
-							</Fragment>
-						)}
+								</Li>
+							)}
 
-						{race.fields.instagram && (
-							<Fragment>
-								<p>
-									Instagram:
-									<a href={race.fields.instagram} target="_blank">
-										{race.fields.instagram}
-									</a>
-								</p>
-							</Fragment>
-						)}
+							{race.fields.instagram && (
+								<Li dib ml4>
+									<A
+										black
+										hover_blue
+										pointer
+										href={race.fields.instagram}
+										target="_blank"
+									>
+										<Instagram width={30} />
+									</A>
+								</Li>
+							)}
+
+							{race.fields.twitter && (
+								<Li dib ml4>
+									<A
+										black
+										hover_blue
+										pointer
+										href={race.fields.twitter}
+										target="_blank"
+									>
+										<Twitter width={30} />
+									</A>
+								</Li>
+							)}
+
+							{race.fields.facebook && (
+								<Li dib ml4>
+									<A
+										black
+										hover_blue
+										pointer
+										href={race.fields.facebook}
+										target="_blank"
+									>
+										<Facebook width={30} />
+									</A>
+								</Li>
+							)}
+						</Ul>
 					</RaceDetails>
 					<RaceOverview>
 						{race.fields.description && (

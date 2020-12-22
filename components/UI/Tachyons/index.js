@@ -16,6 +16,15 @@ export const H1 = styled.h1`
 export const P = styled.p`
 	${tachyons}
 `;
+export const Li = styled.li`
+	${tachyons}
+`;
+export const Ul = styled.ul`
+	list-style-type: none;
+	padding-left: 0;
+	margin-left: 0;
+	${tachyons}
+`;
 export const Img = styled.img`
 	${tachyons}
 `;
