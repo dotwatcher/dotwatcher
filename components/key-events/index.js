@@ -51,7 +51,7 @@ class KeyEvents extends Component {
 			const eventsWrap = document.getElementById("events-wrap");
 
 			if (eventsWrap) {
-				eventsWrpa.style.height = windowHeight - 400 + "px";
+				eventsWrap.style.height = windowHeight - 400 + "px";
 			}
 		}
 	}
