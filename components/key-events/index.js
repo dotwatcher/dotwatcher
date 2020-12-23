@@ -48,8 +48,11 @@ class KeyEvents extends Component {
 	handleScroll() {
 		if (this.state.width >= 1024) {
 			const windowHeight = document.body.scrollHeight;
-			document.getElementById("events-wrap").style.height =
-				windowHeight - 400 + "px";
+			const eventsWrap = document.getElementById("events-wrap");
+
+			if (eventsWrap) {
+				eventsWrpa.style.height = windowHeight - 400 + "px";
+			}
 		}
 	}
 
