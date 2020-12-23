@@ -8,7 +8,7 @@ import mq from "../../utils/media-query";
 
 const Map = styled.iframe`
 	${tachyons}
-	/* height: 100%; */
+	height: 100%;
 	/* ${mq.smUp`
 		height: calc(100vh - 89px);
 	`} */
@@ -36,7 +36,7 @@ class Iframe extends Component {
 				? "75px"
 				: "0"};
 			height: 80vh;
-			
+
 			@media screen and (min-width: 64em) {
 				height: ${this.props.raceID.indexOf("maprogress") !== -1
 					? "calc(100vh - 75px)"
@@ -45,6 +45,7 @@ class Iframe extends Component {
 			${tachyons}
 		`;
 		let iframe = <Placeholder raceID="Live tracker coming soon" w_100 h_100 />;
+
 		if (this.props.raceID && this.props.raceID.indexOf("maprogress") !== -1) {
 			iframe = (
 				<Map
