@@ -6,6 +6,8 @@ import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
 import "react-quill/dist/quill.snow.css";
 
+import Layout from "../components/New/Layout";
+
 if (typeof window !== "undefined") {
 	// kick off the polyfill!
 	smoothscroll.polyfill();
@@ -55,9 +57,9 @@ class MyApp extends App {
 			}
 		};
 
-		const status = await user()
+		const status = await user();
 
-		if (status.loggedIn) {	
+		if (status.loggedIn) {
 			this.setState({
 				user: status
 			});
@@ -83,7 +85,9 @@ class MyApp extends App {
 
 		return (
 			<CookiesProvider>
-				<Component {...pageProps} user={this.state.user} />
+				<Layout user={this.state.user}>
+					<Component {...pageProps} user={this.state.user} />
+				</Layout>
 			</CookiesProvider>
 		);
 	}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="27px" viewBox="0 0 15 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Footer" transform="translate(-716.000000, -351.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="Social" transform="translate(5.000000, 310.000000)">
+                <g id="facebook" transform="translate(711.000000, 41.000000)">
+                    <path d="M4.08562073e-14,10.1587156 L4.6875,10.1587156 L4.6875,6.42097046 C4.6875,0.814352816 8.4375,-0.120083459 15,0.814352816 L15,5.48653419 C11.25,5.48653419 10.3125,5.48653419 10.3125,8.28984301 L10.3125,10.1587156 L15,10.1587156 L14.0625,15.7653332 L10.3125,15.7653332 L10.3125,26.9785685 L4.6875,26.9785685 L4.6875,15.7653332 L4.08562073e-14,15.7653332 L4.08562073e-14,10.1587156 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

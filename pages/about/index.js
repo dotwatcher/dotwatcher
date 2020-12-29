@@ -115,6 +115,9 @@ const AboutPage = ({ page, user, contributors }) => {
 				{blocksWithoutSlides.map(block => (
 					<ContentBlock key={block.sys.id} block={block} />
 				))}
+
+				<a id="contributors"></a>
+
 				<ContributorsGrid contributors={contributors} />
 			</Div>
 			<Footer />

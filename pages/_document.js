@@ -1,5 +1,4 @@
-
-import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
+import NextDocument, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import React from "react";
 
@@ -36,7 +35,7 @@ export default class Document extends NextDocument {
 						name="description"
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 					/>
-				
+
 					<link
 						rel="icon"
 						type="image/png"
@@ -70,6 +69,12 @@ export default class Document extends NextDocument {
 						rel="apple-touch-icon"
 						sizes="167x167"
 						href="/static/dw-pin-167.png"
+					/>
+
+					<link rel="preconnect" href="https://fonts.gstatic.com" />
+					<link
+						href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Roboto:wght@400;500&display=swap"
+						rel="stylesheet"
 					/>
 				</Head>
 				<body>
