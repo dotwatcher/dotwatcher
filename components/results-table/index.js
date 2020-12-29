@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
+import arraySort from "array-sort";
+
 import slugify from "../../utils/slugify";
 import ResultsFilter from "../results-filter";
+import { filter } from "lodash";
 
 const Div = styled.div`
 	${tachyons}
@@ -42,6 +45,8 @@ class ResultsTable extends React.Component {
 		this.setClassFilter = this.setClassFilter.bind(this);
 		this.setCategoryFilter = this.setCategoryFilter.bind(this);
 		this.setLocationFilter = this.setLocationFilter.bind(this);
+		this.sortColumn = this.sortColumn.bind(this);
+		this.sanitizeResults = this.sanitizeResults.bind(this);
 	}
 
 	setClassFilter(filter) {
@@ -75,6 +80,32 @@ class ResultsTable extends React.Component {
 				this.updateURL();
 			}
 		);
+	}
+
+	sanitizeResults(results) {
+		return results.map(result => ({
+			...result,
+			cap: parseInt(result.cap),
+			days: parseInt(result.days),
+			hours: parseInt(result.hours),
+			minutes: parseInt(result.minutes)
+		}));
+	}
+
+	sortColumn(sorter) {
+		const reverse =
+			this.state.selectedSort === sorter ? !this.state.sortReveresed : false;
+		const sortedResults = arraySort(
+			this.sanitizeResults(this.props.results),
+			sorter,
+			{ reverse }
+		);
+
+		this.setState({
+			results: sortedResults,
+			selectedSort: sorter,
+			sortReveresed: reverse
+		});
 	}
 
 	updateURL() {
@@ -156,6 +187,8 @@ class ResultsTable extends React.Component {
 			}
 		}
 
+		filteredResults = filteredResults.sort((a, b) => b.year - a.year);
+
 		return (
 			<Div>
 				{this.props.type !== "profile" ? (
@@ -180,14 +213,39 @@ class ResultsTable extends React.Component {
 							{this.props.type === "profile" ? (
 								<ResultsHeadCell>Year</ResultsHeadCell>
 							) : null}
-							<ResultsHeadCell>Rank</ResultsHeadCell>
-							<ResultsHeadCell>Rider</ResultsHeadCell>
+							<ResultsHeadCell
+								underline_hover
+								pointer
+								onClick={() => this.sortColumn("position")}
+							>
+								Rank
+							</ResultsHeadCell>
+							<ResultsHeadCell
+								underline_hover
+								pointer
+								onClick={() => this.sortColumn("name")}
+							>
+								Rider
+							</ResultsHeadCell>
 							{withCapNo ? (
-								<ResultsHeadCell dn dtc_ns>
+								<ResultsHeadCell
+									underline_hover
+									pointer
+									onClick={() => this.sortColumn("cap")}
+									dn
+									dtc_ns
+								>
 									Cap/Bib
 								</ResultsHeadCell>
 							) : null}
-							<ResultsHeadCell dn dtc_ns colSpan="2">
+							<ResultsHeadCell
+								onClick={() => this.sortColumn("class")}
+								pointer
+								underline_hover
+								dn
+								dtc_ns
+								colSpan="2"
+							>
 								Class/Category
 							</ResultsHeadCell>
 							<ResultsHeadCell>Result</ResultsHeadCell>
@@ -200,7 +258,12 @@ class ResultsTable extends React.Component {
 							{this.props.activeLocation ? (
 								<ResultsHeadCell>Finish Location</ResultsHeadCell>
 							) : null}
-							<ResultsHeadCell tr>
+							<ResultsHeadCell
+								tr
+								underline_hover
+								pointer
+								onClick={() => this.sortColumn("position")}
+							>
 								<abbr title="Finish Time in days, hours and minutes">
 									Finish Time
 								</abbr>
@@ -273,7 +336,13 @@ class ResultsTable extends React.Component {
 											href={`/profile/${result.name}`}
 											passHref
 										>
-											<A link near_black hover_blue underline>
+											<A
+												link
+												near_black
+												hover_blue
+												underline
+												title={result.name}
+											>
 												{result.name}
 											</A>
 										</Link>

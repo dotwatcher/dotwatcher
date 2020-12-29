@@ -10,12 +10,14 @@ import Link from "next/link";
 import Header from "../../../components/header";
 import Page from "../../../components/shared/page";
 import Footer from "../../../components/footer";
+
+import Stats from "../../../components/Graphs/Pie";
+import GenderSplit from "../../../components/Results/gender-split";
 import ResultsTable from "../../../components/results-table";
 import ResultsContribute from "../../../components/results-contribute";
+import { Accordion, AccordionItem } from "../../../components/UI/Accordion";
 import { WithResults } from "../../../data/with-results";
 import apiUrl from "../../../utils/api-url";
-import { compose } from "recompose";
-import { withRouter } from 'next/router'
 
 const Heading = styled.header`
 	${tachyons}
@@ -37,7 +39,7 @@ const Description = styled.p`
 	${tachyons}
 `;
 
-class App extends Component {
+class Result extends Component {
 	constructor(props) {
 		super(props);
 
@@ -158,49 +160,61 @@ class App extends Component {
 					/>
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
-
 				<Div mt3 mt4_l mh6_l>
 					<Div pb5>
-						<Link href="/results" passHref>
-							<A ph3 db link near_black hover_blue>
+						<Link href="/results">
+							<A ph3 db link near_black hover_blue passHref title="All Results">
 								← All results
 							</A>
 						</Link>
 						<Heading fl w_100 mb4 ph3>
 							<H1 f3 f1_l fw6 lh_title mb0>
-								{this.props.name} {this.props.year} Results
+								{this.props.name} {this.props.year} results
 							</H1>
 							{this.props.description && (
 								<Description measure_wide f4 lh_copy>
-									{this.props.description.split("\n").map((item, key) => {
-										return (
-											<Fragment key={key}>
-												{item}
-												<br />
-											</Fragment>
-										);
-									})}
+									{JSON.stringify(this.props.description) !== `"null"` &&
+										this.props.description.split("\n").map((item, key) => {
+											return (
+												<Fragment key={key}>
+													{item}
+													<br />
+												</Fragment>
+											);
+										})}
 								</Description>
 							)}
 						</Heading>
 
 						{this.props.results.length ? (
-							<ResultsTable
-								type="race"
-								results={results}
-								focus={this.props.focus}
-								racerClasses={this.props.racerClasses}
-								activeClass={this.props.activeClass}
-								racerCategories={this.props.racerCategories}
-								activeCategory={this.props.activeCategory}
-								finishlocations={this.props.finishlocations}
-								activeLocation={this.props.activeLocation}
-								hasNotes={this.hasNotes()}
-							/>
+							<Fragment>
+								<Accordion>
+									<AccordionItem id="stats" title="Nationality">
+										<Stats data={results} />
+									</AccordionItem>
+
+									<AccordionItem id="gender" title="Gender">
+										<GenderSplit data={results} />
+									</AccordionItem>
+
+									<AccordionItem id="results" title="Results" isOpen>
+										<ResultsTable
+											type="race"
+											results={results}
+											focus={this.props.focus}
+											racerClasses={this.props.racerClasses}
+											activeClass={this.props.activeClass}
+											racerCategories={this.props.racerCategories}
+											activeCategory={this.props.activeCategory}
+											finishlocations={this.props.finishlocations}
+											activeLocation={this.props.activeLocation}
+											hasNotes={this.hasNotes()}
+										/>
+									</AccordionItem>
+								</Accordion>
+							</Fragment>
 						) : (
-							<H3 ph3>
-								No results have been published for {this.props.router.query.race || 'this race'}.
-							</H3>
+							<H3 ph3>No results have been published for {this.props.name}</H3>
 						)}
 						<ResultsContribute />
 					</Div>
@@ -211,7 +225,7 @@ class App extends Component {
 	}
 }
 
-App.propTypes = {
+Result.propTypes = {
 	race: PropTypes.string,
 	year: PropTypes.string,
 	results: PropTypes.array,
@@ -219,7 +233,7 @@ App.propTypes = {
 	focus: PropTypes.string
 };
 
-App.defaultProps = {
+Result.defaultProps = {
 	race: "",
 	year: "",
 	results: [],
@@ -227,9 +241,4 @@ App.defaultProps = {
 	focus: ""
 };
 
-const enhance = compose(
-	WithResults,
-	withRouter
-)
-
-export default enhance(App);
+export default WithResults(Result);

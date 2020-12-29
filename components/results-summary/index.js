@@ -30,38 +30,38 @@ const Year = styled.li`
 
 const ResultsSummary = ({ race, filtered }) => {
 	if (filtered !== "" && filtered !== race.name) return null;
+
 	return (
 		<Div id={race.name}>
 			<Header mv3 pb1 bb bw1 b__light_gray>
-				<H2 ma0 f3 fw6>
-					{race.name}
-				</H2>
+				<Link href={`/series/${race.name}`} passHref>
+					<A black underline_hover hover_blue pointer title={race.name}>
+						<H2 ma0 f3 fw6>
+							{race.name}
+						</H2>
+					</A>
+				</Link>
 			</Header>
 			<Years list ma0 pa0 tc>
-				{race.events.map((event, index) => {
-					return (
-						<Year
-							dib
-							hover_bg_lightest_blue
-							bg_light_gray
-							ba
-							bw1
-							b__white
-							f4
-							lh_copy
-							key={index}
-						>
-							<Link
-								href={`/results/${event.year}/${event.slug}`}
-								passHref
-							>
-								<A db pa2 link near_black data-id={event.id}>
-									{event.year}
-								</A>
-							</Link>
-						</Year>
-					);
-				})}
+				{race.events.map((event, index) => (
+					<Year
+						dib
+						hover_bg_lightest_blue
+						bg_light_gray
+						ba
+						bw1
+						b__white
+						f4
+						lh_copy
+						key={index}
+					>
+						<Link href={`/results/${event.year}/${event.slug}`} passHref>
+							<A db pa2 link near_black data-id={event.id}>
+								{event.year}
+							</A>
+						</Link>
+					</Year>
+				))}
 			</Years>
 		</Div>
 	);
