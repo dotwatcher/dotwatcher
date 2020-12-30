@@ -30,10 +30,26 @@ export default class Document extends NextDocument {
 			<Html>
 				<Head>
 					{this.props.styleTags}
+
 					<link rel="stylesheet" href="/static/index.css" />
+
+					<title>DotWatcher.cc</title>
+
 					<meta
 						name="description"
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					/>
+
+					<meta
+						name="og:description"
+						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					/>
+
+					<meta name="og:title" content="DotWatcher.cc" />
+
+					<meta
+						property="og:image"
+						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 					/>
 
 					<link
@@ -73,7 +89,7 @@ export default class Document extends NextDocument {
 
 					<link rel="preconnect" href="https://fonts.gstatic.com" />
 					<link
-						href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Roboto:wght@400;500&display=swap"
+						href="https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap"
 						rel="stylesheet"
 					/>
 				</Head>

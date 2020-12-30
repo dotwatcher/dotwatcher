@@ -42,11 +42,22 @@ const NavWrap = styled.div`
 	border-top: 1px solid ${colors.lightgrey};
 	border-bottom: 1px solid ${colors.lightgrey};
 
+	a {
+		text-decoration: none;
+		text-transform: uppercase;
+		font-weight: bold;
+		border: none;
+
+		&:hover {
+			color: ${colors.primarylight};
+			border-bottom: 1px solid ${colors.primarylight};
+		}
+	}
+
 	${mq.mdUp`
 		grid-column: 2 / span 10;
-    
-    padding-left: 90px;
-    padding-right: 90px;
+    padding-left: ${dim(6)};
+    padding-right: ${dim(6)};
 	`};
 `;
 
@@ -84,6 +95,7 @@ const OptionsToggle = styled.button`
 
 const HeaderComp = ({ user }) => {
 	const [optionsVisible, setoptionsVisible] = useState(false);
+
 	return (
 		<Header>
 			<H1>DotWatcher.cc</H1>

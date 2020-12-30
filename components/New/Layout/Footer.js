@@ -130,9 +130,9 @@ const FooterComp = () => {
 						</a>
 
 						<Link href="/about#contributors" passHref>
-							<a title="Our Contributors">
-								<p>Our Contributors</p>
-							</a>
+							<p>
+								<A title="Our Contributors">Our Contributors</A>
+							</p>
 						</Link>
 					</ContributorsGrid>
 				</Contributors>
@@ -141,7 +141,7 @@ const FooterComp = () => {
 			<Social>
 				<SocialLinksList>
 					<li>
-						<A
+						<a
 							href="https://twitter.com/dotwatcher"
 							target="_blank"
 							title="Twitter"
@@ -153,11 +153,11 @@ const FooterComp = () => {
 								alt="Twitter"
 								title="Twitter"
 							/>
-						</A>
+						</a>
 					</li>
 
 					<li>
-						<A
+						<a
 							href="https://www.facebook.com/Dotwatcher-589592644746030/"
 							target="_blank"
 							title="Facebook"
@@ -169,11 +169,11 @@ const FooterComp = () => {
 								alt="Facebook"
 								title="Facebook"
 							/>
-						</A>
+						</a>
 					</li>
 
 					<li>
-						<A
+						<a
 							href="https://www.instagram.com/dotwatcher.cc/"
 							target="_blank"
 							title="Instagram"
@@ -185,7 +185,7 @@ const FooterComp = () => {
 								alt="Instagram"
 								title="Instagram"
 							/>
-						</A>
+						</a>
 					</li>
 				</SocialLinksList>
 			</Social>

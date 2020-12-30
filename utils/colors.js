@@ -1,7 +1,17 @@
+const black = "#000";
+const white = "#fff";
+const grey = "#979797";
+const lightgrey = "##d4d3d3";
+
 const Colors = {
-	white: "#fff",
-	grey: "#979797",
-	lightgrey: "#d4d3d3"
+	white,
+	grey,
+	black,
+	lightgrey,
+	primary: "#114b5f",
+	primaryHover: "#1a936f",
+	secondary: black,
+	secondaryHover: black
 };
 
 export default Colors;

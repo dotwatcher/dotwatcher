@@ -2,6 +2,13 @@ import styled from "styled-components";
 
 export default styled.a`
 	font-size: inherit;
-	color: inherit;
-	text-decoration: underline;
+	border-bottom: 1px solid;
+	text-decoration: none;
+	margin-bottom: 0;
+	cursor: pointer;
+
+	* {
+		border-bottom: 1px solid;
+		text-decoration: none;
+	}
 `;
