@@ -179,7 +179,7 @@ const HeaderComp = ({ user }) => {
 			<Nav>
 				<NavWrap>
 					<H4>
-						<Link href="/reports" passHref>
+						<Link href="/races" passHref>
 							<A title="Reports">Reports</A>
 						</Link>
 					</H4>

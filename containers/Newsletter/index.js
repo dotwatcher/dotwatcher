@@ -51,6 +51,10 @@ const StyledError = styled(P)`
 	color: ${colors.red};
 `;
 
+const PastIssues = styled(P)`
+	padding-top: ${dim(0.5)};
+`;
+
 const CustomForm = ({
 	status,
 	message,
@@ -99,11 +103,11 @@ const CustomForm = ({
 				<StyledInput>
 					<Input type="email" name="email" placeholder="Email Address" />
 					{showPastIssues && (
-						<P fl ma0 w_100 lh_copy f6>
+						<PastIssues>
 							<Link href="/digest" passHref>
 								<A>Discover past issues</A>
 							</Link>
-						</P>
+						</PastIssues>
 					)}
 				</StyledInput>
 

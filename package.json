@@ -19,6 +19,7 @@
 		"extends": "xo-react"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.3.6",
 		"@auth0/nextjs-auth0": "^0.13.0",
 		"@contentful/rich-text-html-renderer": "^14.1.2",
 		"@contentful/rich-text-react-renderer": "^13.4.0",
@@ -39,6 +40,7 @@
 		"debounce": "^1.2.0",
 		"disqus-react": "^1.0.7",
 		"formik": "^2.1.2",
+		"graphql": "^15.4.0",
 		"isomorphic-unfetch": "^3.0.0",
 		"js-cookie": "^2.2.1",
 		"lodash": "^4.17.15",

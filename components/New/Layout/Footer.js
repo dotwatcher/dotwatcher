@@ -3,6 +3,7 @@ import Link from "next/link";
 import H4 from "@Components/UI/H4";
 import H5 from "@Components/UI/H5";
 import A from "@Components/UI/A";
+import Center from "@Components/UI/Center";
 import Image from "next/image";
 import dim from "@Utils/dim";
 import Newsletter from "@Containers/Newsletter";
@@ -97,10 +98,6 @@ const Contrinbutor = styled.span`
 	${mq.mdUp`
 		padding-top: 0 !important;
 	`}
-`;
-
-const Center = styled.div`
-	text-align: center;
 `;
 
 const NewsletterSection = styled.section`

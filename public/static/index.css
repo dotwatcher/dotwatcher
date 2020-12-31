@@ -1,3 +1,16 @@
+* {
+	font-family: "Raleway", sans-serif;
+}
+
+a {
+	color: inherit;
+}
+
+a:hover,
+a:hover * {
+	color: lightgrey;
+}
+
 .cf:before,
 .cf:after {
 	content: " ";
