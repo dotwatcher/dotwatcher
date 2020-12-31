@@ -78,6 +78,7 @@ module.exports = withSourceMaps({
 			"@ComponentsNew": path.resolve(__dirname, "./components/new"),
 			"@Data": path.resolve(__dirname, "./data"),
 			"@Utils": path.resolve(__dirname, "./utils"),
+			"@Containers": path.resolve(__dirname, "./containers"),
 			"react-dom$": "react-dom/profiling",
 			"scheduler/tracing": "scheduler/tracing-profiling"
 		};
