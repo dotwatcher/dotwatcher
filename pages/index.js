@@ -13,11 +13,29 @@ import Center from "@Components/UI/Center";
 import moment from "moment";
 import Image from "next/image";
 import colors from "@Utils/colors";
+import mq from "@Utils/media-query";
 
 const Grid = styled.section`
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
 	grid-column-gap: ${dim(2)};
+
+	${mq.smUp`
+		grid-template-columns: repeat(2, 1fr);
+	`}
+
+	${mq.mdUp`
+		grid-template-columns: repeat(4, 1fr);
+	`}
+`;
+
+const GridItem = styled.article`
+	& + & {
+		${mq.smDown`
+			margin-top: ${dim()};
+			padding-top: ${dim()};
+			border-top: 1px solid ${colors.lightgrey};
+		`}
+	}
 `;
 
 const Section = styled.section`
@@ -41,14 +59,14 @@ const Home = ({ data }) => {
 
 	return (
 		<Fragment>
-			{featureCollection && (
+			{featureCollection && featureCollection.items.length > 0 && (
 				<Section>
 					<Center>
-						<H2>Recent Features</H2>
+						<H2>Latest Features</H2>
 					</Center>
 					<Grid>
 						{featureCollection.items.slice(0, 4).map((feature, ind) => (
-							<div key={ind}>
+							<GridItem key={ind}>
 								{feature.featuredImage && (
 									<Image
 										src={feature.featuredImage.url}
@@ -73,13 +91,13 @@ const Home = ({ data }) => {
 										passHref
 									>
 										<a>
-											<P>{feature.contributor.name}</P>
+											<P>By: {feature.contributor.name}</P>
 										</a>
 									</Link>
 								)}
 
 								<p>{moment(feature.sys.publishedAt).format("MMM Do YYYY")}</p>
-							</div>
+							</GridItem>
 						))}
 					</Grid>
 				</Section>
@@ -111,9 +129,7 @@ const Home = ({ data }) => {
 				</Center>
 			</Section>
 
-			{console.log(featureCategoryCollection)}
-
-			{featureCategoryCollection && featureCategoryCollection.items.length && (
+			{featureCategoryCollection && featureCategoryCollection.items.length > 0 && (
 				<Section>
 					{featureCategoryCollection.items.map((collection, ind) => (
 						<Link href={`features/${collection.slug}`} passHref key={ind}>
@@ -126,7 +142,7 @@ const Home = ({ data }) => {
 			)}
 
 			{homepage.favouriteRacesCollection &&
-				homepage.favouriteRacesCollection.items.length && (
+				homepage.favouriteRacesCollection.items.length > 0 && (
 					<Section>
 						{homepage.favouriteRacesCollection.items && (
 							<Fragment>
@@ -144,11 +160,11 @@ const Home = ({ data }) => {
 			{racesCollection && (
 				<Section>
 					<Center>
-						<H2>Previous Races</H2>
+						<H2>Recent Races</H2>
 					</Center>
 					<Grid>
 						{racesCollection.items.slice(0, 4).map((race, ind) => (
-							<div key={ind}>
+							<GridItem key={ind}>
 								<Link href={`/race/${race.slug}`} passHref>
 									<a>
 										<H4>{race.title}</H4>
@@ -158,7 +174,7 @@ const Home = ({ data }) => {
 								<P>{race.shortDescription}</P>
 
 								<p>{moment(race.raceDate).format("MMM Do YYYY")}</p>
-							</div>
+							</GridItem>
 						))}
 					</Grid>
 				</Section>

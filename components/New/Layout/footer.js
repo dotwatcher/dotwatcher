@@ -14,12 +14,12 @@ import colors from "@Utils/colors";
 const Footer = styled.footer`
 	> * {
 		border-top: 1px solid ${colors.lightgrey};
-		padding-top: ${dim()};
-		margin-top: ${dim()};
+		padding-top: ${dim(2)};
+		margin-top: ${dim(2)};
 	}
 `;
 
-const SubLinks = styled.section`
+const Grid = styled.section`
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 
@@ -34,15 +34,6 @@ const CenteredList = styled.ul`
 	margin: 0;
 	display: flex;
 	justify-content: space-around;
-`;
-
-const Social = styled.section`
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-
-	${mq.mdUp`
-	  grid-template-columns: repeat(12, 1fr);
-  `}
 `;
 
 const SubLinksList = styled(CenteredList)`
@@ -106,9 +97,13 @@ const NewsletterSection = styled.section`
 
 	${mq.mdUp`
 		grid-column-gap: ${dim(4)};
-		padding:  0 ${dim(2)};
+		padding: ${dim(2)} ${dim(2)} 0 ;
 		grid-template-columns: 40% 60%;
 	`}
+
+	h5 {
+		margin-bottom: 0;
+	}
 `;
 
 const FooterComp = () => {
@@ -186,7 +181,7 @@ const FooterComp = () => {
 				</Contributors>
 			</section>
 
-			<Social>
+			<Grid>
 				<SocialLinksList>
 					<li>
 						<a
@@ -236,8 +231,8 @@ const FooterComp = () => {
 						</a>
 					</li>
 				</SocialLinksList>
-			</Social>
-			<SubLinks>
+			</Grid>
+			<Grid>
 				<SubLinksList>
 					<li>
 						<Link href="/submissions" passHref>
@@ -261,7 +256,7 @@ const FooterComp = () => {
 						</A>
 					</li>
 				</SubLinksList>
-			</SubLinks>
+			</Grid>
 		</Footer>
 	);
 };

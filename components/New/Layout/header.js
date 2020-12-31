@@ -41,8 +41,12 @@ const NavWrap = styled.div`
 	padding-top: ${dim(2)};
 	border-top: 1px solid ${colors.lightgrey};
 	border-bottom: 1px solid ${colors.lightgrey};
+	flex-direction: column;
+	text-align: center;
 
-	a {
+	${mq.smUp`
+		flex-direction: row;
+	`} a {
 		text-decoration: none;
 		text-transform: uppercase;
 		font-weight: bold;
