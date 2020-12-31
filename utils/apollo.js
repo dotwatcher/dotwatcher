@@ -7,7 +7,7 @@ const client = new ApolloClient({
 		process.env.CONTENTFUL_SPACE_ID,
 	cache: new InMemoryCache(),
 	headers: {
-		Authorization: `Bearer ${process.env.CONTENTFUL_GRAPHQL_URL}`
+		Authorization: `Bearer ${process.env.CONTENTFUL_GRAPHQL_TOKEN}`
 	}
 });
 
