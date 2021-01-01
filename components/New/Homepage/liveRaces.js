@@ -61,7 +61,7 @@ const Tabs = styled.nav`
 	display: flex;
 `;
 
-const RaceSlide = ({ race, ...props }) => (
+const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
 		<Image
 			src={race.icon.url + "?w=2000&h=1600&fit=fill"}
