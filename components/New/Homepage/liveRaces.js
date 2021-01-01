@@ -64,9 +64,9 @@ const Tabs = styled.nav`
 const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
 		<Image
-			src={race.icon.url + "?w=2000&h=1600&fit=fill"}
-			width={2000}
-			height={1600}
+			src={race.icon.url + "?w=1800&h=1200&fit=fill"}
+			width={1800}
+			height={1200}
 			title={race.title}
 			priority={ind === 0}
 		/>

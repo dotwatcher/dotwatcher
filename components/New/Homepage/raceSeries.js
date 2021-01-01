@@ -39,7 +39,11 @@ const RaceSeries = ({ favouriteRacesCollection }) => (
 		<Carousel>
 			{favouriteRacesCollection.items.map((race, ind) => (
 				<Slide key={ind}>
-					<Image src={race.heroImage.url} width={2000} height={1500} />
+					<Image
+						src={race.heroImage.url + "?w=1800&h=1200&fit=fill"}
+						width={1800}
+						height={1200}
+					/>
 
 					<Content>
 						<Link href={`/series/${race.name}`} passHref>

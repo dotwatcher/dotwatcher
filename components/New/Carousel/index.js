@@ -43,7 +43,7 @@ const Carousel = ({ children, ...props }) => {
 			<CarouselStyles>
 				<CarouselProvider
 					naturalSlideWidth={100}
-					naturalSlideHeight={77}
+					naturalSlideHeight={68}
 					totalSlides={count}
 					infinite
 					{...props}
