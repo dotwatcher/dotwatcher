@@ -53,6 +53,12 @@ const Home = ({ data }) => {
 		liveRaces
 	} = data;
 
+	const recentRaces = {
+		...racesCollection,
+		// Remove the number of races that are currently live
+		items: racesCollection.items.slice(liveRaces.items.length)
+	};
+
 	const [homepage] = homepageNewCollection.items;
 
 	return (
@@ -138,9 +144,9 @@ const Home = ({ data }) => {
 					</Section>
 				)}
 
-			{racesCollection && racesCollection.items.length > 0 && (
+			{recentRaces && recentRaces.items.length > 0 && (
 				<Section>
-					<RecentRaces racesCollection={racesCollection} />
+					<RecentRaces racesCollection={recentRaces} />
 				</Section>
 			)}
 
