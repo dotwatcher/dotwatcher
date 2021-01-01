@@ -78,6 +78,11 @@ const Home = ({ data }) => {
 				</Section>
 			)}
 
+			{recentRaces && recentRaces.items.length > 0 && (
+				<Section>
+					<RecentRaces racesCollection={recentRaces} />
+				</Section>
+			)}
 			<TitleSection>
 				<Center>
 					<H4>
@@ -109,20 +114,6 @@ const Home = ({ data }) => {
 				</Center>
 			</TitleSection>
 
-			{featureCollection && featureCollection.items.length > 0 && (
-				<Section>
-					<LatestFeatures featureCollection={featureCollection} />
-				</Section>
-			)}
-
-			<Section>
-				<Center>
-					<Link href="/features" passHref>
-						<a>Read all our features</a>
-					</Link>
-				</Center>
-			</Section>
-
 			{featureCategoryCollection && featureCategoryCollection.items.length > 0 && (
 				<Section>
 					{featureCategoryCollection.items.map((collection, ind) => (
@@ -144,11 +135,19 @@ const Home = ({ data }) => {
 					</Section>
 				)}
 
-			{recentRaces && recentRaces.items.length > 0 && (
+			{featureCollection && featureCollection.items.length > 0 && (
 				<Section>
-					<RecentRaces racesCollection={recentRaces} />
+					<LatestFeatures featureCollection={featureCollection} />
 				</Section>
 			)}
+
+			<Section>
+				<Center>
+					<Link href="/features" passHref>
+						<a>Read all our features</a>
+					</Link>
+				</Center>
+			</Section>
 
 			<Section>
 				<Center>
