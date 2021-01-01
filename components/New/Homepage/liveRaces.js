@@ -68,6 +68,7 @@ const RaceSlide = ({ race, ...props }) => (
 			width={2000}
 			height={1600}
 			title={race.title}
+			priority={ind === 0}
 		/>
 
 		<SlideDescription>
@@ -109,7 +110,12 @@ const LiveRaces = ({ liveRaces }) => {
 			</Tabs>
 			<Slides>
 				{items.map((race, ind) => (
-					<RaceSlide race={race} active={ind === activeTab} />
+					<RaceSlide
+						key={key}
+						ind={ind}
+						race={race}
+						active={ind === activeTab}
+					/>
 				))}
 			</Slides>
 		</div>
