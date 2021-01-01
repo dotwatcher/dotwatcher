@@ -47,9 +47,7 @@ const RaceSeries = ({ favouriteRacesCollection }) => (
 								<H2 key={ind}>{race.name}</H2>
 
 								{race.description && (
-									<P>
-										<RichText source={race.description.json} />
-									</P>
+									<RichText source={race.description.json} />
 								)}
 							</SlideLink>
 						</Link>

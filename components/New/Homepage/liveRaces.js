@@ -54,7 +54,7 @@ const Tab = styled.button`
 	${({ active }) =>
 		active &&
 		css`
-			box-shadow: inset 0px 0px 12px 3px rgba(151, 151, 151, 1);
+			box-shadow: inset 0px 0px 8px 0px rgba(151, 151, 151, 1);
 		`}
 `;
 const Tabs = styled.nav`

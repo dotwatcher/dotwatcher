@@ -98,8 +98,12 @@ const NewsletterSection = styled.section`
 	${mq.mdUp`
 		grid-column-gap: ${dim(4)};
 		padding: ${dim(2)} ${dim(2)} 0 ;
-		grid-template-columns: 40% 60%;
+		grid-template-columns: repeat(12, 1fr);
 	`}
+
+	> div {
+		grid-column: span 6;
+	}
 
 	h5 {
 		margin-bottom: 0;
@@ -110,13 +114,17 @@ const FooterComp = () => {
 	return (
 		<Footer>
 			<NewsletterSection>
-				<H5>
-					DotWatcher is here to showcase the best of long distance
-					self-supported bike racing. The DotWatcher Digest is a regular roundup
-					of the best content from around the bikepacking webosphere, delivered
-					via an exclusive newsletter.
-				</H5>
-				<Newsletter />
+				<div>
+					<H5>
+						DotWatcher is here to showcase the best of long distance
+						self-supported bike racing. The DotWatcher Digest is a regular
+						roundup of the best content from around the bikepacking webosphere,
+						delivered via an exclusive newsletter.
+					</H5>
+				</div>
+				<div>
+					<Newsletter />
+				</div>
 			</NewsletterSection>
 
 			<section>

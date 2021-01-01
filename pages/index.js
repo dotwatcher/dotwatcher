@@ -6,20 +6,16 @@ import Link from "next/link";
 import { Fragment } from "react";
 import H1 from "@Components/UI/H1";
 import H2 from "@Components/UI/H2";
-import H3 from "@Components/UI/H3";
 import H4 from "@Components/UI/H4";
-import P from "@Components/UI/P";
 import A from "@Components/UI/A";
 import Center from "@Components/UI/Center";
-import moment from "moment";
-import Image from "next/image";
 import colors from "@Utils/colors";
-import mq from "@Utils/media-query";
 import {
 	LatestFeatures,
 	RecentRaces,
 	RaceSeries,
-	LiveRaces
+	LiveRaces,
+	FeatureCategories
 } from "@Components/New/Homepage";
 
 const Section = styled.section`
@@ -83,6 +79,13 @@ const Home = ({ data }) => {
 					<RecentRaces racesCollection={recentRaces} />
 				</Section>
 			)}
+			<Section>
+				<Center>
+					<Link href="/races" passHref>
+						<A>Look back on more races</A>
+					</Link>
+				</Center>
+			</Section>
 			<TitleSection>
 				<Center>
 					<H4>
@@ -114,18 +117,6 @@ const Home = ({ data }) => {
 				</Center>
 			</TitleSection>
 
-			{featureCategoryCollection && featureCategoryCollection.items.length > 0 && (
-				<Section>
-					{featureCategoryCollection.items.map((collection, ind) => (
-						<Link href={`features/${collection.slug}`} passHref key={ind}>
-							<A>
-								<P>{collection.name}</P>
-							</A>
-						</Link>
-					))}
-				</Section>
-			)}
-
 			{homepage.favouriteRacesCollection &&
 				homepage.favouriteRacesCollection.items.length > 0 && (
 					<Section>
@@ -142,19 +133,9 @@ const Home = ({ data }) => {
 			)}
 
 			<Section>
-				<Center>
-					<Link href="/features" passHref>
-						<a>Read all our features</a>
-					</Link>
-				</Center>
-			</Section>
-
-			<Section>
-				<Center>
-					<Link href="/races" passHref>
-						<A>Look back on more races</A>
-					</Link>
-				</Center>
+				<FeatureCategories
+					featureCategoryCollection={featureCategoryCollection}
+				/>
 			</Section>
 		</Fragment>
 	);

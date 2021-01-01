@@ -26,8 +26,6 @@ const GlobalStyle = createGlobalStyle`
  * {
 		font-family: "Raleway", sans-serif;
 	}
-
-
 `;
 
 class MyApp extends App {
