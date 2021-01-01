@@ -18,31 +18,9 @@ import mq from "@Utils/media-query";
 import {
 	LatestFeatures,
 	RecentRaces,
-	RaceSeries
+	RaceSeries,
+	LiveRaces
 } from "@Components/New/Homepage";
-
-const Grid = styled.section`
-	display: grid;
-	grid-column-gap: ${dim(2)};
-
-	${mq.smUp`
-		grid-template-columns: repeat(2, 1fr);
-	`}
-
-	${mq.mdUp`
-		grid-template-columns: repeat(4, 1fr);
-	`}
-`;
-
-const GridItem = styled.article`
-	& + & {
-		${mq.smDown`
-			margin-top: ${dim()};
-			padding-top: ${dim()};
-			border-top: 1px solid ${colors.lightgrey};
-		`}
-	}
-`;
 
 const Section = styled.section`
 	margin-top: ${dim(2)};
@@ -54,7 +32,7 @@ const Section = styled.section`
 `;
 
 const TitleSection = styled(Section)`
-	padding: 0 ${dim(2)};
+	padding: ${dim(2)} ${dim(2)} 0;
 
 	${Center} {
 		max-width: 900px;
@@ -62,8 +40,8 @@ const TitleSection = styled(Section)`
 	}
 `;
 
-const Title = styled.div`
-	margin-top: ${dim(3)};
+const Title = styled(Section)`
+	margin-top: ${dim()};
 `;
 
 const Home = ({ data }) => {
@@ -71,7 +49,8 @@ const Home = ({ data }) => {
 		racesCollection,
 		featureCollection,
 		homepageNewCollection,
-		featureCategoryCollection
+		featureCategoryCollection,
+		liveRaces
 	} = data;
 
 	const [homepage] = homepageNewCollection.items;
@@ -83,6 +62,15 @@ const Home = ({ data }) => {
 					<H1>Welcome to DotWatcher.cc</H1>
 				</Center>
 			</Title>
+
+			{liveRaces.items.length > 0 && (
+				<Section>
+					<Center>
+						<H2>Currently live events</H2>
+					</Center>
+					<LiveRaces liveRaces={liveRaces} />
+				</Section>
+			)}
 
 			<TitleSection>
 				<Center>
@@ -169,7 +157,8 @@ const Home = ({ data }) => {
 
 export const getServerSideProps = async () => {
 	const today = new Date();
-	const todayISO = today.toISOString();
+	const todayISO = "2021-09-06T07:00:00.000Z";
+	// const todayISO = today.toISOString();
 
 	const { data } = await client.query({
 		variables: {
@@ -231,6 +220,25 @@ export const getServerSideProps = async () => {
 						slug
 						shortDescription
 						raceDate
+					}
+				}
+
+				liveRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+					limit: 5
+					# where end is gte to today and stare is lte to today
+					where: { raceEndDate_gte: $today, raceDate_lte: $today }
+				) {
+					items {
+						title
+						slug
+						shortDescription
+						raceDate
+						raceEndDate
+						liveBeforeStartDate
+						icon {
+							url
+							title
+						}
 					}
 				}
 			}
