@@ -121,6 +121,9 @@ class Result extends Component {
 
 		results = [...results, ...unpositioned];
 
+		const hasNationalities =
+			results.map(d => d.nationality).filter(n => n).length > 0;
+
 		return (
 			<Page>
 				<Head>
@@ -185,13 +188,14 @@ class Result extends Component {
 								</Description>
 							)}
 						</Heading>
-
 						{this.props.results.length ? (
 							<Fragment>
 								<Accordion>
-									<AccordionItem id="stats" title="Nationality">
-										<Stats data={results} />
-									</AccordionItem>
+									{hasNationalities && (
+										<AccordionItem id="stats" title="Nationality">
+											<Stats data={results} />
+										</AccordionItem>
+									)}
 
 									<AccordionItem id="gender" title="Gender">
 										<GenderSplit data={results} />
