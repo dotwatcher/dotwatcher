@@ -8,13 +8,21 @@ import {
 	ButtonBack,
 	ButtonNext
 } from "pure-react-carousel";
+import mq from "@Utils/media-query";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
 const CarouselStyles = styled.div`
+	max-width: 1700px;
+	margin: 0 auto;
+
 	.button {
 		appearance: none;
 		background: transparent;
 		border: none;
+
+		${mq.smDown`
+			width: 40px;
+		`}
 	}
 `;
 
@@ -34,11 +42,10 @@ const Carousel = ({ children, ...props }) => {
 		<Fragment>
 			<CarouselStyles>
 				<CarouselProvider
-					naturalSlideWidth={25}
-					naturalSlideHeight={25}
+					naturalSlideWidth={100}
+					naturalSlideHeight={77}
 					totalSlides={count}
 					infinite
-					// isIntrinsicHeight
 					{...props}
 				>
 					<Slider>
