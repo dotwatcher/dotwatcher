@@ -4,6 +4,7 @@ import styled from "styled-components";
 import dim from "@Utils/dim";
 import Link from "next/link";
 import { Fragment } from "react";
+import H1 from "@Components/UI/H1";
 import H2 from "@Components/UI/H2";
 import H3 from "@Components/UI/H3";
 import H4 from "@Components/UI/H4";
@@ -14,6 +15,11 @@ import moment from "moment";
 import Image from "next/image";
 import colors from "@Utils/colors";
 import mq from "@Utils/media-query";
+import {
+	LatestFeatures,
+	RecentRaces,
+	RaceSeries
+} from "@Components/New/Homepage";
 
 const Grid = styled.section`
 	display: grid;
@@ -47,6 +53,19 @@ const Section = styled.section`
 	}
 `;
 
+const TitleSection = styled(Section)`
+	padding: 0 ${dim(2)};
+
+	${Center} {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+`;
+
+const Title = styled.div`
+	margin-top: ${dim(3)};
+`;
+
 const Home = ({ data }) => {
 	const {
 		racesCollection,
@@ -59,47 +78,46 @@ const Home = ({ data }) => {
 
 	return (
 		<Fragment>
+			<Title>
+				<Center>
+					<H1>Welcome to DotWatcher.cc</H1>
+				</Center>
+			</Title>
+
+			<TitleSection>
+				<Center>
+					<H4>
+						DotWatcher.cc is the home of{" "}
+						<Link href="/races" passHref>
+							<A title="live updates">live updates</A>
+						</Link>
+						,{" "}
+						<Link href="/races" passHref>
+							<A title="GPS tracking maps">GPS tracking maps</A>
+						</Link>
+						,{" "}
+						<Link href="/features" passHref>
+							<A title="editorial insight">editorial insight</A>
+						</Link>
+						, and{" "}
+						<Link href="/results" passHref>
+							<A title="race results">race results</A>
+						</Link>{" "}
+						from the world of long-distance, self-supported bike racing.
+					</H4>
+				</Center>
+				<Center>
+					<Link href="/about#contributors" passHref>
+						<H4>
+							<A title="Who are we?">Who Are We ?</A>
+						</H4>
+					</Link>
+				</Center>
+			</TitleSection>
+
 			{featureCollection && featureCollection.items.length > 0 && (
 				<Section>
-					<Center>
-						<H2>Latest Features</H2>
-					</Center>
-					<Grid>
-						{featureCollection.items.slice(0, 4).map((feature, ind) => (
-							<GridItem key={ind}>
-								{feature.featuredImage && (
-									<Image
-										src={feature.featuredImage.url}
-										alt={feature.title}
-										title={feature.title}
-										width={760}
-										height={500}
-									/>
-								)}
-
-								<Link href={`/feature/${feature.slug}`} passHref>
-									<a>
-										<H4>{feature.title}</H4>
-									</a>
-								</Link>
-
-								<P>{feature.excerpt}</P>
-
-								{feature.contributor && (
-									<Link
-										href={`/contributor/${feature.contributor.slug}`}
-										passHref
-									>
-										<a>
-											<P>By: {feature.contributor.name}</P>
-										</a>
-									</Link>
-								)}
-
-								<p>{moment(feature.sys.publishedAt).format("MMM Do YYYY")}</p>
-							</GridItem>
-						))}
-					</Grid>
+					<LatestFeatures featureCollection={featureCollection} />
 				</Section>
 			)}
 
@@ -111,31 +129,13 @@ const Home = ({ data }) => {
 				</Center>
 			</Section>
 
-			<Section>
-				<Center>
-					<H2>Welcome to DotWatcher.cc</H2>
-
-					<H4>
-						Dotwatcher.cc is the home of live updates, GPS tracking maps,
-						editorial insight, and race results from the world of long-distance,
-						self-supported bike racing.
-					</H4>
-
-					<Link href="/about#contributors" passHref>
-						<a>
-							<H4>Who Are We ?</H4>
-						</a>
-					</Link>
-				</Center>
-			</Section>
-
 			{featureCategoryCollection && featureCategoryCollection.items.length > 0 && (
 				<Section>
 					{featureCategoryCollection.items.map((collection, ind) => (
 						<Link href={`features/${collection.slug}`} passHref key={ind}>
-							<a>
+							<A>
 								<P>{collection.name}</P>
-							</a>
+							</A>
 						</Link>
 					))}
 				</Section>
@@ -144,46 +144,22 @@ const Home = ({ data }) => {
 			{homepage.favouriteRacesCollection &&
 				homepage.favouriteRacesCollection.items.length > 0 && (
 					<Section>
-						{homepage.favouriteRacesCollection.items && (
-							<Fragment>
-								<Center>
-									<H3>Our Favourite Race Series</H3>
-								</Center>
-								{homepage.favouriteRacesCollection.items.map((race, ind) => (
-									<p key={ind}>{race.name}</p>
-								))}
-							</Fragment>
-						)}
+						<RaceSeries
+							favouriteRacesCollection={homepage.favouriteRacesCollection}
+						/>
 					</Section>
 				)}
 
-			{racesCollection && (
+			{racesCollection && racesCollection.items.length > 0 && (
 				<Section>
-					<Center>
-						<H2>Recent Races</H2>
-					</Center>
-					<Grid>
-						{racesCollection.items.slice(0, 4).map((race, ind) => (
-							<GridItem key={ind}>
-								<Link href={`/race/${race.slug}`} passHref>
-									<a>
-										<H4>{race.title}</H4>
-									</a>
-								</Link>
-
-								<P>{race.shortDescription}</P>
-
-								<p>{moment(race.raceDate).format("MMM Do YYYY")}</p>
-							</GridItem>
-						))}
-					</Grid>
+					<RecentRaces racesCollection={racesCollection} />
 				</Section>
 			)}
 
 			<Section>
 				<Center>
 					<Link href="/races" passHref>
-						<a>Look back on more races</a>
+						<A>Look back on more races</A>
 					</Link>
 				</Center>
 			</Section>
@@ -211,7 +187,7 @@ export const getServerSideProps = async () => {
 				featureCollection(limit: 5) {
 					items {
 						sys {
-							publishedAt
+							firstPublishedAt
 						}
 						title
 						excerpt

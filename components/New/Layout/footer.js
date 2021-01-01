@@ -42,7 +42,7 @@ const SubLinksList = styled(CenteredList)`
 	text-align: center;
 
 	${mq.mdUp`
-    grid-column: 4 / span 6;
+		grid-column: 3 / span 8;
     flex-direction: row;
 	`};
 `;
@@ -253,6 +253,12 @@ const FooterComp = () => {
 					<li>
 						<A href="mailto:info@dotwatcher.cc">
 							<H5>Submit to DotWatcher</H5>
+						</A>
+					</li>
+
+					<li>
+						<A href="mailto:info@dotwatcher.cc">
+							<H5>info@dotwatcher.cc</H5>
 						</A>
 					</li>
 				</SubLinksList>

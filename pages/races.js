@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Head from "next/head";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -48,7 +48,7 @@ class Races extends Component {
 		`;
 
 		return (
-			<Page>
+			<Fragment>
 				<Head>
 					<title>Races - DotWatcher.cc</title>
 					<meta property="og:title" content="Races - DotWatcher.cc" />
@@ -61,7 +61,6 @@ class Races extends Component {
 						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 					/>
 				</Head>
-				<Header user={this.props.user} title="dotwatcher.cc" />
 				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
 					<Div pb5>
 						{currentRaces.length > 0 && (
@@ -93,10 +92,13 @@ class Races extends Component {
 							Calendar
 						</H1>
 					</Heading>
-					{futureRaces.length > 0 ? <Calendar races={futureRaces} /> : <p>We haven't quite got round to updating our calendar yet.</p>}
+					{futureRaces.length > 0 ? (
+						<Calendar races={futureRaces} />
+					) : (
+						<p>We haven't quite got round to updating our calendar yet.</p>
+					)}
 				</Div>
-				<Footer />
-			</Page>
+			</Fragment>
 		);
 	}
 }

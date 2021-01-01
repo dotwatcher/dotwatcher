@@ -54,6 +54,7 @@
 		"postcss-easy-import": "^3.0.0",
 		"postcss-loader": "^3.0.0",
 		"prop-types": "^15.7.2",
+		"pure-react-carousel": "^1.27.6",
 		"pusher-js": "^5.0.2",
 		"query-string": "^6.9.0",
 		"randomcolor": "^0.5.4",

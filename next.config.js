@@ -75,7 +75,7 @@ module.exports = withSourceMaps({
 			...config.resolve.alias,
 			"@UI": path.resolve(__dirname, "./components/UI"),
 			"@Components": path.resolve(__dirname, "./components"),
-			"@ComponentsNew": path.resolve(__dirname, "./components/new"),
+			"@ComponentsNew": path.resolve(__dirname, "./components/New"),
 			"@Data": path.resolve(__dirname, "./data"),
 			"@Utils": path.resolve(__dirname, "./utils"),
 			"@Containers": path.resolve(__dirname, "./containers"),

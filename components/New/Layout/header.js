@@ -14,7 +14,7 @@ const ImageWrap = styled.div`
 `;
 
 // Hide H1, only there for SEO purpose
-const H1 = styled.h1`
+const H2 = styled.h2`
 	display: none;
 `;
 
@@ -102,7 +102,7 @@ const HeaderComp = ({ user }) => {
 
 	return (
 		<Header>
-			<H1>DotWatcher.cc</H1>
+			<H2>DotWatcher.cc</H2>
 			<ImageWrap>
 				<Link href="/" passHref>
 					<a title="DotWatcher.cc">

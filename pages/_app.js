@@ -27,14 +27,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: "Raleway", sans-serif;
 	}
 
-	a {
-		color: ${colors.primary};
-	}
 
-	a:hover,
-	a:hover * {
-		color: ${colors.primaryHover};
-	}
 `;
 
 class MyApp extends App {
