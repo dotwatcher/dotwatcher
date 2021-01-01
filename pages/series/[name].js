@@ -76,6 +76,8 @@ const WinnerRace = styled.div`
 
 const Hero = styled.div`
 	position: relative;
+	display: block;
+	text-align: center;
 `;
 
 const HeroCredit = styled.p`
@@ -123,9 +125,7 @@ const Series = ({
 				/>
 				<meta
 					property="og:image"
-					content={
-						"https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
-					}
+					content={race.fields.heroImage.fields.file.url}
 				/>
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
@@ -138,9 +138,7 @@ const Series = ({
 
 				<meta
 					property="og:image"
-					content={
-						"https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
-					}
+					content={race.fields.heroImage.fields.file.url}
 				/>
 				<meta
 					name="description"
@@ -153,12 +151,12 @@ const Series = ({
 				<Hero>
 					<NextImage
 						src={
-							race.fields.heroImage.fields.file.url + "?w=2500&h=1000&fit=crop"
+							race.fields.heroImage.fields.file.url + "?w=2000&h=1000&fit=fill"
 						}
 						alt={raceName}
 						title={race.fields.title}
-						width={2500}
-						height={1000}
+						width={2000}
+						height={750}
 					/>
 					<HeroCredit>{race.fields.heroCredit}</HeroCredit>
 				</Hero>
