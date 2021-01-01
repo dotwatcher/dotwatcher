@@ -111,7 +111,7 @@ const LiveRaces = ({ liveRaces }) => {
 			<Slides>
 				{items.map((race, ind) => (
 					<RaceSlide
-						key={key}
+						key={ind}
 						ind={ind}
 						race={race}
 						active={ind === activeTab}
