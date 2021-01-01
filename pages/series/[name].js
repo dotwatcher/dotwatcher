@@ -16,6 +16,7 @@ import Richtext from "../../components/rich-text";
 import Page from "../../components/shared/page";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
+import NextImage from "../../components/NextImage";
 import mq from "../../utils/media-query";
 import {
 	P,
@@ -71,6 +72,18 @@ const Winners = styled.div`
 const WinnerRace = styled.div`
 	margin: 0 var(--spacing-small);
 	display: inline-block;
+`;
+
+const Hero = styled.div`
+	position: relative;
+`;
+
+const HeroCredit = styled.p`
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	font-size: 16px;
+	margin: 5px;
 `;
 
 const getLatestWinner = results =>
@@ -137,12 +150,18 @@ const Series = ({
 			<Header user={user} title="dotwatcher.cc" />
 
 			{race.fields.heroImage && race.fields.heroImage.fields.file.url && (
-				<Image
-					w100
-					src={race.fields.heroImage.fields.file.url + "?w=1500"}
-					alt={raceName}
-					title={race.fields.title}
-				/>
+				<Hero>
+					<NextImage
+						src={
+							race.fields.heroImage.fields.file.url + "?w=2500&h=1000&fit=crop"
+						}
+						alt={raceName}
+						title={race.fields.title}
+						width={2500}
+						height={1000}
+					/>
+					<HeroCredit>{race.fields.heroCredit}</HeroCredit>
+				</Hero>
 			)}
 
 			<Div pa2 mt3 mt4_l mh6_l>
