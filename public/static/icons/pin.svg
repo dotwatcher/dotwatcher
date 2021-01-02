@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon / pin</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.000000 0 0 0 0 0.000000 0 0 0 0 0.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Homepage-Live-Race" transform="translate(-566.000000, -1436.000000)">
+            <g id="Map" transform="translate(15.000000, 499.000000)">
+                <g id="Pin-Map" transform="translate(360.000000, 917.000000)">
+                    <g id="icon-/-pin" transform="translate(192.000000, 21.000000)" filter="url(#filter-1)">
+                        <g id="Orion_pin-(1)" stroke="#202020" stroke-width="2">
+                            <line x1="0.3" y1="29.7" x2="12.4" y2="17.6" id="Path"></line>
+                            <path d="M20.55,21.5 L20.55,15.85 L25.85,10.5 C26.8377535,11.1617534 28.1549191,11.036309 29,10.2 L29.7,9.5 L20.55,0.3 L19.8,1 C18.963691,1.8450809 18.8382466,3.16224649 19.5,4.15 L14.15,9.45 L8.5,9.45 L6.4,11.55 L10.65,15.8 L12.15,17.3 L12.65,17.8 L14.15,19.3 L18.4,23.55 L20.55,21.5 Z" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

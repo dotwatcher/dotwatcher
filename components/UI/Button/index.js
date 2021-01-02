@@ -4,11 +4,12 @@ import fonts from "@Utils/fonts";
 import styled from "styled-components";
 
 const Button = styled.button`
-	background-color: ${colors.primary};
+	background-color: ${({ secondary }) =>
+		secondary ? "transparent" : colors.primary};
 	border-radius: 2px;
 	min-width: ${dim(2)};
 	appearance: none;
-	color: white;
+	color: ${({ secondary }) => (secondary ? colors.primary : "white")};
 	border: none;
 	min-height: ${dim(3)};
 	padding: 0 ${dim(2)};
@@ -18,8 +19,8 @@ const Button = styled.button`
 	font-family: ${fonts.primary};
 
 	&:hover {
-		color: ${colors.primary};
-		border-color: ${colors.primary};
+		color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
+		border-color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
 		background-color: transparent;
 	}
 `;

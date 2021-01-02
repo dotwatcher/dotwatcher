@@ -8,8 +8,9 @@ import H1 from "@Components/UI/H1";
 import H2 from "@Components/UI/H2";
 import H4 from "@Components/UI/H4";
 import A from "@Components/UI/A";
+import Section from "@Components/UI/Section";
 import Center from "@Components/UI/Center";
-import colors from "@Utils/colors";
+
 import {
 	LatestFeatures,
 	RecentRaces,
@@ -17,15 +18,6 @@ import {
 	LiveRaces,
 	FeatureCategories
 } from "@Components/New/Homepage";
-
-const Section = styled.section`
-	margin-top: ${dim(2)};
-	padding-top: ${dim(2)};
-
-	& + & {
-		border-top: 1px solid ${colors.lightgrey};
-	}
-`;
 
 const TitleSection = styled(Section)`
 	padding: ${dim(2)} ${dim(2)} 0;
