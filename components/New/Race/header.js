@@ -67,7 +67,7 @@ const Header = ({ race }) => {
 					<RaceDetail>
 						<RaceDetailTitle>Distance / Elevation</RaceDetailTitle>
 						<P>
-							{race.length} / {race.evelation}
+							{race.length} / {race.elevation}
 						</P>
 					</RaceDetail>
 				)}

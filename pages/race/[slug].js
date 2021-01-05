@@ -157,6 +157,8 @@ const Race = ({ data }) => {
 				<meta name="twitter:data1" content={race.location} />
 				<meta name="twitter:label2" content="Length" />
 				<meta name="twitter:data2" content={race.length} />
+				<meta name="twitter:label3" content="Elevation" />
+				<meta name="twitter:data3" content={race.elevation} />
 			</Head>
 
 			<Header race={race} />
@@ -248,6 +250,7 @@ export const getServerSideProps = async ({ query }) => {
 					) {
 						items {
 							length
+							elevation
 							title
 							location
 							raceDate
