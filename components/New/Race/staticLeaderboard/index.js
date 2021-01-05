@@ -22,30 +22,26 @@ const TopRidersWrap = styled.div`
 `;
 
 const topRiders = ({ race }) => {
+	if (!race.staticLeaderboard) return null;
+
 	return (
 		<React.Fragment>
 			<TopRidersWrap fl w_100 pr3 pr0_ns mb4>
-				<Header>
-					<H2 ttu tracked f5 fw6 mt0 pb1 bb bw1 b__light_gray measure_narrow>
-						Leaderboard
-					</H2>
-				</Header>
+				<Header></Header>
 				<Div measure_narrow>
-					{race.fields.staticLeaderboard.fields.leaders.length
-						? race.fields.staticLeaderboard.fields.leaders.map(
-								(rider, index) => (
-									<Rider
-										numbered={false}
-										position={index + 1}
-										key={rider.sys.id}
-										rider={rider.fields}
-									/>
-								)
-						  )
-						: null}
+					{race.staticLeaderboard.leadersCollection.items.map(
+						(rider, index) => (
+							<Rider
+								numbered={false}
+								position={index + 1}
+								key={index}
+								rider={rider}
+							/>
+						)
+					)}
 					<P f6 gray>
 						Last updated{" "}
-						<TimeAgo date={race.fields.staticLeaderboard.sys.updatedAt} />
+						<TimeAgo date={race.staticLeaderboard.sys.publishedAt} />
 					</P>
 				</Div>
 			</TopRidersWrap>

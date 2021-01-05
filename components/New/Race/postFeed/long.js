@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 export default ({ body, title }) => (
 	<>
 		<hr />
-		<p>short post {title}</p>
+		<p>{title}</p>
 		<ReactMarkdown
 			source={body}
 			plugins={[shortcodes]}

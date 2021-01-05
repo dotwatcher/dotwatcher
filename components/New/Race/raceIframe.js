@@ -1,16 +1,45 @@
 import Button from "@Components/UI/Button";
 import A from "@Components/UI/A";
 import P from "@Components/UI/P";
-import { Fragment } from "react";
-import moment from "moment";
 import styled, { css } from "styled-components";
-import colors from "@Utils/colors";
 import dim from "@Utils/dim";
+import mq from "@Utils/media-query";
 import Section from "@Components/UI/Section";
 import IFrame from "@ComponentsNew/IFrame";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { color } from "d3";
+
+const MapWrapper = styled.div`
+	${({ mapPinned }) =>
+		mapPinned &&
+		css`
+			position: fixed;
+			width: 500px;
+			left: 15px;
+			top: 15px;
+			z-index: 1;
+			box-shadow: -4px 10px 19px 0px rgba(151, 151, 151, 1);
+		`}
+`;
+
+const CloseMap = styled(Button)`
+	position: absolute;
+	top: 15px;
+	left: 15px;
+
+	&:hover {
+		background-color: white;
+		color: ${color.primary};
+	}
+`;
+
+const PinMap = styled(Button)`
+	${mq.smDown`
+		display: none;
+	`}
+`;
 
 const Buttons = styled.div`
 	display: flex;
@@ -28,6 +57,10 @@ const IFrameWrap = styled.div`
 			? css`
 					height: 0;
 					overflow: hidden;
+
+					${CloseMap} {
+						display: none;
+					}
 			  `
 			: css`
 					height: initial;
@@ -35,7 +68,7 @@ const IFrameWrap = styled.div`
 			  `};
 `;
 
-const Header = ({ race }) => {
+const Header = ({ race, mapPinned, setMapPinned }) => {
 	const { query } = useRouter();
 
 	const initialMapState = query.showMap ? query.showMap > 0 : true;
@@ -48,12 +81,22 @@ const Header = ({ race }) => {
 
 	return (
 		<Section>
-			<IFrameWrap hideIframe={!iframeVisible}>
-				<IFrame url={race.trackleadersRaceId} />
-			</IFrameWrap>
+			<MapWrapper mapPinned={mapPinned}>
+				<IFrameWrap hideIframe={!iframeVisible}>
+					{mapPinned && (
+						<CloseMap onClick={() => setMapPinned(false)}>X</CloseMap>
+					)}
+					<IFrame url={race.trackleadersRaceId} />
+				</IFrameWrap>
+			</MapWrapper>
 
 			<Buttons>
-				<Button secondary>Pin Map</Button>
+				{!mapPinned && iframeVisible && (
+					<PinMap secondary onClick={() => setMapPinned(true)} y>
+						Pin Map
+					</PinMap>
+				)}
+
 				<Button secondary onClick={handleToggleMap} title={toggleLabel}>
 					{toggleLabel}
 				</Button>

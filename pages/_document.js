@@ -97,6 +97,8 @@ export default class Document extends NextDocument {
 					<Main />
 					<NextScript />
 				</body>
+
+				<script src="//www.instagram.com/embed.js" />
 			</Html>
 		);
 	}

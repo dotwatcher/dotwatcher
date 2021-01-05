@@ -24,7 +24,7 @@ const KeyEvents = ({ events }) => {
 	return (
 		<Events>
 			{events.items.map((event, ind) => (
-				<li>
+				<li key={ind}>
 					<P>{event.title}</P>
 					<P>
 						<Link

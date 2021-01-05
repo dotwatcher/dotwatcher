@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 
 import P from "@Components/UI/P";
 import Select from "@Components/UI/OptionSelect";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import moment from "moment";
 import styled from "styled-components";
 import colors from "@Utils/colors";
@@ -42,7 +42,25 @@ const ContentGrid = styled.div`
 		grid-column-gap: ${dim(4)};
 `}
 `;
-const Events = styled.div`
+
+const ContentItem = styled.div`
+	position: relative;
+
+	& + & {
+		&:before {
+			content: "";
+			position: absolute;
+			height: 100%;
+			width: 1px;
+			background-color: ${colors.lightgrey};
+			content: "";
+			left: ${dim(-2)};
+			bottom: 0;
+		}
+	}
+`;
+
+const Events = styled(ContentItem)`
 	grid-column: 1 / span 4;
 `;
 
@@ -52,17 +70,20 @@ const EventsScroll = styled.div`
 		max-height: 96vh;
 	`};
 `;
-const Leaderboard = styled.div`
-	grid-column: 5 / span 3;
+const Leaderboard = styled(ContentItem)`
+	grid-column: 5 / span 2;
 `;
-const Posts = styled.div`
-	grid-column: 8 / span 5;
+
+const Posts = styled(ContentItem)`
+	grid-column: 7 / span 6;
 `;
 
 const POST_PER_VIEW = 10;
 
-const Race = ({ data, error }) => {
+const Race = ({ data }) => {
 	const router = useRouter();
+	const [mapPinned, setMapPinned] = useState();
+
 	const {
 		racesCollection,
 		keyEvents,
@@ -80,6 +101,10 @@ const Race = ({ data, error }) => {
 				reverse: event.target.value === "reverse"
 			}
 		});
+	};
+
+	const handleMapPinned = pinned => {
+		setMapPinned(pinned);
 	};
 
 	return (
@@ -105,7 +130,11 @@ const Race = ({ data, error }) => {
 
 			<Header race={race} />
 
-			<RaceIFrame race={race} />
+			<RaceIFrame
+				race={race}
+				mapPinned={mapPinned}
+				setMapPinned={handleMapPinned}
+			/>
 
 			<Section>
 				<Center>
@@ -133,6 +162,7 @@ const Race = ({ data, error }) => {
 					</Leaderboard>
 
 					<Posts>
+						<H4>Events Feed</H4>
 						<label>
 							<span>Order: </span>
 
@@ -199,6 +229,9 @@ export const getServerSideProps = async ({ query }) => {
 							slug
 							shortDescription
 							staticLeaderboard {
+								sys {
+									publishedAt
+								}
 								leadersCollection {
 									items {
 										name

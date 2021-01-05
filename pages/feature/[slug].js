@@ -17,7 +17,7 @@ import { withCookies, Cookies } from "react-cookie";
 import Link from "next/link";
 import { DiscussionEmbed, CommentCount } from "disqus-react";
 import mq from "../../utils/media-query";
-import Image from '../../components/NextImage'
+import Image from "../../components/NextImage";
 
 const Div = styled.div`
 	p {
@@ -135,7 +135,6 @@ class FeaturePage extends React.Component {
 			title: this.props.feature.title
 		};
 
-
 		return (
 			<Page>
 				<Head>
@@ -187,7 +186,6 @@ class FeaturePage extends React.Component {
 								: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
 						}
 					/>
-					<script src="//www.instagram.com/embed.js" />
 				</Head>
 				<Header user={this.props.user} title="dotwatcher.cc" />
 				<StyledWrapper w_100 />
@@ -259,7 +257,11 @@ class FeaturePage extends React.Component {
 												key={relation.sys.id}
 											>
 												<A link db near_black hover_blue>
-													<Image src={relation.fields.featuredImage.fields.file.url} width={256} height={200} />
+													<Image
+														src={relation.fields.featuredImage.fields.file.url}
+														width={256}
+														height={200}
+													/>
 													<H3 f5>{relation.fields.title}</H3>
 												</A>
 											</Link>

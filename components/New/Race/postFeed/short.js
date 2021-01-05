@@ -1,19 +1,18 @@
 import shortcodes from "remark-shortcodes";
 import ReactMarkdown from "react-markdown";
+import { Image, ShortCode, Link } from "@ComponentsNew/Markdown";
 
-export default ({ body, title }) => (
-	<>
-		<hr />
-		<p>short post {title}</p>
-		<ReactMarkdown
-			source={body}
-			plugins={[shortcodes]}
-			escapeHtml={false}
-			// renderers={{
-			// 	shortcode: Embed,
-			// 	link: AutoEmbed,
-			// 	image: BodyImage
-			// }}
-		/>
-	</>
+const Short = ({ body }) => (
+	<ReactMarkdown
+		source={body}
+		plugins={[shortcodes]}
+		escapeHtml
+		renderers={{
+			shortcode: ShortCode,
+			link: Link,
+			image: Image
+		}}
+	/>
 );
+
+export default Short;

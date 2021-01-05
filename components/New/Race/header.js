@@ -65,8 +65,10 @@ const Header = ({ race }) => {
 
 				{race.length && (
 					<RaceDetail>
-						<RaceDetailTitle>Distance</RaceDetailTitle>
-						<P>{race.length}</P>
+						<RaceDetailTitle>Distance / Elevation</RaceDetailTitle>
+						<P>
+							{race.length} / {race.evelation}
+						</P>
 					</RaceDetail>
 				)}
 
