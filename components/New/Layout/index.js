@@ -29,7 +29,7 @@ const Layout = ({ children, user }) => {
 	return (
 		<Page ref={ref}>
 			<Header user={user} />
-			ther
+
 			{children}
 			<Footer />
 			<Button onClick={handleTopClick} title="Scroll to top">
