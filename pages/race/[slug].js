@@ -6,15 +6,13 @@ import Head from "next/head";
 import client from "@Utils/apollo";
 import { gql } from "@apollo/client";
 import H1 from "@Components/UI/H1";
-import H4 from "@Components/UI/H4";
+import H3 from "@Components/UI/H3";
 import H2 from "@Components/UI/H2";
 import Center from "@Components/UI/Center";
 import { useRouter } from "next/router";
 
-import P from "@Components/UI/P";
 import Select from "@Components/UI/OptionSelect";
 import { Fragment, useState } from "react";
-import moment from "moment";
 import styled from "styled-components";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
@@ -33,13 +31,19 @@ import {
 } from "@ComponentsNew/Race";
 
 const ContentGrid = styled.div`
-	max-width: 1800px;
-	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: ${dim(2)};
+	grid-template-areas:
+		"events events events leaderboard leaderboard leaderboard"
+		"posts posts posts posts posts posts ";
 
 	${mq.mdUp`
-		display: grid;
+		max-width: 1800px;
+		margin: 0 auto;
 		grid-template-columns: repeat(12, 1fr);
 		grid-column-gap: ${dim(4)};
+		grid-template-areas: unset;
 `}
 `;
 
@@ -54,14 +58,14 @@ const ContentItem = styled.div`
 			width: 1px;
 			background-color: ${colors.lightgrey};
 			content: "";
-			left: ${dim(-2)};
+			left: ${dim(-1)};
 			bottom: 0;
+
+			${mq.mdUp`
+				left: ${dim(-1)};
+			`}
 		}
 	}
-`;
-
-const Events = styled(ContentItem)`
-	grid-column: 1 / span 4;
 `;
 
 const EventsScroll = styled.div`
@@ -70,12 +74,39 @@ const EventsScroll = styled.div`
 		max-height: 96vh;
 	`};
 `;
+
+const Events = styled(ContentItem)`
+	grid-area: events;
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 1 / span 4;
+	`};
+`;
+
 const Leaderboard = styled(ContentItem)`
-	grid-column: 5 / span 2;
+	grid-area: leaderboard;
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 5 / span 2;
+	`}
 `;
 
 const Posts = styled(ContentItem)`
-	grid-column: 7 / span 6;
+	grid-area: posts;
+	overflow: hidden;
+
+	${mq.smDown`
+		margin-top: ${dim(2)};
+		padding-top: ${dim(2)};
+		border-top: 1px solid ${colors.lightgrey};
+	`}
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 7 / span 6;
+	`}
 `;
 
 const POST_PER_VIEW = 10;
@@ -145,7 +176,7 @@ const Race = ({ data }) => {
 			<Section>
 				<ContentGrid>
 					<Events>
-						<H4>Key Events</H4>
+						<H3>Key Events</H3>
 
 						<EventsScroll>
 							<KeyEvents events={keyEvents} />
@@ -153,7 +184,7 @@ const Race = ({ data }) => {
 					</Events>
 
 					<Leaderboard>
-						<H4>Leaderboard</H4>
+						<H3>Leaderboard</H3>
 						{liveLeaderboard ? (
 							<LiveLeaderboard leaderboard={liveLeaderboard} />
 						) : (
@@ -162,7 +193,7 @@ const Race = ({ data }) => {
 					</Leaderboard>
 
 					<Posts>
-						<H4>Events Feed</H4>
+						<H3>Events Feed</H3>
 						<label>
 							<span>Order: </span>
 
