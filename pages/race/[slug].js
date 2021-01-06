@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import Select from "@Components/UI/OptionSelect";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
@@ -120,8 +120,8 @@ const Filtering = styled.div`
 	align-items: center;
 `;
 
-const getOrder = (reverse) =
-	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"]);
+const getOrder = reverse =>
+	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
 
 const Race = ({ data }) => {
 	const {
@@ -134,10 +134,15 @@ const Race = ({ data }) => {
 	const router = useRouter();
 	const [mapPinned, setMapPinned] = useState();
 	const [showLoadMore, setLoadMore] = useState(true);
-	const [posts, setPosts] = useState(
-		data.racePost ? [data.racePost] : racePostsCollection.items
-	);
+	const [totalPosts, setTotalPosts] = useState(0);
+
+	const [posts, setPosts] = useState([]);
 	const [currentPage, setCurrentPage] = useState(0);
+
+	useEffect(() => {
+		setPosts(data.racePost ? [data.racePost] : racePostsCollection.items);
+		setTotalPosts(data.racePostsCollection.total);
+	}, [data.racePost, data.racePostsCollection]);
 
 	const [race] = racesCollection.items;
 
@@ -147,7 +152,8 @@ const Race = ({ data }) => {
 			query: {
 				...router.query,
 				reverse: event.target.value === "reverse"
-			}
+			},
+			shallow: false
 		});
 	};
 
@@ -157,19 +163,23 @@ const Race = ({ data }) => {
 
 	const handleLoadMore = async () => {
 		try {
-
 			const { slug, reverse } = router.query;
-			const { data } = client.query({
+			const { data } = await client.query({
 				variables: {
 					slug: slug,
 					limit: POST_PER_VIEW,
 					skip: currentPage + 1,
-					order: getOrder(revers)
+					order: getOrder(reverse)
 				},
 				query: loadMoreQuery
 			});
 
-			console.log(data)
+			await setLoadMore(
+				data.racePostsCollection.total > (currentPage + 1) * POST_PER_VIEW
+			);
+			await setCurrentPage(currentPage + 1);
+			await setTotalPosts(data.racePostsCollection.total);
+			await setPosts(prev => [...prev, ...data.racePostsCollection.items]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -275,8 +285,7 @@ const Race = ({ data }) => {
 export const getServerSideProps = async ({ query }) => {
 	const { slug, reverse, post } = query;
 
-	const order = getOrder(revers);
-		
+	const order = getOrder(reverse);
 
 	const racePost = post
 		? `

@@ -1,7 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const loadMoreQuery = gql`
-	query race($slug: String, $limit: Int, $skip: Int) {
+	query race(
+		$slug: String
+		$limit: Int
+		$skip: Int
+		$order: [ContentType2WKn6YEnZewu2ScCkus4AsOrder]
+	) {
 		keyEvents: contentType2WKn6YEnZewu2ScCkus4AsCollection(
 			limit: $limit
 			skip: $skip
@@ -46,5 +51,3 @@ export const loadMoreQuery = gql`
 		}
 	}
 `;
-
-export default race;

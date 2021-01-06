@@ -82,6 +82,13 @@ const Social = styled.div`
 	align-items: center;
 `;
 
+const ScrollActions = styled.div`
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: ${dim(2)} 0 ${dim()};
+`;
+
 const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 	const ref = useRef(null);
 
@@ -103,6 +110,7 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 			<Posts>
 				{posts.map((item, ind) => {
 					const query = `?post=${item.sys.id}`;
+
 					const url = `https://dotwatcher.cc/${router.asPath}` + query;
 					return (
 						<Post key={ind}>
@@ -171,13 +179,13 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 
 				<hr />
 
-				<Center>
+				<ScrollActions>
 					<a href="#!" onClick={scrollTop}>
 						Back to the top
 					</a>
 
 					{showLoadMore && <Button onClick={handleLoadMore}>Load More</Button>}
-				</Center>
+				</ScrollActions>
 			</Posts>
 
 			<ReturnToTop onClick={scrollTop} title="Scroll to first post">
