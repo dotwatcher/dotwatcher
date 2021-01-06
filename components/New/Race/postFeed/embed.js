@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Embed from "@ComponentsNew/embed";
+import Embed from "@ComponentsNew/Embed";
 import widont from "@Utils/widont";
 
 const Div = styled.div`
