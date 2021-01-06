@@ -125,7 +125,7 @@ const Series = ({
 				/>
 				<meta
 					property="og:image"
-					content={race.fields.heroImage.fields.file.url}
+					content={race.fields && race.fields.heroImage.fields.file.url}
 				/>
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
@@ -138,7 +138,7 @@ const Series = ({
 
 				<meta
 					property="og:image"
-					content={race.fields.heroImage.fields.file.url}
+					content={race.fields && race.fields.heroImage.fields.file.url}
 				/>
 				<meta
 					name="description"
@@ -147,7 +147,7 @@ const Series = ({
 			</Head>
 			<Header user={user} title="dotwatcher.cc" />
 
-			{race.fields.heroImage && race.fields.heroImage.fields.file.url && (
+			{race.fields && race.fields && race.fields.heroImage.fields.file.url && (
 				<Hero>
 					<NextImage
 						src={
@@ -186,7 +186,7 @@ const Series = ({
 				<RaceGrid>
 					<RaceDetails>
 						<Winners>
-							{race.fields.fastestKnownTime && (
+							{race.fields && (
 								<Fragment>
 									<H4>Fastest Known Time: </H4>
 									<p>{race.fields.fastestKnownTime}</p>
@@ -322,7 +322,7 @@ const Series = ({
 						</Winners>
 
 						<Ul mt_4>
-							{race.fields.website && (
+							{race.fields && race.fields.website && (
 								<Li dib>
 									<A
 										black
@@ -336,7 +336,7 @@ const Series = ({
 								</Li>
 							)}
 
-							{race.fields.instagram && (
+							{race.fields && race.fields.instagram && (
 								<Li dib ml4>
 									<A
 										black
@@ -350,7 +350,7 @@ const Series = ({
 								</Li>
 							)}
 
-							{race.fields.twitter && (
+							{race.fields && race.fields.twitter && (
 								<Li dib ml4>
 									<A
 										black
@@ -364,7 +364,7 @@ const Series = ({
 								</Li>
 							)}
 
-							{race.fields.facebook && (
+							{race.fields && race.fields.facebook && (
 								<Li dib ml4>
 									<A
 										black
@@ -380,13 +380,13 @@ const Series = ({
 						</Ul>
 					</RaceDetails>
 					<RaceOverview>
-						{race.fields.description && (
+						{race.fields && race.fields.description && (
 							<P measure_wide f4 lh_copy>
 								<Richtext source={race.fields.description} />
 							</P>
 						)}
 
-						{race.fields.previousReports && (
+						{race.fields && race.fields.previousReports && (
 							<Fragment>
 								<H2>Reports</H2>
 
