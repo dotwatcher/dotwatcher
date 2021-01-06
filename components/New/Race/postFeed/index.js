@@ -109,6 +109,7 @@ const Feed = ({ posts }) => {
 							{ind === 0 && <div ref={ref} />}
 
 							<PostItem item={item} />
+
 							<Social>
 								<div>
 									<Link href={router.asPath + query} passHref>

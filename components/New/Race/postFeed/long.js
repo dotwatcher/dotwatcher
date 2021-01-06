@@ -97,9 +97,9 @@ class Long extends Component {
 
 		return (
 			<React.Fragment>
-				{/*this.props.data.image ? (
-					<Image data={this.props.data.image.fields} />
-				) : null*/}
+				{this.props.data.image ? (
+					<img url={this.props.data.image.url + "?w=800"} />
+				) : null}
 				<H1 f2 fw6 lh_title mt0>
 					<Link href={`/post/${this.props.id}`} passHref>
 						<A link near_black hover_blue>

@@ -1,5 +1,5 @@
 const Instagram = ({ href }) => (
-	<>
+	<div>
 		<blockquote
 			className="instagram-media"
 			data-instgrm-captioned
@@ -282,7 +282,7 @@ const Instagram = ({ href }) => (
 				</p>
 			</div>
 		</blockquote>
-	</>
+	</div>
 );
 
 export default Instagram;
