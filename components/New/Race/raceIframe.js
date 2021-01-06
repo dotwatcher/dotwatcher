@@ -26,6 +26,22 @@ const MapWrapper = styled.div`
 			z-index: 1;
 			box-shadow: -4px 10px 19px 0px rgba(151, 151, 151, 1);
 		`}
+
+	${({ hideIframe }) =>
+		hideIframe
+			? css`
+					height: 0;
+					overflow: hidden;
+					padding: 0;
+
+					${CloseMap} {
+						display: none;
+					}
+			  `
+			: css`
+					height: initial;
+					overflow: visible;
+			  `};
 `;
 
 const CloseMap = styled(Button)`
@@ -55,21 +71,6 @@ const Buttons = styled.div`
 
 const IFrameWrap = styled.div`
 	transition: all ease-in-out 0.3s;
-
-	${({ hideIframe }) =>
-		hideIframe
-			? css`
-					height: 0;
-					overflow: hidden;
-
-					${CloseMap} {
-						display: none;
-					}
-			  `
-			: css`
-					height: initial;
-					overflow: visible;
-			  `};
 `;
 
 const Header = ({ race, mapPinned, setMapPinned }) => {
@@ -85,8 +86,8 @@ const Header = ({ race, mapPinned, setMapPinned }) => {
 
 	return (
 		<Section>
-			<MapWrapper mapPinned={mapPinned}>
-				<IFrameWrap hideIframe={!iframeVisible}>
+			<MapWrapper mapPinned={mapPinned} hideIframe={!iframeVisible}>
+				<IFrameWrap>
 					{mapPinned && (
 						<CloseMap secondary onClick={() => setMapPinned(false)}>
 							<Image

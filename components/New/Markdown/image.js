@@ -21,7 +21,7 @@ const MarkdownImage = ({ src, alt }) => {
 
 	return (
 		<Div>
-			<img alt={alt} title={alt} src={`https://${src}?${format}&q=60`} />
+			<img alt={alt} title={alt} src={`https://${src}?${format}&q=60&w=850`} />
 		</Div>
 	);
 };
