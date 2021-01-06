@@ -9,9 +9,13 @@ import IFrame from "@ComponentsNew/IFrame";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { color } from "d3";
+import color from "@Utils/colors";
+import Image from "next/image";
 
 const MapWrapper = styled.div`
+	background-color: white;
+	padding: ${dim(5)} ${dim(1)} ${dim(1)};
+
 	${({ mapPinned }) =>
 		mapPinned &&
 		css`
@@ -84,7 +88,13 @@ const Header = ({ race, mapPinned, setMapPinned }) => {
 			<MapWrapper mapPinned={mapPinned}>
 				<IFrameWrap hideIframe={!iframeVisible}>
 					{mapPinned && (
-						<CloseMap onClick={() => setMapPinned(false)}>X</CloseMap>
+						<CloseMap secondary onClick={() => setMapPinned(false)}>
+							<Image
+								src="/static/icons/full-screen.svg"
+								width={25}
+								height={25}
+							/>
+						</CloseMap>
 					)}
 					<IFrame url={race.trackleadersRaceId} />
 				</IFrameWrap>

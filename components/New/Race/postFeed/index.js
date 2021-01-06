@@ -1,5 +1,8 @@
 import { FacebookButton, TwitterButton } from "react-social";
 import Short from "./short";
+import Long from "./long";
+import Embed from "./embed";
+import Photo from "./photo";
 import styled from "styled-components";
 import mq from "@Utils/media-query";
 import dim from "@Utils/dim";
@@ -14,18 +17,16 @@ import Center from "@Components/UI/Center";
 import H2 from "@Components/UI/H2";
 
 const PostItem = ({ item, ...props }) => {
-	// if (item.format === "Long") {
-	// 	return <Long {...props} />;
-	// } else
-
 	if (!item) return <Short {...props} />;
 
 	if (item.format === "Quote") {
 		return <Quote {...props} />;
 	} else if (item.format === "Embed") {
-		return <Embed {...props} />;
+		return <Embed data={item} {...props} />;
 	} else if (item.format === "Photo") {
-		return <Photo {...props} />;
+		return <Photo data={item} {...props} />;
+	} else if (item.format === "Long") {
+		return <Long data={item} {...props} />;
 	}
 
 	return <Short {...props} />;
@@ -97,19 +98,18 @@ const Feed = ({ posts }) => {
 
 	return (
 		<StyledDiv>
+			<a id="#events"></a>
 			<Posts>
-				{posts.items.map((item, ind) => {
+				{posts.map((item, ind) => {
 					const query = `?post=${item.sys.id}`;
 					const url = `https://dotwatcher.cc/${router.asPath}` + query;
 					return (
 						<Post key={ind}>
 							<a id={item.sys.id}></a>
-
 							{ind === 0 && <div ref={ref} />}
-
 							<H2>{item.title}</H2>
-							<PostItem {...item} />
 
+							<PostItem item={item} />
 							<Social>
 								<div>
 									<Link href={router.asPath + query} passHref>

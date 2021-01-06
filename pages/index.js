@@ -78,6 +78,7 @@ const Home = ({ data }) => {
 					</Link>
 				</Center>
 			</Section>
+
 			<TitleSection>
 				<Center>
 					<H4>

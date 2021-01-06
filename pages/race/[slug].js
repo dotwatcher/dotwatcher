@@ -1,6 +1,8 @@
 // /race/:slug
 // /race/:slug?showMap=0
 // /race/:slug?showMap=1
+// /race/:slug?reverse=true
+// /race/:slug?reverse=true#posts -> to link directly to events feed
 
 import Head from "next/head";
 import client from "@Utils/apollo";
@@ -10,6 +12,7 @@ import H3 from "@Components/UI/H3";
 import H2 from "@Components/UI/H2";
 import Center from "@Components/UI/Center";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import Select from "@Components/UI/OptionSelect";
 import { Fragment, useState } from "react";
@@ -52,7 +55,6 @@ const ContentItem = styled.div`
 
 	& + & {
 		&:before {
-			content: "";
 			position: absolute;
 			height: 100%;
 			width: 1px;
@@ -62,7 +64,7 @@ const ContentItem = styled.div`
 			bottom: 0;
 
 			${mq.mdUp`
-				left: ${dim(-1)};
+				left: ${dim(-2)};
 			`}
 		}
 	}
@@ -109,7 +111,13 @@ const Posts = styled(ContentItem)`
 	`}
 `;
 
-const POST_PER_VIEW = 10;
+const Filtering = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const POST_PER_VIEW = 30;
 
 const Race = ({ data }) => {
 	const router = useRouter();
@@ -128,7 +136,7 @@ const Race = ({ data }) => {
 		router.replace({
 			pathname: router.pathname,
 			query: {
-				slug: router.query.slug,
+				...router.query,
 				reverse: event.target.value === "reverse"
 			}
 		});
@@ -196,22 +204,38 @@ const Race = ({ data }) => {
 
 					<Posts>
 						<H3>Events Feed</H3>
-						<label>
-							<span>Order: </span>
+						<Filtering>
+							<label>
+								<span>Order: </span>
 
-							<Select onChange={handleOrderChange}>
-								<option value="a" selected={router.query.reverse !== "true"}>
-									Newset First
-								</option>
-								<option
-									value="reverse"
-									selected={router.query.reverse === "true"}
+								<Select onChange={handleOrderChange}>
+									<option value="a" selected={router.query.reverse !== "true"}>
+										Newset First
+									</option>
+									<option
+										value="reverse"
+										selected={router.query.reverse === "true"}
+									>
+										Oldest First
+									</option>
+								</Select>
+							</label>
+
+							{router.query.post && (
+								<Link
+									href={`/race/${race.slug}?reverse=${router.query.reverse}#posts`}
+									passHref
 								>
-									Oldest First
-								</option>
-							</Select>
-						</label>
-						<PostFeed posts={racePostsCollection} />
+									<a>View All</a>
+								</Link>
+							)}
+						</Filtering>
+
+						<PostFeed
+							posts={
+								data.racePost ? [data.racePost] : racePostsCollection.items
+							}
+						/>
 					</Posts>
 				</ContentGrid>
 			</Section>
@@ -220,10 +244,17 @@ const Race = ({ data }) => {
 };
 
 export const getServerSideProps = async ({ query }) => {
-	const { slug, reverse } = query;
+	const { slug, reverse, post } = query;
 
 	const order =
 		reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
+
+	const racePost = post
+		? `
+		racePost: contentType2WKn6YEnZewu2ScCkus4As(id: "${post}") {
+			...Post
+		}`
+		: "";
 
 	try {
 		const { data } = await client.query({
@@ -231,11 +262,27 @@ export const getServerSideProps = async ({ query }) => {
 				slug,
 				postsLimit: POST_PER_VIEW,
 				keyEventsLimit: POST_PER_VIEW,
+				currentPost: post || "",
 				keyEventsSkip: 0,
 				skip: 0,
 				order
 			},
 			query: gql`
+				fragment Post on ContentType2WKn6YEnZewu2ScCkus4As {
+					sys {
+						firstPublishedAt
+						id
+					}
+					title
+					format
+					body
+					keyPost
+					embed
+					featuredImage {
+						url
+					}
+				}
+
 				query race(
 					$slug: String
 					$postsLimit: Int
@@ -304,20 +351,11 @@ export const getServerSideProps = async ({ query }) => {
 						total
 						limit
 						items {
-							sys {
-								firstPublishedAt
-								id
-							}
-							title
-							format
-							body
-							keyPost
-							embed
-							featuredImage {
-								url
-							}
+							...Post
 						}
 					}
+
+					${racePost}
 				}
 			`
 		});
@@ -355,9 +393,7 @@ export const getServerSideProps = async ({ query }) => {
 	} catch (error) {
 		console.log(error);
 		return {
-			props: {
-				error
-			}
+			notFound: true
 		};
 	}
 };

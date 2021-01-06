@@ -19,7 +19,7 @@ const Events = styled.ul`
 `;
 
 const KeyEvents = ({ events }) => {
-	const { asPath, query } = useRouter();
+	const { query } = useRouter();
 
 	return (
 		<Events>
@@ -28,9 +28,8 @@ const KeyEvents = ({ events }) => {
 					<P>{event.title}</P>
 					<P>
 						<Link
-							href={`/race/${query.slug}?reverse=${query.reverse}#${event.sys.id}`}
+							href={`/race/${query.slug}?reverse=${query.reverse}&post=${event.sys.id}#events`}
 							passHref
-							shallow
 						>
 							<a>
 								{moment(
