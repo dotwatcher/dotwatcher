@@ -23,6 +23,7 @@ import mq from "@Utils/media-query";
 import Section from "@Components/UI/Section";
 import axios from "axios";
 import https from "https";
+import { loadMoreQuery } from "@Queries/race";
 
 import {
 	Header,
@@ -32,6 +33,8 @@ import {
 	StaticLeaderboard,
 	PostFeed
 } from "@ComponentsNew/Race";
+
+const POST_PER_VIEW = 3;
 
 const ContentGrid = styled.div`
 	display: grid;
@@ -117,18 +120,24 @@ const Filtering = styled.div`
 	align-items: center;
 `;
 
-const POST_PER_VIEW = 30;
+const getOrder = (reverse) =
+	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"]);
 
 const Race = ({ data }) => {
-	const router = useRouter();
-	const [mapPinned, setMapPinned] = useState();
-
 	const {
 		racesCollection,
 		keyEvents,
 		liveLeaderboard,
 		racePostsCollection
 	} = data;
+
+	const router = useRouter();
+	const [mapPinned, setMapPinned] = useState();
+	const [showLoadMore, setLoadMore] = useState(true);
+	const [posts, setPosts] = useState(
+		data.racePost ? [data.racePost] : racePostsCollection.items
+	);
+	const [currentPage, setCurrentPage] = useState(0);
 
 	const [race] = racesCollection.items;
 
@@ -144,6 +153,26 @@ const Race = ({ data }) => {
 
 	const handleMapPinned = pinned => {
 		setMapPinned(pinned);
+	};
+
+	const handleLoadMore = async () => {
+		try {
+
+			const { slug, reverse } = router.query;
+			const { data } = client.query({
+				variables: {
+					slug: slug,
+					limit: POST_PER_VIEW,
+					skip: currentPage + 1,
+					order: getOrder(revers)
+				},
+				query: loadMoreQuery
+			});
+
+			console.log(data)
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -232,9 +261,9 @@ const Race = ({ data }) => {
 						</Filtering>
 
 						<PostFeed
-							posts={
-								data.racePost ? [data.racePost] : racePostsCollection.items
-							}
+							handleLoadMore={handleLoadMore}
+							showLoadMore={showLoadMore}
+							posts={posts}
 						/>
 					</Posts>
 				</ContentGrid>
@@ -246,8 +275,8 @@ const Race = ({ data }) => {
 export const getServerSideProps = async ({ query }) => {
 	const { slug, reverse, post } = query;
 
-	const order =
-		reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
+	const order = getOrder(revers);
+		
 
 	const racePost = post
 		? `
@@ -260,10 +289,8 @@ export const getServerSideProps = async ({ query }) => {
 		const { data } = await client.query({
 			variables: {
 				slug,
-				postsLimit: POST_PER_VIEW,
-				keyEventsLimit: POST_PER_VIEW,
+				limit: POST_PER_VIEW,
 				currentPost: post || "",
-				keyEventsSkip: 0,
 				skip: 0,
 				order
 			},
@@ -285,13 +312,11 @@ export const getServerSideProps = async ({ query }) => {
 
 				query race(
 					$slug: String
-					$postsLimit: Int
-					$postsSkip: Int
-					$keyEventsLimit: Int
-					$keyEventsSkip: Int
+					$limit: Int
+					$skip: Int
 					$order: [ContentType2WKn6YEnZewu2ScCkus4AsOrder]
 				) {
-					racesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+					racesCollection	: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						limit: 1
 						where: { slug: $slug }
 					) {
@@ -326,13 +351,14 @@ export const getServerSideProps = async ({ query }) => {
 					}
 
 					keyEvents: contentType2WKn6YEnZewu2ScCkus4AsCollection(
-						limit: $keyEventsLimit
-						skip: $keyEventsSkip
+						limit: $limit
+						skip: $skip
 						order: $order
 						where: { keyPost: true, race: { slug: $slug } }
 					) {
 						total
 						limit
+						skip
 						items {
 							sys {
 								id
@@ -343,13 +369,14 @@ export const getServerSideProps = async ({ query }) => {
 					}
 
 					racePostsCollection: contentType2WKn6YEnZewu2ScCkus4AsCollection(
-						limit: $postsLimit
-						skip: $postsSkip
+						limit: $limit
+						skip: $skip
 						order: $order
 						where: { race: { slug: $slug } }
 					) {
 						total
 						limit
+						skip
 						items {
 							...Post
 						}

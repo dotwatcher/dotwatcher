@@ -1,3 +1,4 @@
+import Head from "next/head";
 import client from "@Utils/apollo";
 import { gql } from "@apollo/client";
 import styled from "styled-components";
@@ -51,6 +52,41 @@ const Home = ({ data }) => {
 
 	return (
 		<Fragment>
+			<Head>
+				<title>Long distance bike race coverage – DotWatcher.cc</title>
+				<meta
+					property="og:title"
+					content="Long distance bike race coverage – DotWatcher.cc"
+				/>
+				<meta
+					property="og:description"
+					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+				/>
+				<meta
+					property="og:image"
+					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
+				/>
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:site" content="@dotwatcher" />
+				<meta name="twitter:creator" content="@dotwatcher" />
+				<meta
+					name="twitter:title"
+					content="Long distance bike race coverage – DotWatcher.cc"
+				/>
+				<meta
+					name="twitter:description"
+					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+				/>
+				<meta
+					property="og:image"
+					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
+				/>
+				<meta
+					name="description"
+					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+				/>
+			</Head>
+
 			<Title>
 				<Center>
 					<H1>Welcome to DotWatcher.cc</H1>
@@ -138,96 +174,104 @@ export const getServerSideProps = async () => {
 	const today = new Date();
 	const todayISO = today.toISOString();
 
-	const { data } = await client.query({
-		variables: {
-			today: todayISO
-		},
-		query: gql`
-			query homepage($today: DateTime) {
-				featureCategoryCollection(limit: 10) {
-					items {
-						slug
-						name
-					}
-				}
-
-				featureCollection(limit: 5) {
-					items {
-						sys {
-							firstPublishedAt
-						}
-						title
-						excerpt
-						contributor {
-							name
+	try {
+		const { data } = await client.query({
+			variables: {
+				today: todayISO
+			},
+			query: gql`
+				query homepage($today: DateTime) {
+					featureCategoryCollection(limit: 10) {
+						items {
 							slug
-						}
-						slug
-						featuredImage {
-							url
-							title
+							name
 						}
 					}
-				}
 
-				homepageNewCollection(limit: 1) {
-					items {
-						favouriteRacesCollection(limit: 10) {
-							items {
-								race
+					featureCollection(limit: 5) {
+						items {
+							sys {
+								firstPublishedAt
+							}
+							title
+							excerpt
+							contributor {
 								name
-								description {
-									json
-								}
-								heroImage {
-									title
-									url
+								slug
+							}
+							slug
+							featuredImage {
+								url
+								title
+							}
+						}
+					}
+
+					homepageNewCollection(limit: 1) {
+						items {
+							favouriteRacesCollection(limit: 10) {
+								items {
+									race
+									name
+									description {
+										json
+									}
+									heroImage {
+										title
+										url
+									}
 								}
 							}
 						}
 					}
-				}
 
-				# Contentful isn't pulling through the actual content model name.
-				racesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
-					limit: 5
-					where: { raceDate_lte: $today }
-				) {
-					items {
-						title
-						slug
-						shortDescription
-						raceDate
-					}
-				}
-
-				liveRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
-					limit: 5
-					# where end is gte to today and stare is lte to today
-					where: { raceEndDate_gte: $today, raceDate_lte: $today }
-				) {
-					items {
-						title
-						slug
-						shortDescription
-						raceDate
-						raceEndDate
-						liveBeforeStartDate
-						icon {
-							url
+					# Contentful isn't pulling through the actual content model name.
+					racesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						limit: 5
+						where: { raceDate_lte: $today }
+					) {
+						items {
 							title
+							slug
+							shortDescription
+							raceDate
+						}
+					}
+
+					liveRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						limit: 5
+						# where end is gte to today and stare is lte to today
+						where: { raceEndDate_gte: $today, raceDate_lte: $today }
+					) {
+						items {
+							title
+							slug
+							shortDescription
+							raceDate
+							raceEndDate
+							liveBeforeStartDate
+							icon {
+								url
+								title
+							}
 						}
 					}
 				}
-			}
-		`
-	});
+			`
+		});
 
-	return {
-		props: {
-			data
-		}
-	};
+		return {
+			props: {
+				data
+			}
+		};
+	} catch (error) {
+		console.log(error);
+
+		return {
+			notFound: true
+		};
+	}
 };
 
 export default Home;

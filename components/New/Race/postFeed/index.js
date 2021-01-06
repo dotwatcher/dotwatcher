@@ -15,6 +15,7 @@ import Link from "next/link";
 import ReturnToTop from "@Components/UI//ReturnTop";
 import Center from "@Components/UI/Center";
 import H2 from "@Components/UI/H2";
+import Button from "@Components/UI/Button";
 
 const PostItem = ({ item, ...props }) => {
 	if (!item) return <Short {...props} />;
@@ -81,7 +82,7 @@ const Social = styled.div`
 	align-items: center;
 `;
 
-const Feed = ({ posts }) => {
+const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 	const ref = useRef(null);
 
 	const scrollTop = e => {
@@ -174,6 +175,8 @@ const Feed = ({ posts }) => {
 					<a href="#!" onClick={scrollTop}>
 						Back to the top
 					</a>
+
+					{showLoadMore && <Button onClick={handleLoadMore}>Load More</Button>}
 				</Center>
 			</Posts>
 
