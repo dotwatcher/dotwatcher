@@ -185,7 +185,7 @@ const Series = ({
 				<RaceGrid>
 					<RaceDetails>
 						<Winners>
-							{race.fields && (
+							{race.fields && race.fields.fastestKnownTime && (
 								<Fragment>
 									<H4>Fastest Known Time: </H4>
 									<p>{race.fields.fastestKnownTime}</p>
