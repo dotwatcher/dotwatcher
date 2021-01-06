@@ -12,7 +12,7 @@ import { Grid, GridItem } from "./grid";
 const Features = ({ featureCollection }) => (
 	<Fragment>
 		<Center>
-			<H2>Latest Features</H2>
+			<H2>Recently on DotWatcher</H2>
 		</Center>
 		<Grid>
 			{featureCollection.items.slice(0, 4).map((feature, ind) => (

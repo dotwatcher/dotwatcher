@@ -136,8 +136,7 @@ const Home = ({ data }) => {
 
 export const getServerSideProps = async () => {
 	const today = new Date();
-	const todayISO = "2021-09-06T07:00:00.000Z";
-	// const todayISO = today.toISOString();
+	const todayISO = today.toISOString();
 
 	const { data } = await client.query({
 		variables: {
