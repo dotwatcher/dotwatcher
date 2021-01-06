@@ -1,5 +1,13 @@
+import styled from "styled-components";
+
+const Div = styled.div`
+	iframe {
+		margin: 0 auto !important;
+	}
+`;
+
 const Instagram = ({ href }) => (
-	<div>
+	<Div>
 		<blockquote
 			className="instagram-media"
 			data-instgrm-captioned
@@ -10,7 +18,6 @@ const Instagram = ({ href }) => (
 				border: 0,
 				borderRadius: "3px",
 				boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
-				margin: "1px",
 				maxWidth: "540px",
 				minWidth: "326px",
 				padding: 0,
@@ -282,7 +289,7 @@ const Instagram = ({ href }) => (
 				</p>
 			</div>
 		</blockquote>
-	</div>
+	</Div>
 );
 
 export default Instagram;
