@@ -25,7 +25,6 @@ const Link = ({ href, children }) => {
 	}
 
 	if (href.includes("twitter") && tweetID) {
-		debugger;
 		const { TwitterTweetEmbed } = require("react-twitter-embed");
 		return <TwitterTweetEmbed tweetId={tweetID[1]} />;
 	}

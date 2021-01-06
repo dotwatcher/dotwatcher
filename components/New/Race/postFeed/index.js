@@ -107,7 +107,6 @@ const Feed = ({ posts }) => {
 						<Post key={ind}>
 							<a id={item.sys.id}></a>
 							{ind === 0 && <div ref={ref} />}
-							<H2>{item.title}</H2>
 
 							<PostItem item={item} />
 							<Social>

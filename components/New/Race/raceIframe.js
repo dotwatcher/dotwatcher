@@ -14,11 +14,11 @@ import Image from "next/image";
 
 const MapWrapper = styled.div`
 	background-color: white;
-	padding: ${dim(5)} ${dim(1)} ${dim(1)};
 
 	${({ mapPinned }) =>
 		mapPinned &&
 		css`
+			padding: ${dim(5)} ${dim(1)} ${dim(1)};
 			position: fixed;
 			width: 500px;
 			left: 15px;
