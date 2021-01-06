@@ -114,6 +114,11 @@ const Series = ({
 
 	const title = `${raceName} – Race Series - DotWatcher.cc`;
 
+	const hero =
+		race.fields &&
+		race.fields.heroImage &&
+		race.fields.heroImage.fields.file.url;
+
 	return (
 		<Page>
 			<Head>
@@ -123,10 +128,7 @@ const Series = ({
 					property="og:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
-				<meta
-					property="og:image"
-					content={race.fields && race.fields.heroImage.fields.file.url}
-				/>
+				<meta property="og:image" content={hero} />
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
@@ -136,10 +138,7 @@ const Series = ({
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 
-				<meta
-					property="og:image"
-					content={race.fields && race.fields.heroImage.fields.file.url}
-				/>
+				<meta property="og:image" content={hero} />
 				<meta
 					name="description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
@@ -147,7 +146,7 @@ const Series = ({
 			</Head>
 			<Header user={user} title="dotwatcher.cc" />
 
-			{race.fields && race.fields && race.fields.heroImage.fields.file.url && (
+			{hero && (
 				<Hero>
 					<NextImage
 						src={
