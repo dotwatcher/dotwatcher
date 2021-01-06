@@ -6,6 +6,7 @@ import moment from "moment";
 import styled from "styled-components";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
+import Button from "@Components/UI/Button";
 
 const Events = styled.ul`
 	padding: 0;
@@ -18,12 +19,12 @@ const Events = styled.ul`
 	}
 `;
 
-const KeyEvents = ({ events }) => {
+const KeyEvents = ({ events, showLoadMoreEvents, handleLoadMore }) => {
 	const { query } = useRouter();
 
 	return (
 		<Events>
-			{events.items.map((event, ind) => (
+			{events.map((event, ind) => (
 				<li key={ind}>
 					<P>{event.title}</P>
 					<P>
@@ -41,6 +42,10 @@ const KeyEvents = ({ events }) => {
 					</P>
 				</li>
 			))}
+
+			{showLoadMoreEvents && (
+				<Button onClick={handleLoadMore}>Load More</Button>
+			)}
 		</Events>
 	);
 };

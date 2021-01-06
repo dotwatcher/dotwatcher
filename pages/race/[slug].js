@@ -1,8 +1,9 @@
 // /race/:slug
+// /race/:slug?post=C83xOIsWoe76I8ib4ggmN#events -> shows a single post
 // /race/:slug?showMap=0
 // /race/:slug?showMap=1
 // /race/:slug?reverse=true
-// /race/:slug?reverse=true#posts -> to link directly to events feed
+// /race/:slug#posts -> to link directly to events feed
 
 import Head from "next/head";
 import client from "@Utils/apollo";
@@ -128,21 +129,27 @@ const Race = ({ data }) => {
 		racesCollection,
 		keyEvents,
 		liveLeaderboard,
-		racePostsCollection
+		racePostsCollection,
+		racePost
 	} = data;
 
 	const router = useRouter();
 	const [mapPinned, setMapPinned] = useState();
-	const [showLoadMore, setLoadMore] = useState(true);
-	const [totalPosts, setTotalPosts] = useState(0);
+	const [showLoadMore, setShowLoadMore] = useState(true);
+	const [showLoadMoreEvents, setShowLoadMoreEvents] = useState(true);
 
 	const [posts, setPosts] = useState([]);
+	const [events, setEvents] = useState([]);
 	const [currentPage, setCurrentPage] = useState(0);
 
 	useEffect(() => {
-		setPosts(data.racePost ? [data.racePost] : racePostsCollection.items);
-		setTotalPosts(data.racePostsCollection.total);
-	}, [data.racePost, data.racePostsCollection]);
+		setPosts(racePost ? [racePost] : racePostsCollection.items);
+		setEvents(keyEvents.items);
+
+		// Hide the load more buttons if rendering a single post
+		setShowLoadMore(!racePost);
+		setShowLoadMoreEvents(!racePost);
+	}, [racePost, racePostsCollection, keyEvents]);
 
 	const [race] = racesCollection.items;
 
@@ -174,12 +181,13 @@ const Race = ({ data }) => {
 				query: loadMoreQuery
 			});
 
-			await setLoadMore(
-				data.racePostsCollection.total > (currentPage + 1) * POST_PER_VIEW
-			);
 			await setCurrentPage(currentPage + 1);
-			await setTotalPosts(data.racePostsCollection.total);
+
+			await setShowLoadMore(data.racePostsCollection.total > posts.length);
 			await setPosts(prev => [...prev, ...data.racePostsCollection.items]);
+
+			await setShowLoadMoreEvents(data.keyEvents.total > events.length);
+			await setEvents(prev => [...prev, ...data.keyEvents.items]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -228,7 +236,11 @@ const Race = ({ data }) => {
 						<H3>Key Events</H3>
 
 						<EventsScroll>
-							<KeyEvents events={keyEvents} />
+							<KeyEvents
+								events={events}
+								handleLoadMore={handleLoadMore}
+								showLoadMoreEvents={showLoadMoreEvents}
+							/>
 						</EventsScroll>
 					</Events>
 
