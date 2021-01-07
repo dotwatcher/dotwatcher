@@ -404,6 +404,7 @@ export const getServerSideProps = async ({ query }) => {
 							raceEndDate
 							slug
 							shortDescription
+							whatsAppId
 							staticLeaderboard {
 								sys {
 									publishedAt

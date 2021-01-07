@@ -87,6 +87,15 @@ const Header = ({ race }) => {
 						<P>{race.lastYearsWinner}</P>
 					</RaceDetail>
 				)}
+
+				{race.whatsAppId && (
+					<a
+						href={`https://chat.whatsapp.com/${race.whatsAppId}`}
+						target="_blank"
+					>
+						Join the conversation on WhatsApp
+					</a>
+				)}
 			</RaceDetails>
 		</Fragment>
 	);
