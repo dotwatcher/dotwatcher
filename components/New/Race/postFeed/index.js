@@ -121,7 +121,10 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 
 							<Social>
 								<div>
-									<Link href={router.asPath + query} passHref>
+									<Link
+										href={`/race/${router.query.slug}?reverse=${router.query.reverse}&post=${item.sys.id}#${item.sys.id}`}
+										passHref
+									>
 										<a>
 											{moment(item.sys.firstPublishAt).format("MMM Do YYYY")}
 										</a>

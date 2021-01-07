@@ -1,9 +1,9 @@
 // /race/:slug
-// /race/:slug?post=C83xOIsWoe76I8ib4ggmN#events -> shows a single post
-// /race/:slug?showMap=0
 // /race/:slug?showMap=1
 // /race/:slug?reverse=true
-// /race/:slug#posts -> to link directly to events feed
+// /race/:slug?post=C83xOIsWoe76I8ib4ggmN#events -> shows a single post
+// /race/:slug#posts -> to link directly to the top of the events feed
+// /race/:slug#[:postid] -> to link directly to a specific post (it must be in the current data set)
 
 import Head from "next/head";
 import client from "@Utils/apollo";

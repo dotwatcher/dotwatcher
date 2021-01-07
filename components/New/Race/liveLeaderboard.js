@@ -103,22 +103,32 @@ const FollowMyChallange = ({ leaderboard }) => {
 				</Header>
 
 				<Div measure_narrow>
-					{condendensedLeaders.map((leaders, ind) => (
-						<LeaderCategory key={ind}>
-							<H4>{leaders.category}</H4>
+					{condendensedLeaders.map((leaders, ind) => {
+						return (
+							<LeaderCategory key={ind}>
+								<H4>{leaders.category}</H4>
 
-							<List>
-								{leaders.leaderboard.map((rider, ind) => (
-									<ListItem key={ind}>
-										<Postion>{rider.position_text}</Postion>
-										{rider.name}
-										{rider.FIN && rider.position_text === "1st" && " (Winner)"}
-										{rider.DSQ || (rider.DNF && " (Scratched)")}
-									</ListItem>
-								))}
-							</List>
-						</LeaderCategory>
-					))}
+								<List>
+									{leaders.leaderboard.map((rider, ind) => {
+										// IF pairs, get first two riders. if solo get first.
+										const isFirst =
+											rider.category.toLowerCase() === "pair"
+												? ind === 0 || ind === 1
+												: ind === 0;
+
+										return (
+											<ListItem key={ind}>
+												<Postion>{rider.position_text}</Postion>
+												{rider.name}
+												{rider.FIN && isFirst && " (Winner)"}
+												{rider.DSQ || (rider.DNF && " (Scratched)")}
+											</ListItem>
+										);
+									})}
+								</List>
+							</LeaderCategory>
+						);
+					})}
 				</Div>
 			</Div>
 		</Fragment>
