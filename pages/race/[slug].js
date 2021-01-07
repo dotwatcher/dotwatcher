@@ -11,9 +11,11 @@ import { gql } from "@apollo/client";
 import H1 from "@Components/UI/H1";
 import H3 from "@Components/UI/H3";
 import H2 from "@Components/UI/H2";
+import Button from "@Components/UI/Button";
 import Center from "@Components/UI/Center";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Pusher from "pusher-js";
 
 import Select from "@Components/UI/OptionSelect";
 import { Fragment, useState, useEffect } from "react";
@@ -36,6 +38,11 @@ import {
 } from "@ComponentsNew/Race";
 
 const POST_PER_VIEW = 3;
+const pusher = new Pusher(process.env.PUSHER_KEY, {
+	cluster: "eu",
+	encrypted: true
+});
+const channel = pusher.subscribe("dotwatcher");
 
 const ContentGrid = styled.div`
 	display: grid;
@@ -121,6 +128,13 @@ const Filtering = styled.div`
 	align-items: center;
 `;
 
+const NewPostAlert = styled(Button)`
+	position: fixed;
+	top: ${dim()};
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+`;
 const getOrder = reverse =>
 	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
 
@@ -137,6 +151,7 @@ const Race = ({ data }) => {
 	const [mapPinned, setMapPinned] = useState();
 	const [showLoadMore, setShowLoadMore] = useState(true);
 	const [showLoadMoreEvents, setShowLoadMoreEvents] = useState(true);
+	const [showNewPostAlert, setShowNewPostAlert] = useState(false);
 
 	const [posts, setPosts] = useState([]);
 	const [events, setEvents] = useState([]);
@@ -151,7 +166,35 @@ const Race = ({ data }) => {
 		setShowLoadMoreEvents(!racePost);
 	}, [racePost, racePostsCollection, keyEvents]);
 
+	useEffect(() => {
+		channel.bind("new-post", newPostEvent => setShowNewPostAlert(true));
+
+		() => channel.unbind("new-post");
+	}, []);
+
 	const [race] = racesCollection.items;
+
+	const handleNewPostAlertClick = async () => {
+		try {
+			const { slug } = router.query;
+			const { data } = await client.query({
+				variables: {
+					slug,
+					limit: POST_PER_VIEW
+				},
+				query: loadMoreQuery
+			});
+
+			await setShowLoadMore(data.racePostsCollection.total > posts.length);
+			await setPosts(data.racePostsCollection.items);
+			await setShowLoadMoreEvents(data.keyEvents.total > events.length);
+			await setEvents(data.keyEvents.items);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setShowNewPostAlert(false);
+		}
+	};
 
 	const handleOrderChange = event => {
 		router.replace({
@@ -215,6 +258,12 @@ const Race = ({ data }) => {
 				<meta name="twitter:label3" content="Elevation" />
 				<meta name="twitter:data3" content={race.elevation} />
 			</Head>
+
+			{showNewPostAlert && (
+				<NewPostAlert onClick={handleNewPostAlertClick}>
+					There are new updates
+				</NewPostAlert>
+			)}
 
 			<Header race={race} />
 

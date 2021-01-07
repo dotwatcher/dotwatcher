@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const Button = styled.button`
 	background-color: ${({ secondary }) =>
-		secondary ? "transparent" : colors.primary};
+		secondary ? colors.white : colors.primary};
 	border-radius: 2px;
 	min-width: ${dim(2)};
 	appearance: none;
@@ -19,9 +19,10 @@ const Button = styled.button`
 	font-family: ${fonts.primary};
 
 	&:hover {
+		cursor: pointer;
 		color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
 		border-color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
-		background-color: transparent;
+		background-color: ${colors.white};
 	}
 `;
 

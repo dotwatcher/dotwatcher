@@ -23,10 +23,10 @@ import { WithEntries } from "../../data/with-entries";
 import Link from "next/link";
 import { compose } from "recompose";
 import { withRouter } from "next/router";
-import FollowMyChallangeLeaderBoard from '../../components/Race/followMyChallange'
+import FollowMyChallangeLeaderBoard from "../../components/Race/followMyChallange";
 import mq from "../../utils/media-query";
 
-import {H1, H2, P, Span, A, Div } from '../../components/UI/Tachyons'
+import { H1, H2, P, Span, A, Div } from "../../components/UI/Tachyons";
 
 const OrderButtons = styled.div`
 	display: flex;
@@ -61,7 +61,6 @@ const Notification = styled(Button)`
 `;
 
 const Flex = styled.div`
-
 	${mq.mdUp`
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
@@ -78,7 +77,7 @@ const LiveFeedWrap = styled(Div)`
 	${mq.mdUp`
 		grid-column: 8 / span 5;
 	`}
-`
+`;
 
 // Pusher.logToConsole = true;
 const pusher = new Pusher(process.env.PUSHER_KEY, {
@@ -87,14 +86,14 @@ const pusher = new Pusher(process.env.PUSHER_KEY, {
 });
 const channel = pusher.subscribe("dotwatcher");
 
-const Race = (props) => {
+const Race = props => {
 	const [state, setState] = useState({
 		skip: 5,
 		loading: false,
 		newPost: false,
 		newPostIDs: [],
 		activeTab: "feed"
-	})
+	});
 
 	useEffect(() => {
 		if (location.hash === "#chat") {
@@ -103,7 +102,7 @@ const Race = (props) => {
 
 		channel.bind("new-post", newPostEvent => {
 			const isNewPost =
-				props.posts.find(obj =>  obj.sys.id === newPostEvent.post) === undefined;
+				props.posts.find(obj => obj.sys.id === newPostEvent.post) === undefined;
 
 			if (newPostEvent.category === props.raceID && isNewPost) {
 				setState(prev => ({
@@ -114,17 +113,17 @@ const Race = (props) => {
 			}
 		});
 
-		() => channel.unbind("new-post")
-	}, [])
+		() => channel.unbind("new-post");
+	}, []);
 
 	const setActiveTab = tab => {
 		setState(prev => ({
 			...prev,
 			activeTab: tab
 		}));
-	}
+	};
 
-	const fetchPosts = async (id) => {
+	const fetchPosts = async id => {
 		setState(prev => ({ ...prev, loading: true }));
 
 		const client = createClient({
@@ -160,14 +159,14 @@ const Race = (props) => {
 			props.posts.unshift(entry);
 		}
 		await setState(prev => ({
-			...prev, 
+			...prev,
 			loading: false
 		}));
-	}
+	};
 
 	const showNextPageOfPosts = () => {
 		setState(prevState => ({ ...prevState, skip: state.skip + 5 }));
-	}
+	};
 
 	const loadPost = () => {
 		state.newPostIDs.forEach(postID => fetchPosts(postID));
@@ -176,7 +175,7 @@ const Race = (props) => {
 			newPost: false,
 			newPostIDs: []
 		});
-	}
+	};
 
 	const KeyEventsWrapper = styled.div`
 		@media screen and (max-width: 30em) {
@@ -208,12 +207,7 @@ const Race = (props) => {
 	`;
 
 	const morePostsButton = (
-		<Button
-			db
-			w5
-			loading={state.loading}
-			onClick={showNextPageOfPosts}
-		>
+		<Button db w5 loading={state.loading} onClick={showNextPageOfPosts}>
 			{state.loading ? "Loading..." : "Load more posts"}
 		</Button>
 	);
@@ -292,10 +286,7 @@ const Race = (props) => {
 					}
 				/>
 				<meta name="twitter:label1" content="Location" />
-				<meta
-					name="twitter:data1"
-					content={props.race.fields.location}
-				/>
+				<meta name="twitter:data1" content={props.race.fields.location} />
 				<meta name="twitter:label2" content="Length" />
 				<meta name="twitter:data2" content={props.race.fields.length} />
 				<script src="//www.instagram.com/embed.js" />
@@ -306,25 +297,20 @@ const Race = (props) => {
 				raceName={props.raceName}
 				race={props.race}
 			/>
-		
+
 			<Flex>
 				{props.trackleadersID ? (
 					<Map>
 						<MapContainer raceID={props.trackleadersID} />
 					</Map>
-				) : <h1>Tracking not available yet</h1>}
-				
-				<KeyEventsWrapper
-					fl
-					ph3
-					ph4_ns
-					pb2
-					mt2_l
-					relative
-					id="events-wrap"
-				>
+				) : (
+					<h1>Tracking not available yet</h1>
+				)}
 
-					{props.followMyChallange && <FollowMyChallangeLeaderBoard {...props.followMyChallange} />}
+				<KeyEventsWrapper fl ph3 ph4_ns pb2 mt2_l relative id="events-wrap">
+					{props.followMyChallange && (
+						<FollowMyChallangeLeaderBoard {...props.followMyChallange} />
+					)}
 
 					{props.race.fields.leaderboard === true && (
 						<DynamicTopRiders race={props.race} />
@@ -332,7 +318,7 @@ const Race = (props) => {
 
 					{props.race.fields.staticLeaderboard && (
 						<StaticTopRiders race={props.race} />
-					)}		
+					)}
 
 					{props.race.fields.whatsAppId && (
 						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
@@ -373,84 +359,81 @@ const Race = (props) => {
 
 				<LiveFeedWrap>
 					<Wrapper ph3 pb2>
-				{props.race.fields.discourseId && props.replies ? (
-					<React.Fragment>
-						<Tabs
-							setActiveTabFeed={() => setActiveTab("feed")}
-							setActiveTabCommunity={() => setActiveTab("community")}
-							activeTab={state.activeTab}
-							count={props.replies}
-							promo={props.race.fields.chatPromo}
-						/>
-						<CommunityWrap>
-							<Community
-								id={props.race.fields.discourseId}
-								active={state.activeTab === "community"}
-							/>
-						</CommunityWrap>
-					</React.Fragment>
-				) : null}
-				<Feed id="posts">
-					{newPostsNotification}
-
-					<OrderButtons>
-						<Link
-							href={`/race/${props.router.query.slug}?reverse=true`}
-							passHref
-						>
-							<OrderButton selected={!!props.router.query.reverse}>
-								Oldest First
-							</OrderButton>
-						</Link>
-
-						<Link
-							href={`/race/${props.router.query.slug}`}
-							passHref
-						>
-							<OrderButton selected={!props.router.query.reverse}>
-								Newest First
-							</OrderButton>
-						</Link>
-					</OrderButtons>
-
-					{props.posts.map((item, index) => {
-						if (index <= state.skip) {
-							return (
-								<Post
-									key={item.sys.id}
-									id={item.sys.id}
-									data={item.data}
-									index={index}
+						{props.race.fields.discourseId && props.replies ? (
+							<React.Fragment>
+								<Tabs
+									setActiveTabFeed={() => setActiveTab("feed")}
+									setActiveTabCommunity={() => setActiveTab("community")}
+									activeTab={state.activeTab}
+									count={props.replies}
+									promo={props.race.fields.chatPromo}
 								/>
-							);
-						}
-					})}
-					{morePosts}
-					<P measure lh_copy f6 silver>
-						If you would like to get in touch email us at{" "}
-						<A
-							link
-							gray
-							underline
-							hover_blue
-							href="mailto:info@dotwatcher.cc"
-						>
-							info@dotwatcher.cc
-						</A>
-					</P>
-					<P measure f6 silver>
-						<Span silver dib mr2 v_btm>
-							Follow along at
-						</Span>{" "}
-						<SocialIcons size="1" colour="gray" />
-					</P>
-				</Feed>
-			</Wrapper>
+								<CommunityWrap>
+									<Community
+										id={props.race.fields.discourseId}
+										active={state.activeTab === "community"}
+									/>
+								</CommunityWrap>
+							</React.Fragment>
+						) : null}
+						<Feed id="posts">
+							{newPostsNotification}
+
+							<OrderButtons>
+								<Link
+									href={`/race/${props.router.query.slug}?reverse=true`}
+									passHref
+								>
+									<OrderButton selected={!!props.router.query.reverse}>
+										Oldest First
+									</OrderButton>
+								</Link>
+
+								<Link href={`/race/${props.router.query.slug}`} passHref>
+									<OrderButton selected={!props.router.query.reverse}>
+										Newest First
+									</OrderButton>
+								</Link>
+							</OrderButtons>
+
+							{props.posts.map((item, index) => {
+								if (index <= state.skip) {
+									return (
+										<Post
+											key={item.sys.id}
+											id={item.sys.id}
+											data={item.data}
+											index={index}
+										/>
+									);
+								}
+							})}
+							{morePosts}
+							<P measure lh_copy f6 silver>
+								If you would like to get in touch email us at{" "}
+								<A
+									link
+									gray
+									underline
+									hover_blue
+									href="mailto:info@dotwatcher.cc"
+								>
+									info@dotwatcher.cc
+								</A>
+							</P>
+							<P measure f6 silver>
+								<Span silver dib mr2 v_btm>
+									Follow along at
+								</Span>{" "}
+								<SocialIcons size="1" colour="gray" />
+							</P>
+						</Feed>
+					</Wrapper>
 				</LiveFeedWrap>
 			</Flex>
 		</Page>
 	);
-}
+};
 
 Race.propTypes = {
 	posts: PropTypes.array.isRequired,
@@ -460,10 +443,7 @@ Race.propTypes = {
 	raceID: PropTypes.string.isRequired,
 	race: PropTypes.object.isRequired,
 	raceImage: PropTypes.string.isRequired,
-	followMyChallange: PropTypes.oneOfType([
-		PropTypes.bool,
-		PropTypes.shape({})
-	])
+	followMyChallange: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({})])
 };
 
 const enhance = compose(WithEntries, withRouter);
