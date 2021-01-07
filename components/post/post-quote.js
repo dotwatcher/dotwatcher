@@ -9,6 +9,7 @@ import Image from "../image";
 import widont from "../../utils/widont";
 import quotes from "../../utils/quotes";
 import BodyImage from "../image/markdown";
+import AutoEmbed from "../embed/auto";
 
 const P = styled.p`
 	${tachyons}

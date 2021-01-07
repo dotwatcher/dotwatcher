@@ -8,6 +8,7 @@ import Embed from "../embed";
 import Image from "../image";
 import widont from "../../utils/widont";
 import BodyImage from "../image/markdown";
+import AutoEmbed from "../embed/auto";
 
 const Div = styled.div`
 	iframe {
