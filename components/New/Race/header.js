@@ -53,6 +53,17 @@ const Header = ({ race }) => {
 				<P>{race.shortDescription}</P>
 
 				<P>{moment(race.raceDate).format("MMMM Do YYYY, kk mm")}</P>
+
+				{race.whatsAppId && (
+					<P>
+						<a
+							href={`https://chat.whatsapp.com/${race.whatsAppId}`}
+							target="_blank"
+						>
+							Join the conversation on WhatsApp
+						</a>
+					</P>
+				)}
 			</Head>
 
 			<RaceDetails>
@@ -86,15 +97,6 @@ const Header = ({ race }) => {
 						</RaceDetailTitle>
 						<P>{race.lastYearsWinner}</P>
 					</RaceDetail>
-				)}
-
-				{race.whatsAppId && (
-					<a
-						href={`https://chat.whatsapp.com/${race.whatsAppId}`}
-						target="_blank"
-					>
-						Join the conversation on WhatsApp
-					</a>
 				)}
 			</RaceDetails>
 		</Fragment>

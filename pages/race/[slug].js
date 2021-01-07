@@ -8,7 +8,7 @@
 import Head from "next/head";
 import client from "@Utils/apollo";
 import { gql } from "@apollo/client";
-import H1 from "@Components/UI/H1";
+import P from "@Components/UI/P";
 import H3 from "@Components/UI/H3";
 import H2 from "@Components/UI/H2";
 import Button from "@Components/UI/Button";
@@ -295,6 +295,15 @@ const Race = ({ data }) => {
 
 					<Leaderboard>
 						<H3>Leaderboard</H3>
+
+						{race.resultsSlug && (
+							<P>
+								<Link href={`/results/${race.resultsSlug}`} passHref>
+									<a title="View full resutlts">View full resutlts</a>
+								</Link>
+							</P>
+						)}
+
 						{liveLeaderboard ? (
 							<LiveLeaderboard leaderboard={liveLeaderboard} />
 						) : (
@@ -405,6 +414,7 @@ export const getServerSideProps = async ({ query }) => {
 							slug
 							shortDescription
 							whatsAppId
+							resultsSlug
 							staticLeaderboard {
 								sys {
 									publishedAt
