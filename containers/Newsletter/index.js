@@ -35,7 +35,7 @@ const StyledSubmit = styled(Button)`
 
 	${mq.mdUp`
 		margin: 0;
-		grid-column: 8 / span 4;
+		grid-column: 8 / span 5;
 	`}
 `;
 

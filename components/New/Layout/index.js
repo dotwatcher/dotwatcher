@@ -6,6 +6,8 @@ import { useRef } from "react";
 import ReturnToTop from "@Components/UI//ReturnTop";
 import Image from "next/image";
 
+import NewsletterModal from "./newsletter";
+
 const Button = styled(ReturnToTop)`
 	display: unset !important;
 	position: fixed !important;
@@ -32,9 +34,12 @@ const Layout = ({ children, user }) => {
 
 			{children}
 			<Footer />
+
 			<Button onClick={handleTopClick} title="Scroll to top">
 				<Image src="/static/icons/up-arrow.svg" width={40} height={40} />
 			</Button>
+
+			<NewsletterModal />
 		</Page>
 	);
 };
