@@ -10,6 +10,7 @@ const Colors = {
 	black,
 	red,
 	lightgrey,
+	transparentGrey: "#97979796",
 	primary: "#114b5f",
 	primaryHover: "#1a936f",
 	secondary: black,

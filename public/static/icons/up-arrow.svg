@@ -1,40 +1,10 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
-<g>
-	<g>
-		<polygon points="128,48.907 0,176.907 30.187,207.093 128,109.28 225.813,207.093 256,176.907 		"/>
-	</g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="17px" viewBox="0 0 22 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons / up-arrow</title>
+    <g id="icons-/-up-arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="Group-10" transform="translate(10.000000, 8.500000) rotate(-90.000000) translate(-10.000000, -8.500000) translate(2.500000, -3.500000)" stroke="#000000" stroke-width="3">
+            <line x1="12.5" y1="2.5" x2="2.5" y2="14.5" id="Line-2" transform="translate(7.500000, 8.500000) scale(-1, 1) rotate(15.194429) translate(-7.500000, -8.500000) "></line>
+            <line x1="12.5" y1="11.4995504" x2="2.5" y2="23.4995504" id="Line-2" transform="translate(7.500000, 17.499550) scale(-1, 1) rotate(-94.805571) translate(-7.500000, -17.499550) "></line>
+        </g>
+    </g>
 </svg>

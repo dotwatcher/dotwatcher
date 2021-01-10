@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
@@ -10,6 +10,7 @@ import A from "@Components/UI/A";
 import Center from "@Components/UI/Center";
 import Newsletter from "@Containers/Newsletter";
 import Cookie from "js-cookie";
+import useOutsideClick from "@Hooks/useOutsideClick";
 
 const Div = styled.div`
 	height: 100vh;
@@ -17,7 +18,8 @@ const Div = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
-	background: #97979796;
+	background: ${colors.transparentGrey};
+	z-index: 1;
 `;
 
 const ChildWrapper = styled.div`
@@ -49,6 +51,17 @@ const Close = styled.button`
 
 const Modal = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const ref = useRef(null);
+
+	const close = e => {
+		if (e) e.preventDefault();
+
+		// Expires set in datys
+		Cookie.set("hideSignup", true, { expires: 31, path: "/" });
+		setModalOpen(false);
+	};
+
+	useOutsideClick(ref, close);
 
 	useEffect(() => {
 		const cookie = Cookie.get("hideSignup");
@@ -66,18 +79,10 @@ const Modal = () => {
 		}
 	}, []);
 
-	const close = e => {
-		if (e) e.preventDefault();
-
-		// Expires set in datys
-		Cookie.set("hideSignup", true, { expires: 31, path: "/" });
-		setModalOpen(false);
-	};
-
 	if (!modalOpen) return null;
 
 	return (
-		<Div>
+		<Div ref={ref}>
 			<ChildWrapper>
 				<Close type="button" onClick={close}>
 					<Image src="/static/icons/close.svg" width={20} height={20} />

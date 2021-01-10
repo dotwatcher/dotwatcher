@@ -7,12 +7,17 @@ import ReturnToTop from "@Components/UI//ReturnTop";
 import Image from "next/image";
 
 import NewsletterModal from "./newsletter";
+import CookiePolicy from "./cookiePolicy";
 
 const Button = styled(ReturnToTop)`
 	display: unset !important;
 	position: fixed !important;
 	width: 50px !important;
 	height: 50px !important;
+	padding: 10px;
+	box-shadow: 0 0 3px 1px rgba(151, 151, 151, 1);
+	bottom: ${dim()};
+	right: ${dim()};
 `;
 
 const Page = styled.article`
@@ -40,6 +45,8 @@ const Layout = ({ children, user }) => {
 			</Button>
 
 			<NewsletterModal />
+
+			<CookiePolicy />
 		</Page>
 	);
 };
