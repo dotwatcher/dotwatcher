@@ -1,7 +1,5 @@
 import Head from "next/head";
-import Page from "../components/shared/page";
-import Header from "../components/header";
-import Footer from "../components/footer";
+import { Fragment } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
@@ -107,7 +105,7 @@ const ErrorPage = () => {
 	}, []);
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>404 - DotWatcher.cc</title>
 				<meta property="og:title" content="404 - DotWatcher.cc" />
@@ -120,8 +118,6 @@ const ErrorPage = () => {
 					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 				/>
 			</Head>
-
-			<Header title="dotwatcher.cc" />
 
 			<Div ph4 ph6_l>
 				<Div mt3 mt4_l>
@@ -203,8 +199,7 @@ const ErrorPage = () => {
 					</Grid>
 				</Div>
 			</Div>
-			<Footer />
-		</Page>
+		</Fragment>
 	);
 };
 
