@@ -92,9 +92,13 @@ const OptionsToggle = styled.button`
 	background-color: transparent;
 	border: none;
 	position: absolute;
-	right: 0;
-	top: 0;
 	width: 60px;
+	right: -30px;
+	top: 0;
+
+	${mq.mdUp`
+		right: 0;
+	`}
 `;
 
 const HeaderComp = ({ user }) => {

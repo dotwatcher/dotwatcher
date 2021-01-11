@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
-import Header from "../components/header";
-import Page from "../components/shared/page";
+import Section from "@Components/UI/Section";
 import RacePreview from "../components/race-preview";
 import Calendar from "../components/calendar-feed";
 import Footer from "../components/footer";
@@ -51,6 +50,7 @@ class Races extends Component {
 			<Fragment>
 				<Head>
 					<title>Races - DotWatcher.cc</title>
+
 					<meta property="og:title" content="Races - DotWatcher.cc" />
 					<meta
 						property="og:description"
@@ -61,7 +61,8 @@ class Races extends Component {
 						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 					/>
 				</Head>
-				<Div mt3 mt4_l pl4 fl w_100 w_75_l>
+
+				<Section>
 					<Div pb5>
 						{currentRaces.length > 0 && (
 							<Heading fl w_100 mb4 ph3>
@@ -85,8 +86,9 @@ class Races extends Component {
 							<RacePreview key={race.sys.id} data={race.data} />
 						))}
 					</Div>
-				</Div>
-				<Div mt3 mt4_l ph5 ph3_l fl w_100 w_25_l>
+				</Section>
+
+				{/*<Div mt3 mt4_l ph5 ph3_l fl w_100 w_25_l>
 					<Heading mb4>
 						<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
 							Calendar
@@ -97,7 +99,7 @@ class Races extends Component {
 					) : (
 						<p>We haven't quite got round to updating our calendar yet.</p>
 					)}
-				</Div>
+					</Div>*/}
 			</Fragment>
 		);
 	}

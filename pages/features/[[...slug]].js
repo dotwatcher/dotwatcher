@@ -1,76 +1,145 @@
-import React from "react";
 import Head from "next/head";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import tachyons from "styled-components-tachyons";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Fragment } from "react";
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
-import { compose } from "recompose";
+import H1 from "@Components/UI/H1";
+import H2 from "@Components/UI/H2";
+import H3 from "@Components/UI/H3";
+import P from "@Components/UI/P";
+import Section from "@Components/UI/Section";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import Image from "next/image";
+import styled from "styled-components";
+import dim from "@Utils/dim";
+import color from "@Utils/colors";
+import mq from "@Utils/media-query";
+import Link from "next/link";
+import Center from "@Components/UI/Center";
 
-import Header from "../../components/header";
-import { P } from "../../components/UI/Tachyons";
-import Page from "../../components/shared/page";
-import Footer from "../../components/footer";
-import FeaturePreview from "../../components/feature-preview";
-import { withFeatureCategories } from "../../data/with-feature-categories";
-import { WithFeatures } from "../../data/with-features";
-import NothingFound from "../../components/NothingFound";
-import CategoriesList from "../../components/Features/CategoriesList";
+const Feature = styled.div`
+	& + & {
+		margin-top: ${dim(2)};
+		padding-top: ${dim(2)};
+		border-top: 1px solid ${color.lightgrey};
+	}
 
-const Heading = styled.header`
-	${tachyons}
-`;
-const H1 = styled.h1`
-	${tachyons}
-`;
-const Div = styled.div`
-	${tachyons}
-`;
-
-const Categories = styled(Div)`
-	grid-column: 10 / span 3;
-`;
-
-const Items = styled(Div)`
-	grid-column: 1 / span 9;
-`;
-
-const Grid = styled(Div)`
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	${mq.mdUp`
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-column-gap: ${dim(4)};
+		align-items: center;
+	`}
 `;
 
-const Features = props => {
-	const category = props.category.items ? props.category.items[0] : [];
+const FeatureImage = styled.div`
+	${mq.mdDown`
+		text-align: center;
+	`}
+	grid-column: 1 / span 5;
+`;
+const FeatureContent = styled.div`
+	grid-column: 6 / span 7;
+`;
 
+const CollectionsFlex = styled.div`
+	column-count: 2;
+	text-align: center;
+
+	${mq.mdUp`
+		display: none;
+	`};
+`;
+
+const CollectionsDesktop = styled.div`
+	${mq.mdDown`
+	display: none;
+`}
+
+	position: relative;
+	position: sticky;
+	top: ${dim()};
+	align-self: start;
+
+	&:before {
+		content: "";
+		position: absolute;
+		height: 100%;
+		width: 1px;
+		background: ${color.lightgrey};
+		top: 0;
+		left: ${dim(-2)};
+	}
+`;
+
+const PageContentSection = styled(Section)`
+	${mq.mdUp`
+		display: grid;
+		grid-template-columns: 60% 40%;
+		grid-column-gap: ${dim(4)};
+	`}
+`;
+
+const MobileCollections = styled(Section)`
+	position: sticky;
+	top: 0;
+	background: white;
+	z-index: 1;
+
+	${mq.mdUp`
+		display: none;
+	`}
+`;
+
+const Features = ({ data }) => {
 	const router = useRouter();
 
 	const isIndex = !router.query.slug;
 
-	if (!category) {
-		return (
-			<Page>
-				<NothingFound user={props.user}>
-					<P>There are no features matching {router.query.slug}</P>
-				</NothingFound>
-			</Page>
-		);
-	}
+	const category = !isIndex && data.category.items[0];
 
 	const title = isIndex
-		? `Features - DotWatcher.cc`
-		: category.fields.name
-		? `Features - ${category.fields.name} - DotWatcher.cc`
+		? `Features - All - DotWatcher.cc`
+		: category.name
+		? `Features - ${category.name} - DotWatcher.cc`
 		: `Features - DotWatcher.cc`;
 
 	const description = isIndex
-		? `Features - DotWatcher.cc`
-		: category.fields.shortDescription
-		? category.fields.shortDescription
-		: `Features - ${category.fields.name} - DotWatcher.cc`;
+		? `Features - All - DotWatcher.cc`
+		: category.shortDescription
+		? category.shortDescription
+		: `Features - ${category.name} - DotWatcher.cc`;
+
+	const features = isIndex
+		? data.featureCollection.items
+		: category.linkedFrom.featureCollection.items;
+
+	const CollectionsList = ({ items = [] }) => (
+		<Fragment>
+			{items.length > 0 &&
+				items.map((collection, ind) => {
+					return (
+						<Fragment key={ind}>
+							<Link href={collection.slug}>
+								<a>
+									<H3>{collection.name}</H3>
+								</a>
+							</Link>
+
+							<p>{collection.shortDescription}</p>
+						</Fragment>
+					);
+				})}
+			<Link href="/features">
+				<a>
+					<H3>View all</H3>
+				</a>
+			</Link>
+		</Fragment>
+	);
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>{title}</title>
 				<meta property="og:title" content={title} />
@@ -83,54 +152,198 @@ const Features = props => {
 				/>
 			</Head>
 
-			<Header user={props.user} title="dotwatcher.cc" />
+			<div>
+				<Section>
+					<Center>
+						<H1>{category ? category.name : "Our Features"}</H1>
 
-			<Div mt3 mt4_l mh6_l>
-				<Div pb5>
-					<Heading w_100 mb4 ph3>
-						<H1 fw6 ttu tracked bb bw1 b__light_gray pb1>
-							Features: {isIndex ? "All" : category.fields.name}
-						</H1>
-
-						{!isIndex && (
-							<p>{documentToReactComponents(category.fields.description)}</p>
+						{category && (
+							<p>{documentToReactComponents(category.description.json)}</p>
 						)}
-					</Heading>
+					</Center>
+				</Section>
 
-					<Grid>
-						<Items>
-							{props.categoryEntries &&
-								props.categoryEntries.items &&
-								props.categoryEntries.items.map(feature => (
-									<FeaturePreview
-										data={feature.fields}
-										id={feature.sys.id}
-										key={feature.sys.id}
-									/>
-								))}
-						</Items>
+				{data.featureCategoryCollection.items.length > 0 && (
+					<MobileCollections>
+						<Center>
+							<H2>Discover More</H2>
+						</Center>
 
-						<Categories>
-							<CategoriesList categories={props.categories} />
-						</Categories>
-					</Grid>
-				</Div>
-			</Div>
-			<Footer />
-		</Page>
+						<CollectionsFlex>
+							<CollectionsList items={data.featureCategoryCollection.items} />
+						</CollectionsFlex>
+					</MobileCollections>
+				)}
+
+				<PageContentSection>
+					<div>
+						{features.map((feature, ind) => {
+							return (
+								<Feature key={ind}>
+									{feature.featuredImage && (
+										<FeatureImage>
+											<Link href={`/feature/${feature.slug}`} passHref>
+												<a>
+													<Image
+														src={
+															feature.featuredImage.url +
+															"?w=400&h=266&fit=fill"
+														}
+														width={400}
+														height={266}
+													/>
+												</a>
+											</Link>
+										</FeatureImage>
+									)}
+									<FeatureContent>
+										<h3>
+											<Link href={`/feature/${feature.slug}`} passHref>
+												<a>{feature.title}</a>
+											</Link>
+										</h3>
+
+										<P>{feature.excerpt}</P>
+
+										{feature.contributor && (
+											<p>
+												<Link
+													href={`/contributor/${feature.contributor.slug}`}
+													passHref
+												>
+													<a>By: {feature.contributor.name}</a>
+												</Link>
+											</p>
+										)}
+									</FeatureContent>
+								</Feature>
+							);
+						})}
+					</div>
+
+					<CollectionsDesktop>
+						<H2>Discover More</H2>
+						<CollectionsList items={data.featureCategoryCollection.items} />
+					</CollectionsDesktop>
+				</PageContentSection>
+
+				{data.featureCategoryCollection.items.length > 0 && (
+					<MobileCollections>
+						<Center>
+							<H2>Discover More</H2>
+						</Center>
+
+						<CollectionsFlex>
+							<CollectionsList items={data.featureCategoryCollection.items} />
+						</CollectionsFlex>
+					</MobileCollections>
+				)}
+			</div>
+		</Fragment>
 	);
 };
 
-Features.propTypes = {
-	features: PropTypes.array
+const getQuery = context => {
+	const slug = context.query.slug && context.query.slug[0];
+
+	const feature = `
+		title
+		excerpt
+		slug
+		contributor {
+			name
+			slug
+		}
+		featuredImage {
+			url
+		}
+	`;
+
+	if (slug) {
+		return {
+			variables: {
+				slug
+			},
+			query: gql`
+				query getFeatures($slug: String){
+					featureCategoryCollection(limit: 10, preview: true) {
+						items {
+							name
+							slug
+							shortDescription
+							description {
+								json
+							}
+						}
+					}
+
+					category: featureCategoryCollection(
+						preview: true
+						limit: 1
+						order: sys_firstPublishedAt_DESC
+						where: { slug: $slug }
+					) {
+						items {
+							slug
+							name
+							description {
+								json
+							}
+							shortDescription
+							linkedFrom {
+								featureCollection(limit: 50) {
+									items {
+										${feature}
+									}
+								}
+							}
+						}
+					}
+				}
+			`
+		};
+	}
+
+	return {
+		query: gql`
+			{
+				featureCollection(limit: 50, order: sys_firstPublishedAt_DESC, preview: true) {
+					items {
+						${feature}
+					}
+				}
+				featureCategoryCollection(limit: 10, preview: true) {
+					items {
+						name
+						slug
+						shortDescription
+						description {
+							json
+						}
+					}
+				}
+			}
+		`
+	};
 };
 
-Features.defaultProps = {
-	category: {},
-	categoryEntries: [],
-	user: {}
+export const getServerSideProps = async context => {
+	try {
+		const { data } = await client.query(getQuery(context));
+
+		if (data.featureCollection && data.featureCollection.items.length < 1) {
+			return {
+				notFound: true
+			};
+		}
+
+		return { props: { data } };
+	} catch (error) {
+		console.log(error);
+		return {
+			notFound: true
+		};
+	}
 };
 
-const enhance = compose(withFeatureCategories, WithFeatures);
-
-export default enhance(Features);
+export default Features;

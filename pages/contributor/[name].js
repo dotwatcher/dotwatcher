@@ -1,15 +1,12 @@
 "use strict";
 
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 
 import { WithContributor } from "../../data/with-contributor";
-import Header from "../../components/header";
-import Page from "../../components/shared/page";
-import Footer from "../../components/footer";
 import Richtext from "../../components/rich-text";
 import InstagramLogo from "../../components/shared/icons/instagram";
 import TwitterLogo from "../../components/shared/icons/twitter";
@@ -58,17 +55,19 @@ const Profile = styled.div`
 `;
 
 const ContributorPage = ({ contributor, user }) => (
-	<Page>
+	<Fragment>
 		<Head>
 			<title>{contributor.name}’s contributor profile - DotWatcher.cc</title>
 			<meta
 				property="og:title"
 				content={`${contributor.name}’s contributor profile - DotWatcher.cc`}
 			/>
-			<meta
-				property="og:image"
-				content={`${contributor.avatar.url}?w=600&h=600&fm=jpg&q=80`}
-			/>
+			{contributor.avatar && (
+				<meta
+					property="og:image"
+					content={`${contributor.avatar.url}?w=600&h=600&fm=jpg&q=80`}
+				/>
+			)}
 			<meta name="twitter:card" content="summary_large_image" />
 			<meta name="twitter:site" content="@dotwatcher" />
 			<meta name="twitter:creator" content="@dotwatcher" />
@@ -76,31 +75,35 @@ const ContributorPage = ({ contributor, user }) => (
 				name="twitter:title"
 				content={`${contributor.name}’s contributor profile - DotWatcher.cc`}
 			/>
-			<meta
-				name="twitter:image"
-				content={`${contributor.avatar.url}?w=600&h=600&fm=jpg&q=80`}
-			/>
+			{contributor.avatar && (
+				<meta
+					name="twitter:image"
+					content={`${contributor.avatar.url}?w=600&h=600&fm=jpg&q=80`}
+				/>
+			)}
 			<meta
 				name="description"
 				content={`${contributor.name}’s contributor profile`}
 			/>
 		</Head>
-		<Header user={user} title="dotwatcher.cc" />
+
 		<Div mt3 mh3 mh6_l>
 			<Contributor mt4 pb5 className="cf">
 				<Sidebar tc_ns w_50 w_100_ns>
 					<Figure ma0 mb3>
-						<Img
-							img
-							db
-							bg_light_gray
-							br_100
-							title={contributor.avatar.title}
-							alt={contributor.avatar.description}
-							src={`${contributor.avatar.url}?w=500&h=500&fit=fill&fm=jpg&q=60`}
-							srcSet={`${contributor.avatar.url}?w=500&h=500&fit=fill&fm=jpg&q=60 768w, ${contributor.avatar.url}?w=600&h=600&fit=fill&fm=jpg&q=80 1024w`}
-							sizes="200vw"
-						/>
+						{contributor.avatar && (
+							<Img
+								img
+								db
+								bg_light_gray
+								br_100
+								title={contributor.avatar.title}
+								alt={contributor.avatar.description}
+								src={`${contributor.avatar.url}?w=500&h=500&fit=fill&fm=jpg&q=60`}
+								srcSet={`${contributor.avatar.url}?w=500&h=500&fit=fill&fm=jpg&q=60 768w, ${contributor.avatar.url}?w=600&h=600&fit=fill&fm=jpg&q=80 1024w`}
+								sizes="200vw"
+							/>
+						)}
 					</Figure>
 					{contributor.website && (
 						<A
@@ -175,8 +178,7 @@ const ContributorPage = ({ contributor, user }) => (
 				</Profile>
 			</Contributor>
 		</Div>
-		<Footer />
-	</Page>
+	</Fragment>
 );
 
 ContributorPage.propTypes = {

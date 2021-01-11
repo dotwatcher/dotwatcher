@@ -1,13 +1,8 @@
 import React, { Component, Fragment } from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
-
 import axios from "axios";
 import debounce from "lodash.debounce";
-
-import Header from "../../components/header";
-import Page from "../../components/shared/page";
-import Footer from "../../components/footer";
 import ResultsIndex from "../../components/results-index";
 
 import { WithResults } from "../../data/with-results";
@@ -78,7 +73,7 @@ class Results extends Component {
 
 	render() {
 		return (
-			<Page>
+			<Fragment>
 				<Head>
 					<title>Results - DotWatcher.cc</title>
 					<link rel="canonical" href="https://dotwatcher.cc/results" />
@@ -105,17 +100,13 @@ class Results extends Component {
 					/>
 				</Head>
 
-				<Header user={this.props.user} title="dotwatcher.cc" />
-
 				<ResultsIndex
 					allRiders={this.state.riders}
 					allRaces={this.state.races}
 					loading={this.state.loading}
 					handleSearchUpdate={this.handleSearchUpdate}
 				/>
-
-				<Footer />
-			</Page>
+			</Fragment>
 		);
 	}
 }
