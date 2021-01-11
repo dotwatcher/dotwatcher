@@ -26,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
  * {
 		font-family: "Raleway", sans-serif;
 	}
+
+	p {
+		line-height: 22px;
+	}
 `;
 
 class MyApp extends App {

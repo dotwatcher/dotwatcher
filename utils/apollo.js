@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-console.log("access token content ", process.env.CONTENTFUL_GRAPHQL_TOKEN);
+
 const client = new ApolloClient({
 	ssrMode: true,
 	uri:

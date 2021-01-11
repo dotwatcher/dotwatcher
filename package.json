@@ -23,6 +23,7 @@
 		"@auth0/nextjs-auth0": "^0.13.0",
 		"@contentful/rich-text-html-renderer": "^14.1.2",
 		"@contentful/rich-text-react-renderer": "^13.4.0",
+		"@contentful/rich-text-types": "^14.1.2",
 		"@sentry/browser": "^5.15.5",
 		"@zeit/next-source-maps": "0.0.3",
 		"array-sort": "^1.0.0",

@@ -11,10 +11,7 @@ const contentful = {
 		raceSeries: "raceSeries"
 	},
 	pages: {
-		homepage: "t21qqU9uHAqaOUKW0WAIa",
-		newhomepage: "P11bxnLKtU2uHQHpvhjDg",
 		tips: "6CO2ZfSWlyOkcQsG62iGaE",
-		about: "1BgGLGEpckYcmoEE6Cqc0I",
 		featuredResults: "5G6L4br6LRkhJOvnXxizuj"
 	},
 	data: {

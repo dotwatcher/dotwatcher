@@ -87,19 +87,6 @@ class Races extends Component {
 						))}
 					</Div>
 				</Section>
-
-				{/*<Div mt3 mt4_l ph5 ph3_l fl w_100 w_25_l>
-					<Heading mb4>
-						<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
-							Calendar
-						</H1>
-					</Heading>
-					{futureRaces.length > 0 ? (
-						<Calendar races={futureRaces} />
-					) : (
-						<p>We haven't quite got round to updating our calendar yet.</p>
-					)}
-					</Div>*/}
 			</Fragment>
 		);
 	}
