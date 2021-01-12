@@ -78,7 +78,7 @@ const Profile = ({
 	const [showConnectAccount, setshowConnectAccount] = useState(false);
 
 	const handleBiographyChange = async content => {
-		await setBigoraphyValue(content);
+		// await setBigoraphyValue(content);
 		await setValues({ ...values, biography: content });
 	};
 
@@ -101,9 +101,7 @@ const Profile = ({
 
 				<title>Edit my Profile</title>
 			</Head>
-			<Page>
-				<Header user={user} title="dotwatcher.cc" />
-
+			<div>
 				<Div mt3 ml3 mr4 mt4_l mh6_l>
 					<h1>Profile</h1>
 
@@ -146,9 +144,7 @@ const Profile = ({
 						setshowConnectAccount={setshowConnectAccount}
 					/>
 				)}
-
-				<Footer />
-			</Page>
+			</div>
 		</Fragment>
 	);
 };

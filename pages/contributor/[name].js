@@ -164,9 +164,13 @@ const ContributorPage = ({ data }) => {
 				</Center>
 			</Section>
 
-			<Section>
-				<MaxCenter>{documentToReactComponents(contributor.bio.json)}</MaxCenter>
-			</Section>
+			{contributor.bio && (
+				<Section>
+					<MaxCenter>
+						{documentToReactComponents(contributor.bio.json)}
+					</MaxCenter>
+				</Section>
+			)}
 
 			{data.featureCollection.items.length > 0 && (
 				<Section>

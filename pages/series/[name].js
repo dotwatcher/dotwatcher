@@ -120,7 +120,7 @@ const Series = ({
 		race.fields.heroImage.fields.file.url;
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>{title}</title>
 				<meta property="og:title" content={title} />
@@ -144,7 +144,6 @@ const Series = ({
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 			</Head>
-			<Header user={user} title="dotwatcher.cc" />
 
 			{hero && (
 				<Hero>
@@ -155,7 +154,7 @@ const Series = ({
 						alt={raceName}
 						title={race.fields.title}
 						width={2000}
-						height={750}
+						height={1000}
 					/>
 					<HeroCredit>{race.fields.heroCredit}</HeroCredit>
 				</Hero>
@@ -460,8 +459,7 @@ const Series = ({
 					</RaceOverview>
 				</RaceGrid>
 			</Div>
-			<Footer />
-		</Page>
+		</Fragment>
 	);
 };
 

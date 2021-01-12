@@ -34,7 +34,7 @@ module.exports = withSourceMaps({
 	images: {
 		deviceSizes: [480, 750, 1200, 1920],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-		domains: ["images.ctfassets.net"],
+		domains: ["images.ctfassets.net", "lh3.googleusercontent.com"],
 		path: "/_next/image",
 		loader: "default"
 	},
