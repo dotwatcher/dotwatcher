@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"paths": {
+			"@UI/*": ["./components/UI/*"],
+			"@Components/*": ["./components/*"],
+			"@ComponentsNew/*": ["./components/New/*"],
+			"@Data/*": ["./data/*"],
+			"@Utils/*": ["./utils/*"],
+			"@Containers/*": ["./containers/*"],
+			"@Queries/*": ["./queries/*"],
+			"@Hooks/*": ["./hooks/*"]
+		}
+	}
+}

@@ -4,7 +4,6 @@ import ReactMarkdown from "react-markdown";
 import shortcodes from "remark-shortcodes";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Embed from "./embed";
 import Link from "next/link";
 import widont from "@Utils/widont";
 import quotes from "@Utils/quotes";
