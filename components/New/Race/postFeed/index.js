@@ -13,8 +13,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import Link from "next/link";
 import ReturnToTop from "@Components/UI//ReturnTop";
-import Center from "@Components/UI/Center";
-import H2 from "@Components/UI/H2";
+
 import Button from "@Components/UI/Button";
 
 const PostItem = ({ item, ...props }) => {

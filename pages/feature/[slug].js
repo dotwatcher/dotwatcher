@@ -69,6 +69,19 @@ const GridItem = styled.div`
 	max-width: 100%;
 `;
 
+const Block = styled.div`
+	display: grid;
+	grid-template-columns: 50% 50%;
+	align-items: start;
+	grid-column-gap: ${dim()};
+
+	& + & {
+		margin-top: ${dim()};
+		padding-top: ${dim(2)};
+		border-top: 1px solid ${color.lightgrey};
+	}
+`;
+
 // const RelatedGrid = styled.div`
 // 	display: grid;
 // 	grid-gap: var(--spacing-medium);
@@ -367,6 +380,18 @@ const Feature = ({ data }) => {
 				/>
 			</Head>
 
+			{feature.featuredImage && (
+				<Section>
+					<Image
+						src={feature.featuredImage.url + "?w=2000&h=800&fit=fill"}
+						height={800}
+						width={2000}
+						alt={feature.title}
+						title={feature.title}
+					/>
+				</Section>
+			)}
+
 			<Section>
 				<Center>
 					<H1>{feature.title}</H1>
@@ -406,34 +431,31 @@ const Feature = ({ data }) => {
 				</Center>
 			</Section>
 
-			{feature.featuredImage && (
-				<Section>
-					<Image
-						src={feature.featuredImage.url + "?w=2000&h=800&fit=fill"}
-						height={800}
-						width={2000}
-						alt={feature.title}
-						title={feature.title}
-					/>
-				</Section>
-			)}
-
 			<Section>
 				<Content>
 					<div>
 						{feature.contentBlockCollection.items.map((block, ind) => (
-							<Fragment key={ind}>
-								{block.heading && <H2>{block.heading}</H2>}
-								<ReactMarkdown
-									source={block.words}
-									plugins={[shortcodes]}
-									renderers={{
-										shortcode: ShortCode,
-										link: MarkdownLink,
-										image: BodyImage
-									}}
-								/>
-							</Fragment>
+							<Block layout={block.layout} key={ind}>
+								<div>
+									{block.heading && <H2>{block.heading}</H2>}
+									<ReactMarkdown
+										source={block.words}
+										plugins={[shortcodes]}
+										renderers={{
+											shortcode: ShortCode,
+											link: MarkdownLink,
+											image: BodyImage
+										}}
+									/>
+								</div>
+								{block.image && (
+									<Image
+										src={block.image.url + "?w=900&h=600&fit=fill"}
+										width={900}
+										height={600}
+									/>
+								)}
+							</Block>
 						))}
 					</div>
 

@@ -28,7 +28,8 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	p {
-		line-height: 22px;
+    line-height: 26px;
+    font-size: 18px;
 	}
 `;
 

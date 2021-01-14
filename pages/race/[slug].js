@@ -284,13 +284,17 @@ const Race = ({ data }) => {
 					<Events>
 						<H3>Key Events</H3>
 
-						<EventsScroll>
-							<KeyEvents
-								events={events}
-								handleLoadMore={handleLoadMore}
-								showLoadMoreEvents={showLoadMoreEvents}
-							/>
-						</EventsScroll>
+						{events.length > 0 ? (
+							<EventsScroll>
+								<KeyEvents
+									events={events}
+									handleLoadMore={handleLoadMore}
+									showLoadMoreEvents={showLoadMoreEvents}
+								/>
+							</EventsScroll>
+						) : (
+							<P>Check back soon for some key moments in the race.</P>
+						)}
 					</Events>
 
 					<Leaderboard>
@@ -303,11 +307,16 @@ const Race = ({ data }) => {
 								</Link>
 							</P>
 						)}
-
+						{console.log(race)}
 						{liveLeaderboard ? (
 							<LiveLeaderboard leaderboard={liveLeaderboard} />
-						) : (
+						) : race.staticLeaderboard ? (
 							<StaticLeaderboard race={race} />
+						) : (
+							<P>
+								We are yet to release an up to date leaderboard. Please check
+								back soon.
+							</P>
 						)}
 					</Leaderboard>
 

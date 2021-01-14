@@ -12,15 +12,6 @@ const Embed = ({ identifier, attributes }) => {
 		return <TwitterTweetEmbed tweetId={attributes.id} />;
 	}
 
-	// if (identifier === "instagram") {
-	// 	return (
-	// 		<Instagram
-	// 			url={attributes.url}
-	// 			clientAccessToken={process.env.INSTAGRAM_TOKEN}
-	// 		/>
-	// 	);
-	// }
-
 	if (identifier === "youtube") {
 		return (
 			<iframe

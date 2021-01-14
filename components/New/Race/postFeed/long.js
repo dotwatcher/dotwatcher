@@ -7,6 +7,9 @@ import tachyons from "styled-components-tachyons";
 import Link from "next/link";
 import widont from "@Utils/widont";
 import quotes from "@Utils/quotes";
+import { useRouter } from "next/router";
+import H1 from "@Components/UI/H1";
+import { useState } from "react";
 
 import {
 	Image as BodyImage,
@@ -14,9 +17,6 @@ import {
 	Link as MarkdownLink
 } from "@ComponentsNew/Markdown";
 
-const H1 = styled.h1`
-	${tachyons}
-`;
 const Div = styled.div`
 	iframe {
 		max-width: 100%;
@@ -43,46 +43,64 @@ const Button = styled.button`
 	${tachyons}
 `;
 
-class Long extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			showMore: false
-		};
-		this.toggleMore = this.toggleMore.bind(this);
+const Long = ({ data }) => {
+	const router = useRouter();
+	const [showMore, setShowMore] = useState(false);
+
+	const toggleMore = () => {
+		setShowMore(prev => !prev);
+	};
+
+	const contineRegEx = RegExp(/\[\[\s?continue\s?\]\]/, "gi");
+	const shouldSplitText = contineRegEx.test(data.body);
+	let splitText = null;
+	let continueReading = null;
+	let moreText = null;
+	let showLess = null;
+
+	if (shouldSplitText) {
+		const splitTextMarker = data.body.match(contineRegEx)[0];
+		splitText = data.body.split(splitTextMarker);
+		continueReading = (
+			<Button near_black hover_blue underline_hover onClick={toggleMore}>
+				▼ Continue reading
+			</Button>
+		);
+		showLess = (
+			<Button near_black hover_blue underline_hover mt3 onClick={toggleMore}>
+				▲ Show less
+			</Button>
+		);
+		moreText = showMore ? (
+			<ReactMarkdown
+				source={splitText[1].trim()}
+				plugins={[shortcodes]}
+				escapeHtml={false}
+				renderers={{
+					shortcode: ShortCode,
+					link: MarkdownLink,
+					image: BodyImage
+				}}
+			/>
+		) : null;
 	}
 
-	render() {
-		const host = typeof window !== "undefined" ? window.location.host : "";
-		const contineRegEx = RegExp(/\[\[\s?continue\s?\]\]/, "gi");
-		const shouldSplitText = contineRegEx.test(this.props.data.body);
-		let splitText = null;
-		let continueReading = null;
-		let moreText = null;
-		let showLess = null;
+	return (
+		<React.Fragment>
+			{data.image && <img url={data.image.url + "?w=800"} />}
 
-		if (shouldSplitText) {
-			const splitTextMarker = this.props.data.body.match(contineRegEx)[0];
-			splitText = this.props.data.body.split(splitTextMarker);
-			continueReading = (
-				<Button near_black hover_blue underline_hover onClick={this.toggleMore}>
-					▼ Continue reading
-				</Button>
-			);
-			showLess = (
-				<Button
-					near_black
-					hover_blue
-					underline_hover
-					mt3
-					onClick={this.toggleMore}
+			<H1>
+				<Link
+					href={`/race/${router.query.slug}?post=${data.sys.id}#posts`}
+					passHref
 				>
-					▲ Show less
-				</Button>
-			);
-			moreText = this.state.showMore ? (
+					<a title={data.title}>{data.title}</a>
+				</Link>
+			</H1>
+
+			<div>
 				<ReactMarkdown
-					source={splitText[1].trim()}
+					source={shouldSplitText ? splitText[0].trim() : data.body}
 					plugins={[shortcodes]}
 					escapeHtml={false}
 					renderers={{
@@ -91,46 +109,16 @@ class Long extends Component {
 						image: BodyImage
 					}}
 				/>
-			) : null;
-		}
 
-		return (
-			<React.Fragment>
-				{this.props.data.image ? (
-					<img url={this.props.data.image.url + "?w=800"} />
-				) : null}
-				<H1 f2 fw6 lh_title mt0>
-					<Link href={`/post/${this.props.id}`} passHref>
-						<A link near_black hover_blue>
-							{quotes(widont(this.props.data.title))}
-						</A>
-					</Link>
-				</H1>
-				<Div lh_copy pb3>
-					<ReactMarkdown
-						source={
-							shouldSplitText ? splitText[0].trim() : this.props.data.body
-						}
-						plugins={[shortcodes]}
-						escapeHtml={false}
-						renderers={{
-							shortcode: ShortCode,
-							link: MarkdownLink,
-							image: BodyImage
-						}}
-					/>
-					{this.state.showMore ? null : continueReading}
-					{moreText}
-					{this.state.showMore ? showLess : null}
-				</Div>
-			</React.Fragment>
-		);
-	}
+				{!showMore && continueReading}
 
-	toggleMore() {
-		this.setState(prevState => ({ showMore: !prevState.showMore }));
-	}
-}
+				{moreText}
+
+				{showMore && showLess}
+			</div>
+		</React.Fragment>
+	);
+};
 
 Long.propTypes = {
 	data: PropTypes.object.isRequired,
