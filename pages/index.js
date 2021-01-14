@@ -235,6 +235,9 @@ export const getServerSideProps = async () => {
 							slug
 							shortDescription
 							raceDate
+							icon {
+								url
+							}
 						}
 					}
 
