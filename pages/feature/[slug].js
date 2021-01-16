@@ -69,7 +69,8 @@ const Block = styled.div(props => {
 	const splitLayouts = ["Image Left", "Image Right"];
 
 	const hasColumns = splitLayouts.some(
-		layout => layout.toLowerCase() === props.layout.toLowerCase()
+		layout =>
+			props.layout && layout.toLowerCase() === props.layout.toLowerCase()
 	);
 
 	return `
