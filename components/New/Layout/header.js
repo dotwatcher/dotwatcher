@@ -65,7 +65,7 @@ const NavWrap = styled.div`
 	flex-direction: column;
 	text-align: center;
 
-	${mq.smUp`
+	${mq.mdUp`
 		margin-top: ${dim(2)};
 		flex-direction: row;
 	`}
@@ -132,7 +132,7 @@ const NavToggle = styled.div`
 	left: 0;
 	z-index: 10;
 
-	${mq.mdUp`
+	${mq.lgUp`
 		display: none;
 	`}
 `;
