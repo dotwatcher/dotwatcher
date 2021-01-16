@@ -1,17 +1,11 @@
 import format from "date-fns/format";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import isWithinRange from "date-fns/is_within_range";
-import startOfMonth from "date-fns/start_of_month";
-import endOfMonth from "date-fns/end_of_month";
 import getMonth from "date-fns/get_month";
 import { useRef } from "react";
 import Router from "next/router";
-import mq from "../../utils/media-query";
-
-const Button = styled.button`
-	${tachyons}
-`;
+import mq from "@Utils/media-query";
+import Button from "@Components/UI/Button";
 
 const Wrapper = styled.div`
 	display: flex;
@@ -192,25 +186,11 @@ const Nav = ({
 	return (
 		<Wrapper>
 			<Today>
-				<Button
-					f4
-					bg_blue
-					hover_bg_dark_blue
-					ph3
-					pv2
-					mb2
-					mt0
-					center
-					tc
-					white
-					tracked
-					ttl
-					small_caps
-					onClick={handleTodayClick}
-				>
+				<Button secondary type="button" onClick={handleTodayClick}>
 					Today
 				</Button>
 			</Today>
+
 			<MonthNav>
 				<Placeholder>
 					<CalenderChange near_black hover_blue onClick={handlePrevClick}>

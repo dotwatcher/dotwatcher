@@ -12,14 +12,14 @@ import User from "../../utils/auth/user";
 import { withRaces } from "../../data/with-races";
 import auth0 from "../../lib/auth0";
 import { fetchUser } from "../../utils/user";
-import Page from "../../components/shared/page";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
 import {
 	ProfileHeader,
 	FormInputs,
 	RideWithGPSConnection
-} from "../../components/Profile/Edit";
+} from "@Components/Profile/Edit";
+
+import Section from "@Components/UI/Section";
+import Center from "@Components/UI/Center";
 
 import { user as userAPI } from "../../utils/auth";
 import mq from "../../utils/media-query";
@@ -78,7 +78,7 @@ const Profile = ({
 	const [showConnectAccount, setshowConnectAccount] = useState(false);
 
 	const handleBiographyChange = async content => {
-		// await setBigoraphyValue(content);
+		await setBigoraphyValue(content);
 		await setValues({ ...values, biography: content });
 	};
 
@@ -103,14 +103,18 @@ const Profile = ({
 			</Head>
 			<div>
 				<Div mt3 ml3 mr4 mt4_l mh6_l>
-					<h1>Profile</h1>
+					<Section>
+						<Center>
+							<h1>My Profile</h1>
 
-					<ProfileHeader
-						meta={meta}
-						user={user}
-						setshowConnectAccount={setshowConnectAccount}
-						disconnectRWGPS={disconnectRWGPS}
-					/>
+							<ProfileHeader
+								meta={meta}
+								user={user}
+								setshowConnectAccount={setshowConnectAccount}
+								disconnectRWGPS={disconnectRWGPS}
+							/>
+						</Center>
+					</Section>
 
 					<Div bw1 b__blue ba mb4 ph3>
 						<p>
