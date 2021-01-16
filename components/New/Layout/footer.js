@@ -260,12 +260,6 @@ const FooterComp = () => {
 
 					<li>
 						<A href="mailto:info@dotwatcher.cc">
-							<H5>Submit to DotWatcher</H5>
-						</A>
-					</li>
-
-					<li>
-						<A href="mailto:info@dotwatcher.cc">
 							<H5>info@dotwatcher.cc</H5>
 						</A>
 					</li>

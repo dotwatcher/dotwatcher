@@ -6,9 +6,10 @@ import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
 import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import colors from "@Utils/colors";
 
 import Layout from "../components/New/Layout";
+
+import "hamburgers/dist/hamburgers.min.css";
 
 if (typeof window !== "undefined") {
 	// kick off the polyfill!

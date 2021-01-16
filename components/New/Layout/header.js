@@ -1,12 +1,13 @@
 import { Fragment, useState } from "react";
 import mq from "@Utils/media-query";
 import Image from "next/image";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Link from "next/link";
 import H4 from "@Components/UI/H4";
 import A from "@Components/UI/A";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
+import className from "classnames";
 
 const ImageWrap = styled.div`
 	text-align: center;
@@ -19,10 +20,31 @@ const H2 = styled.h2`
 `;
 
 const Nav = styled.nav`
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
+	${mq.mdDown`
+		transform: translateX( -100vw);
+		transition: transform ease-in-out 0.3s;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		background-color: ${colors.white};
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		${props =>
+			props.navOpen &&
+			css`
+				transform: translateX(0);
+			`}
+		`}
 
 	${mq.mdUp`
+		grid-template-columns: repeat(6, 1fr);
+		display: grid;
     grid-template-columns: repeat(12, 1fr);
   `}
 `;
@@ -37,7 +59,6 @@ const NavWrap = styled.div`
 	display: inline-flex;
 	justify-content: space-around;
 	grid-column: span 6;
-	margin-top: ${dim(2)};
 	padding-top: ${dim(2)};
 	border-top: 1px solid ${colors.lightgrey};
 	border-bottom: 1px solid ${colors.lightgrey};
@@ -45,8 +66,11 @@ const NavWrap = styled.div`
 	text-align: center;
 
 	${mq.smUp`
+		margin-top: ${dim(2)};
 		flex-direction: row;
-	`} a {
+	`}
+
+	a {
 		text-decoration: none;
 		text-transform: uppercase;
 		font-weight: bold;
@@ -93,19 +117,50 @@ const OptionsToggle = styled.button`
 	border: none;
 	position: absolute;
 	width: 60px;
-	right: -30px;
-	top: 0;
+	right: -25px;
+	top: 5px;
 
 	${mq.mdUp`
 		right: 0;
+		top: 0;
+	`}
+`;
+
+const NavToggle = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+
+	${mq.mdUp`
+		display: none;
 	`}
 `;
 
 const HeaderComp = ({ user }) => {
 	const [optionsVisible, setoptionsVisible] = useState(false);
+	const [navOpen, setNavOpen] = useState(false);
+
+	const cn = className({
+		"is-active": navOpen,
+		"hamburger--arrow": true,
+		hamburger: true
+	});
 
 	return (
 		<Header>
+			<NavToggle>
+				<button
+					className={cn}
+					type="button"
+					onClick={() => setNavOpen(prev => !prev)}
+				>
+					<span className="hamburger-box">
+						<span className="hamburger-inner"></span>
+					</span>
+				</button>
+			</NavToggle>
+
 			<H2>DotWatcher.cc</H2>
 			<ImageWrap>
 				<Link href="/" passHref>
@@ -184,7 +239,7 @@ const HeaderComp = ({ user }) => {
 				)}
 			</Profile>
 
-			<Nav>
+			<Nav navOpen={navOpen}>
 				<NavWrap>
 					<H4>
 						<Link href="/races" passHref>
@@ -204,6 +259,11 @@ const HeaderComp = ({ user }) => {
 					<H4>
 						<Link href="/features" passHref>
 							<A title="Features">Features</A>
+						</Link>
+					</H4>
+					<H4>
+						<Link href="/about" passHref>
+							<A title="About DotWatcher">About DotWatcher</A>
 						</Link>
 					</H4>
 				</NavWrap>
