@@ -101,6 +101,7 @@ const Block = styled.div(props => {
 			`}
 
 		${hasColumns &&
+			props.layout &&
 			props.layout.toLowerCase() === "Image left" &&
 			css`
 				flex-direction: row-reverse;
