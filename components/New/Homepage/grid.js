@@ -9,21 +9,11 @@ export const Grid = styled.section`
 	max-width: 2000px;
 	margin: 0 auto;
 
-	${mq.smUp`
-		grid-template-columns: repeat(2, 1fr);
-	`}
+	grid-template-columns: repeat(2, 1fr);
 
 	${mq.mdUp`
 		grid-template-columns: repeat(4, 1fr);
 	`}
 `;
 
-export const GridItem = styled.article`
-	& + & {
-		${mq.smDown`
-			margin-top: ${dim()};
-			padding-top: ${dim()};
-			border-top: 1px solid ${colors.lightgrey};
-		`}
-	}
-`;
+export const GridItem = styled.article``;
