@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 import Head from "next/head";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Link from "next/link";
 
 import Section from "@Components/UI/Section";
@@ -14,6 +14,7 @@ import H3 from "@Components/UI/H3";
 import client from "@Utils/apollo";
 import dim from "@Utils/dim";
 import color from "@Utils/colors";
+import mq from "@Utils/media-query";
 import { gql } from "@apollo/client";
 import Image from "next/image";
 import moment from "moment";
@@ -33,9 +34,17 @@ const Avatar = styled.div`
 `;
 
 const Content = styled.article`
-	display: grid;
-	grid-template-columns: 60% 40%;
-	grid-column-gap: ${dim(2)};
+	${mq.mdUp`
+		display: grid;
+		grid-column-gap: ${dim(2)};
+		grid-template-columns: minmax(0, 60%) minmax(0, 40%);
+	`}
+`;
+
+const Aside = styled.aside`
+	align-self: start;
+	position: sticky;
+	top: ${dim()};
 `;
 
 const AlsoGrid = styled.div`
@@ -56,18 +65,48 @@ const GridItem = styled.div`
 	max-width: 100%;
 `;
 
-const Block = styled.div`
-	display: grid;
-	grid-template-columns: 50% 50%;
-	align-items: start;
-	grid-column-gap: ${dim()};
+const Block = styled.div(props => {
+	const splitLayouts = ["Image Left", "Image Right"];
 
-	& + & {
-		margin-top: ${dim()};
-		padding-top: ${dim(2)};
-		border-top: 1px solid ${color.lightgrey};
-	}
-`;
+	const hasColumns = splitLayouts.some(
+		layout => layout.toLowerCase() === props.layout.toLowerCase()
+	);
+
+	return `
+
+		${mq.mdUp`
+			display: flex;
+		`}
+
+		gap: ${dim()};
+		align-items: start;
+
+		& + & {
+			margin-top: ${dim()};
+			padding-top: ${dim(2)};
+			border-top: 1px solid ${color.lightgrey};
+		}
+
+		&:last-child {
+			margin-bottom: ${dim()};
+			padding-bottom: ${dim(2)};
+			border-bottom: 1px solid ${color.lightgrey};
+		}
+
+		${hasColumns &&
+			css`
+				& > * {
+					flex: 1 1 0;
+				}
+			`}
+
+		${hasColumns &&
+			props.layout.toLowerCase() === "Image left" &&
+			css`
+				flex-direction: row-reverse;
+			`}
+	`;
+});
 
 const Feature = ({ data }) => {
 	const [feature] = data.featureCollection.items;
@@ -206,7 +245,7 @@ const Feature = ({ data }) => {
 						))}
 					</div>
 
-					<aside>
+					<Aside>
 						{feature.relatedCollection.items.length > 0 && (
 							<AlsoBlock>
 								<H3>Related Features</H3>
@@ -238,6 +277,7 @@ const Feature = ({ data }) => {
 								<AlsoGrid>
 									{featureCollection.linkedFrom.featureCollection.items
 										.filter(item => item.slug !== router.query.slug)
+										.slice(0, 2)
 										.map((feature, ind) => (
 											<div key={ind}>
 												<Link href={`/feature/${feature.slug}`}>
@@ -258,12 +298,13 @@ const Feature = ({ data }) => {
 								</AlsoGrid>
 							</AlsoBlock>
 						)}
-					</aside>
+					</Aside>
 				</Content>
 			</Section>
 		</Fragment>
 	);
 };
+
 export const getServerSideProps = async ctx => {
 	try {
 		const { data } = await client.query({
@@ -319,7 +360,7 @@ export const getServerSideProps = async ctx => {
 									}
 								}
 							}
-							relatedCollection(limit: 4) {
+							relatedCollection(limit: 2) {
 								items {
 									...feature
 								}
