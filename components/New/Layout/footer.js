@@ -163,22 +163,6 @@ const FooterComp = () => {
 						</Contrinbutor>
 
 						<Contrinbutor>
-							<a
-								href="https://folowmychallange.com"
-								title="Follow My Challange"
-								target="_blank"
-							>
-								<Image
-									src="/static/images/fmc.svg"
-									width={189}
-									height={72}
-									title="Follow My Challange"
-									alt="Follow My Challange"
-								/>
-							</a>
-						</Contrinbutor>
-
-						<Contrinbutor>
 							<Link href="/about#contributors" passHref>
 								<p>
 									<A title="Our Contributors">Our Contributors</A>
