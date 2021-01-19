@@ -263,7 +263,7 @@ const HeaderComp = ({ user }) => {
 					</H4>
 					<H4>
 						<Link href="/about" passHref>
-							<A title="About DotWatcher">About DotWatcher</A>
+							<A title="About Us">About Us</A>
 						</Link>
 					</H4>
 				</NavWrap>

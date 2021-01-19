@@ -4,105 +4,88 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
 import mq from "../utils/media-query";
-import { createClient } from "contentful";
-import vars from "../data/api-vars";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
-const H1 = styled.h1`
-	${tachyons}
-`;
-
-const H2 = styled.h2`
-	${tachyons}
-`;
+import H1 from "@Components/UI/H1";
+import H2 from "@Components/UI/H2";
+import H3 from "@Components/UI/H3";
+import P from "@Components/UI/P";
+import A from "@Components/UI/A";
+import Section from "@Components/UI/Section";
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
+import dim from "@Utils/dim";
 
 const Div = styled.div`
 	${tachyons}
-`;
-
-const Col = styled(Div)`
-	& + & {
-		margin-top: var(--spacing-large);
-		border-top: 1px solid red;
-		padding-top: var(--spacing-large);
-
-		${mq.smUp`
-			margin-top: unset;
-			padding-top: unset;
-			border-top: none;
-		`}
-	}
-
-	${mq.smUp`
-		border-right: 1px solid var(--light-gray);
-
-		&:last-of-type {
-			border-right: none;
-		}
-	`}
 `;
 
 const Buttons = styled(Div)`
 	${tachyons}
 
 	a + a {
-		margin-left: var(--spacing-large);
+		margin-left: ${dim(3)};
 	}
 `;
 
-const A = styled.a`
-	${tachyons}
-`;
-
-const Feautre = styled(A)`
+const Feautre = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-`;
-
-const Img = styled.img`
-	${tachyons}
-`;
-
-const P = styled.p`
-	${tachyons}
+	justify-content: end;
 `;
 
 const Grid = styled.section`
-	padding: 0 var(--spacing-large);
+	padding: 0 ${dim()};
 
 	${mq.smUp`
 		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-column-gap: var(--spacing-large);
+		grid-template-columns: repeat(4, 1fr);
+		grid-column-gap: ${dim(3)};
 	`}
 `;
-
-const client = createClient({
-	space: vars.space,
-	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-});
 
 const ErrorPage = () => {
 	const [features, setfeatures] = useState([]);
 
-	useEffect(() => {
-		(async () => {
-			try {
-				const features = await client.getEntries({
-					content_type: vars.content_type.feature,
-					order: "-sys.createdAt",
-					limit: 4
-				});
+	const fetchData = async () => {
+		try {
+			const { data } = await client.query({
+				query: gql`
+					{
+						featureCollection(limit: 4) {
+							items {
+								sys {
+									firstPublishedAt
+								}
+								title
+								excerpt
+								contributor {
+									name
+									slug
+								}
+								slug
+								featuredImage {
+									url
+									title
+								}
+							}
+						}
+					}
+				`
+			});
 
-				setfeatures(features.items);
-			} catch (error) {
-				console.log(error);
-			}
-		})();
-	}, []);
+			console.log(data);
+			setfeatures(data.featureCollection.items);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	});
 
 	return (
 		<Fragment>
@@ -120,84 +103,67 @@ const ErrorPage = () => {
 			</Head>
 
 			<Div ph4 ph6_l>
-				<Div mt3 mt4_l>
-					<H1 f3 f1_l fw6 lh_title mb4>
-						404
-					</H1>
+				<Section>
+					<H1>404</H1>
 
-					<H2 f4 f2_l fw6 lh_title mb4>
-						Whoops, we've lost your dot!
-					</H2>
+					<H2>Whoops, we've lost your dot!</H2>
 
-					<P lh_title mb4>
+					<P>
 						It doesn't look like that page exists, maybe something below is what
 						you were looking for.
 					</P>
 
 					<Buttons>
 						<Link href="/" passHref>
-							<A f4 underline fl tracked ttl small_caps black hover_blue>
-								Home
-							</A>
+							<A>Home</A>
 						</Link>
 
 						<Link href="/races" passHref>
-							<A f4 underline fl tracked ttl small_caps black hover_blue>
-								Races
-							</A>
+							<A>Races</A>
 						</Link>
 
 						<Link href="/races" passHref>
-							<A f4 underline fl tracked ttl small_caps black hover_blue>
-								Results
-							</A>
+							<A>Results</A>
 						</Link>
 
 						<Link href="/features" passHref>
-							<A f4 underline fl tracked ttl small_caps black hover_blue>
-								Features
-							</A>
+							<A>Features</A>
 						</Link>
 					</Buttons>
-				</Div>
-				{console.log(features)}
-				<Div mt3 mt4_l dib bt bt1 b__light_gray>
-					<H2 f4 f2_l fw6 lh_title mb4>
-						Our latest features
-					</H2>
+				</Section>
+
+				<Section>
+					<H2>Our latest features</H2>
 					<Grid>
-						{features.map((article, key) => (
-							<Link href={`/feature/${article.fields.slug}`} passHref>
-								<Feautre
-									f4
-									underline
-									fl
-									tracked
-									ttl
-									small_caps
-									black
-									hover_blue
-								>
-									<H2>{article.fields.title}</H2>
+						{features.map((article, ind) => (
+							<Feautre key={ind}>
+								<H3>
+									<Link href={`/feature/${article.slug}`} passHref>
+										<a>{article.title}</a>
+									</Link>
+								</H3>
 
-									{article.fields.featuredImage && (
-										<Image
-											width={500}
-											height={400}
-											src={
-												"https:" + article.fields.featuredImage.fields.file.url
-											}
-											title={article.fields.featuredImage.fields.description}
-											alt={article.fields.featuredImage.fields.description}
-										/>
-									)}
+								{article.featuredImage && (
+									<Link href={`/feature/${article.slug}`} passHref>
+										<a>
+											<Image
+												width={600}
+												height={400}
+												src={
+													article.featuredImage.url + "?w=600&h=400&fit=fill"
+												}
+												title={article.title}
+												alt={article.title}
+											/>
+										</a>
+									</Link>
+								)}
 
-									<P>{article.fields.excerpt}</P>
-								</Feautre>
-							</Link>
+								<P>{article.excerpt}</P>
+							</Feautre>
 						))}
 					</Grid>
-				</Div>
+				</Section>
 			</Div>
 		</Fragment>
 	);
