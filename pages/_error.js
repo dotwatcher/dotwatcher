@@ -1,13 +1,13 @@
 import Head from "next/head";
-import Page from "../components/shared/page";
-import Header from "../components/header";
-import Footer from "../components/footer";
+import { Fragment } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
-import { WithFeatures } from "../data/with-features";
-import Placeholder from "../components/placeholder";
 import mq from "../utils/media-query";
+import { createClient } from "contentful";
+import vars from "../data/api-vars";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const H1 = styled.h1`
 	${tachyons}
@@ -80,11 +80,32 @@ const Grid = styled.section`
 	`}
 `;
 
-const ErrorPage = ({ features }) => {
-	const articles = [features[0], features[1]];
+const client = createClient({
+	space: vars.space,
+	accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+});
+
+const ErrorPage = () => {
+	const [features, setfeatures] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			try {
+				const features = await client.getEntries({
+					content_type: vars.content_type.feature,
+					order: "-sys.createdAt",
+					limit: 4
+				});
+
+				setfeatures(features.items);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	}, []);
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>404 - DotWatcher.cc</title>
 				<meta property="og:title" content="404 - DotWatcher.cc" />
@@ -98,8 +119,6 @@ const ErrorPage = ({ features }) => {
 				/>
 			</Head>
 
-			<Header title="dotwatcher.cc" />
-
 			<Div ph4 ph6_l>
 				<Div mt3 mt4_l>
 					<H1 f3 f1_l fw6 lh_title mb4>
@@ -109,6 +128,11 @@ const ErrorPage = ({ features }) => {
 					<H2 f4 f2_l fw6 lh_title mb4>
 						Whoops, we've lost your dot!
 					</H2>
+
+					<P lh_title mb4>
+						It doesn't look like that page exists, maybe something below is what
+						you were looking for.
+					</P>
 
 					<Buttons>
 						<Link href="/" passHref>
@@ -136,18 +160,14 @@ const ErrorPage = ({ features }) => {
 						</Link>
 					</Buttons>
 				</Div>
-
+				{console.log(features)}
 				<Div mt3 mt4_l dib bt bt1 b__light_gray>
 					<H2 f4 f2_l fw6 lh_title mb4>
 						Our latest features
 					</H2>
 					<Grid>
-						{articles.map((article, key) => (
-							<Link
-								key={key}
-								href={`/feature/${article.data.slug}`}
-								passHref
-							>
+						{features.map((article, key) => (
+							<Link href={`/feature/${article.fields.slug}`} passHref>
 								<Feautre
 									f4
 									underline
@@ -158,29 +178,29 @@ const ErrorPage = ({ features }) => {
 									black
 									hover_blue
 								>
-									<H2>{article.data.title}</H2>
+									<H2>{article.fields.title}</H2>
 
-									{article.data.image ? (
-										<Img
-											db
-											mw_100
-											src={`${article.data.image.fields.file.url}?w=600&h=600&fm=jpg&q=50`}
-											alt={article.data.image.fields.description}
+									{article.fields.featuredImage && (
+										<Image
+											width={500}
+											height={400}
+											src={
+												"https:" + article.fields.featuredImage.fields.file.url
+											}
+											title={article.fields.featuredImage.fields.description}
+											alt={article.fields.featuredImage.fields.description}
 										/>
-									) : (
-										<Placeholder w_100 h_100 pv6 bg_light_gray />
 									)}
 
-									<P>{article.data.excerpt}</P>
+									<P>{article.fields.excerpt}</P>
 								</Feautre>
 							</Link>
 						))}
 					</Grid>
 				</Div>
 			</Div>
-			<Footer />
-		</Page>
+		</Fragment>
 	);
 };
 
-export default WithFeatures(ErrorPage);
+export default ErrorPage;
