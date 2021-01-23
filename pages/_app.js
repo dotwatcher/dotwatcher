@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
 import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
+import colors from "@Utils/colors";
 
 import Layout from "../components/New/Layout";
 
@@ -31,6 +32,14 @@ const GlobalStyle = createGlobalStyle`
 	p {
     line-height: 26px;
     font-size: 18px;
+	}
+
+	a {
+		color: ${colors.primary};
+
+		&:hover {
+			color: ${colors.primaryHover}
+		}
 	}
 `;
 

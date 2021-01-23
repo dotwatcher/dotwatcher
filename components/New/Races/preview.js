@@ -22,13 +22,13 @@ const Race = styled.div`
 `;
 
 const RaceImage = styled.div`
-	grid-column: 1 / span 2;
+	grid-column: 1 / span 1;
 `;
 const RaceExcerpt = styled.div`
-	grid-column: 3 / span 6;
+	grid-column: 2 / span 4;
 `;
 const RaceFacts = styled.div`
-	grid-column: 9 / span 3;
+	grid-column: 6 / span 1;
 `;
 
 const Preview = ({ race }) => {

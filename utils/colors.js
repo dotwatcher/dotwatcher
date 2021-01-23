@@ -11,8 +11,8 @@ const Colors = {
 	red,
 	lightgrey,
 	transparentGrey: "#97979796",
-	primary: "#114b5f",
-	primaryHover: "#1a936f",
+	primary: "#4961AF",
+	primaryHover: "#423993",
 	secondary: black,
 	secondaryHover: black
 };
