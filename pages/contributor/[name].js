@@ -76,6 +76,13 @@ const Features = styled.div`
 const ContributorPage = ({ data }) => {
 	const [contributor] = data.contributorCollection.items;
 
+	const anySocial = [
+		contributor.website,
+		contributor.instagramProfile,
+		contributor.twitterProfile,
+		contributor.stravaProfile
+	].some(x => x);
+
 	return (
 		<Fragment>
 			<Head>
@@ -127,42 +134,44 @@ const ContributorPage = ({ data }) => {
 				)}
 			</Section>
 
-			<Section>
-				<Center>
-					{contributor.website && (
-						<A target="_bkank" href={contributor.website}>
-							{contributor.website.replace(/^(http|https):\/\//, "")}
-						</A>
-					)}
-					{contributor.instagramProfile && (
-						<Icon
-							target="_blank"
-							href={contributor.instagramProfile}
-							title={`Follow ${contributor.name} on Instagram`}
-						>
-							<InstagramLogo />
-						</Icon>
-					)}
-					{contributor.twitterProfile && (
-						<Icon
-							target="_blank"
-							href={contributor.twitterProfile}
-							title={`Follow ${contributor.name} on Twitter`}
-						>
-							<TwitterLogo />
-						</Icon>
-					)}
-					{contributor.stravaProfile && (
-						<Icon
-							target="_blank"
-							href={contributor.stravaProfile}
-							title={`Follow ${contributor.name} on Strava`}
-						>
-							<StravaLogo />
-						</Icon>
-					)}
-				</Center>
-			</Section>
+			{anySocial && (
+				<Section>
+					<Center>
+						{contributor.website && (
+							<A target="_bkank" href={contributor.website}>
+								{contributor.website.replace(/^(http|https):\/\//, "")}
+							</A>
+						)}
+						{contributor.instagramProfile && (
+							<Icon
+								target="_blank"
+								href={contributor.instagramProfile}
+								title={`Follow ${contributor.name} on Instagram`}
+							>
+								<InstagramLogo />
+							</Icon>
+						)}
+						{contributor.twitterProfile && (
+							<Icon
+								target="_blank"
+								href={contributor.twitterProfile}
+								title={`Follow ${contributor.name} on Twitter`}
+							>
+								<TwitterLogo />
+							</Icon>
+						)}
+						{contributor.stravaProfile && (
+							<Icon
+								target="_blank"
+								href={contributor.stravaProfile}
+								title={`Follow ${contributor.name} on Strava`}
+							>
+								<StravaLogo />
+							</Icon>
+						)}
+					</Center>
+				</Section>
+			)}
 
 			{contributor.bio && (
 				<Section>

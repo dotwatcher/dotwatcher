@@ -181,14 +181,17 @@ export const getServerSideProps = async () => {
 			},
 			query: gql`
 				query homepage($today: DateTime) {
-					featureCategoryCollection(limit: 10) {
+					featureCategoryCollection(
+						limit: 10
+						order: sys_firstPublishedAt_DESC
+					) {
 						items {
 							slug
 							name
 						}
 					}
 
-					featureCollection(limit: 5) {
+					featureCollection(limit: 5, order: sys_firstPublishedAt_DESC) {
 						items {
 							sys {
 								firstPublishedAt
@@ -229,6 +232,7 @@ export const getServerSideProps = async () => {
 					racesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						limit: 5
 						where: { raceDate_lte: $today }
+						order: sys_firstPublishedAt_DESC
 					) {
 						items {
 							title

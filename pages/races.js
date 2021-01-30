@@ -120,6 +120,7 @@ export const getServerSideProps = async () => {
 				query getRaces($today: DateTime) {
 					pastRacesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						where: { raceDate_lte: $today }
+						order: sys_firstPublishedAt_DESC
 					) {
 						items {
 							...race

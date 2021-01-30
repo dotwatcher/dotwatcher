@@ -120,7 +120,7 @@ const Features = ({ data }) => {
 				items.map((collection, ind) => {
 					return (
 						<Fragment key={ind}>
-							<Link href={collection.slug}>
+							<Link href={`/features/${collection.slug}`}>
 								<a>
 									<H3>{collection.name}</H3>
 								</a>
@@ -177,48 +177,54 @@ const Features = ({ data }) => {
 
 				<PageContentSection>
 					<div>
-						{features.map((feature, ind) => {
-							return (
-								<Feature key={ind}>
-									{feature.featuredImage && (
-										<FeatureImage>
-											<Link href={`/feature/${feature.slug}`} passHref>
-												<a>
-													<Image
-														src={
-															feature.featuredImage.url +
-															"?w=400&h=266&fit=fill"
-														}
-														width={400}
-														height={266}
-													/>
-												</a>
-											</Link>
-										</FeatureImage>
-									)}
-									<FeatureContent>
-										<h3>
-											<Link href={`/feature/${feature.slug}`} passHref>
-												<a>{feature.title}</a>
-											</Link>
-										</h3>
-
-										<P>{feature.excerpt}</P>
-
-										{feature.contributor && (
-											<p>
-												<Link
-													href={`/contributor/${feature.contributor.slug}`}
-													passHref
-												>
-													<a>By: {feature.contributor.name}</a>
+						{features.length > 0 ? (
+							features.map((feature, ind) => {
+								return (
+									<Feature key={ind}>
+										{feature.featuredImage && (
+											<FeatureImage>
+												<Link href={`/feature/${feature.slug}`} passHref>
+													<a>
+														<Image
+															src={
+																feature.featuredImage.url +
+																"?w=400&h=266&fit=fill"
+															}
+															width={400}
+															height={266}
+														/>
+													</a>
 												</Link>
-											</p>
+											</FeatureImage>
 										)}
-									</FeatureContent>
-								</Feature>
-							);
-						})}
+										<FeatureContent>
+											<h3>
+												<Link href={`/feature/${feature.slug}`} passHref>
+													<a>{feature.title}</a>
+												</Link>
+											</h3>
+
+											<P>{feature.excerpt}</P>
+
+											{feature.contributor && (
+												<p>
+													<Link
+														href={`/contributor/${feature.contributor.slug}`}
+														passHref
+													>
+														<a>By: {feature.contributor.name}</a>
+													</Link>
+												</p>
+											)}
+										</FeatureContent>
+									</Feature>
+								);
+							})
+						) : (
+							<Center>
+								<H2>Check back soon for articles in {category.name}</H2>
+							</Center>
+						)}
 					</div>
 
 					<CollectionsDesktop>

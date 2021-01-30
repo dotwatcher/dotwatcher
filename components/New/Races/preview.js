@@ -53,7 +53,7 @@ const Preview = ({ race }) => {
 					</a>
 				</Link>
 
-				<P>Starts:{moment(race.raceDate).format("MMMM Do YYYY, kk mm")}</P>
+				<P>Starts: {moment(race.raceDate).format("Do MMMM YYYY, kk:mm")}</P>
 
 				<p>{race.shortDescription}</p>
 

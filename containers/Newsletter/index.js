@@ -62,6 +62,7 @@ const CustomForm = ({
 	showPastIssues = true,
 	onSubmit = true
 }) => {
+	console.log(showPastIssues);
 	const [cookies, setCookie] = useCookies(["hideSignup"]);
 
 	let email;
@@ -132,7 +133,7 @@ const CustomForm = ({
 
 const mailchimpURL = process.env.MAILCHIMP || "";
 
-const Newsletter = ({ onSubmit = () => {} }) => (
+const Newsletter = ({ onSubmit = () => {}, ...props }) => (
 	<MailchimpSubscribe
 		url={mailchimpURL}
 		render={({ subscribe, status, message }) => (
@@ -142,6 +143,7 @@ const Newsletter = ({ onSubmit = () => {} }) => (
 				onValidated={subscribe}
 				url={mailchimpURL}
 				onSubmit={onSubmit}
+				{...props}
 			/>
 		)}
 	/>

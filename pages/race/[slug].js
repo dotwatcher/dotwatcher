@@ -416,6 +416,7 @@ export const getServerSideProps = async ({ query }) => {
 							raceDate
 							riders
 							terrain
+							website
 							lastYearsWinner
 							winnerLabel
 							trackleadersRaceId

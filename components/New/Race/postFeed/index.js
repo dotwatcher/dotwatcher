@@ -118,6 +118,7 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 
 							<PostItem item={item} />
 
+							{console.log(item.sys)}
 							<Social>
 								<div>
 									<Link
@@ -125,7 +126,7 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 										passHref
 									>
 										<a>
-											{moment(item.sys.firstPublishAt).format("MMM Do YYYY")}
+											{moment(item.sys.firstPublishedAt).format("MMM Do YYYY")}
 										</a>
 									</Link>
 								</div>

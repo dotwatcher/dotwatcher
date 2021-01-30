@@ -52,7 +52,7 @@ const Header = ({ race }) => {
 				<P>{race.location}</P>
 				<P>{race.shortDescription}</P>
 
-				<P>{moment(race.raceDate).format("MMMM Do YYYY, kk mm")}</P>
+				<P>{moment(race.raceDate).format("Do MMMM YYYY, kk:mm")}</P>
 
 				{race.whatsAppId && (
 					<P>
@@ -96,6 +96,17 @@ const Header = ({ race }) => {
 							{race.winnerLabel || "Last Years Winner"}
 						</RaceDetailTitle>
 						<P>{race.lastYearsWinner}</P>
+					</RaceDetail>
+				)}
+
+				{race.website && (
+					<RaceDetail>
+						<RaceDetailTitle>Website</RaceDetailTitle>
+						<P>
+							<a target="_blank" href={race.website}>
+								{race.website.replace(/(^\w+:|^)\/\//, "")}
+							</a>
+						</P>
 					</RaceDetail>
 				)}
 			</RaceDetails>

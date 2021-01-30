@@ -76,7 +76,6 @@ const ErrorPage = () => {
 				`
 			});
 
-			console.log(data);
 			setfeatures(data.featureCollection.items);
 		} catch (error) {
 			console.log(error);
@@ -101,7 +100,7 @@ const ErrorPage = () => {
 					<H2>Whoops, looks like something isn't quite right.</H2>
 
 					<P>
-						It doesn't look like we have run into some technical problems, maybe
+						It looks like we have run into some technical problems, maybe
 						something below is what you were looking for.
 					</P>
 
