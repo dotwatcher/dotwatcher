@@ -48,12 +48,20 @@ const Post = ({ data }) => {
 			embed = null;
 		}
 	}
+
 	return (
 		<React.Fragment>
-			{data.image ? <img data={data.image.fields} /> : null}
+			{data.featuredImage && (
+				<img
+					src={data.featuredImage.url + "?w=800"}
+					alt={data.title}
+					title={data.title}
+				/>
+			)}
+
 			{embed}
 			<Div lh_copy mv4>
-				{widont(data.title)}
+				{data.title}
 			</Div>
 		</React.Fragment>
 	);

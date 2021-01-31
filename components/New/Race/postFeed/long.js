@@ -84,10 +84,18 @@ const Long = ({ data }) => {
 			/>
 		) : null;
 	}
-
+	{
+		console.log(data);
+	}
 	return (
 		<React.Fragment>
-			{data.image && <img url={data.image.url + "?w=800"} />}
+			{data.featuredImage && (
+				<img
+					src={data.featuredImage.url + "?w=800"}
+					alt={data.title}
+					title={data.title}
+				/>
+			)}
 
 			<H1>
 				<Link

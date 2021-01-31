@@ -307,7 +307,7 @@ const Race = ({ data }) => {
 								</Link>
 							</P>
 						)}
-						{console.log(race)}
+
 						{liveLeaderboard ? (
 							<LiveLeaderboard leaderboard={liveLeaderboard} />
 						) : race.staticLeaderboard ? (
