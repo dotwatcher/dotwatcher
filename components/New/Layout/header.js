@@ -29,7 +29,7 @@ const Nav = styled.nav`
 		height: 100vh;
 		width: 100vw;
 		background-color: ${colors.white};
-		z-index: 1;
+		z-index: 2;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
