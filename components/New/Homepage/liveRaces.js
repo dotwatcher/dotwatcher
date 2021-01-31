@@ -64,9 +64,9 @@ const Tabs = styled.nav`
 const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
 		<Image
-			src={race.icon.url + "?w=1800&h=1200&fit=crop"}
-			width={1800}
-			height={1200}
+			src={(race.heroImage.url || race.icon.url) + "?w=1600&h=900&fit=crop"}
+			width={1600}
+			height={900}
 			title={race.title}
 			priority={ind === 0}
 		/>
@@ -86,11 +86,10 @@ const RaceSlide = ({ race, ind, ...props }) => (
 );
 
 const LiveRaces = ({ liveRaces }) => {
-	const items = [...liveRaces.items, ...liveRaces.items, ...liveRaces.items];
-	const count = items.length;
+	const count = liveRaces.items.length;
 
 	if (count === 1) {
-		return <RaceSlide race={items[0]} active />;
+		return <RaceSlide race={liveRaces.items[0]} active />;
 	}
 
 	const [activeTab, setActiveTab] = useState(0);
@@ -98,7 +97,7 @@ const LiveRaces = ({ liveRaces }) => {
 	return (
 		<div>
 			<Tabs>
-				{items.map((race, ind) => (
+				{liveRaces.items.map((race, ind) => (
 					<Tab
 						key={ind}
 						active={ind === activeTab}
@@ -109,7 +108,7 @@ const LiveRaces = ({ liveRaces }) => {
 				))}
 			</Tabs>
 			<Slides>
-				{items.map((race, ind) => (
+				{liveRaces.items.map((race, ind) => (
 					<RaceSlide
 						key={ind}
 						ind={ind}

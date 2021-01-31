@@ -257,6 +257,10 @@ export const getServerSideProps = async () => {
 							raceDate
 							raceEndDate
 							liveBeforeStartDate
+							heroImage {
+								url
+								title
+							}
 							icon {
 								url
 								title

@@ -84,9 +84,7 @@ const Long = ({ data }) => {
 			/>
 		) : null;
 	}
-	{
-		console.log(data);
-	}
+
 	return (
 		<React.Fragment>
 			{data.featuredImage && (
