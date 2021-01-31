@@ -1,8 +1,8 @@
 "use strict";
 
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import Head from "next/head";
-import PropTypes from "prop-types";
+
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 

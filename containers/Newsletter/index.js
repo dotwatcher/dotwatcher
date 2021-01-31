@@ -62,7 +62,6 @@ const CustomForm = ({
 	showPastIssues = true,
 	onSubmit = true
 }) => {
-	console.log(showPastIssues);
 	const [cookies, setCookie] = useCookies(["hideSignup"]);
 
 	let email;
