@@ -72,7 +72,11 @@ const RaceSlide = ({ race, ind, ...props }) => (
 		/>
 
 		<SlideDescription>
-			<H2>{race.title}</H2>
+			<Link href={`/race/${race.slug}`}>
+				<A title={race.title}>
+					<H2>{race.title}</H2>
+				</A>
+			</Link>
 
 			<P>{race.shortDescription}</P>
 

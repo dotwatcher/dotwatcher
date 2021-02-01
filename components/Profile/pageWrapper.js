@@ -1,10 +1,7 @@
 import Head from "next/head";
-import Header from "../header";
-import Page from "../shared/page";
-import Footer from "../footer";
 
-const PageWrapper = ({ children, name, user }) => (
-	<Page>
+const PageWrapper = ({ children, name }) => (
+	<>
 		<Head>
 			<title>{name}’s race results - DotWatcher.cc</title>
 			<meta
@@ -40,12 +37,8 @@ const PageWrapper = ({ children, name, user }) => (
 			/>
 		</Head>
 
-		<Header user={user} title="dotwatcher.cc" />
-
 		{children}
-
-		<Footer />
-	</Page>
+	</>
 );
 
 export default PageWrapper;

@@ -8,12 +8,9 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Embed from "../../components/embed";
 import AutoEmbed from "../../components/embed/auto";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
 import ContentBlock from "../../components/content-block";
 import Grid from "../../components/grid";
 import Banner from "../../components/content-block/banner";
-import Page from "../../components/shared/page";
 import { withPage } from "../../data/with-page";
 import widont from "../../utils/widont";
 import Link from "next/link";
@@ -65,7 +62,7 @@ class ContentPage extends React.Component {
 			.filter(block => block.layout !== "Carousel slide")
 			.filter(block => block.layout !== "Banner");
 		return (
-			<Page>
+			<>
 				<Head>
 					<title>{this.props.page.title} – DotWatcher.cc</title>
 					<meta
@@ -108,7 +105,6 @@ class ContentPage extends React.Component {
 						content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 					/>
 				</Head>
-				<Header user={this.props.user} title="dotwatcher.cc" />
 				<StyledWrapper fl w_100>
 					<Div fl mt5_ns pa3 pa4_ns pl5_ns>
 						<H1 f2 f1_ns fw6 lh_solid mt0 mb4>
@@ -171,8 +167,7 @@ class ContentPage extends React.Component {
 						return <ContentBlock key={block.sys.id} block={block} />;
 					})}
 				</Div>
-				<Footer />
-			</Page>
+			</>
 		);
 	}
 }

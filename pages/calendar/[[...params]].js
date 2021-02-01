@@ -70,7 +70,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 	}));
 
 	return (
-		<Page>
+		<>
 			<Head>
 				<title>Calendar - DotWatcher.cc</title>
 				<meta property="og:title" content="Calendar - DotWatcher.cc" />
@@ -91,7 +91,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 				handleNextMonthClick={handleNextMonthClick}
 				handlePrevMonthClick={handlePrevMonthClick}
 			/>
-		</Page>
+		</>
 	);
 };
 

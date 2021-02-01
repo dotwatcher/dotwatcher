@@ -227,7 +227,7 @@ const FooterComp = () => {
 			<Grid>
 				<SubLinksList>
 					<li>
-						<Link href="/submissions" passHref>
+						<Link href="/info/submissions" passHref>
 							<A>
 								<H5>Submit to DotWatcher</H5>
 							</A>
@@ -235,7 +235,7 @@ const FooterComp = () => {
 					</li>
 
 					<li>
-						<Link href="/data-policy" passHref>
+						<Link href="/info/data-policy" passHref>
 							<A>
 								<H5>Data Policy</H5>
 							</A>

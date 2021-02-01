@@ -7,9 +7,6 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 
 import Link from "next/link";
-import Header from "../../../components/header";
-import Page from "../../../components/shared/page";
-import Footer from "../../../components/footer";
 
 import Stats from "../../../components/Graphs/Pie";
 import GenderSplit from "../../../components/Results/gender-split";
@@ -125,7 +122,7 @@ class Result extends Component {
 			results.map(d => d.nationality).filter(n => n).length > 0;
 
 		return (
-			<Page>
+			<>
 				<Head>
 					<title>
 						{this.props.name} {this.props.year} Results - DotWatcher.cc
@@ -162,7 +159,7 @@ class Result extends Component {
 						content="A history of results from the ultra-cycling world, in one database."
 					/>
 				</Head>
-				<Header user={this.props.user} title="dotwatcher.cc" />
+
 				<Div mt3 mt4_l mh6_l>
 					<Div pb5>
 						<Link href="/results">
@@ -223,8 +220,7 @@ class Result extends Component {
 						<ResultsContribute />
 					</Div>
 				</Div>
-				<Footer />
-			</Page>
+			</>
 		);
 	}
 }

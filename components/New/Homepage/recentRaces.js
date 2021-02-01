@@ -30,9 +30,9 @@ const RecentRaces = ({ racesCollection }) => (
 					</Link>
 
 					<Link href={`/race/${race.slug}`} passHref>
-						<H3>
-							<A>{race.title}</A>
-						</H3>
+						<A>
+							<H3>{race.title}</H3>
+						</A>
 					</Link>
 
 					<P>{race.shortDescription}</P>
