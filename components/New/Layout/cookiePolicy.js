@@ -17,6 +17,7 @@ const Article = styled.article`
 	justify-content: space-evenly;
 	align-items: center;
 	padding: ${dim(2)} 0;
+	z-index: 1;
 `;
 
 const Copy = styled.div`
