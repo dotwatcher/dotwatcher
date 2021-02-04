@@ -71,6 +71,22 @@ const Races = ({ data }) => {
 				</Section>
 			)}
 
+			{console.log(data)}
+
+			{data.upcomingRaceCollection.items.length > 0 && (
+				<Section>
+					<Center>
+						<H2>Upcoming races</H2>
+					</Center>
+
+					{data.upcomingRaceCollection.items.map((race, ind) => (
+						<Race>
+							<Preview key={ind} race={race} button="View preview" />
+						</Race>
+					))}
+				</Section>
+			)}
+
 			<Section>
 				<Center>
 					<H2>Past races</H2>
@@ -95,7 +111,8 @@ export const getServerSideProps = async () => {
 
 		const { data } = await client.query({
 			variables: {
-				today: todayISO
+				today: todayISO,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
 			},
 			query: gql`
 				fragment race on ContentType5KMiN6YPvi42IcqAuqmcQe {
@@ -115,8 +132,9 @@ export const getServerSideProps = async () => {
 					terrain
 				}
 
-				query getRaces($today: DateTime) {
+				query getRaces($today: DateTime, $preview: Boolean) {
 					pastRacesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						preview: $preview
 						where: { raceEndDate_lte: $today }
 						order: sys_firstPublishedAt_DESC
 					) {
@@ -126,7 +144,17 @@ export const getServerSideProps = async () => {
 					}
 
 					liveRaceCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						preview: $preview
 						where: { raceEndDate_gte: $today, raceDate_lte: $today }
+					) {
+						items {
+							...race
+						}
+					}
+
+					upcomingRaceCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						preview: $preview
+						where: { raceDate_gt: $today }
 					) {
 						items {
 							...race

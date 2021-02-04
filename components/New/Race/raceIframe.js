@@ -103,7 +103,7 @@ const Header = ({ race, mapPinned, setMapPinned }) => {
 
 			<Buttons>
 				{!mapPinned && iframeVisible && (
-					<PinMap secondary onClick={() => setMapPinned(true)} y>
+					<PinMap secondary onClick={() => setMapPinned(true)}>
 						Pin Map
 					</PinMap>
 				)}

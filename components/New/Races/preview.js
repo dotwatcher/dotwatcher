@@ -35,15 +35,17 @@ const Preview = ({ race, button = "Look back at the race" }) => {
 	return (
 		<Race>
 			<RaceImage>
-				<Link href={`/race/${race.slug}`} passHref>
-					<a>
-						<Image
-							src={race.icon.url + "?w=250&h=250&fit=fill"}
-							width={250}
-							height={250}
-						/>
-					</a>
-				</Link>
+				{race.icon && (
+					<Link href={`/race/${race.slug}`} passHref>
+						<a>
+							<Image
+								src={race.icon.url + "?w=250&h=250&fit=fill"}
+								width={250}
+								height={250}
+							/>
+						</a>
+					</Link>
+				)}
 			</RaceImage>
 
 			<RaceExcerpt>

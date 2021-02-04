@@ -381,7 +381,8 @@ export const getServerSideProps = async ({ query }) => {
 				limit: POST_PER_VIEW,
 				currentPost: post || "",
 				skip: 0,
-				order
+				order,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
 			},
 			query: gql`
 				fragment Post on ContentType2WKn6YEnZewu2ScCkus4As {
@@ -404,9 +405,11 @@ export const getServerSideProps = async ({ query }) => {
 					$limit: Int
 					$skip: Int
 					$order: [ContentType2WKn6YEnZewu2ScCkus4AsOrder]
+					$preview: Boolean
 				) {
 					racesCollection	: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						limit: 1
+						preview: $preview
 						where: { slug: $slug }
 					) {
 						items {
@@ -446,6 +449,7 @@ export const getServerSideProps = async ({ query }) => {
 						limit: $limit
 						skip: $skip
 						order: $order
+						preview: $preview
 						where: { keyPost: true, race: { slug: $slug } }
 					) {
 						total
@@ -464,6 +468,7 @@ export const getServerSideProps = async ({ query }) => {
 						limit: $limit
 						skip: $skip
 						order: $order
+						preview: $preview
 						where: { race: { slug: $slug } }
 					) {
 						total
@@ -478,6 +483,12 @@ export const getServerSideProps = async ({ query }) => {
 				}
 			`
 		});
+
+		if (data.racesCollection.items.length <= 0) {
+			return {
+				notFound: true
+			};
+		}
 
 		const leaderboard = async () => {
 			try {
