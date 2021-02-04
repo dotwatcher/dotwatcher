@@ -61,6 +61,12 @@ const Tabs = styled.nav`
 	display: flex;
 `;
 
+const RaceDescription = styled(P)`
+	${mq.smDown`
+		display: none;
+	`}
+`;
+
 const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
 		<Image
@@ -78,7 +84,7 @@ const RaceSlide = ({ race, ind, ...props }) => (
 				</A>
 			</Link>
 
-			<P>{race.shortDescription}</P>
+			<RaceDescription>{race.shortDescription}</RaceDescription>
 
 			<P>
 				<Link href={`/race/${race.slug}`}>

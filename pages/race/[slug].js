@@ -38,6 +38,7 @@ import {
 } from "@ComponentsNew/Race";
 
 const POST_PER_VIEW = 10;
+
 const pusher = new Pusher(process.env.PUSHER_KEY, {
 	cluster: "eu",
 	encrypted: true

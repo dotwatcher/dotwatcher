@@ -177,13 +177,15 @@ export const getServerSideProps = async () => {
 	try {
 		const { data } = await client.query({
 			variables: {
-				today: todayISO
+				today: todayISO,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
 			},
 			query: gql`
-				query homepage($today: DateTime) {
+				query homepage($today: DateTime, $preview: Boolean) {
 					featureCategoryCollection(
 						limit: 10
 						order: sys_firstPublishedAt_DESC
+						preview: $preview
 					) {
 						items {
 							slug

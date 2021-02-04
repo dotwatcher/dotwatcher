@@ -120,8 +120,12 @@ const FollowMyChallange = ({ leaderboard }) => {
 											<ListItem key={ind}>
 												<Postion>{rider.position_text}</Postion>
 												{rider.name}
-												{rider.FIN && isFirst && " (Winner)"}
-												{rider.DSQ || (rider.DNF && " (Scratched)")}
+												{rider.FIN && isFirst
+													? " (Winner)"
+													: rider.FIN
+													? " (Finished)"
+													: null}
+												{(rider.DSQ || rider.DNF) && " (Scratched)"}
 											</ListItem>
 										);
 									})}
