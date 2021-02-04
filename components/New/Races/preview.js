@@ -31,7 +31,7 @@ const RaceFacts = styled.div`
 	grid-column: 6 / span 1;
 `;
 
-const Preview = ({ race }) => {
+const Preview = ({ race, button = "Look back at the race" }) => {
 	return (
 		<Race>
 			<RaceImage>
@@ -59,7 +59,7 @@ const Preview = ({ race }) => {
 
 				<Link href={`/race/${race.slug}`} passHref>
 					<a>
-						<P>Look back at the race</P>
+						<P>{button}</P>
 					</a>
 				</Link>
 			</RaceExcerpt>

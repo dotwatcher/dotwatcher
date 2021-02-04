@@ -59,15 +59,13 @@ const Races = ({ data }) => {
 
 			{data.liveRaceCollection.items.length > 0 && (
 				<Section>
-					<Heading fl w_100 mb4 ph3>
-						<H1 ma0 f4 fw6 ttu tracked bb bw1 b__light_gray pb1>
-							Live coverage
-						</H1>
-					</Heading>
+					<Center>
+						<H2>Live coverage</H2>
+					</Center>
 
 					{data.liveRaceCollection.items.map((race, ind) => (
 						<Race>
-							<Preview key={ind} race={race} />
+							<Preview key={ind} race={race} button="View live coverage" />
 						</Race>
 					))}
 				</Section>
@@ -119,7 +117,7 @@ export const getServerSideProps = async () => {
 
 				query getRaces($today: DateTime) {
 					pastRacesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
-						where: { raceDate_lte: $today }
+						where: { raceEndDate_lte: $today }
 						order: sys_firstPublishedAt_DESC
 					) {
 						items {

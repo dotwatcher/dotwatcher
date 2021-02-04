@@ -96,7 +96,7 @@ const Home = ({ data }) => {
 			{liveRaces.items.length > 0 && (
 				<Section>
 					<Center>
-						<H2>Currently live events</H2>
+						<H2>Live Races</H2>
 					</Center>
 					<LiveRaces liveRaces={liveRaces} />
 				</Section>
