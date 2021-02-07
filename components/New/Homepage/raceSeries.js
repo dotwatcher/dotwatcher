@@ -46,7 +46,7 @@ const RaceSeries = ({ favouriteRacesCollection }) => (
 					/>
 
 					<Content>
-						<Link href={`/series/${race.name}`} passHref>
+						<Link href={`/series/${race.race}`} passHref>
 							<SlideLink>
 								<H2 key={ind}>{race.name}</H2>
 

@@ -100,7 +100,7 @@ const Series = ({
 }) => {
 	const router = useRouter();
 
-	const raceName = race ? race.name : router.query.name;
+	const raceName = race.name || router.query.name;
 
 	const [pairAWinner, pairBWinner] = pairsWinners;
 
@@ -109,7 +109,7 @@ const Series = ({
 	const hero = race && race.heroImage && race.heroImage.url;
 
 	return (
-		<>
+		<Fragment>
 			<Head>
 				<title>{title}</title>
 				<meta property="og:title" content={title} />
@@ -148,41 +148,45 @@ const Series = ({
 				</Header>
 			</Section>
 
-			<Section>
-				<Social>
-					{race.website && (
-						<li>
-							<A href={race.website} target="_blank">
-								<Website width={30} />
-							</A>
-						</li>
-					)}
+			{[race.website, race.instagram, race.twitter, race.facebook].some(
+				x => x
+			) && (
+				<Section>
+					<Social>
+						{race.website && (
+							<li>
+								<A href={race.website} target="_blank">
+									<Website width={30} />
+								</A>
+							</li>
+						)}
 
-					{race.instagram && (
-						<li>
-							<A href={race.instagram} target="_blank">
-								<Instagram width={30} />
-							</A>
-						</li>
-					)}
+						{race.instagram && (
+							<li>
+								<A href={race.instagram} target="_blank">
+									<Instagram width={30} />
+								</A>
+							</li>
+						)}
 
-					{race.twitter && (
-						<li>
-							<A href={race.twitter} target="_blank">
-								<Twitter width={30} />
-							</A>
-						</li>
-					)}
+						{race.twitter && (
+							<li>
+								<A href={race.twitter} target="_blank">
+									<Twitter width={30} />
+								</A>
+							</li>
+						)}
 
-					{race.facebook && (
-						<li>
-							<A href={race.facebook} target="_blank">
-								<Facebook width={30} />
-							</A>
-						</li>
-					)}
-				</Social>
-			</Section>
+						{race.facebook && (
+							<li>
+								<A href={race.facebook} target="_blank">
+									<Facebook width={30} />
+								</A>
+							</li>
+						)}
+					</Social>
+				</Section>
+			)}
 
 			{hero && (
 				<Section>
@@ -210,14 +214,18 @@ const Series = ({
 
 						{race.fastestKnownTime && (
 							<Center>
-								<H4>Fastest Known Time: {race.fastestKnownTime}</H4>
+								<H4>
+									Fastest Known Time:
+									<br /> {race.fastestKnownTime}
+								</H4>
 							</Center>
 						)}
 
 						<WinnersWrap>
 							{latestWinner && (
 								<P>
-									Overall:{" "}
+									Overall:
+									<br />
 									<Link href={`/profile/${latestWinner.name}`} passHref>
 										<A
 											link
@@ -234,7 +242,8 @@ const Series = ({
 
 							{mensWinner && (
 								<P>
-									Men's:{" "}
+									Men's:
+									<br />
 									<Link href={`/profile/${mensWinner.name}`} passHref>
 										<A
 											link
@@ -251,7 +260,8 @@ const Series = ({
 
 							{womensWinner && (
 								<P>
-									Women's:{" "}
+									Women's:
+									<br />
 									<Link href={`/profile/${womensWinner.name}`} passHref>
 										<A
 											link
@@ -268,7 +278,8 @@ const Series = ({
 
 							{pairAWinner && (
 								<P>
-									Pairs:{" "}
+									Pairs:
+									<br />
 									<Link href={`/profile/${pairAWinner.name}`} passHref>
 										<A
 											link
@@ -296,88 +307,92 @@ const Series = ({
 							)}
 
 							{!!mostWins && (
-								<Fragment>
-									<H4>Most Wins ({mostWins[0].races.length}):</H4>
-									{mostWins.map((winner, i) => (
-										<Fragment key={i}>
-											<P>
-												<Link href={`/profile/${winner.name}`}>
-													<A
-														link
-														dark_gray
-														underline
-														pointer
-														hover_blue
-														title={winner.name}
-													>
-														{winner.name}
-													</A>
-												</Link>
-												:
-												{winner.races.map((r, i) => (
-													<WinnerRace key={i}>
-														<Link
-															href={`/results/[year]/[race]`}
-															as={`/results/${r.year}/${r.slug}`}
-															passHref
+								<P>
+									Most Wins ({mostWins[0].races.length}):
+									<br />
+									<span>
+										{mostWins.map((winner, i) => (
+											<Fragment key={i}>
+												<span>
+													<Link href={`/profile/${winner.name}`}>
+														<A
+															link
+															dark_gray
+															underline
+															pointer
+															hover_blue
+															title={winner.name}
 														>
-															<A
-																link
-																dark_gray
-																underline
-																pointer
-																hover_blue
-																title={`${raceName}: ${r.year}`}
+															{winner.name}
+														</A>
+													</Link>
+													:
+													{winner.races.map((r, i) => (
+														<WinnerRace key={i}>
+															<Link
+																href={`/results/[year]/[race]`}
+																as={`/results/${r.year}/${r.slug}`}
+																passHref
 															>
-																{r.year}
-															</A>
-														</Link>
-													</WinnerRace>
-												))}
-											</P>
-										</Fragment>
-									))}
-								</Fragment>
+																<A
+																	link
+																	dark_gray
+																	underline
+																	pointer
+																	hover_blue
+																	title={`${raceName}: ${r.year}`}
+																>
+																	{r.year}
+																</A>
+															</Link>
+														</WinnerRace>
+													))}
+												</span>
+											</Fragment>
+										))}
+									</span>
+								</P>
 							)}
 						</WinnersWrap>
 					</div>
 				</RaceDetails>
 			</Section>
 
-			{race.previousReportsCollection.items.length > 0 && (
-				<Section>
-					<H2>Reports</H2>
+			{race.previousReportsCollection &&
+				race.previousReportsCollection.items.length > 0 && (
+					<Section>
+						<H2>Reports</H2>
 
-					<EditionsGrid pb4 bb bw1 b__light_gray>
-						{race.previousReportsCollection.items.map((race, index) => (
-							<Year
-								dib
-								hover_bg_lightest_blue
-								bg_light_gray
-								ba
-								bw1
-								b__white
-								f4
-								lh_copy
-								key={index}
-							>
-								<Link href={`/race/${race.slug}`} passHref>
-									<A
-										db
-										pa2
-										link
-										near_black
-										data-id={race.sys.id}
-										title={`${raceName} Report ${getYear(race.raceDate)}`}
-									>
-										{getYear(race.raceDate)}
-									</A>
-								</Link>
-							</Year>
-						))}
-					</EditionsGrid>
-				</Section>
-			)}
+						<EditionsGrid pb4 bb bw1 b__light_gray>
+							{race.previousReportsCollection.items.map((race, index) => (
+								<Year
+									dib
+									hover_bg_lightest_blue
+									bg_light_gray
+									ba
+									bw1
+									b__white
+									f4
+									lh_copy
+									key={index}
+								>
+									<Link href={`/race/${race.slug}`} passHref>
+										<A
+											db
+											pa2
+											link
+											near_black
+											data-id={race.sys.id}
+											title={`${raceName} Report ${getYear(race.raceDate)}`}
+										>
+											{getYear(race.raceDate)}
+										</A>
+									</Link>
+								</Year>
+							))}
+						</EditionsGrid>
+					</Section>
+				)}
 
 			{race.races && (
 				<Section>
@@ -412,7 +427,7 @@ const Series = ({
 					</EditionsGrid>
 				</Section>
 			)}
-		</>
+		</Fragment>
 	);
 };
 
@@ -430,14 +445,16 @@ export const getServerSideProps = async ctx => {
 	try {
 		const { data: res } = await client.query({
 			variables: {
-				name
+				name,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
 			},
 			query: gql`
-				query getSeries($name: String) {
+				query getSeries($name: String, $preview: Boolean) {
 					raceSeriesCollection(
 						limit: 1
 						where: { name: $name }
 						order: sys_firstPublishedAt_DESC
+						preview: $preview
 					) {
 						items {
 							race
