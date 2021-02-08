@@ -5,9 +5,7 @@ const config = {
 	host: process.env.PGHOST,
 	password: process.env.PGPASSWORD,
 	port: process.env.PGPORT,
-	ssl: {
-		rejectUnauthorized: false
-	},
+	ssl: "require",
 	user: process.env.PGUSER
 };
 

@@ -30,7 +30,6 @@ const redirectRiders = [
 ];
 
 module.exports = withSourceMaps({
-	target: "serverless",
 	images: {
 		deviceSizes: [480, 750, 1200, 1920],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -70,6 +69,7 @@ module.exports = withSourceMaps({
 	},
 	webpack: config => {
 		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
+		config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
 
 		config.resolve.alias = {
 			...config.resolve.alias,
