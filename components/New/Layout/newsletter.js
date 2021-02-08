@@ -19,7 +19,7 @@ const Div = styled.div`
 	top: 0;
 	left: 0;
 	background: ${colors.transparentGrey};
-	z-index: 2;
+	z-index: 11;
 `;
 
 const ChildWrapper = styled.div`

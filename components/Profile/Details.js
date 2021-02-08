@@ -1,19 +1,12 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 import { Fragment } from "react";
 import mq from "../../utils/media-query";
 import { format } from "date-fns";
 import Router from "next/router";
-import { P, Div, H1, Button, A, Img } from "../UI/Tachyons";
-import { isAfter } from "date-fns";
+import { P, Div, H1, A, Img } from "../UI/Tachyons";
 
-import {
-	FaStrava as Strava,
-	FaInstagram as Instagram,
-	FaTwitter as Twitter,
-	FaFacebook as Facebook
-} from "react-icons/fa";
-import Axios from "axios";
+import Button from "@Components/UI/Button";
+import { isAfter } from "date-fns";
 
 const SubmitButton = styled(Button)`
 	&:focus,
@@ -65,8 +58,6 @@ const ProfileDetails = ({
 	authID,
 	auth0Profile,
 	name,
-	noSocialAccounts,
-	loggedIn,
 	isLoading,
 	profileIsClaimed,
 	isCurrentUserProfile,
@@ -132,20 +123,6 @@ const ProfileDetails = ({
 			{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
 			{(!meta("name") || meta("name").toLowerCase() === name.toLowerCase()) && (
 				<SubmitButton
-					mt4
-					f4
-					bg_blue
-					pv2
-					mb3
-					tc
-					white
-					ttl
-					small_caps
-					ba
-					bw1
-					b__blue
-					dib
-					pointer
 					type="button"
 					disabled={isLoading || (profileIsClaimed && !isCurrentUserProfile)}
 					onClick={
