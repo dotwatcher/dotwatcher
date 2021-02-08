@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+// const webpack = require("webpack");
 const withSourceMaps = require("@zeit/next-source-maps");
 const path = require("path");
 
