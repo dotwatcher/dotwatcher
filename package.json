@@ -7,7 +7,7 @@
 	"contributors": [
 		{
 			"name": "Alex Windett",
-			"email": "windettalext@gmail.cc"
+			"email": "windettalex@gmail.com"
 		},
 		{
 			"name": "Jon Heslop",
@@ -23,7 +23,7 @@
 		"lint": "xo"
 	},
 	"engines": {
-		"node": "12.15.0"
+		"node": ">12.15.0"
 	},
 	"xo": {
 		"extends": "xo-react"
