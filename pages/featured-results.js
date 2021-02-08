@@ -169,7 +169,7 @@ const Results = props => {
 	};
 
 	return (
-		<>
+		<Page>
 			<Head>
 				<title>{fields.title} - DotWatcher.cc</title>
 				<link rel="canonical" href={`https://dotwatcher.cc/featured-results`} />
@@ -201,6 +201,7 @@ const Results = props => {
 					content="A history of results from the ultra-cycling world, in one database."
 				/>
 			</Head>
+			<Header title="dotwatcher.cc" />
 
 			<Div mt3 mt4_l mh6_l>
 				{fields.title && <H1>{fields.title}</H1>}
@@ -354,7 +355,9 @@ const Results = props => {
 					</Fragment>
 				)}
 			</Div>
-		</>
+
+			<Footer />
+		</Page>
 	);
 };
 

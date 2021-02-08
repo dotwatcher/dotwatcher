@@ -4,13 +4,7 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import * as Sentry from "@sentry/browser";
 import smoothscroll from "smoothscroll-polyfill";
-import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import colors from "@Utils/colors";
-
-import Layout from "../components/New/Layout";
-
-import "hamburgers/dist/hamburgers.min.css";
 
 if (typeof window !== "undefined") {
 	// kick off the polyfill!
@@ -23,25 +17,6 @@ if (process.env.NODE_ENV === "production") {
 		release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
 	});
 }
-
-const GlobalStyle = createGlobalStyle`
- * {
-		font-family: "Raleway", sans-serif;
-	}
-
-	p {
-    line-height: 26px;
-    font-size: 18px;
-	}
-
-	a {
-		color: ${colors.primary};
-
-		&:hover {
-			color: ${colors.primaryHover}
-		}
-	}
-`;
 
 class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {
@@ -80,9 +55,9 @@ class MyApp extends App {
 			}
 		};
 
-		const status = await user();
+		const status = await user()
 
-		if (status.loggedIn) {
+		if (status.loggedIn) {	
 			this.setState({
 				user: status
 			});
@@ -108,10 +83,7 @@ class MyApp extends App {
 
 		return (
 			<CookiesProvider>
-				<GlobalStyle />
-				<Layout user={this.state.user}>
-					<Component {...pageProps} user={this.state.user} />
-				</Layout>
+				<Component {...pageProps} user={this.state.user} />
 			</CookiesProvider>
 		);
 	}

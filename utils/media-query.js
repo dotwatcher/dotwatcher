@@ -14,7 +14,6 @@ const mqSizes = {
 		1}em) and (max-width: ${screenSizes.mdDown + 1}em)`,
 	smUp: `(min-width: ${screenSizes.smDown}em)`,
 	mdUp: `(min-width: ${screenSizes.smDown + 1}em)`,
-	lgDown: `(max-width: ${screenSizes.lgDown}em)`,
 	lgUp: `(min-width: ${screenSizes.lgDown + 1}em)`,
 	xlgUp: `(min-width: ${screenSizes.xlgDown + 1}em)`
 };

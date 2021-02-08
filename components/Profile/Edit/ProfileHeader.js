@@ -2,36 +2,33 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
-import P from "@Components/UI/P";
-import Button from "@Components/UI/Button";
-import { user as userAPI } from "@Utils/auth";
-import mq from "@Utils/media-query";
-import dim from "@Utils/dim";
+import { user as userAPI } from "../../../utils/auth";
 
 const Div = styled.div`
 	${tachyons}
 `;
 
+const A = styled.a`
+	${tachyons}
+`;
+
+const Button = styled.button`
+	${tachyons}
+
+	&:disabled {
+		background-color: var(--gray);
+		cursor: not-allowed;
+		border: none;
+	}
+`;
 const PictureThumb = styled.img`
+	${tachyons}
 	max-width: 200px;
-	border-radius: 100%;
 `;
 
 const ButtonsWrapper = styled(Div)`
-	${Button} {
-		width: 100%;
-	}
-
-	${mq.smDown`
-		& > * {
-			margin-top: ${dim()};
-		}
-	`}
-
-	${mq.mdUp`
-		display: flex;
-		justify-content: space-between;
-	`}
+	display: flex;
+	justify-content: space-between;
 `;
 
 const getProfilePicture = ({ meta }) => {
@@ -82,13 +79,17 @@ export default ({ meta, user, setshowConnectAccount, disconnectRWGPS }) => {
 	return (
 		<Div mb4 bb bw1 pb4 b__light_gray>
 			{preview && <PictureThumb src={preview} alt="Thumnail" />}
-
 			<Div mt3>
-				<P>
-					<a onClick={uploadWidget} type="button">
-						Update Profile Image
-					</a>
-				</P>
+				<A
+					pointer
+					near_black
+					hover_blue
+					underline
+					onClick={uploadWidget}
+					type="button"
+				>
+					Update Profile Image
+				</A>
 			</Div>
 
 			<ButtonsWrapper bt bw1 b__light_gray pt4 mt4>
@@ -99,26 +100,92 @@ export default ({ meta, user, setshowConnectAccount, disconnectRWGPS }) => {
 							as={`/profile/${meta.user_metadata.name}`}
 							passHref
 						>
-							<a>
-								<Button>View my profile</Button>
-							</a>
+							<A>
+								<Button
+									f4
+									bg_blue
+									hover_bg_dark_blue
+									w_
+									pv2
+									tc
+									white
+									ttl
+									small_caps
+									ba
+									bw1
+									b__blue
+									dib
+									pointer
+								>
+									View my profile
+								</Button>
+							</A>
 						</Link>
 					) : (
 						<Link href={`/results`} passHref>
-							<a>
-								<Button>← Find my Profile</Button>
-							</a>
+							<A>
+								<Button
+									f4
+									bg_blue
+									hover_bg_dark_blue
+									w_
+									pv2
+									tc
+									white
+									ttl
+									small_caps
+									ba
+									bw1
+									b__blue
+									dib
+									pointer
+								>
+									← Find my Profile
+								</Button>
+							</A>
 						</Link>
 					)}
 				</Div>
 
 				<Div>
 					{meta && !meta.user_metadata?.rwgps ? (
-						<Button onClick={toggleRWGPSConnect}>
+						<Button
+							f4
+							bg_blue
+							hover_bg_dark_blue
+							w_
+							pv2
+							tc
+							white
+							ttl
+							small_caps
+							ba
+							bw1
+							b__blue
+							dib
+							pointer
+							onClick={toggleRWGPSConnect}
+						>
 							Connect RideWithGPS Account
 						</Button>
 					) : (
-						<Button onClick={disconnectRWGPS}>
+						<Button
+							f4
+							bg_blue
+							hover_bg_dark_blue
+							w_
+							pv2
+							tc
+							white
+							ttl
+							small_caps
+							ba
+							bw1
+							b__blue
+							dib
+							pointer
+							onClick={disconnectRWGPS}
+						>
 							Disconnect RideWithGPS Account
 						</Button>
 					)}

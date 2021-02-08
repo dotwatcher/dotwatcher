@@ -1,10 +1,11 @@
-import slugify from "slugify";
+import slugify from 'slugify';
 
-const toSlug = string => {
-	return slugify(string, {
-		remove: /[$*_+~.()'"!:@?%=]/g,
-		lower: true
-	});
+export default string => {
+	return slugify(
+		string,
+		{
+			remove: /[$*_+~.()'"!:@?%=]/g,
+			lower: true
+		}
+	);
 };
-
-export default toSlug;

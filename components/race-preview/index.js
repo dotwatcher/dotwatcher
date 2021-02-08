@@ -7,7 +7,7 @@ import Link from "next/link";
 import Placeholder from "../placeholder";
 import widont from "../../utils/widont";
 import Section from "./section";
-import Image from "../NextImage";
+import Image from '../NextImage'
 
 const A = styled.a`
 	${tachyons}
@@ -68,16 +68,13 @@ const RacePreview = ({ data }) => {
 	return (
 		<Div className="with-divider cf">
 			<RaceFigure ma0 pa0 fl ph3>
-				<Link href={`/race/${data.slug}`} passHref>
+				<Link
+					href={`/race/${data.slug}`}
+					passHref
+				>
 					<a>
 						{data.icon ? (
-							<Image
-								width={300}
-								height={300}
-								src={data.icon.fields.file.url + "?w=300&h=300&fit=fillb"}
-								alt={data.icon.fields.description}
-								title={data.icon.fields.description}
-							/>
+							<Image width={300} height={300} src={data.icon.fields.file.url}	alt={data.icon.fields.description} 	title={data.icon.fields.description} />
 						) : (
 							<Placeholder w_100 h_100 pv6 bg_light_gray />
 						)}
@@ -85,7 +82,10 @@ const RacePreview = ({ data }) => {
 				</Link>
 			</RaceFigure>
 			<Div fl_ns ph3 w_50_m w_60_l mb4>
-				<Link href={`/race/${data.slug}`} passHref>
+				<Link
+					href={`/race/${data.slug}`}
+					passHref
+				>
 					<A link near_black>
 						<H1 f2 fw6 ma0 lh_title link hover_blue>
 							{widont(data.title)}
@@ -167,7 +167,10 @@ const RacePreview = ({ data }) => {
 									<ResultsRow>
 										<ResultsCell f6 lh_copy fw6>
 											{i + 1}.&nbsp;
-											<Link href={`/profile/${result.Rider}`} passHref>
+											<Link
+												href={`/profile/${result.Rider}`}
+												passHref
+											>
 												<A
 													link
 													near_black
@@ -189,7 +192,10 @@ const RacePreview = ({ data }) => {
 							})}
 						</tbody>
 					</Results>
-					<Link href={`/results/${data.year}/${data.title}`} passHref>
+					<Link
+						href={`/results/${data.year}/${data.title}`}
+						passHref
+					>
 						<A link near_black f6 fw6 db>
 							See all results »
 						</A>

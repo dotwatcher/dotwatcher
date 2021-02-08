@@ -2,23 +2,42 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import isAfter from "date-fns/is_after";
+import getYear from "date-fns/get_year";
 import dynamic from "next/dynamic";
-import Button from "@Components/UI/Button";
-import P from "@Components/UI/P";
-import H3 from "@Components/UI/H3";
-import Input from "@Components/UI/Input";
-import dim from "@Utils/dim";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+const Input = styled.input`
+	${tachyons}
+`;
 
 const Span = styled.span`
 	${tachyons}
 `;
 
-const Submit = styled(Button)`
-	width: 100%;
+const P = styled.p`
+	${tachyons}
 `;
+
+const BiographyInput = styled.textarea`
+	${tachyons};
+	min-height: 155px;
+`;
+
+const Button = styled.button`
+	${tachyons}
+
+	&:disabled {
+		cursor: not-allowed;
+		background-color: var(--moon-gray);
+		border-color: var(--moon-gray);
+	}
+`;
+
 const Div = styled.div`
+	${tachyons}
+`;
+const H3 = styled.h3`
 	${tachyons}
 `;
 
@@ -47,12 +66,7 @@ const RaceInput = styled.label`
 	}
 `;
 
-const Label = styled.label`
-	margin-top: ${dim()};
-	display: block;
-`;
-
-const FormInputs = ({
+export default ({
 	values = {},
 	errors = {},
 	inputs = [],
@@ -81,7 +95,7 @@ const FormInputs = ({
 		<>
 			<div>
 				{inputs.map((input, i) => (
-					<Label key={i}>
+					<label key={i}>
 						<Span dib w_100 f4 mb1>
 							{input.label}
 						</Span>
@@ -92,16 +106,26 @@ const FormInputs = ({
 							value={values && values[input?.name]}
 							onChange={handleChange}
 							onBlur={handleBlur}
+							input_reset
+							ba
+							bw1
+							b__blue
+							ph3
+							pv2
+							mb3
+							f4
+							fl
+							w_100
 						/>
 						{errors[input?.name] && (
 							<Span dib mb4 blue>
 								{errors[input?.name]}
 							</Span>
 						)}
-					</Label>
+					</label>
 				))}
 
-				<Label>
+				<label>
 					<Span dib w_100 f4 mb1>
 						Biography
 					</Span>
@@ -125,7 +149,7 @@ const FormInputs = ({
 							]
 						}}
 					/>
-				</Label>
+				</label>
 			</div>
 
 			<div>
@@ -134,7 +158,7 @@ const FormInputs = ({
 					<RaceGrid>
 						{sortedRaces.map(race => (
 							<RaceInput key={race.sys.id}>
-								<Input
+								<input
 									name="races"
 									type="checkbox"
 									onChange={handleChange}
@@ -150,6 +174,9 @@ const FormInputs = ({
 					<OtherRaces>
 						<P>Can't find your race, add them below separated by a comma.</P>
 						<Input
+							w_100
+							pv2
+							mb1
 							type="text"
 							placeholder={"Race Name"}
 							name="otherRaces"
@@ -160,9 +187,27 @@ const FormInputs = ({
 					</OtherRaces>
 				</Races>
 
-				<Submit type="submit" disabled={isSubmitting || !isValid}>
+				<Button
+					f4
+					bg_blue
+					w_100
+					pv2
+					mb3
+					tc
+					white
+					ttl
+					small_caps
+					ba
+					bw1
+					b__blue
+					dib
+					pointer
+					hover_bg_dark_blue
+					type="submit"
+					disabled={isSubmitting || !isValid}
+				>
 					{isSubmitting ? "Saving" : "Update"}
-				</Submit>
+				</Button>
 
 				{status && (
 					<Div w_100 dib>
@@ -173,5 +218,3 @@ const FormInputs = ({
 		</>
 	);
 };
-
-export default FormInputs;

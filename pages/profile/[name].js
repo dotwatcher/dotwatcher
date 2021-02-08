@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { compose } from "recompose";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -31,41 +31,33 @@ import { WithProfile } from "../../data/with-profile";
 import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";
 
-import Button from "@Components/UI/Button";
-import Input from "@Components/UI/Input";
-import H1 from "@Components/UI/H1";
-import A from "@Components/UI/A";
-import P from "@Components/UI/P";
-import Center from "@Components/UI/Center";
-import Section from "@Components/UI/Section";
-import Image from "next/image";
-import RideWithGPS from "@Components/UI/Icons/ride-with-gps";
-import Strava from "@Components/UI/Icons/strava";
-import Instagram from "@Components/UI/Icons/instagram";
-import Twitter from "@Components/UI/Icons/twitter";
-import dim from "@Utils/dim";
-
-const Claim = styled(Button)`
-	width: 100%;
+const Heading = styled.header`
+	${tachyons}
 `;
+const Button = styled.button`
+	${tachyons}
 
-const UserAvatar = styled.div`
-	img {
-		border-radius: 100%;
+	&:disabled {
+		background-color: var(--gray);
+		border-color: var(--gray);
+		cursor: not-allowed;
 	}
 `;
-
-const SocialIcon = styled.div`
-	display: inline-block;
-	width: 35px;
-	margin: 0 ${dim()};
+const Input = styled.input`
+	${tachyons}
 `;
-
-const Heading = styled.header`
+const H1 = styled.h1`
 	${tachyons}
 `;
 
 const Div = styled.div`
+	${tachyons}
+`;
+const A = styled.a`
+	${tachyons}
+`;
+
+const P = styled.p`
 	${tachyons}
 `;
 
@@ -169,7 +161,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	const handleUnclaimedProfile = () => {
 		if (!user.loggedIn) {
 			Cookies.set("profile", window.location.pathname);
-			router.push("/api/auth/login");
+			Router.push("/api/auth/login");
 			return;
 		}
 
@@ -189,113 +181,21 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 	const nationality = profile[0] && profile[0].nationality;
 
-	const meta = property => {
-		if (!property) return false;
-
-		if (!auth0Profile || !auth0Profile.user_metadata) return false;
-
-		return auth0Profile.user_metadata[property];
-	};
-
 	return (
-		<Fragment>
-			<Fragment>
-				<Section>
-					<Center>
-						<H1>
-							{name} {getNationalFlag(nationality)}
-						</H1>
-
-						<UserAvatar>
-							<Image
-								width={200}
-								height={200}
-								title={name}
-								aly={name}
-								src={
-									auth0Profile.userPicture
-										? auth0Profile.userPicture
-										: auth0Profile.picture || "/static/empty-profile.png"
-								}
-							/>
-						</UserAvatar>
-
-						{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
-						{(!meta("name") ||
-							meta("name").toLowerCase() === name.toLowerCase()) && (
-							<Button
-								type="button"
-								disabled={
-									isLoading || (profileIsClaimed && !isCurrentUserProfile)
-								}
-								onClick={
-									isCurrentUserProfile
-										? () => Router.push("/profile/edit")
-										: profileIsClaimed
-										? null
-										: handleUnclaimedProfile
-								}
-							>
-								{isLoading
-									? "Loading"
-									: isCurrentUserProfile
-									? "Edit your profile"
-									: profileIsClaimed
-									? "Profile already claimed"
-									: "Claim this profile"}
-							</Button>
-						)}
-					</Center>
-				</Section>
-
-				<Section>
-					{!noSocialAccounts && (
-						<Center>
-							{meta("twitterHanlde") && (
-								<SocialIcon>
-									<a title="Twitter" href={meta("twitterHanlde")}>
-										<Twitter />
-									</a>
-								</SocialIcon>
-							)}
-							{meta("stravaID") && (
-								<SocialIcon>
-									<a title="Strava" href={meta("stravaID")}>
-										<Strava />
-									</a>
-								</SocialIcon>
-							)}
-							{meta("rideWithGPSID") && (
-								<SocialIcon>
-									<a title="Ride With GPS" href={meta("rideWithGPSID")}>
-										<RideWithGPS />
-									</a>
-								</SocialIcon>
-							)}
-
-							{meta("instagramHandle") && (
-								<SocialIcon>
-									<a title="Instagram" href={meta("instagramHandle")}>
-										<Instagram />
-									</a>
-								</SocialIcon>
-							)}
-						</Center>
-					)}
-				</Section>
-
-				{meta("biography") && (
-					<Section>
-						<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
-					</Section>
-				)}
-
-				<Section>
+		<PageWrapper name={name} user={user}>
+			<Div mt3 mh6_l ph3>
+				<Div pb5 className="cf">
 					<Link href={`/results`} passHref>
 						<A near_black hover_blue>
-							← All riders
+							← All results
 						</A>
 					</Link>
+
+					<Heading fl w_100 mb3>
+						<H1 f3 f1_l fw6 lh_title>
+							{name} {getNationalFlag(nationality)}
+						</H1>
+					</Heading>
 
 					<ProfileDetails
 						authID={authID}
@@ -309,9 +209,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						handleUnclaimedProfile={handleUnclaimedProfile}
 						races={races}
 					/>
-				</Section>
 
-				<Section>
 					<Accordion>
 						{/*achievedAwards.length > 0 && (
 							<AccordionItem id="awards" title="Distance Achievements">
@@ -345,8 +243,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							/>
 						</AccordionItem>
 					</Accordion>
-				</Section>
-			</Fragment>
+					<ResultsContribute />
+				</Div>
+			</Div>
 
 			{claimToggle && (
 				<Modal>
@@ -365,11 +264,38 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							placeholder="Rider Name"
 							type="text"
 							onChange={e => setclaimConfim(e.target.value)}
+							input_reset
+							ba
+							bw1
+							b__blue
+							ph3
+							pv2
+							mb3
+							f4
+							fl
+							w_100
 						/>
 
-						<Claim type="button" onClick={handleClaim} disabled={disabled}>
+						<Button
+							f4
+							bg_blue
+							w_100
+							pv2
+							mb3
+							tc
+							white
+							ttl
+							small_caps
+							ba
+							bw1
+							b__blue
+							dib
+							type="button"
+							onClick={handleClaim}
+							disabled={disabled}
+						>
 							Claim
-						</Claim>
+						</Button>
 
 						<P
 							near_black
@@ -382,7 +308,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 					</ModalWrapper>
 				</Modal>
 			)}
-		</Fragment>
+		</PageWrapper>
 	);
 };
 
