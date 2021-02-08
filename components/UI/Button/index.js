@@ -20,8 +20,10 @@ const Button = styled.button`
 
 	&:hover {
 		cursor: pointer;
-		color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
-		border-color: ${({ secondary }) => (secondary ? "red" : colors.primary)};
+		color: ${({ secondary }) =>
+			secondary ? colors.primaryHover : colors.primary};
+		border-color: ${({ secondary }) =>
+			secondary ? colors.primaryHover : colors.primary};
 		background-color: ${colors.white};
 	}
 `;

@@ -6,7 +6,6 @@ import addMonths from "date-fns/add_months";
 import subMonths from "date-fns/sub_months";
 
 import Head from "next/head";
-import Page from "../../components/shared/page";
 
 import Calendar from "../../components/Calander";
 import { withRaces } from "../../data/with-races";
