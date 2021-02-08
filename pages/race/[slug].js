@@ -1,471 +1,531 @@
+// /race/:slug
+// /race/:slug?showMap=1
+// /race/:slug?reverse=true
+// /race/:slug?post=C83xOIsWoe76I8ib4ggmN#events -> shows a single post
+// /race/:slug#posts -> to link directly to the top of the events feed
+// /race/:slug#[:postid] -> to link directly to a specific post (it must be in the current data set)
+
 import Head from "next/head";
-import PropTypes from "prop-types";
-import Pusher from "pusher-js";
-import React, { useState, useEffect, Fragment } from "react";
-import { createClient } from "contentful";
-import styled, { css } from "styled-components";
-import tachyons from "styled-components-tachyons";
-import Button from "../../components/shared/button";
-import SocialIcons from "../../components/shared/social-icons";
-import Header from "../../components/header";
-import KeyEvents from "../../components/key-events";
-import MapContainer from "../../components/MapContainer";
-import Page from "../../components/shared/page";
-import Post from "../../components/post";
-import StaticTopRiders from "../../components/top-riders/static";
-import DynamicTopRiders from "../../components/top-riders/dynamic";
-import FactFile from "../../components/fact-file";
-import Tabs from "../../components/tabs";
-import Community from "../../components/community";
-import Wrapper from "../../components/shared/wrapper";
-import vars from "../../data/api-vars";
-import { WithEntries } from "../../data/with-entries";
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
+import P from "@Components/UI/P";
+import H3 from "@Components/UI/H3";
+import H2 from "@Components/UI/H2";
+import Button from "@Components/UI/Button";
+import Center from "@Components/UI/Center";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import { compose } from "recompose";
-import { withRouter } from "next/router";
-import FollowMyChallangeLeaderBoard from '../../components/Race/followMyChallange'
-import mq from "../../utils/media-query";
+import Pusher from "pusher-js";
 
-import {H1, H2, P, Span, A, Div } from '../../components/UI/Tachyons'
+import Select from "@Components/UI/OptionSelect";
+import { Fragment, useState, useEffect } from "react";
+import styled from "styled-components";
+import colors from "@Utils/colors";
+import dim from "@Utils/dim";
+import mq from "@Utils/media-query";
+import Section from "@Components/UI/Section";
+import axios from "axios";
+import https from "https";
+import { loadMoreQuery } from "@Queries/race";
 
-const OrderButtons = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-	padding: 30px 0;
-`;
-const OrderButton = styled.a`
-	padding: 15px 30px;
+import {
+	Header,
+	RaceIFrame,
+	KeyEvents,
+	LiveLeaderboard,
+	StaticLeaderboard,
+	PostFeed
+} from "@ComponentsNew/Race";
 
-	${({ selected }) =>
-		selected
-			? css`
-					background: var(--blue);
-					color: var(--white);
-			  `
-			: css`
-					background: transparent;
-					color: var(--near_black);
-			  `}
-`;
+const POST_PER_VIEW = 10;
 
-const Notification = styled(Button)`
-	top: 0;
-	left: 50%;
-	transform: translate(-50%, 0);
-	@media screen and (min-width: 48em) {
-		top: inherit;
-	}
-	@media screen and (min-width: 64em) {
-		left: 80%;
-	}
-`;
-
-const Flex = styled.div`
-
-	${mq.mdUp`
-		display: grid;
-		grid-template-columns: repeat(12, 1fr);
-	`}
-`;
-
-const Map = styled.div`
-	${mq.mdUp`
-		grid-column: 1 / span 5;
-	`}
-`;
-
-const LiveFeedWrap = styled(Div)`
-	${mq.mdUp`
-		grid-column: 8 / span 5;
-	`}
-`
-
-// Pusher.logToConsole = true;
 const pusher = new Pusher(process.env.PUSHER_KEY, {
 	cluster: "eu",
 	encrypted: true
 });
 const channel = pusher.subscribe("dotwatcher");
 
-const Race = (props) => {
-	const [state, setState] = useState({
-		skip: 5,
-		loading: false,
-		newPost: false,
-		newPostIDs: [],
-		activeTab: "feed"
-	})
+const ContentGrid = styled.div`
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: ${dim(2)};
+	grid-template-areas:
+		"events events events leaderboard leaderboard leaderboard"
+		"posts posts posts posts posts posts ";
+
+	${mq.mdUp`
+		max-width: 1800px;
+		margin: 0 auto;
+		grid-template-columns: repeat(12, 1fr);
+		grid-column-gap: ${dim(4)};
+		grid-template-areas: unset;
+`}
+`;
+
+const ContentItem = styled.div`
+	position: relative;
+
+	& + & {
+		&:before {
+			position: absolute;
+			height: 100%;
+			width: 1px;
+			background-color: ${colors.lightgrey};
+			content: "";
+			left: ${dim(-1)};
+			bottom: 0;
+
+			${mq.mdUp`
+				left: ${dim(-2)};
+			`}
+		}
+	}
+`;
+
+const EventsScroll = styled.div`
+	${mq.mdUp`
+		overflow: scroll;
+		max-height: 96vh;
+	`};
+`;
+
+const Events = styled(ContentItem)`
+	grid-area: events;
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 1 / span 4;
+	`};
+`;
+
+const Leaderboard = styled(ContentItem)`
+	grid-area: leaderboard;
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 5 / span 2;
+	`}
+`;
+
+const Posts = styled(ContentItem)`
+	grid-area: posts;
+	overflow: hidden;
+
+	${mq.smDown`
+		margin-top: ${dim(2)};
+		padding-top: ${dim(2)};
+		border-top: 1px solid ${colors.lightgrey};
+	`}
+
+	${mq.mdUp`
+		grid-area: unset;
+		grid-column: 7 / span 6;
+	`}
+`;
+
+const Filtering = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const NewPostAlert = styled(Button)`
+	position: fixed;
+	top: ${dim()};
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+`;
+const getOrder = reverse =>
+	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
+
+const Race = ({ data }) => {
+	const {
+		racesCollection,
+		keyEvents,
+		liveLeaderboard,
+		racePostsCollection,
+		racePost
+	} = data;
+
+	const router = useRouter();
+	const [mapPinned, setMapPinned] = useState();
+	const [showLoadMore, setShowLoadMore] = useState(true);
+	const [showLoadMoreEvents, setShowLoadMoreEvents] = useState(true);
+	const [showNewPostAlert, setShowNewPostAlert] = useState(false);
+
+	const [posts, setPosts] = useState([]);
+	const [events, setEvents] = useState([]);
+	const [currentPage, setCurrentPage] = useState(0);
 
 	useEffect(() => {
-		if (location.hash === "#chat") {
-			setActiveTab("community");
-		}
+		setPosts(racePost ? [racePost] : racePostsCollection.items);
+		setEvents(keyEvents.items);
 
-		channel.bind("new-post", newPostEvent => {
-			const isNewPost =
-				props.posts.find(obj =>  obj.sys.id === newPostEvent.post) === undefined;
+		// Hide the load more buttons if rendering a single post
+		setShowLoadMore(!racePost);
+		setShowLoadMoreEvents(!racePost);
+	}, [racePost, racePostsCollection, keyEvents]);
 
-			if (newPostEvent.category === props.raceID && isNewPost) {
-				setState(prev => ({
-					...prev,
-					newPost: true,
-					newPostIDs: [newPostEvent.post, ...state.newPostIDs]
-				}));
-			}
-		});
+	useEffect(() => {
+		channel.bind("new-post", newPostEvent => setShowNewPostAlert(true));
 
-		() => channel.unbind("new-post")
-	}, [])
+		() => channel.unbind("new-post");
+	}, []);
 
-	const setActiveTab = tab => {
-		setState(prev => ({
-			...prev,
-			activeTab: tab
-		}));
-	}
+	const [race] = racesCollection.items;
 
-	const fetchPosts = async (id) => {
-		setState(prev => ({ ...prev, loading: true }));
-
-		const client = createClient({
-			space: vars.space,
-			accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-		});
-
-		const response = await client.getEntries({ "sys.id": id });
-
-		for (const item of response.items) {
-			const entry = {
-				sys: {
-					id: item.sys.id
+	const handleNewPostAlertClick = async () => {
+		try {
+			const { slug } = router.query;
+			const { data } = await client.query({
+				variables: {
+					slug,
+					limit: POST_PER_VIEW
 				},
-				data: {
-					title: item.fields.title,
-					format: item.fields.format,
-					slug: item.fields.slug,
-					date: item.sys.createdAt,
-					body: item.fields.body,
-					categories: item.fields.category,
-					keyEvent: item.fields.keyPost,
-					embed: item.fields.embed
-				}
-			};
+				query: loadMoreQuery
+			});
 
-			if (item.fields.featuredImage) {
-				entry.data.image = response.includes.Asset.find(obj => {
-					return obj.sys.id === item.fields.featuredImage.sys.id;
-				});
-			}
-
-			props.posts.unshift(entry);
+			await setShowLoadMore(data.racePostsCollection.total > posts.length);
+			await setPosts(data.racePostsCollection.items);
+			await setShowLoadMoreEvents(data.keyEvents.total > events.length);
+			await setEvents(data.keyEvents.items);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setShowNewPostAlert(false);
 		}
-		await setState(prev => ({
-			...prev, 
-			loading: false
-		}));
-	}
+	};
 
-	const showNextPageOfPosts = () => {
-		setState(prevState => ({ ...prevState, skip: state.skip + 5 }));
-	}
-
-	const loadPost = () => {
-		state.newPostIDs.forEach(postID => fetchPosts(postID));
-
-		setState({
-			newPost: false,
-			newPostIDs: []
+	const handleOrderChange = event => {
+		router.replace({
+			pathname: router.pathname,
+			query: {
+				...router.query,
+				reverse: event.target.value === "reverse"
+			},
+			shallow: false
 		});
-	}
+	};
 
-	const KeyEventsWrapper = styled.div`
-		@media screen and (max-width: 30em) {
-			&:after {
-				content: "";
-				border-top: 0.125rem solid var(--light-gray);
-				position: absolute;
-				width: calc(100% - 2 * var(--spacing-medium));
-				bottom: 0;
-				left: var(--spacing-medium);
-				height: var(--spacing-medium);
-			}
+	const handleMapPinned = pinned => {
+		setMapPinned(pinned);
+	};
+
+	const handleLoadMore = async () => {
+		try {
+			const { slug, reverse } = router.query;
+			const { data } = await client.query({
+				variables: {
+					slug: slug,
+					limit: POST_PER_VIEW,
+					skip: currentPage + 1,
+					order: getOrder(reverse)
+				},
+				query: loadMoreQuery
+			});
+
+			await setCurrentPage(currentPage + 1);
+
+			await setShowLoadMore(data.racePostsCollection.total > posts.length);
+			await setPosts(prev => [...prev, ...data.racePostsCollection.items]);
+
+			await setShowLoadMoreEvents(data.keyEvents.total > events.length);
+			await setEvents(prev => [...prev, ...data.keyEvents.items]);
+		} catch (error) {
+			console.log(error);
 		}
-
-		${mq.mdUp`
-			grid-column: 6 / span 2;
-		`}
-
-		${tachyons}
-	`;
-
-	const Feed = styled.div`
-		display: ${state.activeTab === "feed" ? "block" : "none"};
-		${tachyons}
-	`;
-	const CommunityWrap = styled.div`
-		display: ${state.activeTab === "community" ? "block" : "none"};
-		${tachyons}
-	`;
-
-	const morePostsButton = (
-		<Button
-			db
-			w5
-			loading={state.loading}
-			onClick={showNextPageOfPosts}
-		>
-			{state.loading ? "Loading..." : "Load more posts"}
-		</Button>
-	);
-
-	let morePosts = null;
-	if (props.totalPosts > state.skip) {
-		morePosts = morePostsButton;
-	} else if (props.posts.length === 0) {
-		morePosts = null;
-	} else {
-		morePosts = (
-			<H1 mt3 tc moon_gray tracked ttu i>
-				Fin
-			</H1>
-		);
-	}
-
-	let newPostsNotification = null;
-	const updateMessageQualifier =
-		state.newPostIDs.length > 1 ? "updates" : "update";
-	if (state.newPost) {
-		newPostsNotification = (
-			<Notification
-				fixed
-				z_1
-				loading={state.loading}
-				onClick={loadPost}
-				href="#posts"
-			>
-				{state.loading
-					? `Loading...`
-					: `${state.newPostIDs.length} new ${updateMessageQualifier}`}
-			</Notification>
-		);
-	}
+	};
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
-				<title>{props.raceName} – DotWatcher.cc</title>
-				<meta
-					property="og:title"
-					content={`${props.raceName} – DotWatcher.cc`}
-				/>
-				<meta
-					property="og:description"
-					content={
-						props.race.fields.shortDescription
-							? props.race.fields.shortDescription
-							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-					}
-				/>
-				<meta property="og:image" content={props.raceImage} />
+				<title>{`${race.title} - DotWatcher.cc`}</title>
+
+				<meta property="og:title" content={`${race.title} - DotWatcher.cc`} />
+				<meta property="og:description" content={race.shortDescription} />
+				<meta property="og:image" content={race.icon.url} />
 				<meta name="twitter:card" content="summary" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
-				<meta
-					name="twitter:title"
-					content={`${props.raceName} – DotWatcher.cc`}
-				/>
-				<meta
-					name="twitter:description"
-					content={
-						props.race.fields.shortDescription
-							? props.race.fields.shortDescription
-							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-					}
-				/>
-				<meta name="twitter:image" content={props.raceImage} />
-				<meta
-					name="description"
-					content={
-						props.race.fields.shortDescription
-							? props.race.fields.shortDescription
-							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-					}
-				/>
+				<meta name="twitter:title" content={`${race.title} - DotWatcher.cc`} />
+				<meta name="twitter:description" content={race.shortDescription} />
+				<meta name="twitter:image" content={race.icon.ur} />
+				<meta name="description" content={race.shortDescription} />
 				<meta name="twitter:label1" content="Location" />
-				<meta
-					name="twitter:data1"
-					content={props.race.fields.location}
-				/>
+				<meta name="twitter:data1" content={race.location} />
 				<meta name="twitter:label2" content="Length" />
-				<meta name="twitter:data2" content={props.race.fields.length} />
-				<script src="//www.instagram.com/embed.js" />
+				<meta name="twitter:data2" content={race.length} />
+				<meta name="twitter:label3" content="Elevation" />
+				<meta name="twitter:data3" content={race.elevation} />
 			</Head>
-			<Header
-				user={props.user}
-				title="dotwatcher.cc"
-				raceName={props.raceName}
-				race={props.race}
+
+			{showNewPostAlert && (
+				<NewPostAlert onClick={handleNewPostAlertClick}>
+					There are new updates
+				</NewPostAlert>
+			)}
+
+			<Header race={race} />
+
+			<RaceIFrame
+				race={race}
+				mapPinned={mapPinned}
+				setMapPinned={handleMapPinned}
 			/>
-		
-			<Flex>
-				{props.trackleadersID ? (
-					<Map>
-						<MapContainer raceID={props.trackleadersID} />
-					</Map>
-				) : <h1>Tracking not available yet</h1>}
-				
-				<KeyEventsWrapper
-					fl
-					ph3
-					ph4_ns
-					pb2
-					mt2_l
-					relative
-					id="events-wrap"
-				>
 
-					{props.followMyChallange && <FollowMyChallangeLeaderBoard {...props.followMyChallange} />}
+			<Section>
+				<Center>
+					<H2>Coverage</H2>
+				</Center>
+			</Section>
 
-					{props.race.fields.leaderboard === true && (
-						<DynamicTopRiders race={props.race} />
-					)}
+			<Section>
+				<ContentGrid>
+					<Events>
+						<H3>Key Events</H3>
 
-					{props.race.fields.staticLeaderboard && (
-						<StaticTopRiders race={props.race} />
-					)}		
-
-					{props.race.fields.whatsAppId && (
-						<Div fl w_50 w_100_ns pr3 pr0_ns mb4>
-							<header>
-								<H2
-									ttu
-									tracked
-									f5
-									fw6
-									mt0
-									pb1
-									bb
-									bw1
-									b__light_gray
-									measure_narrow
-								>
-									Join the Conversation on WhatsApp
-								</H2>
-
-								<A
-									link
-									near_black
-									hover_blue
-									underline
-									href={`https://chat.whatsapp.com/${props.race.fields.whatsAppId}`}
-									target="_blank"
-								>
-									Click Here
-								</A>
-							</header>
-						</Div>
-					)}
-
-					<FactFile race={props.race} />
-
-					<KeyEvents posts={props.posts} skip={state.skip} />
-				</KeyEventsWrapper>
-
-				<LiveFeedWrap>
-					<Wrapper ph3 pb2>
-				{props.race.fields.discourseId && props.replies ? (
-					<React.Fragment>
-						<Tabs
-							setActiveTabFeed={() => setActiveTab("feed")}
-							setActiveTabCommunity={() => setActiveTab("community")}
-							activeTab={state.activeTab}
-							count={props.replies}
-							promo={props.race.fields.chatPromo}
-						/>
-						<CommunityWrap>
-							<Community
-								id={props.race.fields.discourseId}
-								active={state.activeTab === "community"}
-							/>
-						</CommunityWrap>
-					</React.Fragment>
-				) : null}
-				<Feed id="posts">
-					{newPostsNotification}
-
-					<OrderButtons>
-						<Link
-							href={`/race/${props.router.query.slug}?reverse=true`}
-							passHref
-						>
-							<OrderButton selected={!!props.router.query.reverse}>
-								Oldest First
-							</OrderButton>
-						</Link>
-
-						<Link
-							href={`/race/${props.router.query.slug}`}
-							passHref
-						>
-							<OrderButton selected={!props.router.query.reverse}>
-								Newest First
-							</OrderButton>
-						</Link>
-					</OrderButtons>
-
-					{props.posts.map((item, index) => {
-						if (index <= state.skip) {
-							return (
-								<Post
-									key={item.sys.id}
-									id={item.sys.id}
-									data={item.data}
-									index={index}
+						{events.length > 0 ? (
+							<EventsScroll>
+								<KeyEvents
+									events={events}
+									handleLoadMore={handleLoadMore}
+									showLoadMoreEvents={showLoadMoreEvents}
 								/>
-							);
-						}
-					})}
-					{morePosts}
-					<P measure lh_copy f6 silver>
-						If you would like to get in touch email us at{" "}
-						<A
-							link
-							gray
-							underline
-							hover_blue
-							href="mailto:info@dotwatcher.cc"
-						>
-							info@dotwatcher.cc
-						</A>
-					</P>
-					<P measure f6 silver>
-						<Span silver dib mr2 v_btm>
-							Follow along at
-						</Span>{" "}
-						<SocialIcons size="1" colour="gray" />
-					</P>
-				</Feed>
-			</Wrapper>
-				</LiveFeedWrap>
-			</Flex>
-		</Page>
-	);
-}
+							</EventsScroll>
+						) : (
+							<P>Check back soon for some key moments in the race.</P>
+						)}
+					</Events>
 
-Race.propTypes = {
-	posts: PropTypes.array.isRequired,
-	totalPosts: PropTypes.number.isRequired,
-	trackleadersID: PropTypes.string.isRequired,
-	raceName: PropTypes.string.isRequired,
-	raceID: PropTypes.string.isRequired,
-	race: PropTypes.object.isRequired,
-	raceImage: PropTypes.string.isRequired,
-	followMyChallange: PropTypes.oneOfType([
-		PropTypes.bool,
-		PropTypes.shape({})
-	])
+					<Leaderboard>
+						<H3>Leaderboard</H3>
+
+						{race.resultsSlug && (
+							<P>
+								<Link href={`/results/${race.resultsSlug}`} passHref>
+									<a title="View full resutlts">View full resutlts</a>
+								</Link>
+							</P>
+						)}
+
+						{liveLeaderboard ? (
+							<LiveLeaderboard leaderboard={liveLeaderboard} />
+						) : race.staticLeaderboard ? (
+							<StaticLeaderboard race={race} />
+						) : (
+							<P>
+								We are yet to release an up to date leaderboard. Please check
+								back soon.
+							</P>
+						)}
+					</Leaderboard>
+
+					<Posts>
+						<H3>Events Feed</H3>
+						<Filtering>
+							<label>
+								<span>Order: </span>
+
+								<Select onChange={handleOrderChange}>
+									<option value="a" selected={router.query.reverse !== "true"}>
+										Newset First
+									</option>
+									<option
+										value="reverse"
+										selected={router.query.reverse === "true"}
+									>
+										Oldest First
+									</option>
+								</Select>
+							</label>
+
+							{router.query.post && (
+								<Link
+									href={`/race/${race.slug}?reverse=${router.query.reverse}#posts`}
+									passHref
+								>
+									<a>View All</a>
+								</Link>
+							)}
+						</Filtering>
+
+						<PostFeed
+							handleLoadMore={handleLoadMore}
+							showLoadMore={showLoadMore}
+							posts={posts}
+						/>
+					</Posts>
+				</ContentGrid>
+			</Section>
+		</Fragment>
+	);
 };
 
-const enhance = compose(WithEntries, withRouter);
+export const getServerSideProps = async ({ query }) => {
+	const { slug, reverse, post } = query;
 
-export default enhance(Race);
+	const order = getOrder(reverse);
+
+	const racePost = post
+		? `
+		racePost: contentType2WKn6YEnZewu2ScCkus4As(id: "${post}") {
+			...Post
+		}`
+		: "";
+
+	try {
+		const { data } = await client.query({
+			variables: {
+				slug,
+				limit: POST_PER_VIEW,
+				currentPost: post || "",
+				skip: 0,
+				order,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
+			},
+			query: gql`
+				fragment Post on ContentType2WKn6YEnZewu2ScCkus4As {
+					sys {
+						firstPublishedAt
+						id
+					}
+					title
+					format
+					body
+					keyPost
+					embed
+					featuredImage {
+						url
+					}
+				}
+
+				query race(
+					$slug: String
+					$limit: Int
+					$skip: Int
+					$order: [ContentType2WKn6YEnZewu2ScCkus4AsOrder]
+					$preview: Boolean
+				) {
+					racesCollection	: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						limit: 1
+						preview: $preview
+						where: { slug: $slug }
+					) {
+						items {
+							length
+							elevation
+							title
+							location
+							raceDate
+							riders
+							terrain
+							website
+							lastYearsWinner
+							winnerLabel
+							trackleadersRaceId
+							raceEndDate
+							slug
+							shortDescription
+							whatsAppId
+							resultsSlug
+							staticLeaderboard {
+								sys {
+									publishedAt
+								}
+								leadersCollection {
+									items {
+										name
+									}
+								}
+							}
+							icon {
+								url
+							}
+						}
+					}
+
+					keyEvents: contentType2WKn6YEnZewu2ScCkus4AsCollection(
+						limit: $limit
+						skip: $skip
+						order: $order
+						preview: $preview
+						where: { keyPost: true, race: { slug: $slug } }
+					) {
+						total
+						limit
+						skip
+						items {
+							sys {
+								id
+								firstPublishedAt
+							}
+							title
+						}
+					}
+
+					racePostsCollection: contentType2WKn6YEnZewu2ScCkus4AsCollection(
+						limit: $limit
+						skip: $skip
+						order: $order
+						preview: $preview
+						where: { race: { slug: $slug } }
+					) {
+						total
+						limit
+						skip
+						items {
+							...Post
+						}
+					}
+
+					${racePost}
+				}
+			`
+		});
+
+		if (data.racesCollection.items.length <= 0) {
+			return {
+				notFound: true
+			};
+		}
+
+		const leaderboard = async () => {
+			try {
+				const { data: leaderboard } = await axios({
+					method: "get",
+					url:
+						data.racesCollection.items[0].trackleadersRaceId +
+						"api/dotwatcher/",
+					httpsAgent: new https.Agent({
+						rejectUnauthorized: false
+					}),
+					headers: {
+						"X-Apikey": process.env.TRACKLEADERS_API_KEY
+					}
+				});
+
+				return leaderboard;
+			} catch (error) {
+				console.log(error);
+				return false;
+			}
+		};
+
+		return {
+			props: {
+				data: {
+					...data,
+					liveLeaderboard: await leaderboard()
+				}
+			}
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			notFound: true
+		};
+	}
+};
+
+export default Race;

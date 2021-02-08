@@ -1,54 +1,57 @@
-import React from "react";
-
 import Head from "next/head";
-import PropTypes from "prop-types";
-import ReactMarkdown from "react-markdown";
-import shortcodes from "remark-shortcodes";
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
 import styled from "styled-components";
-import tachyons from "styled-components-tachyons";
-import Embed from "../components/embed";
-import AutoEmbed from "../components/embed/auto";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import ContentBlock from "../components/content-block";
-import Grid from "../components/grid";
-import Banner from "../components/content-block/banner";
-import Page from "../components/shared/page";
-import { withHomepage } from "../data/with-homepage";
+import dim from "@Utils/dim";
 import Link from "next/link";
-import { Article } from "../components/UI/Tachyons";
+import { Fragment } from "react";
+import H1 from "@Components/UI/H1";
+import H2 from "@Components/UI/H2";
+import H4 from "@Components/UI/H4";
+import A from "@Components/UI/A";
+import Section from "@Components/UI/Section";
+import Center from "@Components/UI/Center";
 
-const Div = styled.div`
-	p {
-		margin: 0;
+import {
+	LatestFeatures,
+	RecentRaces,
+	RaceSeries,
+	LiveRaces,
+	FeatureCategories
+} from "@Components/New/Homepage";
+
+const TitleSection = styled(Section)`
+	padding: ${dim(2)} ${dim(2)} 0;
+
+	${Center} {
+		max-width: 900px;
+		margin: 0 auto;
 	}
-	${tachyons}
-`;
-const H1 = styled.h1`
-	${tachyons}
-`;
-const A = styled.a`
-	${tachyons}
-`;
-const SVG = styled.svg`
-	${tachyons}
 `;
 
-const Home = ({ page, user }) => {
-	const bannerBlocks = page.blocks.filter(
-		block => block.layout === "Banner" || block.layout === "Homepage"
-	);
-	const gridBlocks = page.blocks.filter(
-		block => block.layout === "Carousel slide"
-	);
-	const grid = gridBlocks.length ? <Grid blocks={gridBlocks} /> : null;
+const Title = styled(Section)`
+	margin-top: ${dim()};
+`;
 
-	const blocksWithoutSlides = page.blocks
-		.filter(block => block.layout !== "Carousel slide")
-		.filter(block => block.layout !== "Homepage");
+const Home = ({ data }) => {
+	const {
+		racesCollection,
+		featureCollection,
+		homepageNewCollection,
+		featureCategoryCollection,
+		liveRaces
+	} = data;
+
+	const recentRaces = {
+		...racesCollection,
+		// Remove the number of races that are currently live
+		items: racesCollection.items.slice(liveRaces.items.length)
+	};
+
+	const [homepage] = homepageNewCollection.items;
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>Long distance bike race coverage – DotWatcher.cc</title>
 				<meta
@@ -83,73 +86,205 @@ const Home = ({ page, user }) => {
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 			</Head>
-			<Header
-				user={user}
-				title="dotwatcher.cc — Long distance self-supported bike race coverage"
-			/>
-			<Article fl w_100>
-				{bannerBlocks.length && (
-					<Banner blocks={bannerBlocks} count={bannerBlocks.length} />
+
+			<Title>
+				<Center>
+					<H1>Welcome to DotWatcher.cc</H1>
+				</Center>
+			</Title>
+
+			{liveRaces.items.length > 0 && (
+				<Section>
+					<Center>
+						<H2>Live Races</H2>
+					</Center>
+					<LiveRaces liveRaces={liveRaces} />
+				</Section>
+			)}
+
+			{recentRaces && recentRaces.items.length > 0 && (
+				<Section>
+					<RecentRaces racesCollection={recentRaces} />
+				</Section>
+			)}
+			<Section>
+				<Center>
+					<Link href="/races" passHref>
+						<A>Look back on more races</A>
+					</Link>
+				</Center>
+			</Section>
+
+			<TitleSection>
+				<Center>
+					<H4>
+						DotWatcher.cc is the home of{" "}
+						<Link href="/races" passHref>
+							<A title="live updates">live updates</A>
+						</Link>
+						,{" "}
+						<Link href="/races" passHref>
+							<A title="GPS tracking maps">GPS tracking maps</A>
+						</Link>
+						,{" "}
+						<Link href="/features" passHref>
+							<A title="editorial insight">editorial insight</A>
+						</Link>
+						, and{" "}
+						<Link href="/results" passHref>
+							<A title="race results">race results</A>
+						</Link>{" "}
+						from the world of long-distance, self-supported bike racing.
+					</H4>
+				</Center>
+				<Center>
+					<Link href="/about#contributors" passHref>
+						<H4>
+							<A title="Who are we?">Who Are We ?</A>
+						</H4>
+					</Link>
+				</Center>
+			</TitleSection>
+
+			{homepage.favouriteRacesCollection &&
+				homepage.favouriteRacesCollection.items.length > 0 && (
+					<Section>
+						<RaceSeries
+							favouriteRacesCollection={homepage.favouriteRacesCollection}
+						/>
+					</Section>
 				)}
 
-				<Div mb4 mb5_l pv4 ph3 ph4_ns className="bg-gradient-blue cf">
-					<Div
-						w_90
-						w_60_l
-						center
-						pv4
-						ph3
-						ph4_ns
-						bg_white_20
-						white
-						className="cf"
-					>
-						<Div fl w_20 pr3 pr4_m pr5_l>
-							<SVG w_100 viewBox="0 0 21 37" xmlns="http://www.w3.org/2000/svg">
-								<g fill="#fff" fillRule="evenodd">
-									<path d="M7.703 5.444l4.58 7.956 2.43-4.225 4.409 7.657c.882-2.47 1.47-4.627 1.47-5.982 0-5.665-4.597-10.278-10.245-10.278C4.699.572.1 5.184.1 10.85c0 1.268.524 3.248 1.313 5.522l6.29-10.928z" />
-									<path d="M14.715 12.31l-1.531 2.659 3.956 6.873c.446-1.048.876-2.093 1.271-3.108l-3.696-6.424zM8.626 10.183L6.776 13.4l-.925-1.605-3.739 6.495c2.701 7.07 7.196 15.828 7.46 16.345l.774 1.485.758-1.485c.21-.39 2.826-5.489 5.26-11.005L8.626 10.183z" />
-								</g>
-							</SVG>
-						</Div>
-						<H1 f2 f1_ns fw6 lh_solid mt0 mb3>
-							{page.title}
-						</H1>
-						<Div f4 f3_ns measure lh_copy fr_ns w_80_ns>
-							<ReactMarkdown
-								source={page.text}
-								plugins={[shortcodes]}
-								renderers={{
-									shortcode: Embed,
-									link: AutoEmbed
-								}}
-							/>
-							<Link href="/about" passHref>
-								<A link underline white hover_near_black mt3 db>
-									Learn more »
-								</A>
-							</Link>
-						</Div>
-					</Div>
-				</Div>
+			{featureCollection && featureCollection.items.length > 0 && (
+				<Section>
+					<LatestFeatures featureCollection={featureCollection} />
+				</Section>
+			)}
 
-				{grid}
-
-				{blocksWithoutSlides.map(block => (
-					<ContentBlock key={block.sys.id} block={block} />
-				))}
-			</Article>
-			<Footer />
-		</Page>
+			<Section>
+				<FeatureCategories
+					featureCategoryCollection={featureCategoryCollection}
+				/>
+			</Section>
+		</Fragment>
 	);
 };
 
-Home.propTypes = {
-	page: PropTypes.object
+export const getServerSideProps = async () => {
+	const today = new Date();
+	const todayISO = today.toISOString();
+
+	try {
+		const { data } = await client.query({
+			variables: {
+				today: todayISO,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
+			},
+			query: gql`
+				query homepage($today: DateTime, $preview: Boolean) {
+					featureCategoryCollection(
+						limit: 10
+						order: sys_firstPublishedAt_DESC
+						preview: $preview
+					) {
+						items {
+							slug
+							name
+						}
+					}
+
+					featureCollection(limit: 5, order: sys_firstPublishedAt_DESC) {
+						items {
+							sys {
+								firstPublishedAt
+							}
+							title
+							excerpt
+							contributor {
+								name
+								slug
+							}
+							slug
+							featuredImage {
+								url
+								title
+							}
+						}
+					}
+
+					homepageNewCollection(limit: 1) {
+						items {
+							favouriteRacesCollection(limit: 10) {
+								items {
+									race
+									name
+									description {
+										json
+									}
+									heroImage {
+										title
+										url
+									}
+								}
+							}
+						}
+					}
+
+					# Contentful isn't pulling through the actual content model name.
+					racesCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						limit: 5
+						where: { raceDate_lte: $today }
+						order: sys_firstPublishedAt_DESC
+					) {
+						items {
+							title
+							slug
+							shortDescription
+							raceDate
+							icon {
+								url
+							}
+						}
+					}
+
+					liveRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						limit: 5
+						# where end is gte to today and stare is lte to today
+						where: { raceEndDate_gte: $today, raceDate_lte: $today }
+					) {
+						items {
+							title
+							slug
+							shortDescription
+							raceDate
+							raceEndDate
+							liveBeforeStartDate
+							heroImage {
+								url
+								title
+							}
+							icon {
+								url
+								title
+							}
+						}
+					}
+				}
+			`
+		});
+
+		return {
+			props: {
+				data
+			}
+		};
+	} catch (error) {
+		console.log(error);
+
+		return {
+			notFound: true
+		};
+	}
 };
 
-Home.defaultProps = {
-	page: {}
-};
-
-export default withHomepage(Home);
+export default Home;

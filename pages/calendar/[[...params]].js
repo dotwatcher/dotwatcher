@@ -6,9 +6,7 @@ import addMonths from "date-fns/add_months";
 import subMonths from "date-fns/sub_months";
 
 import Head from "next/head";
-import Page from "../../components/shared/page";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
+
 import Calendar from "../../components/Calander";
 import { withRaces } from "../../data/with-races";
 
@@ -38,7 +36,6 @@ let eventColors = [
 ];
 
 const CalanderPage = ({ races = [], router, user }) => {
-
 	const [year, month] = router.query.params || [];
 
 	// new Date month arguement is index of month, similar to array index's, December === month 12 - 1 for index
@@ -72,7 +69,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 	}));
 
 	return (
-		<Page>
+		<>
 			<Head>
 				<title>Calendar - DotWatcher.cc</title>
 				<meta property="og:title" content="Calendar - DotWatcher.cc" />
@@ -86,8 +83,6 @@ const CalanderPage = ({ races = [], router, user }) => {
 				/>
 			</Head>
 
-			<Header user={user} title="dotwatcher.cc" />
-
 			<Calendar
 				events={coloredRaces}
 				currentDate={currentDate}
@@ -95,8 +90,7 @@ const CalanderPage = ({ races = [], router, user }) => {
 				handleNextMonthClick={handleNextMonthClick}
 				handlePrevMonthClick={handlePrevMonthClick}
 			/>
-			<Footer />
-		</Page>
+		</>
 	);
 };
 

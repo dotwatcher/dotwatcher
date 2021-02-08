@@ -1,58 +1,43 @@
 import { Fragment } from "react";
 import tachyons from "styled-components-tachyons";
 import styled from "styled-components";
-import withSeries from "../../data/withSeries";
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getYear } from "date-fns";
 import { useRouter } from "next/router";
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
+import axios from "axios";
+import apiUrl from "@Utils/api-url";
+import Image from "next/image";
+import Section from "@Components/UI/Section";
+import Center from "@Components/UI/Center";
+import H1 from "@Components/UI/H1";
+import H2 from "@Components/UI/H2";
+import H4 from "@Components/UI/H4";
+import P from "@Components/UI/P";
 
-import Instagram from "../../components/UI/Icons/instagram";
-import Website from "../../components/UI/Icons/website";
-import Twitter from "../../components/UI/Icons/twitter";
-import Facebook from "../../components/UI/Icons/facebook";
+import Instagram from "@Components/UI/Icons/instagram";
+import Website from "@Components/UI/Icons/website";
+import Twitter from "@Components/UI/Icons/twitter";
+import Facebook from "@Components/UI/Icons/facebook";
+import mq from "@Utils/media-query";
+import dim from "@Utils/dim";
 import Richtext from "../../components/rich-text";
-import Page from "../../components/shared/page";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-import NextImage from "../../components/NextImage";
-import mq from "../../utils/media-query";
-import {
-	P,
-	H1,
-	H2,
-	H4,
-	Div,
-	A,
-	Image,
-	Li,
-	Ul
-} from "../../components/UI/Tachyons";
+import { A } from "../../components/UI/Tachyons";
 
 const Year = styled.li`
 	${tachyons}
 `;
 
-const RaceGrid = styled.div`
-	display: grid;
-	grid-column-gap: var(--spacing-large);
-	grid-row-gap: var(--spacing-medium);
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	grid-template-areas:
-		"details details"
-		"overview overview";
-
-	${mq.mdUp`
-		grid-template-areas: "overview details";
-	`}
+const Header = styled.div`
+	max-width: 1600px;
+	text-align: center;
 `;
 
 const RaceDetails = styled.div`
 	grid-area: details;
-`;
-const RaceOverview = styled.div`
-	grid-area: overview;
 `;
 
 const EditionsGrid = styled.ul`
@@ -60,17 +45,23 @@ const EditionsGrid = styled.ul`
 	padding: 0;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
-	grid-column-gap: var(--spacing-medium);
-	grid-row-gap: var(--spacing-medium);
+	grid-column-gap: ${dim(2)};
+	grid-row-gap: ${dim(2)};
 	text-align: center;
 `;
 
-const Winners = styled.div`
-	border-bottom: 1px solid var(--light-gray);
+const WinnersWrap = styled.div`
+	max-width: 1600px;
+	margin: 0 auto;
+	${mq.mdUp`
+		display: flex;
+		justify-content: center;
+		column-gap: ${dim(2)}
+	`}
 `;
 
 const WinnerRace = styled.div`
-	margin: 0 var(--spacing-small);
+	margin: 0 ${dim()};
 	display: inline-block;
 `;
 
@@ -88,39 +79,37 @@ const HeroCredit = styled.p`
 	margin: 5px;
 `;
 
-const getLatestWinner = results =>
-	results &&
-	results.filter(r => !!r.position).sort((a, b) => a.position - b.position);
+const Social = styled.ul`
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	li {
+		margin: 0 ${dim()};
+		display: inline-block;
+	}
+`;
 
 const Series = ({
 	race,
-	user,
 	mensWinner,
 	womensWinner,
 	latestWinner,
 	mostWins,
-	pairsWinners,
-	latestRace,
-	...props
+	pairsWinners
 }) => {
 	const router = useRouter();
 
-	const raceName = race.fields ? race.fields.name : router.query.name;
-
-	const raceReports = () =>
-		race.fields.previousReports.filter(race => race.fields);
+	const raceName = race.name || router.query.name;
 
 	const [pairAWinner, pairBWinner] = pairsWinners;
 
 	const title = `${raceName} – Race Series - DotWatcher.cc`;
 
-	const hero =
-		race.fields &&
-		race.fields.heroImage &&
-		race.fields.heroImage.fields.file.url;
+	const hero = race && race.heroImage && race.heroImage.url;
 
 	return (
-		<Page>
+		<Fragment>
 			<Head>
 				<title>{title}</title>
 				<meta property="og:title" content={title} />
@@ -144,59 +133,99 @@ const Series = ({
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 			</Head>
-			<Header user={user} title="dotwatcher.cc" />
 
-			{hero && (
-				<Hero>
-					<NextImage
-						src={
-							race.fields.heroImage.fields.file.url + "?w=2000&h=1000&fit=fill"
-						}
-						alt={raceName}
-						title={race.fields.title}
-						width={2000}
-						height={750}
-					/>
-					<HeroCredit>{race.fields.heroCredit}</HeroCredit>
-				</Hero>
+			<Section>
+				<Header>
+					<Center>
+						<H1>{raceName}</H1>
+
+						{race.description && (
+							<P>
+								<Richtext source={race.description.json} />
+							</P>
+						)}
+					</Center>
+				</Header>
+			</Section>
+
+			{[race.website, race.instagram, race.twitter, race.facebook].some(
+				x => x
+			) && (
+				<Section>
+					<Social>
+						{race.website && (
+							<li>
+								<A href={race.website} target="_blank">
+									<Website width={30} />
+								</A>
+							</li>
+						)}
+
+						{race.instagram && (
+							<li>
+								<A href={race.instagram} target="_blank">
+									<Instagram width={30} />
+								</A>
+							</li>
+						)}
+
+						{race.twitter && (
+							<li>
+								<A href={race.twitter} target="_blank">
+									<Twitter width={30} />
+								</A>
+							</li>
+						)}
+
+						{race.facebook && (
+							<li>
+								<A href={race.facebook} target="_blank">
+									<Facebook width={30} />
+								</A>
+							</li>
+						)}
+					</Social>
+				</Section>
 			)}
 
-			<Div pa2 mt3 mt4_l mh6_l>
-				<Div>
-					<Link href="/results">
-						<A
-							db
-							link
-							near_black
-							hover_blue
-							pointer
-							passHref
-							title="Find more races"
-						>
-							← Find more races
-						</A>
-					</Link>
-				</Div>
+			{hero && (
+				<Section>
+					<Hero>
+						<Image
+							src={race.heroImage.url + "?w=2000&h=1000&fit=fill"}
+							alt={raceName}
+							title={race.title}
+							width={2000}
+							height={1000}
+						/>
+						<HeroCredit>{race.heroCredit}</HeroCredit>
+					</Hero>
+				</Section>
+			)}
 
-				<H1 f3 f1_l fw6 lh_title mb0>
-					{raceName}
-				</H1>
+			<Section>
+				<RaceDetails>
+					<div>
+						{latestWinner && (
+							<Center>
+								<H2>Latest Winners ({latestWinner.year})</H2>
+							</Center>
+						)}
 
-				<RaceGrid>
-					<RaceDetails>
-						<Winners>
-							{race.fields && race.fields.fastestKnownTime && (
-								<Fragment>
-									<H4>Fastest Known Time: </H4>
-									<p>{race.fields.fastestKnownTime}</p>
-								</Fragment>
-							)}
+						{race.fastestKnownTime && (
+							<Center>
+								<H4>
+									Fastest Known Time:
+									<br /> {race.fastestKnownTime}
+								</H4>
+							</Center>
+						)}
 
-							<H4>Latest Winners ({latestWinner.year}): </H4>
-
+						<WinnersWrap>
 							{latestWinner && (
 								<P>
-									Overall:{" "}
+									Overall:
+									<br />
 									<Link href={`/profile/${latestWinner.name}`} passHref>
 										<A
 											link
@@ -213,7 +242,8 @@ const Series = ({
 
 							{mensWinner && (
 								<P>
-									Men's:{" "}
+									Men's:
+									<br />
 									<Link href={`/profile/${mensWinner.name}`} passHref>
 										<A
 											link
@@ -230,7 +260,8 @@ const Series = ({
 
 							{womensWinner && (
 								<P>
-									Women's:{" "}
+									Women's:
+									<br />
 									<Link href={`/profile/${womensWinner.name}`} passHref>
 										<A
 											link
@@ -247,7 +278,8 @@ const Series = ({
 
 							{pairAWinner && (
 								<P>
-									Pairs:{" "}
+									Pairs:
+									<br />
 									<Link href={`/profile/${pairAWinner.name}`} passHref>
 										<A
 											link
@@ -275,194 +307,281 @@ const Series = ({
 							)}
 
 							{!!mostWins && (
-								<Fragment>
-									<H4>Most Wins ({mostWins[0].races.length}):</H4>
-									{mostWins.map((winner, i) => (
-										<Fragment key={i}>
-											<P>
-												<Link href={`/profile/${winner.name}`}>
-													<A
-														link
-														dark_gray
-														underline
-														pointer
-														hover_blue
-														title={winner.name}
-													>
-														{winner.name}
-													</A>
-												</Link>
-												:
-												{winner.races.map((r, i) => (
-													<WinnerRace key={i}>
-														<Link
-															href={`/results/[year]/[race]`}
-															as={`/results/${r.year}/${r.slug}`}
-															passHref
+								<P>
+									Most Wins ({mostWins[0].races.length}):
+									<br />
+									<span>
+										{mostWins.map((winner, i) => (
+											<Fragment key={i}>
+												<span>
+													<Link href={`/profile/${winner.name}`}>
+														<A
+															link
+															dark_gray
+															underline
+															pointer
+															hover_blue
+															title={winner.name}
 														>
-															<A
-																link
-																dark_gray
-																underline
-																pointer
-																hover_blue
-																title={`${raceName}: ${r.year}`}
+															{winner.name}
+														</A>
+													</Link>
+													:
+													{winner.races.map((r, i) => (
+														<WinnerRace key={i}>
+															<Link
+																href={`/results/[year]/[race]`}
+																as={`/results/${r.year}/${r.slug}`}
+																passHref
 															>
-																{r.year}
-															</A>
-														</Link>
-													</WinnerRace>
-												))}
-											</P>
-										</Fragment>
-									))}
-								</Fragment>
+																<A
+																	link
+																	dark_gray
+																	underline
+																	pointer
+																	hover_blue
+																	title={`${raceName}: ${r.year}`}
+																>
+																	{r.year}
+																</A>
+															</Link>
+														</WinnerRace>
+													))}
+												</span>
+											</Fragment>
+										))}
+									</span>
+								</P>
 							)}
-						</Winners>
+						</WinnersWrap>
+					</div>
+				</RaceDetails>
+			</Section>
 
-						<Ul mt_4>
-							{race.fields && race.fields.website && (
-								<Li dib>
-									<A
-										black
-										hover_blue
-										pointer
-										href={race.fields.website}
-										target="_blank"
-									>
-										<Website width={30} />
-									</A>
-								</Li>
-							)}
+			{race.previousReportsCollection &&
+				race.previousReportsCollection.items.length > 0 && (
+					<Section>
+						<H2>Reports</H2>
 
-							{race.fields && race.fields.instagram && (
-								<Li dib ml4>
-									<A
-										black
-										hover_blue
-										pointer
-										href={race.fields.instagram}
-										target="_blank"
-									>
-										<Instagram width={30} />
-									</A>
-								</Li>
-							)}
-
-							{race.fields && race.fields.twitter && (
-								<Li dib ml4>
-									<A
-										black
-										hover_blue
-										pointer
-										href={race.fields.twitter}
-										target="_blank"
-									>
-										<Twitter width={30} />
-									</A>
-								</Li>
-							)}
-
-							{race.fields && race.fields.facebook && (
-								<Li dib ml4>
-									<A
-										black
-										hover_blue
-										pointer
-										href={race.fields.facebook}
-										target="_blank"
-									>
-										<Facebook width={30} />
-									</A>
-								</Li>
-							)}
-						</Ul>
-					</RaceDetails>
-					<RaceOverview>
-						{race.fields && race.fields.description && (
-							<P measure_wide f4 lh_copy>
-								<Richtext source={race.fields.description} />
-							</P>
-						)}
-
-						{race.fields && race.fields.previousReports && (
-							<Fragment>
-								<H2>Reports</H2>
-
-								<EditionsGrid pb4 bb bw1 b__light_gray>
-									{raceReports().map((race, index) => (
-										<Year
-											dib
-											hover_bg_lightest_blue
-											bg_light_gray
-											ba
-											bw1
-											b__white
-											f4
-											lh_copy
-											key={index}
+						<EditionsGrid pb4 bb bw1 b__light_gray>
+							{race.previousReportsCollection.items.map((race, index) => (
+								<Year
+									dib
+									hover_bg_lightest_blue
+									bg_light_gray
+									ba
+									bw1
+									b__white
+									f4
+									lh_copy
+									key={index}
+								>
+									<Link href={`/race/${race.slug}`} passHref>
+										<A
+											db
+											pa2
+											link
+											near_black
+											data-id={race.sys.id}
+											title={`${raceName} Report ${getYear(race.raceDate)}`}
 										>
-											<Link href={`/race/${race.fields.slug}`} passHref>
-												<A
-													db
-													pa2
-													link
-													near_black
-													data-id={race.id}
-													title={`${raceName} Report ${getYear(
-														race.fields.raceDate
-													)}`}
-												>
-													{getYear(race.fields.raceDate)}
-												</A>
-											</Link>
-										</Year>
-									))}
-								</EditionsGrid>
-							</Fragment>
-						)}
-						{race.races && (
-							<Fragment>
-								<H2>Results</H2>
-								<EditionsGrid pb4 bb bw1 b__light_gray>
-									{race.races.map((race, index) => (
-										<Year
-											dib
-											hover_bg_lightest_blue
-											bg_light_gray
-											ba
-											bw1
-											b__white
-											f4
-											lh_copy
-											key={index}
-										>
-											<Link
-												href={`/results/${race.year}/${race.slug}`}
-												passHref
-											>
-												<A
-													db
-													pa2
-													link
-													near_black
-													data-id={race.id}
-													title={`${raceName}: ${race.year}`}
-												>
-													{race.year}
-												</A>
-											</Link>
-										</Year>
-									))}
-								</EditionsGrid>
-							</Fragment>
-						)}
-					</RaceOverview>
-				</RaceGrid>
-			</Div>
-			<Footer />
-		</Page>
+											{getYear(race.raceDate)}
+										</A>
+									</Link>
+								</Year>
+							))}
+						</EditionsGrid>
+					</Section>
+				)}
+
+			{race.races && (
+				<Section>
+					<H2>Results</H2>
+					<EditionsGrid pb4 bb bw1 b__light_gray>
+						{race.races.map((race, index) => (
+							<Year
+								dib
+								hover_bg_lightest_blue
+								bg_light_gray
+								ba
+								bw1
+								b__white
+								f4
+								lh_copy
+								key={index}
+							>
+								<Link href={`/results/${race.year}/${race.slug}`} passHref>
+									<A
+										db
+										pa2
+										link
+										near_black
+										data-id={race.id}
+										title={`${raceName}: ${race.year}`}
+									>
+										{race.year}
+									</A>
+								</Link>
+							</Year>
+						))}
+					</EditionsGrid>
+				</Section>
+			)}
+		</Fragment>
 	);
 };
 
-export default withSeries(Series);
+export const getServerSideProps = async ctx => {
+	const getLatestWinner = results => {
+		return results
+			? results
+					.filter(r => !!r.position)
+					.sort((a, b) => a.position - b.position)
+			: [];
+	};
+
+	const { name } = ctx.query;
+
+	try {
+		const { data: res } = await client.query({
+			variables: {
+				name,
+				preview: !!process.env.CONTENTFUL_PRIEVIEW
+			},
+			query: gql`
+				query getSeries($name: String, $preview: Boolean) {
+					raceSeriesCollection(
+						limit: 1
+						where: { name: $name }
+						order: sys_firstPublishedAt_DESC
+						preview: $preview
+					) {
+						items {
+							race
+							name
+							heroCredit
+							fastestKnownTime
+							website
+							instagram
+							twitter
+							facebook
+							previousReportsCollection {
+								items {
+									sys {
+										id
+									}
+									slug
+									raceDate
+								}
+							}
+							description {
+								json
+							}
+							heroImage {
+								url
+							}
+						}
+					}
+				}
+			`
+		});
+
+		const { raceSeriesCollection } = res;
+
+		let [race] = raceSeriesCollection.items;
+
+		const { data } = await axios({
+			url: apiUrl(`/api/race-series?name=${name}`, ctx.req),
+			method: "get"
+		});
+
+		race = { ...race, races: data.races };
+
+		const [latestRace] =
+			race.races &&
+			race.races.length > 0 &&
+			race.races.sort((a, b) => b.year - a.year);
+
+		const getLatestWinnerByClass = classification => {
+			const results = latestRace.results.filter(
+				r => r.class.toLowerCase() === classification.toLowerCase()
+			);
+
+			return getLatestWinner(results);
+		};
+
+		const getLatestWinnerByGender = gender => {
+			const results = latestRace.results.filter(
+				r =>
+					r.category.toLowerCase() === gender.toLowerCase() &&
+					r.class !== "PAIR"
+			);
+
+			return getLatestWinner(results);
+		};
+
+		const getLatestOverallWinner = race => {
+			const results = race.results.filter(r => r.class === "SOLO");
+
+			return getLatestWinner(results);
+		};
+
+		const getModalWinners = () => {
+			let winners = race.races.map(race => getLatestOverallWinner(race)[0]);
+
+			// Create objects of winners races
+			const winsObj = winners.reduce((acc, curr) => {
+				if (!curr) return acc;
+				return {
+					...acc,
+					[curr.name]: acc[curr.name] ? [...acc[curr.name], curr] : [curr]
+				};
+			}, {});
+
+			// Sort in win order
+			let [mostWinsRider] = Object.keys(winsObj).sort(
+				(a, b) => winsObj[b].length - winsObj[a].length
+			);
+
+			// Get the highest wins count
+			const mostWinsRiderQty = winsObj[mostWinsRider].length;
+
+			if (mostWinsRiderQty <= 1) return false;
+
+			// Check if there are multiple with the same amount of wins
+			winners = Object.keys(winsObj).filter(
+				winner => winsObj[winner].length === mostWinsRiderQty,
+				[]
+			);
+
+			return winners.map(w => ({ name: w, races: winsObj[w] }));
+		};
+
+		const [pairAWinner = null, pairBWinner = null] = getLatestWinnerByClass(
+			"PAIR"
+		);
+		const [mensWinner = null] = getLatestWinnerByGender("MEN");
+		const [womensWinner = null] = getLatestWinnerByGender("WOMEN");
+		const [latestWinner = null] = getLatestOverallWinner(latestRace);
+		const mostWins = getModalWinners();
+
+		return {
+			props: {
+				race,
+				mensWinner,
+				womensWinner,
+				latestWinner,
+				mostWins,
+				latestRace,
+				pairsWinners: [pairAWinner, pairBWinner]
+			}
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			notFound: true
+		};
+	}
+};
+
+export default Series;

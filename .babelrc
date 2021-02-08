@@ -17,8 +17,7 @@
         "extensions": ["css$"]
       }
     ],
-    ["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]
+    ["styled-components", { "ssr": true, "displayName": true }]
   ],
-  "presets": ["next/babel"],
-  "ignore": []
+  "presets": ["next/babel"]
 }

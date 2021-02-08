@@ -6,8 +6,6 @@ import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Link from "next/link";
 
-import Header from "../../components/header";
-import Page from "../../components/shared/page";
 import SocialIcons from "../../components/shared/social-icons";
 import Post from "../../components/post";
 import { withEntry } from "../../data/with-entry";
@@ -35,7 +33,7 @@ class PostPage extends React.Component {
 			? `${this.props.posts[0].data.image.fields.file.url}?w=600&q=70`
 			: "https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg";
 		return (
-			<Page>
+			<>
 				<Head>
 					<title>{this.props.posts[0].data.title}</title>
 					<meta
@@ -65,12 +63,7 @@ class PostPage extends React.Component {
 					/>
 					<script src="//www.instagram.com/embed.js" />
 				</Head>
-				<Header
-					user={this.props.user}
-					title="dotwatcher.cc"
-					raceName={this.props.posts[0].data.categories.fields.title}
-					race={this.props.posts[0].data.categories}
-				/>
+
 				<MapContainer
 					raceID={this.props.posts[0].data.categories.fields.trackleadersRaceId}
 					offset={true}
@@ -102,7 +95,7 @@ class PostPage extends React.Component {
 						<SocialIcons size="1" colour="gray" />
 					</P>
 				</PostWrapper>
-			</Page>
+			</>
 		);
 	}
 }

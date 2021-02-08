@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="24px" viewBox="0 0 25 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon / close</title>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="Hompage-Modal" transform="translate(-1261.000000, -416.000000)" stroke="#000000" stroke-width="5">
+            <g id="Content" transform="translate(147.500000, 380.000000)">
+                <g id="Group-10" transform="translate(1116.000000, 38.000000)">
+                    <line x1="0.693957418" y1="0.678063011" x2="19.3060426" y2="19.321937" id="Line-2" transform="translate(10.000000, 10.000000) rotate(-1.000000) translate(-10.000000, -10.000000) "></line>
+                    <line x1="0.911733615" y1="0.467758985" x2="19.0882664" y2="19.532241" id="Line-2" transform="translate(10.000000, 10.000000) rotate(89.292681) translate(-10.000000, -10.000000) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

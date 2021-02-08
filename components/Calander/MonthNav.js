@@ -1,17 +1,12 @@
 import format from "date-fns/format";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import isWithinRange from "date-fns/is_within_range";
-import startOfMonth from "date-fns/start_of_month";
-import endOfMonth from "date-fns/end_of_month";
 import getMonth from "date-fns/get_month";
 import { useRef } from "react";
 import Router from "next/router";
-import mq from "../../utils/media-query";
-
-const Button = styled.button`
-	${tachyons}
-`;
+import mq from "@Utils/media-query";
+import Button from "@Components/UI/Button";
+import Select from "@Components/UI/OptionSelect";
 
 const Wrapper = styled.div`
 	display: flex;
@@ -83,25 +78,7 @@ const Today = styled.div`
 	}
 `;
 
-const StyledSelect = styled.select`
-	${tachyons}
-	border: 2px solid var(--black);
-	appearance: none;
-	background-color: transparent;
-	padding: var(--spacing-small);
-	min-width: 200px;
-	max-width: 200px;
-	border-radius: 0;
-
-	/* DropDown Chevron */
-	background-image: linear-gradient(45deg, transparent 50%, white 50%),
-		linear-gradient(135deg, white 50%, transparent 50%),
-		linear-gradient(to right, var(--light-blue), var(--light-blue));
-	background-position: calc(100% - 20px) calc(1em + 2px),
-		calc(100% - 15px) calc(1em + 2px), 100% 0;
-	background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
-	background-repeat: no-repeat;
-
+const StyledSelect = styled(Select)`
 	& + & {
 		${mq.smDown`
 			margin-top: var(--spacing-medium);
@@ -192,25 +169,11 @@ const Nav = ({
 	return (
 		<Wrapper>
 			<Today>
-				<Button
-					f4
-					bg_blue
-					hover_bg_dark_blue
-					ph3
-					pv2
-					mb2
-					mt0
-					center
-					tc
-					white
-					tracked
-					ttl
-					small_caps
-					onClick={handleTodayClick}
-				>
+				<Button secondary type="button" onClick={handleTodayClick}>
 					Today
 				</Button>
 			</Today>
+
 			<MonthNav>
 				<Placeholder>
 					<CalenderChange near_black hover_blue onClick={handlePrevClick}>
