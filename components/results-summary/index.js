@@ -42,7 +42,7 @@ const ResultsSummary = ({ race, filtered }) => {
 					</A>
 				</Link>
 			</Header>
-			<Years list ma0 pa0 tc>
+			<Years ma0 pa0 tc>
 				{race.events.map((event, index) => (
 					<Year dib bg_light_gray ba bw1 b__white f4 lh_copy key={index}>
 						<Link href={`/results/${event.year}/${event.slug}`} passHref>

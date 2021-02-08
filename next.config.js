@@ -1,4 +1,4 @@
-// const webpack = require("webpack");
+const webpack = require("webpack");
 const withSourceMaps = require("@zeit/next-source-maps");
 const path = require("path");
 
@@ -69,7 +69,7 @@ module.exports = withSourceMaps({
 		];
 	},
 	webpack: config => {
-		// config.plugins.push(new webpack.EnvironmentPlugin(process.env));
+		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
 
 		config.resolve.alias = {
 			...config.resolve.alias,
