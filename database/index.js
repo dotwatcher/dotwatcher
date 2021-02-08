@@ -1,11 +1,13 @@
-import { Pool } from "pg";
+const { Pool } = require("pg");
 
 const config = {
 	database: process.env.PGDATABASE,
 	host: process.env.PGHOST,
 	password: process.env.PGPASSWORD,
 	port: process.env.PGPORT,
-	ssl: "require",
+	ssl: {
+		rejectUnauthorized: false
+	},
 	user: process.env.PGUSER
 };
 

@@ -69,7 +69,6 @@ module.exports = withSourceMaps({
 	},
 	webpack: config => {
 		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
-		config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
 
 		config.resolve.alias = {
 			...config.resolve.alias,
