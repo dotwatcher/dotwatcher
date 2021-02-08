@@ -5,6 +5,7 @@ const youtubeDomain = /youtu.?be./;
 const youtubeIdMatch = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\?=]*)?/i;
 
 const Default = ({ href, children }) => {
+	debugger;
 	const { hostname } = new URL(href);
 
 	return (

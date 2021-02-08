@@ -137,7 +137,9 @@ const NewPostAlert = styled(Button)`
 	z-index: 1;
 `;
 const getOrder = reverse =>
-	reverse === "true" ? ["sys_publishedAt_ASC"] : ["sys_publishedAt_DESC"];
+	reverse === "true"
+		? ["sys_firstPublishedAt_ASC"]
+		: ["sys_firstPublishedAt_DESC"];
 
 const Race = ({ data }) => {
 	const {
