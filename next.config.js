@@ -68,8 +68,8 @@ module.exports = withSourceMaps({
 			}
 		];
 	},
-	webpack: (config, { isServer }) => {
-		config.plugins.push(new webpack.EnvironmentPlugin(process.env));
+	webpack: config => {
+		// config.plugins.push(new webpack.EnvironmentPlugin(process.env));
 
 		config.resolve.alias = {
 			...config.resolve.alias,
