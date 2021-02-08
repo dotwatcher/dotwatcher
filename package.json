@@ -2,8 +2,18 @@
 	"name": "dotwatcher",
 	"version": "1.0.0",
 	"main": "index.js",
-	"repository": "git@github.com:jonheslop/dotwatcher.git",
-	"author": "Jon Heslop <jon@jonheslop.com>",
+	"repository": "git@github.com:dotwatcher/dotwatcher.git",
+	"author": "Dotwatcher",
+	"contributors": [
+		{
+			"name": "Alex Windett",
+			"email": "windettalext@gmail.cc"
+		},
+		{
+			"name": "Jon Heslop",
+			"email": "jon@jonheslop.com"
+		}
+	],
 	"license": "MIT",
 	"scripts": {
 		"dev": "next",
@@ -13,7 +23,7 @@
 		"lint": "xo"
 	},
 	"engines": {
-		"node": ">8.10.0"
+		"node": "12.15.0"
 	},
 	"xo": {
 		"extends": "xo-react"
