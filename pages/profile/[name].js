@@ -213,9 +213,11 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 								title={name}
 								aly={name}
 								src={
-									auth0Profile.userPicture
+									!!auth0Profile && auth0Profile.userPicture
 										? auth0Profile.userPicture
-										: auth0Profile.picture || "/static/empty-profile.png"
+										: !!auth0Profile && auth0Profile.picture
+										? auth0Profile.picture
+										: "/static/empty-profile.png"
 								}
 							/>
 						</UserAvatar>
