@@ -112,7 +112,7 @@ export const getServerSideProps = async () => {
 		const { data } = await client.query({
 			variables: {
 				today: todayISO,
-				preview: !!process.env.CONTENTFUL_PRIEVIEW
+				preview: !!process.env.CONTENTFUL_PREVIEW
 			},
 			query: gql`
 				fragment race on ContentType5KMiN6YPvi42IcqAuqmcQe {

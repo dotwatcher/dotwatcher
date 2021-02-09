@@ -446,7 +446,7 @@ export const getServerSideProps = async ctx => {
 		const { data: res } = await client.query({
 			variables: {
 				name,
-				preview: !!process.env.CONTENTFUL_PRIEVIEW
+				preview: !!process.env.CONTENTFUL_PREVIEW
 			},
 			query: gql`
 				query getSeries($name: String, $preview: Boolean) {

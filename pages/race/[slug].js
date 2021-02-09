@@ -384,7 +384,7 @@ export const getServerSideProps = async ({ query }) => {
 				currentPost: post || "",
 				skip: 0,
 				order,
-				preview: !!process.env.CONTENTFUL_PRIEVIEW
+				preview: !!process.env.CONTENTFUL_PREVIEW
 			},
 			query: gql`
 				fragment Post on ContentType2WKn6YEnZewu2ScCkus4As {
