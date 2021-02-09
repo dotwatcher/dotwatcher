@@ -311,7 +311,8 @@ export const getServerSideProps = async ctx => {
 	try {
 		const { data } = await client.query({
 			variables: {
-				slug: ctx.query.slug
+				slug: ctx.query.slug,
+				preview: !!process.env.CONTENTFUL_PREVIEW
 			},
 			query: gql`
 				fragment feature on Feature {
@@ -341,8 +342,12 @@ export const getServerSideProps = async ctx => {
 					}
 				}
 
-				query getFeature($slug: String!) {
-					featureCollection(preview: true, limit: 1, where: { slug: $slug }) {
+				query getFeature($slug: String!, $preview: Boolean) {
+					featureCollection(
+						preview: $preview
+						limit: 1
+						where: { slug: $slug }
+					) {
 						items {
 							...feature
 							featureCategoriesCollection(limit: 10) {
