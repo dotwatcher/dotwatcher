@@ -21,7 +21,7 @@ const H2 = styled.h2`
 `;
 
 const Nav = styled.nav`
-	${mq.mdDown`
+	${mq.lgDown`
 		transform: translateX( -100vw);
 		transition: transform ease-in-out 0.3s;
 		position: fixed;
@@ -43,7 +43,7 @@ const Nav = styled.nav`
 			`}
 		`}
 
-	${mq.mdUp`
+	${mq.lgUp`
 		grid-template-columns: repeat(6, 1fr);
 		display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -66,7 +66,7 @@ const NavWrap = styled.div`
 	flex-direction: column;
 	text-align: center;
 
-	${mq.mdUp`
+	${mq.lgUp`
 		margin-top: ${dim(2)};
 		flex-direction: row;
 	`}
@@ -83,7 +83,7 @@ const NavWrap = styled.div`
 		}
 	}
 
-	${mq.mdUp`
+	${mq.lgUp`
 		grid-column: 2 / span 10;
     padding-left: ${dim(6)};
     padding-right: ${dim(6)};
