@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import mq from "@Utils/media-query";
 import Image from "next/image";
 import styled, { css } from "styled-components";
@@ -8,6 +8,7 @@ import A from "@Components/UI/A";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
 import className from "classnames";
+import { useRouter } from "next/router";
 
 const ImageWrap = styled.div`
 	text-align: center;
@@ -140,12 +141,19 @@ const NavToggle = styled.div`
 const HeaderComp = ({ user }) => {
 	const [optionsVisible, setoptionsVisible] = useState(false);
 	const [navOpen, setNavOpen] = useState(false);
+	const router = useRouter();
 
 	const cn = className({
 		"is-active": navOpen,
 		"hamburger--arrow": true,
 		hamburger: true
 	});
+
+	useEffect(() => {
+		if (navOpen) {
+			setNavOpen(false);
+		}
+	}, [router.asPath]);
 
 	return (
 		<Header>
