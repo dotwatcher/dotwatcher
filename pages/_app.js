@@ -43,6 +43,16 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 
+var styles = [
+	`background: linear-gradient(${colors.primary}, transparent)`,
+	"color: white",
+	"display: block",
+	"line-height: 40px",
+	"text-align: center",
+	"font-weight: bold",
+	"padding: 0 30px"
+].join(";");
+
 class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {
 		let pageProps = {};
@@ -104,6 +114,9 @@ class MyApp extends App {
 	}
 
 	render() {
+		process.env.NODE_ENV === "production" &&
+			console.log("%c Development by alex@windett.co.uk", styles);
+
 		const { Component, pageProps } = this.props;
 
 		return (
