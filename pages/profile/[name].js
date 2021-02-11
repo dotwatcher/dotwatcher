@@ -26,7 +26,6 @@ import PageWrapper from "../../components/Profile/pageWrapper";
 import { user as userAPI } from "../../utils/auth";
 import apiUrl from "./../../utils/api-url";
 import ResultsTable from "../../components/results-table";
-import ResultsContribute from "../../components/results-contribute";
 import { WithProfile } from "../../data/with-profile";
 import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";

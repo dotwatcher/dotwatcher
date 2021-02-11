@@ -6,7 +6,7 @@ import { Ring as Loader } from "react-awesome-spinners";
 
 import ResultsSummary from "../results-summary";
 import RiderSummary from "../Results/rider-summary";
-import ResultsContribute from "../results-contribute";
+import ResultsContribute from "@ComponentsNew/ResultsContribute";
 import ResultsFilter from "./results-filter";
 
 const Div = styled.div`

@@ -11,7 +11,7 @@ import Link from "next/link";
 import Stats from "../../../components/Graphs/Pie";
 import GenderSplit from "../../../components/Results/gender-split";
 import ResultsTable from "../../../components/results-table";
-import ResultsContribute from "../../../components/results-contribute";
+import ResultsContribute from "@ComponentsNew/ResultsContribute";
 import { Accordion, AccordionItem } from "../../../components/UI/Accordion";
 import { WithResults } from "../../../data/with-results";
 import apiUrl from "../../../utils/api-url";

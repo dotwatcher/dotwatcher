@@ -31,8 +31,8 @@ const FeatureCategories = ({ featureCategoryCollection }) => (
 		{featureCategoryCollection.items.length > 0 ? (
 			<Collections>
 				{featureCategoryCollection.items.map((collection, ind) => (
-					<P>
-						<Link href={`features/${collection.slug}`} passHref key={ind}>
+					<P key={ind}>
+						<Link href={`features/${collection.slug}`} passHref>
 							<A>{collection.name}</A>
 						</Link>
 					</P>

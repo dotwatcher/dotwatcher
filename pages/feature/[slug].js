@@ -291,6 +291,7 @@ const Feature = ({ data }) => {
 															}
 															width={300}
 															height={200}
+															alt={feature.title}
 														/>
 														<p>{feature.title}</p>
 													</a>
