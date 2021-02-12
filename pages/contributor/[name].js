@@ -9,6 +9,7 @@ import tachyons from "styled-components-tachyons";
 import InstagramLogo from "@Components/UI/Icons/instagram";
 import TwitterLogo from "@Components/UI/Icons/twitter";
 import StravaLogo from "@Components/UI/Icons/strava";
+import WebsiteLogo from "@Components/UI/Icons/website";
 
 import Section from "@Components/UI/Section";
 import Center from "@Components/UI/Center";
@@ -138,9 +139,9 @@ const ContributorPage = ({ data }) => {
 				<Section>
 					<Center>
 						{contributor.website && (
-							<A target="_bkank" href={contributor.website}>
-								{contributor.website.replace(/^(http|https):\/\//, "")}
-							</A>
+							<Icon target="_bkank" href={contributor.website}>
+								<WebsiteLogo />
+							</Icon>
 						)}
 						{contributor.instagramProfile && (
 							<Icon
