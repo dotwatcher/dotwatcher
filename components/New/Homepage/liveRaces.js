@@ -62,7 +62,7 @@ const Tabs = styled.nav`
 `;
 
 const RaceDescription = styled(P)`
-	${mq.smDown`
+	${mq.mdDown`
 		display: none;
 	`}
 `;

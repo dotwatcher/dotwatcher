@@ -39,13 +39,18 @@ const Home = ({ data }) => {
 		featureCollection,
 		homepageNewCollection,
 		featureCategoryCollection,
-		liveRaces
+		liveRaces,
+		upcomingRaces
 	} = data;
 
 	const recentRaces = {
 		...racesCollection,
 		// Remove the number of races that are currently live
 		items: racesCollection.items.slice(liveRaces.items.length)
+	};
+
+	const showcaseRaces = {
+		items: [...liveRaces.items, ...upcomingRaces.items]
 	};
 
 	const [homepage] = homepageNewCollection.items;
@@ -93,12 +98,12 @@ const Home = ({ data }) => {
 				</Center>
 			</Title>
 
-			{liveRaces.items.length > 0 && (
+			{showcaseRaces.items.length > 0 && (
 				<Section>
 					<Center>
 						<H2>Live Races</H2>
 					</Center>
-					<LiveRaces liveRaces={liveRaces} />
+					<LiveRaces liveRaces={showcaseRaces} />
 				</Section>
 			)}
 
@@ -174,6 +179,8 @@ export const getServerSideProps = async () => {
 	const today = new Date();
 	const todayISO = today.toISOString();
 
+	console.log(todayISO);
+
 	try {
 		const { data } = await client.query({
 			variables: {
@@ -181,6 +188,22 @@ export const getServerSideProps = async () => {
 				preview: !!process.env.CONTENTFUL_PREVIEW
 			},
 			query: gql`
+				fragment liveRace on ContentType5KMiN6YPvi42IcqAuqmcQe {
+					title
+					slug
+					shortDescription
+					raceDate
+					raceEndDate
+					liveBeforeStartDate
+					heroImage {
+						url
+						title
+					}
+					icon {
+						url
+						title
+					}
+				}
 				query homepage($today: DateTime, $preview: Boolean) {
 					featureCategoryCollection(
 						limit: 10
@@ -253,20 +276,17 @@ export const getServerSideProps = async () => {
 						where: { raceEndDate_gte: $today, raceDate_lte: $today }
 					) {
 						items {
-							title
-							slug
-							shortDescription
-							raceDate
-							raceEndDate
-							liveBeforeStartDate
-							heroImage {
-								url
-								title
-							}
-							icon {
-								url
-								title
-							}
+							...liveRace
+						}
+					}
+
+					upcomingRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
+						preview: $preview
+						limit: 5
+						where: { liveBeforeStartDate: true, raceEndDate_gte: $today }
+					) {
+						items {
+							...liveRace
 						}
 					}
 				}
