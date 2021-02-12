@@ -7,6 +7,7 @@ import smoothscroll from "smoothscroll-polyfill";
 import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
 import colors from "@Utils/colors";
+import { initGA, logPageView } from "@Utils/analytics";
 
 import Layout from "../components/New/Layout";
 
@@ -73,6 +74,13 @@ class MyApp extends App {
 	}
 
 	async componentDidMount() {
+		if (!window.GA_INITIALIZED) {
+			initGA();
+			window.GA_INITIALIZED = true;
+		}
+
+		logPageView();
+
 		const user = async () => {
 			try {
 				const res = await axios({ method: "get", url: "/api/auth/me" });
