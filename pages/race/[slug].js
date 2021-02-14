@@ -493,12 +493,14 @@ export const getServerSideProps = async ({ query }) => {
 		}
 
 		const leaderboard = async () => {
+			const { trackleadersRaceId } = data.racesCollection.items[0];
+
+			if (!trackleadersRaceId.includes("followmychallenge")) return false;
+
 			try {
 				const { data: leaderboard } = await axios({
 					method: "get",
-					url:
-						data.racesCollection.items[0].trackleadersRaceId +
-						"api/dotwatcher/",
+					url: trackleadersRaceId + "api/dotwatcher/",
 					httpsAgent: new https.Agent({
 						rejectUnauthorized: false
 					}),
