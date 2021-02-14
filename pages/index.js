@@ -50,7 +50,10 @@ const Home = ({ data }) => {
 	};
 
 	const showcaseRaces = {
-		items: [...liveRaces.items, ...upcomingRaces.items]
+		items: [...liveRaces.items, ...upcomingRaces.items].filter(
+			(value, index, self) =>
+				self.findIndex(m => m.slug === value.slug) === index
+		)
 	};
 
 	const [homepage] = homepageNewCollection.items;

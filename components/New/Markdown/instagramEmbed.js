@@ -18,10 +18,10 @@ const Instagram = ({ href }) => (
 				border: 0,
 				borderRadius: "3px",
 				boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
-				maxWidth: "540px",
-				minWidth: "326px",
 				padding: 0,
-				width: "calc(100% - 2px)"
+				"max-width": "calc(100% - 2px)",
+				width: "100%",
+				margin: "1px"
 			}}
 		>
 			<div style={{ padding: "16px" }}>

@@ -29,6 +29,7 @@ const RaceDetails = styled(Section)`
 
 const RaceDetail = styled.div`
 	flex-grow: 1;
+	overflow-wrap: break-word;
 
 	& + & {
 		padding-left: 0;
