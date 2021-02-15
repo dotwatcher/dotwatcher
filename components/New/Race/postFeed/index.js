@@ -126,7 +126,9 @@ const Feed = ({ posts, handleLoadMore, showLoadMore }) => {
 										passHref
 									>
 										<a>
-											{moment(item.sys.firstPublishedAt).format("MMM Do YYYY")}
+											{moment(item.sys.firstPublishedAt).format(
+												"MMM Do YYYY, hh:mm"
+											)}
 										</a>
 									</Link>
 								</div>
