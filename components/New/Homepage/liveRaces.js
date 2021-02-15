@@ -20,6 +20,7 @@ const Slide = styled.article`
 	transition: opacity 0.3s ease-in-out;
 	position: relative;
 	z-index: -1;
+	display: flex;
 
 	${({ active }) =>
 		active &&
@@ -67,31 +68,38 @@ const RaceDescription = styled(P)`
 	`}
 `;
 
+const SlideWrap = styled.div`
+	margin: 0 auto;
+	position: relative;
+`;
+
 const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
-		<Image
-			src={(race.heroImage.url || race.icon.url) + "?w=1600&h=900&fit=crop"}
-			width={1600}
-			height={900}
-			title={race.title}
-			priority={ind === 0}
-		/>
+		<SlideWrap>
+			<Image
+				src={(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"}
+				width={1700}
+				height={920}
+				title={race.title}
+				priority={ind === 0}
+			/>
 
-		<SlideDescription>
-			<Link href={`/race/${race.slug}`}>
-				<A title={race.title}>
-					<H2>{race.title}</H2>
-				</A>
-			</Link>
-
-			<RaceDescription>{race.shortDescription}</RaceDescription>
-
-			<P>
+			<SlideDescription>
 				<Link href={`/race/${race.slug}`}>
-					<A title={`Read More - ${race.title}`}>Read More</A>
+					<A title={race.title}>
+						<H2>{race.title}</H2>
+					</A>
 				</Link>
-			</P>
-		</SlideDescription>
+
+				<RaceDescription>{race.shortDescription}</RaceDescription>
+
+				<P>
+					<Link href={`/race/${race.slug}`}>
+						<A title={`Read More - ${race.title}`}>Read More</A>
+					</Link>
+				</P>
+			</SlideDescription>
+		</SlideWrap>
 	</Slide>
 );
 
