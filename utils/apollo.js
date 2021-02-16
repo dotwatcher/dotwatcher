@@ -9,6 +9,21 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	headers: {
 		Authorization: `Bearer ${process.env.CONTENTFUL_GRAPHQL_TOKEN}`
+	},
+
+	/**
+	 * Disabled cache to allow for real time editing in Contentful
+	 * https://stackoverflow.com/a/48549667/4020207
+	 *  */
+	defaultOptions: {
+		watchQuery: {
+			fetchPolicy: "no-cache",
+			errorPolicy: "ignore"
+		},
+		query: {
+			fetchPolicy: "no-cache",
+			errorPolicy: "all"
+		}
 	}
 });
 
