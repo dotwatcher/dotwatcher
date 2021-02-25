@@ -238,9 +238,12 @@ const Feature = ({ data }) => {
 								</div>
 								{block.image && (
 									<Image
-										src={block.image.url + "?w=900&h=600&fit=fill"}
-										width={900}
-										height={600}
+										src={
+											block.image.url +
+											`?w=${block.image.width}&h=${block.image.height}&fit=fill`
+										}
+										width={block.image.width}
+										height={block.image.height}
 									/>
 								)}
 							</Block>
@@ -328,6 +331,9 @@ export const getServerSideProps = async ctx => {
 							layout
 							image {
 								url
+								title
+								width
+								height
 							}
 						}
 					}
@@ -362,6 +368,7 @@ export const getServerSideProps = async ctx => {
 												title
 												featuredImage {
 													url
+													title
 												}
 											}
 										}
