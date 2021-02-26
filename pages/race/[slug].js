@@ -306,7 +306,7 @@ const Race = ({ data }) => {
 						{race.resultsSlug && (
 							<P>
 								<Link href={`/results/${race.resultsSlug}`} passHref>
-									<a title="View full resutlts">View full resutlts</a>
+									<a title="View full resutlts">View full results</a>
 								</Link>
 							</P>
 						)}
