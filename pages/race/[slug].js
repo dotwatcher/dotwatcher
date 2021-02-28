@@ -27,6 +27,7 @@ import Section from "@Components/UI/Section";
 import axios from "axios";
 import https from "https";
 import { loadMoreQuery } from "@Queries/race";
+import { HEAD } from "@Utils/contstants";
 
 import {
 	Header,
@@ -94,7 +95,7 @@ const Events = styled(ContentItem)`
 
 	${mq.mdUp`
 		grid-area: unset;
-		grid-column: 1 / span 4;
+		grid-column: 1 / span 3;
 	`};
 `;
 
@@ -103,7 +104,7 @@ const Leaderboard = styled(ContentItem)`
 
 	${mq.mdUp`
 		grid-area: unset;
-		grid-column: 5 / span 2;
+		grid-column: 4 / span 2;
 	`}
 `;
 
@@ -119,7 +120,7 @@ const Posts = styled(ContentItem)`
 
 	${mq.mdUp`
 		grid-area: unset;
-		grid-column: 7 / span 6;
+		grid-column: 6 / span 7;
 	`}
 `;
 
@@ -242,11 +243,19 @@ const Race = ({ data }) => {
 	return (
 		<Fragment>
 			<Head>
-				<title>{`${race.title} - DotWatcher.cc`}</title>
+				<title key={HEAD.TITLE}>{`${race.title} - DotWatcher.cc`}</title>
 
-				<meta property="og:title" content={`${race.title} - DotWatcher.cc`} />
-				<meta property="og:description" content={race.shortDescription} />
-				<meta property="og:image" content={race.icon.url} />
+				<meta
+					key={HEAD.OG_TITLE}
+					property="og:title"
+					content={`${race.title} - DotWatcher.cc`}
+				/>
+				<meta
+					key={HEAD.OG_DESC}
+					property="og:description"
+					content={race.shortDescription}
+				/>
+				<meta key={HEAD.OG_IMAGE} property="og:image" content={race.icon.url} />
 				<meta name="twitter:card" content="summary" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />

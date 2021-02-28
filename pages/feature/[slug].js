@@ -26,6 +26,8 @@ import {
 	Link as MarkdownLink
 } from "@ComponentsNew/Markdown";
 import { useRouter } from "next/router";
+import Colors from "@Utils/colors";
+import { HEAD } from "@Utils/contstants";
 
 const Avatar = styled.div`
 	img {
@@ -36,21 +38,9 @@ const Avatar = styled.div`
 const Content = styled.article`
 	${mq.mdUp`
 		display: grid;
-		grid-column-gap: ${dim(2)};
-		grid-template-columns: minmax(0, 60%) minmax(0, 40%);
+		grid-column-gap: ${dim(4)};
+		grid-template-columns: minmax(0, 80%) minmax(0, 20%);
 	`}
-`;
-
-const Aside = styled.aside`
-	align-self: start;
-	position: sticky;
-	top: ${dim()};
-`;
-
-const AlsoGrid = styled.div`
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) 50%;
-	grid-column-gap: ${dim()};
 `;
 
 const AlsoBlock = styled.div`
@@ -110,6 +100,20 @@ const Block = styled.div(props => {
 	`;
 });
 
+const ArticleWrap = styled.div`
+	position: relative;
+
+	&:after {
+		position: absolute;
+		top: 0;
+		right: ${dim(-2)};
+		height: 100%;
+		width: 1px;
+		background-color: ${Colors.lightgrey};
+		content: "";
+	}
+`;
+
 const Feature = ({ data }) => {
 	const [feature] = data.featureCollection.items;
 	const [featureCollection] = feature.featureCategoriesCollection.items;
@@ -119,26 +123,29 @@ const Feature = ({ data }) => {
 		<Fragment>
 			<Head>
 				<title>{feature.title} – DotWatcher.cc</title>
-				<meta
-					property="og:title"
-					content={`${feature.title} – DotWatcher.cc`}
-				/>
-				<meta
-					property="og:description"
-					content={
-						feature.excerpt
-							? feature.excerpt
-							: "DotWatcher is here to showcase the best of long distance self-supported bike racing."
-					}
-				/>
-				<meta
-					property="og:image"
-					content={
-						feature.image
-							? `${feature.featuredImage.url}?w=600&fm=jpg&q=70`
-							: "https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
-					}
-				/>
+				{feature.title && (
+					<meta
+						key={HEAD.OG_TITLE}
+						property="og:title"
+						content={`${feature.title} – DotWatcher.cc`}
+					/>
+				)}
+
+				{feature.excerpt && (
+					<meta
+						key={HEAD.OG_DESCRIPTION}
+						property="og:description"
+						content={feature.excerpt}
+					/>
+				)}
+
+				{feature.image && (
+					<meta
+						key={HEAD.OG_IMAGE}
+						property="og:image"
+						content={feature.featuredImage.url}
+					/>
+				)}
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
@@ -221,7 +228,7 @@ const Feature = ({ data }) => {
 
 			<Section>
 				<Content>
-					<div>
+					<ArticleWrap>
 						{feature.contentBlockCollection.items.map((block, ind) => (
 							<Block layout={block.layout} key={ind}>
 								<div>
@@ -248,15 +255,41 @@ const Feature = ({ data }) => {
 								)}
 							</Block>
 						))}
-					</div>
+					</ArticleWrap>
 
-					<Aside>
+					<>
 						{feature.relatedCollection.items.length > 0 && (
 							<AlsoBlock>
 								<H3>Related Features</H3>
-								<AlsoGrid>
-									{feature.relatedCollection.items.map((feature, ind) => (
-										<GridItem key={ind}>
+
+								{feature.relatedCollection.items.map((feature, ind) => (
+									<GridItem key={ind}>
+										<Link href={`/feature/${feature.slug}`}>
+											<a title={feature.title}>
+												<Image
+													src={
+														feature.featuredImage.url + "?w=300&h=200&fit=fill"
+													}
+													width={300}
+													height={200}
+												/>
+												<p>{feature.title}</p>
+											</a>
+										</Link>
+									</GridItem>
+								))}
+							</AlsoBlock>
+						)}
+
+						{featureCollection && (
+							<AlsoBlock>
+								<H3>Also from {featureCollection.name}</H3>
+
+								{featureCollection.linkedFrom.featureCollection.items
+									.filter(item => item.slug !== router.query.slug)
+									.slice(0, 2)
+									.map((feature, ind) => (
+										<div key={ind}>
 											<Link href={`/feature/${feature.slug}`}>
 												<a title={feature.title}>
 													<Image
@@ -266,45 +299,16 @@ const Feature = ({ data }) => {
 														}
 														width={300}
 														height={200}
+														alt={feature.title}
 													/>
 													<p>{feature.title}</p>
 												</a>
 											</Link>
-										</GridItem>
+										</div>
 									))}
-								</AlsoGrid>
 							</AlsoBlock>
 						)}
-
-						{featureCollection && (
-							<AlsoBlock>
-								<H3>Also from {featureCollection.name}</H3>
-								<AlsoGrid>
-									{featureCollection.linkedFrom.featureCollection.items
-										.filter(item => item.slug !== router.query.slug)
-										.slice(0, 2)
-										.map((feature, ind) => (
-											<div key={ind}>
-												<Link href={`/feature/${feature.slug}`}>
-													<a title={feature.title}>
-														<Image
-															src={
-																feature.featuredImage.url +
-																"?w=300&h=200&fit=fill"
-															}
-															width={300}
-															height={200}
-															alt={feature.title}
-														/>
-														<p>{feature.title}</p>
-													</a>
-												</Link>
-											</div>
-										))}
-								</AlsoGrid>
-							</AlsoBlock>
-						)}
-					</Aside>
+					</>
 				</Content>
 			</Section>
 		</Fragment>

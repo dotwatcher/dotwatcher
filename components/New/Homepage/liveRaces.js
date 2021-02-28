@@ -35,9 +35,15 @@ const SlideDescription = styled.div`
 	position: absolute;
 	bottom: ${dim()};
 	left: ${dim()};
+	background: #00000063; // opacity on black
+	padding: 10px;
 
 	* {
 		color: white;
+	}
+
+	a:hover {
+		color: ${colors.lightgrey};
 	}
 
 	${mq.mdUp`
@@ -73,25 +79,33 @@ const SlideWrap = styled.div`
 	position: relative;
 `;
 
+const SlideImage = styled.div``;
+
 const RaceSlide = ({ race, ind, ...props }) => (
 	<Slide {...props}>
 		<SlideWrap>
-			<Image
-				src={(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"}
-				width={1700}
-				height={920}
-				title={race.title}
-				priority={ind === 0}
-			/>
+			<SlideImage>
+				<Image
+					src={(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"}
+					width={1700}
+					height={920}
+					title={race.title}
+					priority={ind === 0}
+				/>
+			</SlideImage>
 
 			<SlideDescription>
-				<Link href={`/race/${race.slug}`}>
-					<A title={race.title}>
-						<H2>{race.title}</H2>
-					</A>
-				</Link>
+				<H2>
+					<Link href={`/race/${race.slug}`}>
+						<A title={race.title}>{race.title}</A>
+					</Link>
+				</H2>
 
-				<RaceDescription>{race.shortDescription}</RaceDescription>
+				<RaceDescription>
+					<Link href={`/race/${race.slug}`}>
+						<A title={race.title}>{race.shortDescription}</A>
+					</Link>
+				</RaceDescription>
 
 				<P>
 					<Link href={`/race/${race.slug}`}>

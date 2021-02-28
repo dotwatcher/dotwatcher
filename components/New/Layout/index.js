@@ -6,6 +6,7 @@ import { useRef } from "react";
 import ReturnToTop from "@Components/UI//ReturnTop";
 import Image from "next/image";
 import Head from "next/head";
+import { HEAD } from "@Utils/contstants";
 
 import NewsletterModal from "./newsletter";
 import CookiePolicy from "./cookiePolicy";
@@ -39,21 +40,24 @@ const Layout = ({ children, user }) => {
 			<Head>
 				<link rel="stylesheet" href="/static/index.css" />
 
-				<title>DotWatcher.cc</title>
+				<title key={HEAD.TITLE}>DotWatcher.cc</title>
 
 				<meta
+					key={HEAD.DESCRIPTION}
 					name="description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 
 				<meta
+					key={HEAD.OG_DESC}
 					name="og:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 
-				<meta name="og:title" content="DotWatcher.cc" />
+				<meta key={HEAD.OG_TITLE} name="og:title" content="DotWatcher.cc" />
 
 				<meta
+					key={HEAD.OG_IMAGE}
 					property="og:image"
 					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 				/>

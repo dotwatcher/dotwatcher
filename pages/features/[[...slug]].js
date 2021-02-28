@@ -72,12 +72,18 @@ const CollectionsDesktop = styled.div`
 	}
 `;
 
+const RelatedTitle = styled(H3)`
+	max-width: 100%;
+	/* display: inline-block; */
+`;
+
 const PageContentSection = styled(Section)`
+	position: relative;
 	${mq.mdUp`
 		display: grid;
-		grid-template-columns: 60% 40%;
+		grid-template-columns: 70% minmax(0, 30%);
 		grid-column-gap: ${dim(4)};
-	`}
+	`};
 `;
 
 const MobileCollections = styled(Section)`
@@ -122,11 +128,13 @@ const Features = ({ data }) => {
 						<Fragment key={ind}>
 							<Link href={`/features/${collection.slug}`}>
 								<a>
-									<H3>{collection.name}</H3>
+									<RelatedTitle>{collection.name}</RelatedTitle>
 								</a>
 							</Link>
 
-							<p>{collection.shortDescription}</p>
+							{collection.shortDescription && (
+								<p>{collection.shortDescription}</p>
+							)}
 						</Fragment>
 					);
 				})}
