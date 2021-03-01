@@ -52,11 +52,6 @@ const inputs = [
 		placeholder: "https://www.strava.com/athletes/12345"
 	},
 	{
-		name: "rideWithGPSID",
-		label: "Ride With GPS Profile",
-		placeholder: "https://ridewithgps.com/users/12345"
-	},
-	{
 		name: "twitterHandle",
 		label: "Twitter Profile",
 		placeholder: "https://twitter.com/dotwatcher"
@@ -115,20 +110,6 @@ const Profile = ({
 							/>
 						</Center>
 					</Section>
-
-					<Div bw1 b__blue ba mb4 ph3>
-						<p>
-							We are updating how DotWatcher works with Ride With GPS, to stay
-							up to date with the latest features and to make sure your account
-							will have the most functionality, you can link DotWatcher.cc to
-							Ride With GPS above.
-						</p>
-
-						<p>
-							From the <strong>1st March 2021</strong> we will be removing the
-							Ride With GPS field below.
-						</p>
-					</Div>
 
 					<Form w_100 dib onSubmit={handleSubmit}>
 						<FormInputs
