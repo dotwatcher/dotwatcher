@@ -340,7 +340,7 @@ const Race = ({ data }) => {
 
 								<Select onChange={handleOrderChange}>
 									<option value="a" selected={router.query.reverse !== "true"}>
-										Newset First
+										Newest First
 									</option>
 									<option
 										value="reverse"
