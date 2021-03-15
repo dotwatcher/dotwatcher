@@ -5,7 +5,6 @@ export default async function handle(req, res) {
 
 	let { name } = req.query;
 
-	console.log(name);
 	if (!name) {
 		res.json({
 			error: "No name passed in request body"
