@@ -1,4 +1,4 @@
-import pool from "../../database";
+import pool from "@Database";
 
 export default async function handle(req, res) {
 	const client = await pool.connect();
