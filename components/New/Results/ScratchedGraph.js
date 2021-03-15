@@ -1,9 +1,12 @@
 import Graph from "@Components/Graphs/Pie";
 import styled from "styled-components";
+import mq from "@Utils/media-query";
 
 const Wrap = styled.div`
-	display: flex;
-	align-items: center;
+	${mq.mdUp`	
+		display: flex;
+		align-items: center;
+	`}
 `;
 
 const countFromObj = array => {
@@ -22,8 +25,6 @@ const ScratchedGraph = ({ data }) => {
 
 	finishResult = countFromObj(finishResult);
 	finishLocations = countFromObj(finishLocations);
-
-	console.log(finishLocations);
 
 	const sumData = Object.keys(finishResult).map(c => ({
 		name: c,
