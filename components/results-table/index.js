@@ -257,9 +257,7 @@ class ResultsTable extends React.Component {
 							<ResultsHeadCell dn dtc_ns>
 								Bike
 							</ResultsHeadCell>
-							{this.props.activeLocation ? (
-								<ResultsHeadCell>Finish Location</ResultsHeadCell>
-							) : null}
+							<ResultsHeadCell>Finish Location</ResultsHeadCell>
 							<ResultsHeadCell
 								tr
 								underline_hover

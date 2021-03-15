@@ -8,7 +8,7 @@ import debounce from "lodash.debounce";
 
 import Link from "next/link";
 
-import { NationalityGraph } from "@ComponentsNew/Results";
+import { NationalityGraph, ScratchedGraph } from "@ComponentsNew/Results";
 
 import GenderSplit from "../../../components/Results/gender-split";
 import ResultsTable from "../../../components/results-table";
@@ -196,16 +196,13 @@ class Result extends Component {
 										</AccordionItem>
 									)}
 
-									{hasNationalities && (
-										<AccordionItem id="stats" title="Finished / Scratched">
-											<NationalityGraph data={results} />
-										</AccordionItem>
-									)}
+									<AccordionItem id="nationality" title="Finished / Scratched">
+										<ScratchedGraph data={results} />
+									</AccordionItem>
 
 									<AccordionItem id="gender" title="Gender">
 										<GenderSplit data={results} />
 									</AccordionItem>
-
 									<AccordionItem id="results" title="Results" isOpen>
 										<ResultsTable
 											type="race"
