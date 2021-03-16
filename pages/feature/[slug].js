@@ -139,7 +139,7 @@ const Feature = ({ data }) => {
 					/>
 				)}
 
-				{feature.image && (
+				{feature.featuredImage && (
 					<meta
 						key={HEAD.OG_IMAGE}
 						property="og:image"
