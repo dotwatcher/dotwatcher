@@ -50,11 +50,11 @@ const Layout = ({ children, user }) => {
 
 				<meta
 					key={HEAD.OG_DESC}
-					name="og:description"
+					property="og:description"
 					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
 				/>
 
-				<meta key={HEAD.OG_TITLE} name="og:title" content="DotWatcher.cc" />
+				<meta key={HEAD.OG_TITLE} property="og:title" content="DotWatcher.cc" />
 
 				<meta
 					key={HEAD.OG_IMAGE}
