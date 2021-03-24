@@ -20,7 +20,8 @@ export const WithResults = Page => {
 
 		if (year && race) {
 			const allResultsResponse = await fetch(
-				apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req)
+				// apiUrl(`/api/race?slug=${race}&year=${year}`, ctx.req)
+				apiUrl(`/api/v2/races/${year}/${race}`, ctx.req)
 			);
 
 			const { results } = await allResultsResponse.json();
@@ -29,6 +30,7 @@ export const WithResults = Page => {
 				// If nothing is returned, try and fetch the basic race info with no results
 				const allResultsResponse = await fetch(
 					apiUrl(`/api/race-name-from-slug?slug=${race}&year=${year}`, ctx.req)
+					// apiUrl(`/api/v2/race/${year}/${slug}`, ctx.req)
 				);
 
 				const { results } = await allResultsResponse.json();
@@ -37,10 +39,11 @@ export const WithResults = Page => {
 
 				return {
 					name: firstResult && firstResult.name,
-					description: firstResult && decodeURIComponent(firstResult.description)
+					description:
+						firstResult && decodeURIComponent(firstResult.description)
 				};
 			}
-			
+
 			const formattedResults = formatter(results);
 			const racerClasses = [];
 			const racerCategories = ["Both"];
@@ -75,7 +78,7 @@ export const WithResults = Page => {
 
 			activeClass = activeClass || racerClasses[0];
 			activeCategory = activeCategory || racerCategories[0];
-			activeLocation = activeLocation || finishlocations[0];
+			activeLocation = activeLocation || "";
 
 			const hasNotes = notes.length > 0;
 			const name = results[0].racename;
@@ -100,7 +103,7 @@ export const WithResults = Page => {
 				hasNotes
 			};
 		} else {
-			const allResultsResponse = await fetch(apiUrl(`/api/all-races`, ctx.req));
+			const allResultsResponse = await fetch(apiUrl(`/api/v2/races`, ctx.req));
 			const allRaces = await allResultsResponse.json();
 			return {
 				...(Page.getInitialProps ? await Page.getInitialProps() : {}),

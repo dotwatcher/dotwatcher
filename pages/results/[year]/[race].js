@@ -8,7 +8,8 @@ import debounce from "lodash.debounce";
 
 import Link from "next/link";
 
-import Stats from "../../../components/Graphs/Pie";
+import { NationalityGraph, ScratchedGraph } from "@ComponentsNew/Results";
+
 import GenderSplit from "../../../components/Results/gender-split";
 import ResultsTable from "../../../components/results-table";
 import ResultsContribute from "@ComponentsNew/ResultsContribute";
@@ -109,6 +110,7 @@ class Result extends Component {
 		// Sort by Rank, then sort by Scratched / OTL Finish
 		let results = this.props.results.filter(r => r.position);
 		results = results.sort((a, b) => a.position - b.position);
+
 		let unpositioned = this.props.results.filter(r => !r.position);
 		unpositioned = unpositioned.sort((a, b) => b.finsihed > a.finsihed);
 
@@ -190,14 +192,17 @@ class Result extends Component {
 								<Accordion>
 									{hasNationalities && (
 										<AccordionItem id="stats" title="Nationality">
-											<Stats data={results} />
+											<NationalityGraph data={results} />
 										</AccordionItem>
 									)}
+
+									<AccordionItem id="nationality" title="Finished / Scratched">
+										<ScratchedGraph data={results} />
+									</AccordionItem>
 
 									<AccordionItem id="gender" title="Gender">
 										<GenderSplit data={results} />
 									</AccordionItem>
-
 									<AccordionItem id="results" title="Results" isOpen>
 										<ResultsTable
 											type="race"

@@ -39,7 +39,7 @@ class ResultsTable extends React.Component {
 		this.state = {
 			activeClassFilter: this.props.activeClass,
 			activeCategoryFilter: this.props.activeCategory,
-			activeLocationFilter: this.props.activeLocation || ""
+			activeLocationFilter: this.props.activeLocation || "All"
 		};
 
 		this.setClassFilter = this.setClassFilter.bind(this);
@@ -174,11 +174,13 @@ class ResultsTable extends React.Component {
 				result => result.class === this.state.activeClassFilter
 			);
 
-			if (this.state.activeLocationFilter) {
-				filteredResults = filteredResults.filter(
-					result => result.finishlocation === this.state.activeLocationFilter
-				);
-			}
+			filteredResults =
+				this.state.activeLocationFilter === "All"
+					? filteredResults
+					: filteredResults.filter(
+							result =>
+								result.finishlocation === this.state.activeLocationFilter
+					  );
 
 			if (this.state.activeCategoryFilter !== "Both") {
 				filteredResults = filteredResults.filter(
@@ -255,9 +257,7 @@ class ResultsTable extends React.Component {
 							<ResultsHeadCell dn dtc_ns>
 								Bike
 							</ResultsHeadCell>
-							{this.props.activeLocation ? (
-								<ResultsHeadCell>Finish Location</ResultsHeadCell>
-							) : null}
+							<ResultsHeadCell>Finish Location</ResultsHeadCell>
 							<ResultsHeadCell
 								tr
 								underline_hover
@@ -306,7 +306,7 @@ class ResultsTable extends React.Component {
 								.replace(":", "")
 								.replace("(", "")
 								.replace(")", "");
-							// adasdasd
+
 							return (
 								<ResultsRow key={result["rowid"] + `-${id}`} id={id}>
 									{this.props.type === "profile" ? (
@@ -332,10 +332,7 @@ class ResultsTable extends React.Component {
 										{result.position}
 									</ResultsCell>
 									<ResultsCell className="rider-name">
-										<Link
-											href={`/profile/${result.name}`}
-											passHref
-										>
+										<Link href={`/profile/${result.name}`} passHref>
 											<A
 												link
 												near_black

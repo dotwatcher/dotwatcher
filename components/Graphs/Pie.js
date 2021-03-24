@@ -1,7 +1,21 @@
-import * as d3 from "d3";
-import { useState, useEffect } from "react";
+/**
+ * Data needs to be an array of objects with two properties - key, value
+ *
+ * [{
+ * 	key: 'Some name'.
+ * 	value: 7
+ * }, {
+ * 	key: 'Another thing',
+ *  value: 10
+ * }, {
+ *  ...
+ * }]
+ */
 
-const createGraph = ({ re, data }) => {
+import * as d3 from "d3";
+import { useEffect } from "react";
+
+const createGraph = ({ data, id }) => {
 	const size = 500;
 	const fourth = size / 4;
 	const half = size / 2;
@@ -9,7 +23,7 @@ const createGraph = ({ re, data }) => {
 	const total = data.reduce((acc, cur) => acc + cur.value, 0);
 
 	const chart = d3
-		.select(".graph-entry")
+		.select(`.graph-entry-${id}`)
 		.append("svg")
 		.attr("width", size)
 		.attr("height", size)
@@ -86,33 +100,12 @@ const createGraph = ({ re, data }) => {
 		);
 };
 
-export default ({ data }) => {
-	const nationalities = data.map(d => d.nationality).filter(n => n);
-	const nullValues = data.map(d => d.nationality).filter(n => !n);
-	var counts = {};
-
-	nationalities.forEach(x => {
-		counts[x] = (counts[x] || 0) + 1;
-	});
-
-	const sumData = Object.keys(counts).map(c => ({
-		name: c,
-		value: counts[c]
-	}));
-
-	if (sumData.length < 1) return null;
-
+const Pie = ({ data, id }) => {
 	useEffect(() => {
-		createGraph({ data: sumData });
+		createGraph({ data, id });
 	}, []);
 
-	return (
-		<div>
-			<div className="graph-entry"></div>
-
-			{nullValues.length > 0 && (
-				<p>* {nullValues.length} entrants have no registered nationality</p>
-			)}
-		</div>
-	);
+	return <div className={`graph-entry-${id}`}></div>;
 };
+
+export default Pie;
