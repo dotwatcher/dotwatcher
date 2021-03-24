@@ -37,15 +37,17 @@ const ScratchedGraph = ({ data }) => {
 		<Wrap>
 			<Graph data={sumData} id="scratched" />
 
-			<div>
-				<p>Finish Locations:</p>
+			{Object.keys(finishLocations).lenght > 1 && (
+				<div>
+					<p>Finish Locations:</p>
 
-				{Object.keys(finishLocations).map(location => (
-					<p>
-						{location}: {finishLocations[location]} rider(s)
-					</p>
-				))}
-			</div>
+					{Object.keys(finishLocations).map(location => (
+						<p>
+							{location}: {finishLocations[location]} rider(s)
+						</p>
+					))}
+				</div>
+			)}
 		</Wrap>
 	);
 };
