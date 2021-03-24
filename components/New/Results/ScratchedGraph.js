@@ -37,7 +37,7 @@ const ScratchedGraph = ({ data }) => {
 		<Wrap>
 			<Graph data={sumData} id="scratched" />
 
-			{Object.keys(finishLocations).lenght > 1 && (
+			{Object.keys(finishLocations).length > 1 && (
 				<div>
 					<p>Finish Locations:</p>
 
