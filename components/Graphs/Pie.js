@@ -22,6 +22,9 @@ const createGraph = ({ data, id }) => {
 	const labelOffset = fourth * 1.4;
 	const total = data.reduce((acc, cur) => acc + cur.value, 0);
 
+	// Refresh render if data has changed
+	d3.select(`.graph-entry-${id} svg`).remove();
+
 	const chart = d3
 		.select(`.graph-entry-${id}`)
 		.append("svg")
@@ -103,7 +106,7 @@ const createGraph = ({ data, id }) => {
 const Pie = ({ data, id }) => {
 	useEffect(() => {
 		createGraph({ data, id });
-	}, []);
+	}, [data]);
 
 	return <div className={`graph-entry-${id}`}></div>;
 };
