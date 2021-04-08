@@ -85,7 +85,13 @@ const RaceResults = ({ data }) => {
 			const args = filters
 				.map(f => {
 					const [filter, value] = f.split("=");
-					return `${filter}: "${value}"`;
+
+					// If the filter is location or nationlity we need to pass a string not an ENUM
+					if (filter === "finishlocation" || filter === "nationality") {
+						return `${filter}: "${value}"`;
+					}
+
+					return `${filter}: ${value}`;
 				})
 				.join(", ");
 
