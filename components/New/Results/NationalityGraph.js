@@ -1,8 +1,8 @@
 import Graph from "@Components/Graphs/Pie";
 
 const NationalityGraph = ({ data }) => {
-	const nationalities = data.map(d => d.nationality).filter(n => n);
-	const nullValues = data.map(d => d.nationality).filter(n => !n);
+	const nationalities = data.map(d => d.rider.nationality).filter(n => n);
+	const nullValues = data.map(d => d.rider.nationality).filter(n => !n);
 	var counts = {};
 
 	nationalities.forEach(x => {

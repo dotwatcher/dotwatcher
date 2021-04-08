@@ -1,21 +1,23 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useState, useEffect } from "react";
 import Head from "next/head";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import axios from "axios";
-import debounce from "lodash.debounce";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
 
-import { NationalityGraph, ScratchedGraph } from "@ComponentsNew/Results";
-
+import {
+	NationalityGraph,
+	ScratchedGraph,
+	Table,
+	TableFilters
+} from "@ComponentsNew/Results";
 import GenderSplit from "../../../components/Results/gender-split";
-import ResultsTable from "../../../components/results-table";
 import ResultsContribute from "@ComponentsNew/ResultsContribute";
 import { Accordion, AccordionItem } from "../../../components/UI/Accordion";
-import { WithResults } from "../../../data/with-results";
-import apiUrl from "../../../utils/api-url";
+
+import client from "@Utils/apollo";
+import { gql } from "@apollo/client";
 
 const Heading = styled.header`
 	${tachyons}
@@ -37,213 +39,237 @@ const Description = styled.p`
 	${tachyons}
 `;
 
-class Result extends Component {
-	constructor(props) {
-		super(props);
+const QLQuery = `
+	error {
+		message
+	}
+	name
+	description
+	sorts {
+		name
+		value
+	}
+	filters {
+		name
+		key
+		values {
+			name
+			value
+		}
+	}
+	results {
+		class
+		category
+		position
+		result
+		finishlocation
+		days
+		hours
+		minutes
+		bike
+		notes
+		rider {
+			name
+			nationality
+		}
+	}
+`;
 
-		this.handleSearchUpdate = debounce(this.handleSearchUpdate.bind(this), 200);
+const RaceResults = ({ data }) => {
+	const [race, setRace] = useState(data.race);
+	const [sort, setSort] = useState("riders__name_ASC");
+	const [filters, setFilters] = useState([]);
 
-		this.hasNotes = this.hasNotes.bind(this);
+	useEffect(() => {
+		const handleQueryChange = async () => {
+			const args = filters
+				.map(f => {
+					const [filter, value] = f.split("=");
+					return `${filter}: "${value}"`;
+				})
+				.join(", ");
 
-		this.state = {
-			races: this.props.allRaces,
-			riders: [],
-			loading: false
+			try {
+				const { data } = await client.query({
+					variables: {
+						year: query.year,
+						slug: query.race,
+						sort
+					},
+					query: gql`
+					query result(
+						$year: String!
+						$slug: String!
+						$sort: [ResultsSortEnum]
+					) {
+						race(year: $year, slug: $slug, sort: $sort, ${args}) {
+							${QLQuery}
+						}
+					}
+				`
+				});
+
+				setRace(data.race);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		handleQueryChange();
+	}, [sort, filters]);
+
+	const { query } = useRouter();
+
+	// Sort by Rank, then sort by Scratched / OTL Finish
+	let results = race.results ? race.results.filter(r => r.position) : [];
+	results = results.sort((a, b) => a.position - b.position);
+
+	let unpositioned = race.results ? race.results.filter(r => !r.position) : [];
+	unpositioned = unpositioned.sort((a, b) => b.finsihed > a.finsihed);
+
+	unpositioned = unpositioned.sort((a, b) => {
+		return a.result === b.result ? 0 : b.result === "Scratched" ? -1 : 1;
+	});
+
+	results = [...results, ...unpositioned];
+
+	const hasNationalities =
+		results.map(d => d.rider.nationality).filter(n => n).length > 0;
+
+	const handleResetFilters = () => {
+		setFilters([]);
+	};
+
+	const handleSortChange = async e => {
+		await setSort(e.target.value);
+	};
+
+	const handleFilterChange = async e => {
+		await setFilters(prev => [...prev, e.target.value]);
+	};
+
+	return (
+		<>
+			<Head>
+				<title>
+					{race.name} {race.year} Results - DotWatcher.cc
+				</title>
+				<link
+					rel="canonical"
+					href={`https://dotwatcher.cc/results/${race.year}/${race.slug}`}
+				/>
+				<meta
+					property="og:title"
+					content={`${race.name} ${race.year} Results - DotWatcher.cc`}
+				/>
+				<meta
+					property="og:description"
+					content="A history of results from the ultra-cycling world, in one database."
+				/>
+				<meta
+					property="og:image"
+					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
+				/>
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:site" content="@dotwatcher" />
+				<meta name="twitter:creator" content="@dotwatcher" />
+				<meta
+					name="twitter:title"
+					content={`${race.name} ${race.year} Results - DotWatcher.cc`}
+				/>
+				<meta
+					name="twitter:description"
+					content="A history of results from the ultra-cycling world, in one database."
+				/>
+				<meta
+					name="description"
+					content="A history of results from the ultra-cycling world, in one database."
+				/>
+			</Head>
+
+			<Div mt3 mt4_l mh6_l>
+				<Div pb5>
+					<Link href="/results">
+						<A ph3 db link near_black hover_blue passHref title="All Results">
+							← All results
+						</A>
+					</Link>
+
+					<Heading fl w_100 mb4 ph3>
+						<H1 f3 f1_l fw6 lh_title mb0>
+							{race.name} {race.year} results
+						</H1>
+						{race.description && (
+							<Description measure_wide f4 lh_copy>
+								{race.description}
+							</Description>
+						)}
+					</Heading>
+
+					{race.results && race.results.length ? (
+						<Fragment>
+							<Accordion>
+								{hasNationalities && (
+									<AccordionItem id="stats" title="Nationality">
+										<NationalityGraph data={results} />
+									</AccordionItem>
+								)}
+
+								<AccordionItem id="nationality" title="Finished / Scratched">
+									<ScratchedGraph data={results} />
+								</AccordionItem>
+
+								<AccordionItem id="gender" title="Gender">
+									<GenderSplit data={results} />
+								</AccordionItem>
+
+								<AccordionItem id="results" title="Results" isOpen>
+									<TableFilters
+										data={race}
+										handleResetFilters={handleResetFilters}
+										handleSortChange={handleSortChange}
+										handleFilterChange={handleFilterChange}
+										filters={filters}
+									/>
+									<Table data={race} />
+								</AccordionItem>
+							</Accordion>
+						</Fragment>
+					) : (
+						<H3 ph3>No results have been published for {race.name}</H3>
+					)}
+					<ResultsContribute />
+				</Div>
+			</Div>
+		</>
+	);
+};
+
+export const getServerSideProps = async ctx => {
+	try {
+		const { data } = await client.query({
+			variables: { year: ctx.params.year, slug: ctx.params.race },
+			query: gql`
+				query result($year: String!, $slug: String!) {
+					race(year: $year, slug: $slug) {
+						${QLQuery}
+					}
+				}
+			`
+		});
+
+		return {
+			props: {
+				data
+			}
+		};
+	} catch (error) {
+		console.log(error);
+
+		return {
+			props: {}
 		};
 	}
-
-	async handleSearchUpdate(value) {
-		if (value.length === 0) {
-			this.setState({ races: this.props.allRaces, riders: [] });
-			return;
-		}
-
-		if (value.length <= 2) return;
-
-		await this.setState({ loading: true });
-
-		const races = await this.searchRace(value);
-		const riders = await this.searchRider(value);
-
-		await this.setState({
-			races,
-			riders,
-			loading: false
-		});
-	}
-
-	async searchRace(value) {
-		// toLower is performed on the SQL query. Able to lower case race name column and search value together
-		try {
-			const res = await axios.get(
-				apiUrl(`api/search/race-by-name?name=${value}`)
-			);
-
-			let races = res.data;
-
-			return races;
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
-	async searchRider(value) {
-		// toLower is performed on the SQL query. Able to lower case race name column and search value together
-		try {
-			const res = await axios.get(
-				apiUrl(`api/search/rider-by-name?name=${value}`)
-			);
-
-			let riders = res.data;
-
-			return riders;
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
-	hasNotes() {
-		return this.props.results.some(result => !!result.notes);
-	}
-
-	render() {
-		// Sort by Rank, then sort by Scratched / OTL Finish
-		let results = this.props.results.filter(r => r.position);
-		results = results.sort((a, b) => a.position - b.position);
-
-		let unpositioned = this.props.results.filter(r => !r.position);
-		unpositioned = unpositioned.sort((a, b) => b.finsihed > a.finsihed);
-
-		unpositioned = unpositioned.sort((a, b) => {
-			return a.result === b.result ? 0 : b.result === "Scratched" ? -1 : 1;
-		});
-
-		results = [...results, ...unpositioned];
-
-		const hasNationalities =
-			results.map(d => d.nationality).filter(n => n).length > 0;
-
-		return (
-			<>
-				<Head>
-					<title>
-						{this.props.name} {this.props.year} Results - DotWatcher.cc
-					</title>
-					<link
-						rel="canonical"
-						href={`https://dotwatcher.cc/results/${this.props.year}/${this.props.slug}`}
-					/>
-					<meta
-						property="og:title"
-						content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}
-					/>
-					<meta
-						property="og:description"
-						content="A history of results from the ultra-cycling world, in one database."
-					/>
-					<meta
-						property="og:image"
-						content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
-					/>
-					<meta name="twitter:card" content="summary_large_image" />
-					<meta name="twitter:site" content="@dotwatcher" />
-					<meta name="twitter:creator" content="@dotwatcher" />
-					<meta
-						name="twitter:title"
-						content={`${this.props.name} ${this.props.year} Results - DotWatcher.cc`}
-					/>
-					<meta
-						name="twitter:description"
-						content="A history of results from the ultra-cycling world, in one database."
-					/>
-					<meta
-						name="description"
-						content="A history of results from the ultra-cycling world, in one database."
-					/>
-				</Head>
-
-				<Div mt3 mt4_l mh6_l>
-					<Div pb5>
-						<Link href="/results">
-							<A ph3 db link near_black hover_blue passHref title="All Results">
-								← All results
-							</A>
-						</Link>
-						<Heading fl w_100 mb4 ph3>
-							<H1 f3 f1_l fw6 lh_title mb0>
-								{this.props.name} {this.props.year} results
-							</H1>
-							{this.props.description && (
-								<Description measure_wide f4 lh_copy>
-									{JSON.stringify(this.props.description) !== `"null"` &&
-										this.props.description.split("\n").map((item, key) => {
-											return (
-												<Fragment key={key}>
-													{item}
-													<br />
-												</Fragment>
-											);
-										})}
-								</Description>
-							)}
-						</Heading>
-						{this.props.results.length ? (
-							<Fragment>
-								<Accordion>
-									{hasNationalities && (
-										<AccordionItem id="stats" title="Nationality">
-											<NationalityGraph data={results} />
-										</AccordionItem>
-									)}
-
-									<AccordionItem id="nationality" title="Finished / Scratched">
-										<ScratchedGraph data={results} />
-									</AccordionItem>
-
-									<AccordionItem id="gender" title="Gender">
-										<GenderSplit data={results} />
-									</AccordionItem>
-									<AccordionItem id="results" title="Results" isOpen>
-										<ResultsTable
-											type="race"
-											results={results}
-											focus={this.props.focus}
-											racerClasses={this.props.racerClasses}
-											activeClass={this.props.activeClass}
-											racerCategories={this.props.racerCategories}
-											activeCategory={this.props.activeCategory}
-											finishlocations={this.props.finishlocations}
-											activeLocation={this.props.activeLocation}
-											hasNotes={this.hasNotes()}
-										/>
-									</AccordionItem>
-								</Accordion>
-							</Fragment>
-						) : (
-							<H3 ph3>No results have been published for {this.props.name}</H3>
-						)}
-						<ResultsContribute />
-					</Div>
-				</Div>
-			</>
-		);
-	}
-}
-
-Result.propTypes = {
-	race: PropTypes.string,
-	year: PropTypes.string,
-	results: PropTypes.array,
-	allRaces: PropTypes.array,
-	focus: PropTypes.string
 };
 
-Result.defaultProps = {
-	race: "",
-	year: "",
-	results: [],
-	raceResultsByYear: [],
-	focus: ""
-};
-
-export default WithResults(Result);
+export default RaceResults;
