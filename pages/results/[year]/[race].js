@@ -77,7 +77,7 @@ const QLQuery = `
 
 const RaceResults = ({ data }) => {
 	const [race, setRace] = useState(data.race);
-	const [sort, setSort] = useState("riders__name_ASC");
+	const [sort, setSort] = useState("results__position_ASC");
 	const [filters, setFilters] = useState([]);
 
 	useEffect(() => {
