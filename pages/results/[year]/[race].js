@@ -81,28 +81,29 @@ const RaceResults = ({ data }) => {
 	const [filters, setFilters] = useState([]);
 
 	useEffect(() => {
-		const handleQueryChange = async () => {
-			const args = filters
-				.map(f => {
-					const [filter, value] = f.split("=");
+		return () => {
+			const handleQueryChange = async () => {
+				const args = filters
+					.map(f => {
+						const [filter, value] = f.split("=");
 
-					// If the filter is location or nationlity we need to pass a string not an ENUM
-					if (filter === "finishlocation" || filter === "nationality") {
-						return `${filter}: "${value}"`;
-					}
+						// If the filter is location or nationlity we need to pass a string not an ENUM
+						if (filter === "finishlocation" || filter === "nationality") {
+							return `${filter}: "${value}"`;
+						}
 
-					return `${filter}: ${value}`;
-				})
-				.join(", ");
+						return `${filter}: ${value}`;
+					})
+					.join(", ");
 
-			try {
-				const { data } = await client.query({
-					variables: {
-						year: query.year,
-						slug: query.race,
-						sort
-					},
-					query: gql`
+				try {
+					const { data } = await client.query({
+						variables: {
+							year: query.year,
+							slug: query.race,
+							sort
+						},
+						query: gql`
 					query result(
 						$year: String!
 						$slug: String!
@@ -113,15 +114,16 @@ const RaceResults = ({ data }) => {
 						}
 					}
 				`
-				});
+					});
 
-				setRace(data.race);
-			} catch (error) {
-				console.log(error);
-			}
+					setRace(data.race);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+
+			handleQueryChange();
 		};
-
-		handleQueryChange();
 	}, [sort, filters]);
 
 	const { query } = useRouter();
