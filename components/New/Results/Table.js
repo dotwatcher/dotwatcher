@@ -77,6 +77,7 @@ const Results = ({ data }) => {
 				...d,
 				rider: d.rider.name,
 				riderNationality: d.rider.nationality,
+				position: d.position || "—",
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? ""
 					: `${d.days || 0}d ${d.hours || 0}h ${d.minutes || 0}m`

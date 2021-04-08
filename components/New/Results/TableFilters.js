@@ -97,6 +97,17 @@ const TableFilters = ({
 	return (
 		<section>
 			<FacetSection>
+				<Title>Sort</Title>
+				<Dropdown onChange={handleSortChange}>
+					{data.sorts.map(sort => (
+						<option key={sort.value} value={reverseFormatSort(sort.value)}>
+							{sort.name}
+						</option>
+					))}
+				</Dropdown>
+			</FacetSection>
+
+			<FacetSection>
 				<Inline>
 					<Title>Filters</Title>
 
@@ -147,17 +158,6 @@ const TableFilters = ({
 						);
 					})}
 				</Filters>
-			</FacetSection>
-
-			<FacetSection>
-				<Title>Sort</Title>
-				<Dropdown onChange={handleSortChange}>
-					{data.sorts.map(sort => (
-						<option key={sort.value} value={reverseFormatSort(sort.value)}>
-							{sort.name}
-						</option>
-					))}
-				</Dropdown>
 			</FacetSection>
 		</section>
 	);

@@ -75,35 +75,62 @@ const QLQuery = `
 	}
 `;
 
+const getFilterArgs = (args = []) =>
+	args
+		.map(f => {
+			const [filter, value] = f.split("=");
+
+			// If the filter is location or nationlity we need to pass a string not an ENUM
+			if (filter === "finishlocation" || filter === "nationality") {
+				return `${filter}: "${value}"`;
+			}
+
+			return `${filter}: ${value}`;
+		})
+		.join(", ");
+
 const RaceResults = ({ data }) => {
+	const router = useRouter();
+	const { query } = router;
+
 	const [race, setRace] = useState(data.race);
 	const [sort, setSort] = useState("results__position_ASC");
-	const [filters, setFilters] = useState([]);
+	const [filters, setFilters] = useState(
+		router.query.filters ? router.query.filters.split(",") : []
+	);
 
 	useEffect(() => {
-		return () => {
-			const handleQueryChange = async () => {
-				const args = filters
-					.map(f => {
-						const [filter, value] = f.split("=");
+		const handleQueryChange = async () => {
+			const route = filters.length
+				? `/results/${router.query.year}/${
+						router.query.race
+				  }?filters=${filters.join(",")}`
+				: `/results/${router.query.year}/${router.query.race}`;
 
-						// If the filter is location or nationlity we need to pass a string not an ENUM
-						if (filter === "finishlocation" || filter === "nationality") {
-							return `${filter}: "${value}"`;
-						}
+			if (filters.length) {
+				router.push(route, undefined, {
+					shallow: true
+				});
+			} else {
+				router.push(
+					`/results/${router.query.year}/${router.query.race}`,
+					undefined,
+					{
+						shallow: true
+					}
+				);
+			}
 
-						return `${filter}: ${value}`;
-					})
-					.join(", ");
+			const args = getFilterArgs(filters);
 
-				try {
-					const { data } = await client.query({
-						variables: {
-							year: query.year,
-							slug: query.race,
-							sort
-						},
-						query: gql`
+			try {
+				const { data } = await client.query({
+					variables: {
+						year: query.year,
+						slug: query.race,
+						sort
+					},
+					query: gql`
 					query result(
 						$year: String!
 						$slug: String!
@@ -114,19 +141,16 @@ const RaceResults = ({ data }) => {
 						}
 					}
 				`
-					});
+				});
 
-					setRace(data.race);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-
-			handleQueryChange();
+				setRace(data.race);
+			} catch (error) {
+				console.log(error);
+			}
 		};
-	}, [sort, filters]);
 
-	const { query } = useRouter();
+		handleQueryChange();
+	}, [sort, filters]);
 
 	// Sort by Rank, then sort by Scratched / OTL Finish
 	let results = race.results ? race.results.filter(r => r.position) : [];
@@ -198,12 +222,12 @@ const RaceResults = ({ data }) => {
 			<Div mt3 mt4_l mh6_l>
 				<Div pb5>
 					<Link href="/results">
-						<A ph3 db link near_black hover_blue passHref title="All Results">
+						<A db link near_black hover_blue passHref title="All Results">
 							← All results
 						</A>
 					</Link>
 
-					<Heading fl w_100 mb4 ph3>
+					<Heading w_100>
 						<H1 f3 f1_l fw6 lh_title mb0>
 							{race.name} {race.year} results
 						</H1>
@@ -215,7 +239,15 @@ const RaceResults = ({ data }) => {
 					</Heading>
 
 					{race.results && race.results.length ? (
-						<Fragment>
+						<div>
+							<TableFilters
+								data={race}
+								handleResetFilters={handleResetFilters}
+								handleSortChange={handleSortChange}
+								handleFilterChange={handleFilterChange}
+								filters={filters}
+							/>
+
 							<Accordion>
 								{hasNationalities && (
 									<AccordionItem id="stats" title="Nationality">
@@ -232,17 +264,10 @@ const RaceResults = ({ data }) => {
 								</AccordionItem>
 
 								<AccordionItem id="results" title="Results" isOpen>
-									<TableFilters
-										data={race}
-										handleResetFilters={handleResetFilters}
-										handleSortChange={handleSortChange}
-										handleFilterChange={handleFilterChange}
-										filters={filters}
-									/>
 									<Table data={race} />
 								</AccordionItem>
 							</Accordion>
-						</Fragment>
+						</div>
 					) : (
 						<H3 ph3>No results have been published for {race.name}</H3>
 					)}
@@ -255,11 +280,14 @@ const RaceResults = ({ data }) => {
 
 export const getServerSideProps = async ctx => {
 	try {
+		const filters = ctx.query.filters ? ctx.query.filters.split(",") : [];
+		const args = getFilterArgs(filters);
+
 		const { data } = await client.query({
 			variables: { year: ctx.params.year, slug: ctx.params.race },
 			query: gql`
 				query result($year: String!, $slug: String!) {
-					race(year: $year, slug: $slug) {
+					race(year: $year, slug: $slug, ${args}) {
 						${QLQuery}
 					}
 				}
