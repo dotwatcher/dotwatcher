@@ -468,6 +468,11 @@
   resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-14.1.2.tgz#33162fdbf427891122a96030f806ca9a9cf0e844"
   integrity sha512-XbgZ7op5uyYYszipgQg/bYobF4b+llXyTwS8hISRniQY9xKESz544eP2OGmRc4J3MHx29M7Vmx7TVA/IK65giQ==
 
+"@dotwatcher/utils@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@dotwatcher/utils/-/utils-0.4.0.tgz#6d1345b2413b1f87b1eb504b445a3f95275d470e"
+  integrity sha512-TZhwGpkKaRyKAhkKpJ1uhL2SoS4juzryDJmhUjrAqO+/H9XFcKznveXgJCPOzlecGn429YQfsseugYUQBiNsKA==
+
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
@@ -7923,7 +7928,7 @@ react-social@^1.10.0:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
 
-react-table@^7.0.0-rc.16:
+react-table@^7.6.3:
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.6.3.tgz#76434392b3f62344bdb704f5b227c2f29c1ffb14"
   integrity sha512-hfPF13zDLxPMpLKzIKCE8RZud9T/XrRTsaCIf8zXpWZIZ2juCl7qrGpo3AQw9eAetXV5DP7s2GDm+hht7qq5Dw==

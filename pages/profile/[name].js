@@ -287,7 +287,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 				{meta("biography") && (
 					<Section>
-						<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
+						<Center>
+							<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
+						</Center>
 					</Section>
 				)}
 
@@ -298,7 +300,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						</A>
 					</Link>
 
-					<ProfileDetails
+					{/* <ProfileDetails
 						authID={authID}
 						auth0Profile={auth0Profile}
 						name={name}
@@ -309,7 +311,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						isCurrentUserProfile={isCurrentUserProfile}
 						handleUnclaimedProfile={handleUnclaimedProfile}
 						races={races}
-					/>
+					/> */}
 				</Section>
 
 				<Section>

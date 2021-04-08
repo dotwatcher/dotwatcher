@@ -1,15 +1,10 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-	ssrMode: true,
+	ssrMode: typeof window === "undefined",
 	connectToDevTools: process.env.NODE_ENV !== "production",
-	uri:
-		"https://graphql.contentful.com/content/v1/spaces/" +
-		process.env.CONTENTFUL_SPACE_ID,
+	uri: "https://graphql.dotwatcher.cc",
 	cache: new InMemoryCache(),
-	headers: {
-		Authorization: `Bearer ${process.env.CONTENTFUL_GRAPHQL_TOKEN}`
-	},
 
 	/**
 	 * Disabled cache to allow for real time editing in Contentful

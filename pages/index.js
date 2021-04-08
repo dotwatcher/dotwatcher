@@ -182,8 +182,6 @@ export const getServerSideProps = async () => {
 	const today = new Date();
 	const todayISO = today.toISOString();
 
-	console.log(todayISO);
-
 	try {
 		const { data } = await client.query({
 			variables: {
