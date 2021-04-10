@@ -1,8 +1,9 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import { useRouter } from "next/router";
+import { HEAD } from "@Utils/contstants";
 
 import Link from "next/link";
 
@@ -197,14 +198,17 @@ const RaceResults = ({ data }) => {
 					href={`https://dotwatcher.cc/results/${race.year}/${race.slug}`}
 				/>
 				<meta
+					key={HEAD.OG_TITLE}
 					property="og:title"
 					content={`${race.name} ${race.year} Results - DotWatcher.cc`}
 				/>
 				<meta
+					key={HEAD.OG_DESCRIPTION}
 					property="og:description"
 					content="A history of results from the ultra-cycling world, in one database."
 				/>
 				<meta
+					key={HEAD.OG_IMAGE}
 					property="og:image"
 					content="https://images.ctfassets.net/6hyijb95boju/KQ7Yj247Go6KOIm60SeQ2/9315aa310eee6a72088c9c37de8aa1e6/DotWatcher---Logo---Pin-_1_.jpg"
 				/>
