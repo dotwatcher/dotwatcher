@@ -49,6 +49,15 @@ module.exports = withSourceMaps({
 	async headers() {
 		return [
 			{
+				source: "/(.*?)",
+				headers: [
+					{
+						key: "Cache-Control",
+						value: "s-maxage=86400" // 1 day
+					}
+				]
+			},
+			{
 				source: "/api/:params*",
 				headers: [
 					{
