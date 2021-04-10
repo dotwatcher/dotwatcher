@@ -96,7 +96,7 @@ const TableFilters = ({
 
 	return (
 		<section>
-			<FacetSection>
+			{/* <FacetSection>
 				<Title>Sort</Title>
 				<Dropdown onChange={handleSortChange}>
 					{data.sorts.map(sort => (
@@ -105,7 +105,7 @@ const TableFilters = ({
 						</option>
 					))}
 				</Dropdown>
-			</FacetSection>
+			</FacetSection> */}
 
 			<FacetSection>
 				<Inline>

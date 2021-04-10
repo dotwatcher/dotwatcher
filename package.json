@@ -34,7 +34,7 @@
 		"@contentful/rich-text-html-renderer": "^14.1.2",
 		"@contentful/rich-text-react-renderer": "^13.4.0",
 		"@contentful/rich-text-types": "^14.1.2",
-		"@dotwatcher/utils": "^0.4.0",
+		"@dotwatcher/utils": "^0.5.0",
 		"@sentry/browser": "^5.15.5",
 		"@sentry/react": "^6.2.5",
 		"@sentry/tracing": "^6.2.5",

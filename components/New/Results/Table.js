@@ -3,11 +3,12 @@
  */
 
 import { useMemo } from "react";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import dim from "@Utils/dim";
 import colors from "@Utils/colors";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { formatEnum } from "node_modules/@dotwatcher/utils";
 
 import styled, { css } from "styled-components";
 
@@ -19,13 +20,19 @@ const Table = styled.table`
 	border-collapse: collapse;
 `;
 
-const TableHead = styled.thead`
-	th {
-		border-bottom: 2px solid black;
-		text-align: left;
-		line-height: 1.5;
-		padding: ${dim(0.5)};
-		text-transform: uppercase;
+const TH = styled.th`
+	border-bottom: 2px solid black;
+	text-align: left;
+	line-height: 1.5;
+	padding: ${dim(0.5)};
+	text-transform: uppercase;
+
+	&:hover {
+		color: ${colors.primary};
+	}
+
+	span:hover {
+		text-decoration: underline;
 	}
 `;
 
@@ -147,28 +154,42 @@ const Results = ({ data }) => {
 		headerGroups,
 		rows,
 		prepareRow
-	} = useTable({
-		columns,
-		data: dataRows,
-		initialState: {
-			hiddenColumns
-		}
-	});
+	} = useTable(
+		{
+			columns,
+			data: dataRows,
+			initialState: {
+				hiddenColumns,
+				sortBy: ["finishTime"]
+			}
+		},
+		useSortBy
+	);
 
 	const router = useRouter();
 
 	return (
 		<Section>
 			<Table {...getTableProps()}>
-				<TableHead>
-					{headerGroups.map((headerGroup, ind) => (
-						<tr key={ind} {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-								<th {...column.getHeaderProps()}>{column.render("Header")}</th>
-							))}
+				<thead>
+					{headerGroups.map(headerGroup => (
+						<tr {...headerGroup.getHeaderGroupProps()}>
+							{headerGroup.headers.map(column => {
+								return (
+									<TH
+										{...column.getHeaderProps(column.getSortByToggleProps())}
+										title={`Sort by ${column.Header}`}
+									>
+										<span>{column.render("Header")}</span>
+
+										{column.isSorted ? (column.isSortedDesc ? " ▲" : " ▼") : ""}
+									</TH>
+								);
+							})}
 						</tr>
 					))}
-				</TableHead>
+				</thead>
+
 				<TableBody {...getTableBodyProps()}>
 					{rows.map((row, ind) => {
 						prepareRow(row);
@@ -190,6 +211,10 @@ const Results = ({ data }) => {
 												<Link passHref href={`/profile/${cell.value}`}>
 													<a title={cell.value}>{cell.value}</a>
 												</Link>
+											) : ["class", "category", "result", "bike"].includes(
+													cell.column.id
+											  ) ? (
+												formatEnum(cell.value)
 											) : (
 												cell.render("Cell")
 											)}

@@ -468,10 +468,10 @@
   resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-14.1.2.tgz#33162fdbf427891122a96030f806ca9a9cf0e844"
   integrity sha512-XbgZ7op5uyYYszipgQg/bYobF4b+llXyTwS8hISRniQY9xKESz544eP2OGmRc4J3MHx29M7Vmx7TVA/IK65giQ==
 
-"@dotwatcher/utils@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@dotwatcher/utils/-/utils-0.4.0.tgz#6d1345b2413b1f87b1eb504b445a3f95275d470e"
-  integrity sha512-TZhwGpkKaRyKAhkKpJ1uhL2SoS4juzryDJmhUjrAqO+/H9XFcKznveXgJCPOzlecGn429YQfsseugYUQBiNsKA==
+"@dotwatcher/utils@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@dotwatcher/utils/-/utils-0.5.0.tgz#edc3550b5faef36a61719f15d1d32649d7037f14"
+  integrity sha512-COcj3s8URrYkHv/sBUk0T+AivqXmtBwU04S1fvDn8NtqulOG+bsCz6bDgL8N6fs8eeoeX5P8d66msgYJ6TK9nA==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
