@@ -46,6 +46,7 @@ const QLQuery = `
 	}
 	name
 	description
+	year
 	sorts {
 		name
 		value
