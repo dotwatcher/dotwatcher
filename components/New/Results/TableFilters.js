@@ -1,12 +1,15 @@
 import { useState } from "react";
-import Dropdown from "@UI/OptionSelect";
-import styled from "styled-components";
-import { reverseFormatSort } from "node_modules/@dotwatcher/utils";
+import styled, { css } from "styled-components";
+
+// import Dropdown from "@UI/OptionSelect";
+// import { reverseFormatSort } from "node_modules/@dotwatcher/utils";
 
 import H4 from "@Components/UI/H4";
 import H5 from "@Components/UI/H5";
 import colors from "@Utils/colors";
 import dim from "@Utils/dim";
+
+const INITIAL_FILTERS_VISIBLE = 3;
 
 const FacetSection = styled.section`
 	& + & {
@@ -69,7 +72,34 @@ const FilterTitle = styled(H5)`
 	text-decoration: underline;
 `;
 
-const INITIAL_FILTERS_VISIBLE = 3;
+const Checkbox = styled.input.attrs({ type: "checkbox" })`
+	appearance: none;
+	background-color: transparent;
+	height: ${dim()};
+	width: ${dim()};
+	position: relative;
+	top: 2px;
+	border-radius: 3px;
+	border: 1px solid ${colors.black};
+
+	${({ checked }) =>
+		checked &&
+		css`
+			background-color: ${colors.black};
+		`}
+`;
+
+const Label = styled.label`
+	cursor: pointer;
+	&:hover {
+		color: ${colors.primary};
+
+		${Checkbox} {
+			border-color: ${colors.primary};
+			background-color: ${colors.primary};
+		}
+	}
+`;
 
 const TableFilters = ({
 	data,
@@ -141,15 +171,14 @@ const TableFilters = ({
 
 										return (
 											<FilterItem key={ind}>
-												<label>
-													<input
-														type="checkbox"
+												<Label>
+													<Checkbox
 														checked={filters.some(x => x === value)}
 														onChange={handleFilterChange}
 														value={value}
 													/>
 													<Span>{f.name}</Span>
-												</label>
+												</Label>
 											</FilterItem>
 										);
 									})}
