@@ -12,9 +12,7 @@ import dim from "@Utils/dim";
 const INITIAL_FILTERS_VISIBLE = 3;
 
 const FacetSection = styled.section`
-	& + & {
-		margin-top: ${dim()};
-	}
+	margin-top: ${dim()};
 `;
 
 const Button = styled.button`
@@ -34,7 +32,7 @@ const Button = styled.button`
 
 const Title = styled(H4)`
 	/* text-decoration: underline; */
-	margin-bottom: 7px;
+	margin-bottom: ${dim(0.5)};
 `;
 
 const Inline = styled.div`
@@ -42,7 +40,7 @@ const Inline = styled.div`
 	align-items: baseline;
 
 	${Button} {
-		margin-left: 30px;
+		margin-left: ${dim(2)};
 	}
 `;
 
@@ -57,7 +55,7 @@ const FilterWrap = styled.div`
 `;
 
 const FilterItem = styled.div`
-	margin-bottom: 7px;
+	margin-bottom: ${dim(0.5)};
 `;
 
 const Filter = styled.div`
@@ -124,6 +122,9 @@ const TableFilters = ({
 			? "Show All Filters"
 			: "Show Less Filters";
 
+	// Check if there are any options to filter by
+	const notEmptyFilters = data.filters.filter(f => f.values.length > 0);
+
 	return (
 		<section>
 			{/* <FacetSection>
@@ -141,9 +142,11 @@ const TableFilters = ({
 				<Inline>
 					<Title>Filters</Title>
 
-					<Button title={buttonText} onClick={handleVisiblityClick}>
-						{buttonText}
-					</Button>
+					{notEmptyFilters.length > INITIAL_FILTERS_VISIBLE && (
+						<Button title={buttonText} onClick={handleVisiblityClick}>
+							{buttonText}
+						</Button>
+					)}
 
 					{filters.length > 0 && (
 						<Button title="Reset Filters" onClick={handleResetFilters}>
@@ -153,19 +156,12 @@ const TableFilters = ({
 				</Inline>
 
 				<Filters>
-					{data.filters.slice(0, visibleFilters).map(filter => {
+					{notEmptyFilters.slice(0, visibleFilters).map(filter => {
 						return (
 							<Filter key={filter.key}>
 								<FilterTitle>{filter.name}</FilterTitle>
 
 								<FilterWrap>
-									{/* <FilterItem>
-										<label>
-											<input type="checkbox" value={`${filter.key}=`} />
-											<Span>All</Span>
-										</label>
-									</FilterItem> */}
-
 									{filter.values.map((f, ind) => {
 										const value = `${filter.key}=${f.value}`;
 

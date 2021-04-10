@@ -18,6 +18,7 @@ const Section = styled.section`
 
 const Table = styled.table`
 	border-collapse: collapse;
+	min-width: 100%;
 `;
 
 const TH = styled.th`
@@ -142,11 +143,21 @@ const Results = ({ data }) => {
 		[data]
 	);
 
-	let hiddenColumns = [];
-	hiddenColumns = data.results.some(x => !x.notes) ? ["notes"] : [];
-	hiddenColumns = data.results.some(x => !x.cap)
-		? [...hiddenColumns, "cap"]
-		: hiddenColumns;
+	const ifHiddenColumns = [
+		"cap",
+		"riderNationality",
+		"finishlocation",
+		"notes"
+	];
+
+	// Find any columns out of the list where ther are no values
+	const hiddenColumns = ifHiddenColumns.map(columnName => {
+		if (data.results.some(x => !x[columnName])) {
+			return columnName;
+		}
+
+		return "";
+	});
 
 	const {
 		getTableProps,
