@@ -159,8 +159,8 @@ const Results = ({ data }) => {
 			columns,
 			data: dataRows,
 			initialState: {
-				hiddenColumns,
-				sortBy: ["finishTime"]
+				hiddenColumns
+				// sortBy: ["finishTime"]
 			}
 		},
 		useSortBy

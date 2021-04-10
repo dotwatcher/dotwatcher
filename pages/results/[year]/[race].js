@@ -177,6 +177,12 @@ const RaceResults = ({ data }) => {
 	};
 
 	const handleFilterChange = async e => {
+		if (filters.includes(e.target.value)) {
+			await setFilters(prev => prev.filter(f => f !== e.target.value));
+
+			return;
+		}
+
 		await setFilters(prev => [...prev, e.target.value]);
 	};
 
