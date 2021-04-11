@@ -244,14 +244,16 @@ const Feature = ({ data }) => {
 									/>
 								</div>
 								{block.image && (
-									<Image
-										src={
-											block.image.url +
-											`?w=${block.image.width}&h=${block.image.height}&fit=fill`
-										}
-										width={block.image.width}
-										height={block.image.height}
-									/>
+									<>
+										{console.log(block.image.url)}
+										<Image
+											src={
+												block.image.url + `?&h=${block.image.height}&fit=fill`
+											}
+											width={block.image.width}
+											height={block.image.height}
+										/>
+									</>
 								)}
 							</Block>
 						))}
