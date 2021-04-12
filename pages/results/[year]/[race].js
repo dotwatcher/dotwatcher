@@ -19,6 +19,7 @@ import { Accordion, AccordionItem } from "../../../components/UI/Accordion";
 
 import client from "@Utils/apollo";
 import { gql } from "@apollo/client";
+import useSkipFirstRender from "@Hooks/useSkipFirstRender";
 
 const Heading = styled.header`
 	${tachyons}
@@ -97,11 +98,12 @@ const RaceResults = ({ data }) => {
 
 	const [race, setRace] = useState(data.race);
 	const [sort, setSort] = useState("results__position_ASC");
+	const [activeRider, setActiveRider] = useState(router.query.rider);
 	const [filters, setFilters] = useState(
 		router.query.filters ? router.query.filters.split(",") : []
 	);
 
-	useEffect(() => {
+	useSkipFirstRender(() => {
 		const handleQueryChange = async () => {
 			const route = filters.length
 				? `/results/${router.query.year}/${
@@ -188,6 +190,10 @@ const RaceResults = ({ data }) => {
 		await setFilters(prev => [...prev, e.target.value]);
 	};
 
+	const metaDescription =
+		race.description ||
+		"A history of results from the ultra-cycling world, in one database.";
+
 	return (
 		<>
 			<Head>
@@ -206,7 +212,7 @@ const RaceResults = ({ data }) => {
 				<meta
 					key={HEAD.OG_DESCRIPTION}
 					property="og:description"
-					content="A history of results from the ultra-cycling world, in one database."
+					content={metaDescription}
 				/>
 				<meta
 					key={HEAD.OG_IMAGE}
@@ -220,14 +226,8 @@ const RaceResults = ({ data }) => {
 					name="twitter:title"
 					content={`${race.name} ${race.year} Results - DotWatcher.cc`}
 				/>
-				<meta
-					name="twitter:description"
-					content="A history of results from the ultra-cycling world, in one database."
-				/>
-				<meta
-					name="description"
-					content="A history of results from the ultra-cycling world, in one database."
-				/>
+				<meta name="twitter:description" content={metaDescription} />
+				<meta name="description" content={metaDescription} />
 			</Head>
 
 			<Div mt3 mt4_l mh6_l>
@@ -275,7 +275,7 @@ const RaceResults = ({ data }) => {
 								</AccordionItem>
 
 								<AccordionItem id="results" title="Results" isOpen>
-									<Table data={race} />
+									<Table data={race} activeRider={activeRider} />
 								</AccordionItem>
 							</Accordion>
 						</div>

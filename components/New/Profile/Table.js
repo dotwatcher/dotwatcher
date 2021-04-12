@@ -8,13 +8,11 @@ const Section = styled.section`
 	overflow-x: scroll;
 `;
 
-const Results = ({ data, activeRider }) => {
+const Results = ({ data }) => {
 	const dataRows = useMemo(
 		() =>
-			data.results.map(d => ({
+			data.map(d => ({
 				...d,
-				rider: d.rider.name,
-				riderNationality: d.rider.nationality,
 				position: d.position || "—",
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? "—"
@@ -26,12 +24,16 @@ const Results = ({ data, activeRider }) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: "Position",
-				accessor: "position"
+				Header: "Race",
+				accessor: "racename"
 			},
 			{
-				Header: "Rider",
-				accessor: "rider"
+				Header: "Year",
+				accessor: "year"
+			},
+			{
+				Header: "Position",
+				accessor: "position"
 			},
 			{
 				Header: "Cap",
@@ -50,10 +52,6 @@ const Results = ({ data, activeRider }) => {
 				accessor: "result"
 			},
 			{
-				Header: "Nationality",
-				accessor: "riderNationality"
-			},
-			{
 				Header: "Bike",
 				accessor: "bike"
 			},
@@ -64,25 +62,16 @@ const Results = ({ data, activeRider }) => {
 			{
 				Header: "Finish Time",
 				accessor: "finishTime"
-			},
-			{
-				Header: "Notes",
-				accessor: "notes"
 			}
 		],
 		[data]
 	);
 
-	const ifHiddenColumns = [
-		"cap",
-		"riderNationality",
-		"finishlocation",
-		"notes"
-	];
+	const ifHiddenColumns = ["cap", "notes", "finishlocation"];
 
 	// Find any columns out of the list where ther are no values
 	const hiddenColumns = ifHiddenColumns.map(columnName => {
-		if (data.results.every(x => !x[columnName])) {
+		if (data.every(x => !x[columnName])) {
 			return columnName;
 		}
 
