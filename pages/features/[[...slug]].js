@@ -165,7 +165,7 @@ const Features = ({ data }) => {
 					<Center>
 						<H1>{category ? category.name : "Our Features"}</H1>
 
-						{category && (
+						{category && category.description && (
 							<p>{documentToReactComponents(category.description.json)}</p>
 						)}
 					</Center>
