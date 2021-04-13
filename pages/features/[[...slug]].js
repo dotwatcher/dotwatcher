@@ -345,7 +345,10 @@ export const getServerSideProps = async context => {
 	try {
 		const { data } = await client.query(getQuery(context));
 
-		if (!data.featureCollection && data.featureCollection.items.length < 1) {
+		if (
+			!data.featureCategoryCollection ||
+			data.featureCategoryCollection.items.length < 1
+		) {
 			return {
 				notFound: true
 			};
