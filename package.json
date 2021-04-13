@@ -88,6 +88,7 @@
 		"react-table": "^7.6.3",
 		"react-timeago": "^4.4.0",
 		"react-twitter-embed": "^2.0.8",
+		"react-use": "^17.2.3",
 		"recompose": "^0.30.0",
 		"remark-breaks": "^1.0.3",
 		"remark-shortcodes": "^0.2.1",

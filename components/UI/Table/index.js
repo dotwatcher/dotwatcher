@@ -5,6 +5,7 @@
 import { useTable, useSortBy } from "react-table";
 import dim from "@Utils/dim";
 import colors from "@Utils/colors";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
 import { formatEnum } from "node_modules/@dotwatcher/utils";
@@ -41,16 +42,10 @@ const TableCell = styled.td`
 
 	a {
 		cursor: pointer;
+		text-decoration: underline;
 		width: 100%;
-		display: inline-block;F
+		display: inline-block;
 	}
-
-	${({ clickable }) =>
-		clickable &&
-		css`
-			cursor: pointer;
-			text-decoration: underline;
-		`}
 `;
 
 const TableRow = styled.tr`
@@ -84,6 +79,8 @@ const TableBody = styled.tbody`
 `;
 
 const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
+	const router = useRouter();
+
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -129,14 +126,19 @@ const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
 						prepareRow(row);
 
 						return (
-							<TableRow key={ind} {...row.getRowProps()}>
+							<TableRow
+								key={ind}
+								{...row.getRowProps()}
+								active={
+									router.query.rider && router.query.rider === row.values.rider
+								}
+							>
 								{row.cells.map((cell, cellInd) => {
 									const { slug, year, name } = data[cellInd] || {};
 
 									return (
 										<TableCell
 											{...cell.getCellProps()}
-											clickable={cell.column.id === "rider"}
 											id={cell.column.id === "rider" ? cell.value : ""}
 										>
 											{cell.column.id === "rider" ? (
@@ -148,7 +150,10 @@ const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
 											  ) ? (
 												formatEnum(cell.value)
 											) : cell.column.id === "racename" ? (
-												<Link passHref href={`/results/${year}/${slug}`}>
+												<Link
+													passHref
+													href={`/results/${year}/${slug}?rider=${name}`}
+												>
 													<a title={cell.value}>{cell.value}</a>
 												</Link>
 											) : (

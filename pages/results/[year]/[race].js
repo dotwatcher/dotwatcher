@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
@@ -19,7 +19,8 @@ import { Accordion, AccordionItem } from "../../../components/UI/Accordion";
 
 import client from "@Utils/apollo";
 import { gql } from "@apollo/client";
-import useSkipFirstRender from "@Hooks/useSkipFirstRender";
+
+import { useUpdateEffect } from "react-use";
 
 const Heading = styled.header`
 	${tachyons}
@@ -103,7 +104,7 @@ const RaceResults = ({ data }) => {
 		router.query.filters ? router.query.filters.split(",") : []
 	);
 
-	useSkipFirstRender(() => {
+	useUpdateEffect(() => {
 		const handleQueryChange = async () => {
 			const route = filters.length
 				? `/results/${router.query.year}/${
