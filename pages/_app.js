@@ -2,7 +2,8 @@ import React from "react";
 import App from "next/app";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
-import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import smoothscroll from "smoothscroll-polyfill";
 import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
@@ -20,6 +21,7 @@ if (typeof window !== "undefined") {
 
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
+		integrations: [new Integrations.BrowserTracing()],
 		dsn: process.env.SENTRY_DSN,
 		release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
 	});

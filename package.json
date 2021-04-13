@@ -35,6 +35,8 @@
 		"@contentful/rich-text-react-renderer": "^13.4.0",
 		"@contentful/rich-text-types": "^14.1.2",
 		"@sentry/browser": "^5.15.5",
+		"@sentry/react": "^6.2.5",
+		"@sentry/tracing": "^6.2.5",
 		"@zeit/next-source-maps": "0.0.3",
 		"array-sort": "^1.0.0",
 		"auth0": "^2.27.1",
