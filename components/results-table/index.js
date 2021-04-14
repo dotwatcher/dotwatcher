@@ -312,11 +312,7 @@ class ResultsTable extends React.Component {
 									{this.props.type === "profile" ? (
 										<ResultsCell className="race-name">
 											<Link
-												href={`/results/${result.year}/${sanitizeName}-${
-													result.year
-												}?focus=${slugify(result.name)}&activeClass=${
-													result.class
-												}`}
+												href={`/results/${result.year}/${sanitizeName}-${result.year}?rider=${result.name}`}
 												passHref
 											>
 												<A link near_black hover_blue underline>

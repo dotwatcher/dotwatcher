@@ -41,8 +41,8 @@ const ScratchedGraph = ({ data }) => {
 				<div>
 					<p>Finish Locations:</p>
 
-					{Object.keys(finishLocations).map(location => (
-						<p>
+					{Object.keys(finishLocations).map((location, ind) => (
+						<p key={ind}>
 							{location}: {finishLocations[location]} rider(s)
 						</p>
 					))}

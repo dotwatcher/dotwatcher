@@ -7,6 +7,7 @@ import Router from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import sanitizeName from "../../utils/sanitize-name";
 import getNationalFlag from "../../utils/get-national-flag";
@@ -25,10 +26,11 @@ import Link from "next/link";
 import PageWrapper from "../../components/Profile/pageWrapper";
 import { user as userAPI } from "../../utils/auth";
 import apiUrl from "./../../utils/api-url";
-import ResultsTable from "../../components/results-table";
+
 import { WithProfile } from "../../data/with-profile";
 import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";
+import Image from "next/image";
 
 import Button from "@Components/UI/Button";
 import Input from "@Components/UI/Input";
@@ -37,12 +39,14 @@ import A from "@Components/UI/A";
 import P from "@Components/UI/P";
 import Center from "@Components/UI/Center";
 import Section from "@Components/UI/Section";
-import Image from "next/image";
 import RideWithGPS from "@Components/UI/Icons/ride-with-gps";
 import Strava from "@Components/UI/Icons/strava";
 import Instagram from "@Components/UI/Icons/instagram";
 import Twitter from "@Components/UI/Icons/twitter";
+import { Table } from "@ComponentsNew/Profile";
+
 import dim from "@Utils/dim";
+import { HEAD } from "@Utils/contstants";
 
 const Claim = styled(Button)`
 	width: 100%;
@@ -198,107 +202,123 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 
 	return (
 		<Fragment>
-			<Fragment>
-				<Section>
-					<Center>
-						<H1>
-							{name} {getNationalFlag(nationality)}
-						</H1>
+			<Head>
+				<title key={HEAD.TITLE}>{name}'s Profile - DotWatcher.cc</title>
+				<meta
+					key={HEAD.OG_TITLE}
+					property="og:title"
+					content={`${name}'s Profile - DotWatcher.cc`}
+				/>
 
-						<UserAvatar>
-							<Image
-								width={200}
-								height={200}
-								title={name}
-								aly={name}
-								src={
-									!!auth0Profile && auth0Profile.userPicture
-										? auth0Profile.userPicture
-										: !!auth0Profile && auth0Profile.picture
-										? auth0Profile.picture
-										: "/static/empty-profile.png"
-								}
-							/>
-						</UserAvatar>
+				<link rel="canonical" href={`https://dotwatcher.cc/profile/${name}`} />
+				<meta
+					name="twitter:title"
+					content={`${name}'s Profile - DotWatcher.cc`}
+				/>
+			</Head>
 
-						{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
-						{(!meta("name") ||
-							meta("name").toLowerCase() === name.toLowerCase()) && (
-							<Button
-								type="button"
-								disabled={
-									isLoading || (profileIsClaimed && !isCurrentUserProfile)
-								}
-								onClick={
-									isCurrentUserProfile
-										? () => Router.push("/profile/edit")
-										: profileIsClaimed
-										? null
-										: handleUnclaimedProfile
-								}
-							>
-								{isLoading
-									? "Loading"
-									: isCurrentUserProfile
-									? "Edit your profile"
+			<Section>
+				<Center>
+					<H1>
+						{name} {getNationalFlag(nationality)}
+					</H1>
+
+					<UserAvatar>
+						<Image
+							width={200}
+							height={200}
+							title={name}
+							aly={name}
+							src={
+								!!auth0Profile && auth0Profile.userPicture
+									? auth0Profile.userPicture
+									: !!auth0Profile && auth0Profile.picture
+									? auth0Profile.picture
+									: "/static/empty-profile.png"
+							}
+						/>
+					</UserAvatar>
+
+					{/* Only show button on users current profile, or if unclaimed and user hasnt already claimed */}
+					{(!meta("name") ||
+						meta("name").toLowerCase() === name.toLowerCase()) && (
+						<Button
+							type="button"
+							disabled={
+								isLoading || (profileIsClaimed && !isCurrentUserProfile)
+							}
+							onClick={
+								isCurrentUserProfile
+									? () => Router.push("/profile/edit")
 									: profileIsClaimed
-									? "Profile already claimed"
-									: "Claim this profile"}
-							</Button>
+									? null
+									: handleUnclaimedProfile
+							}
+						>
+							{isLoading
+								? "Loading"
+								: isCurrentUserProfile
+								? "Edit your profile"
+								: profileIsClaimed
+								? "Profile already claimed"
+								: "Claim this profile"}
+						</Button>
+					)}
+				</Center>
+			</Section>
+
+			<Section>
+				{!noSocialAccounts && (
+					<Center>
+						{meta("twitterHanlde") && (
+							<SocialIcon>
+								<a title="Twitter" href={meta("twitterHanlde")}>
+									<Twitter />
+								</a>
+							</SocialIcon>
+						)}
+						{meta("stravaID") && (
+							<SocialIcon>
+								<a title="Strava" href={meta("stravaID")}>
+									<Strava />
+								</a>
+							</SocialIcon>
+						)}
+						{meta("rideWithGPSID") && (
+							<SocialIcon>
+								<a title="Ride With GPS" href={meta("rideWithGPSID")}>
+									<RideWithGPS />
+								</a>
+							</SocialIcon>
+						)}
+
+						{meta("instagramHandle") && (
+							<SocialIcon>
+								<a title="Instagram" href={meta("instagramHandle")}>
+									<Instagram />
+								</a>
+							</SocialIcon>
 						)}
 					</Center>
-				</Section>
-
-				<Section>
-					{!noSocialAccounts && (
-						<Center>
-							{meta("twitterHanlde") && (
-								<SocialIcon>
-									<a title="Twitter" href={meta("twitterHanlde")}>
-										<Twitter />
-									</a>
-								</SocialIcon>
-							)}
-							{meta("stravaID") && (
-								<SocialIcon>
-									<a title="Strava" href={meta("stravaID")}>
-										<Strava />
-									</a>
-								</SocialIcon>
-							)}
-							{meta("rideWithGPSID") && (
-								<SocialIcon>
-									<a title="Ride With GPS" href={meta("rideWithGPSID")}>
-										<RideWithGPS />
-									</a>
-								</SocialIcon>
-							)}
-
-							{meta("instagramHandle") && (
-								<SocialIcon>
-									<a title="Instagram" href={meta("instagramHandle")}>
-										<Instagram />
-									</a>
-								</SocialIcon>
-							)}
-						</Center>
-					)}
-				</Section>
-
-				{meta("biography") && (
-					<Section>
-						<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
-					</Section>
 				)}
+			</Section>
 
+			{meta("biography") && (
 				<Section>
-					<Link href={`/results`} passHref>
-						<A near_black hover_blue>
-							← All riders
-						</A>
-					</Link>
+					<Center>
+						<div dangerouslySetInnerHTML={{ __html: meta("biography") }} />
+					</Center>
+				</Section>
+			)}
 
-					<ProfileDetails
+			<Section>
+				<Link href={`/results`} passHref>
+					<A near_black hover_blue>
+						← All riders
+					</A>
+				</Link>
+
+				{/* <ProfileDetails
 						authID={authID}
 						auth0Profile={auth0Profile}
 						name={name}
@@ -309,45 +329,40 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						isCurrentUserProfile={isCurrentUserProfile}
 						handleUnclaimedProfile={handleUnclaimedProfile}
 						races={races}
-					/>
-				</Section>
+					/> */}
+			</Section>
 
-				<Section>
-					<Accordion>
-						{/*achievedAwards.length > 0 && (
+			<Section>
+				<Accordion>
+					{/*achievedAwards.length > 0 && (
 							<AccordionItem id="awards" title="Distance Achievements">
 								<ProfileAwards profile={profile} awards={achievedAwards} />
 							</AccordionItem>
 						)*/}
 
-						<AccordionItem
-							id="stats"
-							title="Stats"
-							isOpen={showStats}
-							ref={statsRef}
-						>
-							<ProfileStats
-								profile={profile}
-								name={name}
-								auth0Profile={auth0Profile}
-								handleUnclaimedProfile={handleUnclaimedProfile}
-							/>
-						</AccordionItem>
+					<AccordionItem
+						id="stats"
+						title="Stats"
+						isOpen={showStats}
+						ref={statsRef}
+					>
+						<ProfileStats
+							profile={profile}
+							name={name}
+							auth0Profile={auth0Profile}
+							handleUnclaimedProfile={handleUnclaimedProfile}
+						/>
+					</AccordionItem>
 
-						{auth0Profile && auth0Profile.user_metadata?.rwgps && (
-							<ProfileRWGPS auth0Profile={auth0Profile} name={name} />
-						)}
+					{auth0Profile && auth0Profile.user_metadata?.rwgps && (
+						<ProfileRWGPS auth0Profile={auth0Profile} name={name} />
+					)}
 
-						<AccordionItem id="stats" title="Latest Results" isOpen>
-							<ResultsTable
-								type="profile"
-								results={profile}
-								showNationality={false}
-							/>
-						</AccordionItem>
-					</Accordion>
-				</Section>
-			</Fragment>
+					<AccordionItem id="stats" title="Latest Results" isOpen>
+						<Table data={profile} />
+					</AccordionItem>
+				</Accordion>
+			</Section>
 
 			{claimToggle && (
 				<Modal>
