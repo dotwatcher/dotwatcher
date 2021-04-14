@@ -255,13 +255,17 @@ const Race = ({ data }) => {
 					property="og:description"
 					content={race.shortDescription}
 				/>
-				<meta key={HEAD.OG_IMAGE} property="og:image" content={race.icon.url} />
+				<meta
+					key={HEAD.OG_IMAGE}
+					property="og:image"
+					content={race.icon && race.icon.url}
+				/>
 				<meta name="twitter:card" content="summary" />
 				<meta name="twitter:site" content="@dotwatcher" />
 				<meta name="twitter:creator" content="@dotwatcher" />
 				<meta name="twitter:title" content={`${race.title} - DotWatcher.cc`} />
 				<meta name="twitter:description" content={race.shortDescription} />
-				<meta name="twitter:image" content={race.icon.ur} />
+				<meta name="twitter:image" content={race.icon && race.icon.url} />
 				<meta name="description" content={race.shortDescription} />
 				<meta name="twitter:label1" content="Location" />
 				<meta name="twitter:data1" content={race.location} />
