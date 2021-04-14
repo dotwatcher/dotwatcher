@@ -81,41 +81,49 @@ const SlideWrap = styled.div`
 
 const SlideImage = styled.div``;
 
-const RaceSlide = ({ race, ind, ...props }) => (
-	<Slide {...props}>
-		<SlideWrap>
-			<SlideImage>
-				<Image
-					src={(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"}
-					width={1700}
-					height={920}
-					title={race.title}
-					priority={ind === 0}
-				/>
-			</SlideImage>
+const RaceSlide = ({ race, ind, ...props }) => {
+	if (!race) return null;
 
-			<SlideDescription>
-				<H2>
-					<Link href={`/race/${race.slug}`}>
-						<A title={race.title}>{race.title}</A>
-					</Link>
-				</H2>
+	return (
+		<Slide {...props}>
+			<SlideWrap>
+				{(race.heroImage || race.icon) && (
+					<SlideImage>
+						<Image
+							src={
+								(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"
+							}
+							width={1700}
+							height={920}
+							title={race.title}
+							priority={ind === 0}
+						/>
+					</SlideImage>
+				)}
 
-				<RaceDescription>
-					<Link href={`/race/${race.slug}`}>
-						<A title={race.title}>{race.shortDescription}</A>
-					</Link>
-				</RaceDescription>
+				<SlideDescription>
+					<H2>
+						<Link href={`/race/${race.slug}`}>
+							<A title={race.title}>{race.title}</A>
+						</Link>
+					</H2>
 
-				<P>
-					<Link href={`/race/${race.slug}`}>
-						<A title={`Read More - ${race.title}`}>Read More</A>
-					</Link>
-				</P>
-			</SlideDescription>
-		</SlideWrap>
-	</Slide>
-);
+					<RaceDescription>
+						<Link href={`/race/${race.slug}`}>
+							<A title={race.title}>{race.shortDescription}</A>
+						</Link>
+					</RaceDescription>
+
+					<P>
+						<Link href={`/race/${race.slug}`}>
+							<A title={`Read More - ${race.title}`}>Read More</A>
+						</Link>
+					</P>
+				</SlideDescription>
+			</SlideWrap>
+		</Slide>
+	);
+};
 
 const LiveRaces = ({ liveRaces }) => {
 	const count = liveRaces.items.length;
