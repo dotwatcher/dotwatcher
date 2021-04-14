@@ -77,6 +77,8 @@ const RaceDescription = styled(P)`
 const SlideWrap = styled.div`
 	margin: 0 auto;
 	position: relative;
+	width: 100%;
+	min-height: 150px;
 `;
 
 const SlideImage = styled.div``;
