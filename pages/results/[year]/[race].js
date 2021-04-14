@@ -99,7 +99,7 @@ const RaceResults = ({ data }) => {
 
 	const [race, setRace] = useState(data.race);
 	const [sort, setSort] = useState("results__position_ASC");
-	const [activeRider, setActiveRider] = useState(router.query.rider);
+
 	const [filters, setFilters] = useState(
 		router.query.filters ? router.query.filters.split(",") : []
 	);
@@ -276,7 +276,7 @@ const RaceResults = ({ data }) => {
 								</AccordionItem>
 
 								<AccordionItem id="results" title="Results" isOpen>
-									<Table data={race} activeRider={activeRider} />
+									<Table data={race} />
 								</AccordionItem>
 							</Accordion>
 						</div>
