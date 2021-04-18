@@ -121,13 +121,11 @@ const Nav = ({
 	const year = format(currentDate, "YYYY");
 	const intYear = parseInt(year);
 	const intMonth = getMonth(currentDate);
-
+	console.log("adsadsads");
 	const monthRef = useRef(null);
 	const yearRef = useRef(null);
 
 	const years = getYears(intYear);
-
-	const updateRoute = ({ month, year }) => {};
 
 	const handleChange = () => {
 		const { current: month } = monthRef;
@@ -156,7 +154,7 @@ const Nav = ({
 		handlePrevMonthClick();
 	};
 
-	const handleNextClick = () => {
+	const handleNextClick = e => {
 		const { current: month } = monthRef;
 		const { current: year } = yearRef;
 
