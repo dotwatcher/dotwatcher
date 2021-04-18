@@ -13,8 +13,4 @@ const Select = styled.select`
 	background-position: 95% 50%;
 `;
 
-const OptionSelect = ({ children, ...props }) => (
-	<Select {...props}>{children}</Select>
-);
-
-export default OptionSelect;
+export default Select;
