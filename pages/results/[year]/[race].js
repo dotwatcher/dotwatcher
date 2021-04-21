@@ -67,6 +67,7 @@ const QLQuery = `
 		position
 		result
 		finishlocation
+		finishdistance
 		days
 		hours
 		minutes
@@ -315,7 +316,7 @@ export const getServerSideProps = async ctx => {
 		console.log(error);
 
 		return {
-			props: {}
+			notFound: true
 		};
 	}
 };
