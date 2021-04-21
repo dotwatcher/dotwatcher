@@ -53,6 +53,7 @@ const SlideDescription = styled.div`
 
 const Tab = styled.button`
 	flex-grow: 1;
+	flex-basis: 0;
 	background-color: transparent;
 	border: 1px solid ${colors.grey};
 	border-radius: 2px;

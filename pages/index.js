@@ -284,7 +284,7 @@ export const getServerSideProps = async () => {
 					upcomingRaces: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						preview: $preview
 						limit: 5
-						where: { liveBeforeStartDate: true, raceEndDate_gte: $today }
+						where: { liveBeforeStartDate: true, raceDate_gte: $today }
 					) {
 						items {
 							...liveRace
