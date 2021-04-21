@@ -47,6 +47,7 @@ import { Table } from "@ComponentsNew/Profile";
 
 import dim from "@Utils/dim";
 import { HEAD } from "@Utils/contstants";
+import client from "@Utils/apollo";
 
 const Claim = styled(Button)`
 	width: 100%;
@@ -402,16 +403,22 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	);
 };
 
-App.propTypes = {
-	name: PropTypes.string,
-	profile: PropTypes.array
-};
+const enhance = compose(WithProfile);
 
-App.defaultProps = {
-	name: "",
-	profile: []
+export const getServerSideProps = async ctx => {
+	try {
+		const { data } = await client.query({
+			variables: {
+				name: ctx.query.name
+			},
+			query: gql``
+		});
+	} catch (error) {
+		console.log(errr);
+		return {
+			notFound: true
+		};
+	}
 };
-
-const enhance = compose(WithProfile, withRaces);
 
 export default enhance(App);
