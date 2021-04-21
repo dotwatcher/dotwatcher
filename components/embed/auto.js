@@ -38,7 +38,23 @@ class AutoEmbed extends Component {
 		if (this.state.inBrowser && this.props.href.includes("instagram.com/p/")) {
 			return <Instagram url={this.props.href} />;
 		}
+
 		if (this.state.inBrowser && youtubeDomain.test(this.props.href)) {
+			if (!youtubeID) return null;
+
+			if (youtubeID.id) {
+				return (
+					<iframe
+						width="560"
+						height="315"
+						style={{ maxWidth: "100%" }}
+						src={`https://www.youtube.com/embed/${youtubeID.id}`}
+						frameBorder="0"
+						allowFullScreen
+					/>
+				);
+			}
+
 			return (
 				<iframe
 					width="560"
@@ -50,6 +66,7 @@ class AutoEmbed extends Component {
 				/>
 			);
 		}
+
 		if (this.state.inBrowser && this.props.href.includes("docs.google.com")) {
 			return (
 				<iframe
