@@ -348,6 +348,8 @@ const Series = ({
 														</WinnerRace>
 													))}
 												</span>
+
+												<br />
 											</Fragment>
 										))}
 									</span>
