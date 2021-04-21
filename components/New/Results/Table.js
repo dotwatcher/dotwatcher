@@ -62,6 +62,10 @@ const Results = ({ data, activeRider }) => {
 				accessor: "finishlocation"
 			},
 			{
+				Header: "Finish Distance",
+				accessor: "finishdistance"
+			},
+			{
 				Header: "Finish Time",
 				accessor: "finishTime"
 			},
@@ -77,6 +81,7 @@ const Results = ({ data, activeRider }) => {
 		"cap",
 		"riderNationality",
 		"finishlocation",
+		"finishdistance",
 		"notes"
 	];
 

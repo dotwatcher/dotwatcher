@@ -60,6 +60,10 @@ const Results = ({ data }) => {
 				accessor: "finishlocation"
 			},
 			{
+				Header: "Finish Distance",
+				accessor: "finishdistance"
+			},
+			{
 				Header: "Finish Time",
 				accessor: "finishTime"
 			}
@@ -67,7 +71,7 @@ const Results = ({ data }) => {
 		[data]
 	);
 
-	const ifHiddenColumns = ["cap", "notes", "finishlocation"];
+	const ifHiddenColumns = ["cap", "notes", "finishlocation", "finishdistance"];
 
 	// Find any columns out of the list where ther are no values
 	const hiddenColumns = ifHiddenColumns.map(columnName => {
