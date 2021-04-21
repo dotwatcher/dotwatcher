@@ -34,6 +34,21 @@ const Link = ({ href, children }) => {
 	}
 
 	if (youtubeDomain.test(href)) {
+		if (!youtubeID) return null;
+
+		if (youtubeID.id) {
+			return (
+				<iframe
+					width="560"
+					height="315"
+					style={{ maxWidth: "100%" }}
+					src={`https://www.youtube.com/embed/${youtubeID.id}`}
+					frameBorder="0"
+					allowFullScreen
+				/>
+			);
+		}
+
 		return (
 			<iframe
 				width="560"
