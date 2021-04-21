@@ -90,7 +90,7 @@ const CustomForm = ({
 		});
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = e => {
 		e.preventDefault();
 		submit();
 		markAsSignedUp();
