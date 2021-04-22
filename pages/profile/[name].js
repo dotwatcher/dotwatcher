@@ -411,7 +411,43 @@ export const getServerSideProps = async ctx => {
 			variables: {
 				name: ctx.query.name
 			},
-			query: gql``
+			query: gql`
+				query rider($name: String!) {
+					rider(name: $name) {
+						id
+						name
+						nationality
+						authId
+						annualDistances {
+							terrain
+							years {
+								year
+								totalDistance
+								results {
+									racename
+									position
+								}
+							}
+						}
+						results {
+							racename
+							year
+							position
+							cap
+							class
+							category
+							result
+							bike
+							finishlocation
+							finishdistance
+							days
+							hours
+							minutes
+							notes
+						}
+					}
+				}
+			`
 		});
 	} catch (error) {
 		console.log(errr);
