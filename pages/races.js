@@ -154,7 +154,7 @@ export const getServerSideProps = async () => {
 
 					upcomingRaceCollection: contentType5KMiN6YPvi42IcqAuqmcQeCollection(
 						preview: $preview
-						where: { raceDate_gt: $today }
+						where: { raceDate_gt: $today, calendarOnly: false }
 					) {
 						items {
 							...race
