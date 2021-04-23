@@ -32,9 +32,9 @@ const Features = ({ featureCollection }) => (
 					)}
 
 					<Link href={`/feature/${feature.slug}`} passHref>
-						<H3>
-							<A title={feature.title}>{feature.title}</A>
-						</H3>
+						<A title={feature.title}>
+							<H3>{feature.title}</H3>
+						</A>
 					</Link>
 
 					<P>{feature.excerpt}</P>

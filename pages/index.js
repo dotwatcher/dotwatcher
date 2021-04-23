@@ -146,11 +146,11 @@ const Home = ({ data }) => {
 					</H4>
 				</Center>
 				<Center>
-					<Link href="/about#contributors" passHref>
-						<H4>
+					<H4>
+						<Link href="/about#contributors" passHref>
 							<A title="Who are we?">Who Are We ?</A>
-						</H4>
-					</Link>
+						</Link>
+					</H4>
 				</Center>
 			</TitleSection>
 

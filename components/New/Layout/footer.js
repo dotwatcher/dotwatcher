@@ -164,9 +164,9 @@ const FooterComp = () => {
 
 						<Contrinbutor>
 							<Link href="/about#contributors" passHref>
-								<p>
-									<A title="Our Contributors">Our Contributors</A>
-								</p>
+								<A title="Our Contributors">
+									<p>Our Contributors</p>
+								</A>
 							</Link>
 						</Contrinbutor>
 					</ContributorsGrid>
