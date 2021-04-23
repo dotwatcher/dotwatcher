@@ -77,13 +77,7 @@ const Results = ({ data, activeRider }) => {
 		[data]
 	);
 
-	const ifHiddenColumns = [
-		"cap",
-		"riderNationality",
-		"finishlocation",
-		"finishdistance",
-		"notes"
-	];
+	const ifHiddenColumns = ["cap", "finishlocation", "finishdistance", "notes"];
 
 	// Find any columns out of the list where ther are no values
 	const hiddenColumns = ifHiddenColumns.map(columnName => {
@@ -93,6 +87,11 @@ const Results = ({ data, activeRider }) => {
 
 		return "";
 	});
+
+	// Have to do rider nationality seperately as column head and attr are differnt
+	if (data.results.every(x => !x.rider.nationality)) {
+		hiddenColumns.push("riderNationality");
+	}
 
 	return (
 		<Section>
