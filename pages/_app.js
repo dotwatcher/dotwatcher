@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
 	Sentry.init({
 		integrations: [new Integrations.BrowserTracing()],
 		dsn: process.env.SENTRY_DSN,
-		release: "dotwatcher@" + process.env.VERCEL_GITHUB_COMMIT_SHA
+		release: "dotwatcher@" + process.env.VERCEL_GIT_COMMIT_SHA
 	});
 }
 
