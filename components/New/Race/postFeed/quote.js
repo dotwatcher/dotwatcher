@@ -4,10 +4,15 @@ import ReactMarkdown from "react-markdown";
 import shortcodes from "remark-shortcodes";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
-import Embed from "../embed";
+
 import widont from "@Utils/widont";
 import quotes from "@Utils/quotes";
-import BodyImage from "@ComponentsNew/markdown";
+
+import {
+	Image as BodyImage,
+	ShortCode,
+	Link as MarkdownLink
+} from "@ComponentsNew/Markdown";
 
 const P = styled.p`
 	${tachyons}
@@ -27,8 +32,8 @@ const Short = ({ data }) => {
 				source={data.body}
 				plugins={[shortcodes]}
 				renderers={{
-					shortcode: Embed,
-					link: AutoEmbed,
+					shortcode: ShortCode,
+					link: MarkdownLink,
 					image: BodyImage
 				}}
 			/>

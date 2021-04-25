@@ -3,6 +3,7 @@ import Short from "./short";
 import Long from "./long";
 import Embed from "./embed";
 import Photo from "./photo";
+import Quote from "./quote";
 import styled from "styled-components";
 import mq from "@Utils/media-query";
 import dim from "@Utils/dim";
