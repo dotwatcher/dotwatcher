@@ -27,7 +27,7 @@ const Page = styled.article`
 	position: relative;
 `;
 
-const Layout = ({ children, user }) => {
+const Layout = ({ children, user, hideLayout }) => {
 	const ref = useRef(null);
 
 	const handleTopClick = () => {
@@ -104,18 +104,23 @@ const Layout = ({ children, user }) => {
 				/>
 			</Head>
 
-			<Header user={user} />
+			{!hideLayout && <Header user={user} />}
 
 			{children}
-			<Footer />
 
-			<Button onClick={handleTopClick} title="Scroll to top">
-				<Image src="/static/icons/up-arrow.svg" width={40} height={40} />
-			</Button>
+			{!hideLayout && (
+				<>
+					<Footer />
 
-			<NewsletterModal />
+					<Button onClick={handleTopClick} title="Scroll to top">
+						<Image src="/static/icons/up-arrow.svg" width={40} height={40} />
+					</Button>
 
-			<CookiePolicy />
+					<NewsletterModal />
+
+					<CookiePolicy />
+				</>
+			)}
 		</Page>
 	);
 };

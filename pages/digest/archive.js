@@ -20,4 +20,6 @@ const Archive = () => (
 	</Head>
 );
 
+Archive.hideLayout = true;
+
 export default Archive;

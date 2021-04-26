@@ -124,12 +124,15 @@ class MyApp extends App {
 	}
 
 	render() {
-		const { Component, pageProps } = this.props;
+		const { Component, pageProps, router } = this.props;
+
+		const hideLayout = router.pathname === "/digest/archive";
 
 		return (
 			<CookiesProvider>
 				<GlobalStyle />
-				<Layout user={this.state.user}>
+
+				<Layout user={this.state.user} hideLayout={!!hideLayout}>
 					<Component {...pageProps} user={this.state.user} />
 				</Layout>
 			</CookiesProvider>

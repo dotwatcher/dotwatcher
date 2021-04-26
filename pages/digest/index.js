@@ -23,7 +23,7 @@ const Iframe = styled.iframe`
 	${tachyons};
 `;
 
-export default ({ user }) => (
+const Digest = () => (
 	<>
 		<Head>
 			<title>Digest - DotWatcher.cc</title>
@@ -45,6 +45,9 @@ export default ({ user }) => (
 				</p>
 			</NewsletterWrap>
 		</Section>
+
 		<Iframe src="/digest/archive" />
 	</>
 );
+
+export default Digest;
