@@ -124,9 +124,6 @@ class MyApp extends App {
 	}
 
 	render() {
-		process.env.NODE_ENV === "production" &&
-			console.log("%c Development by alex@windett.co.uk", styles);
-
 		const { Component, pageProps } = this.props;
 
 		return (
