@@ -8,6 +8,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { gql } from "@apollo/client";
 
 import sanitizeName from "../../utils/sanitize-name";
 import getNationalFlag from "../../utils/get-national-flag";
@@ -73,7 +74,11 @@ const Div = styled.div`
 	${tachyons}
 `;
 
-const App = ({ profile, name, user, auth0Profile, races }) => {
+const RiderProfile = ({ data, user }) => {
+	const { rider } = data;
+
+	const { auth_id, name, auth0Profile, nationality, results } = rider;
+
 	const router = useRouter();
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
@@ -149,24 +154,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		}
 	};
 
-	if (!profile || !profile[0]) {
-		return (
-			<PageWrapper name={name} user={user}>
-				<Div mt3 mh6_l ph3>
-					<Heading fl w_100 mb3>
-						<H1 f3 f1_l fw6 lh_title>
-							{name} {getNationalFlag(nationality)}
-						</H1>
-					</Heading>
-					<Div fl w_100 ph3 mb6>
-						<p>No results found for {name}.</p>
-					</Div>
-				</Div>
-			</PageWrapper>
-		);
-	}
-
-	const authID = profile[0] && profile[0].auth_id;
+	const authID = auth_id;
 	const profileIsClaimed = !!authID;
 	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
 
@@ -187,11 +175,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		!auth0Profile.user_metadata?.rideWithGPSID &&
 		!auth0Profile.user_metadata?.instagramHandle;
 
-	const total = totalDistanceOfRaces(profile);
+	const total = totalDistanceOfRaces(results);
 
 	const achievedAwards = awards.filter(award => award.distance <= total);
-
-	const nationality = profile[0] && profile[0].nationality;
 
 	const meta = property => {
 		if (!property) return false;
@@ -318,19 +304,6 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						← All riders
 					</A>
 				</Link>
-
-				{/* <ProfileDetails
-						authID={authID}
-						auth0Profile={auth0Profile}
-						name={name}
-						noSocialAccounts={noSocialAccounts}
-						loggedIn={loggedIn}
-						isLoading={isLoading}
-						profileIsClaimed={profileIsClaimed}
-						isCurrentUserProfile={isCurrentUserProfile}
-						handleUnclaimedProfile={handleUnclaimedProfile}
-						races={races}
-					/> */}
 			</Section>
 
 			<Section>
@@ -348,7 +321,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						ref={statsRef}
 					>
 						<ProfileStats
-							profile={profile}
+							results={results}
 							name={name}
 							auth0Profile={auth0Profile}
 							handleUnclaimedProfile={handleUnclaimedProfile}
@@ -360,7 +333,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 					)}
 
 					<AccordionItem id="stats" title="Latest Results" isOpen>
-						<Table data={profile} />
+						<Table data={results} name={name} />
 					</AccordionItem>
 				</Accordion>
 			</Section>
@@ -403,7 +376,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	);
 };
 
-const enhance = compose(WithProfile);
+// const enhance = compose(WithProfile);
 
 export const getServerSideProps = async ctx => {
 	try {
@@ -431,6 +404,7 @@ export const getServerSideProps = async ctx => {
 						}
 						results {
 							racename
+							slug
 							year
 							position
 							cap
@@ -449,12 +423,18 @@ export const getServerSideProps = async ctx => {
 				}
 			`
 		});
+
+		return {
+			props: {
+				data
+			}
+		};
 	} catch (error) {
-		console.log(errr);
+		console.log(error);
 		return {
 			notFound: true
 		};
 	}
 };
 
-export default enhance(App);
+export default RiderProfile;
