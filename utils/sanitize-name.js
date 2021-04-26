@@ -1,3 +1,3 @@
-const sanitize = (str = "") => str.replace("’", "'");
+const sanitize = (str = "") => (str ? str.replace("’", "'") : "");
 
 export default sanitize;

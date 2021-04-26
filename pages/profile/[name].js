@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
-import { compose } from "recompose";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Router from "next/router";
@@ -9,10 +7,10 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { gql } from "@apollo/client";
+import Link from "next/link";
 
 import sanitizeName from "../../utils/sanitize-name";
 import getNationalFlag from "../../utils/get-national-flag";
-import ProfileDetails from "../../components/Profile/Details";
 import ProfileStats from "../../components/Profile/Stats";
 import ProfileAwards from "../../components/Profile/Awards";
 import ProfileRWGPS from "../../components/Profile/RWGPS";
@@ -22,14 +20,9 @@ import { totalDistanceOfRaces } from "../../utils/distance";
 
 import { Accordion, AccordionItem } from "../../components/UI/Accordion";
 
-import Link from "next/link";
-
-import PageWrapper from "../../components/Profile/pageWrapper";
 import { user as userAPI } from "../../utils/auth";
 import apiUrl from "./../../utils/api-url";
 
-import { WithProfile } from "../../data/with-profile";
-import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";
 import Image from "next/image";
 
@@ -66,18 +59,10 @@ const SocialIcon = styled.div`
 	margin: 0 ${dim()};
 `;
 
-const Heading = styled.header`
-	${tachyons}
-`;
-
-const Div = styled.div`
-	${tachyons}
-`;
-
-const RiderProfile = ({ data, user }) => {
+const RiderProfile = ({ data, user, auth0Profile }) => {
 	const { rider } = data;
 
-	const { auth_id, name, auth0Profile, nationality, results } = rider;
+	const { auth_id, name, nationality, results } = rider;
 
 	const router = useRouter();
 	const [claimToggle, setclaimToggle] = useState(false);
@@ -376,8 +361,6 @@ const RiderProfile = ({ data, user }) => {
 	);
 };
 
-// const enhance = compose(WithProfile);
-
 export const getServerSideProps = async ctx => {
 	try {
 		const { data } = await client.query({
@@ -418,15 +401,21 @@ export const getServerSideProps = async ctx => {
 							hours
 							minutes
 							notes
+							length
 						}
 					}
 				}
 			`
 		});
 
+		const auth0Profile = data.rider.authId
+			? await userAPI.get(data.rider.authId)
+			: {};
+
 		return {
 			props: {
-				data
+				data,
+				auth0Profile: auth0Profile.success && auth0Profile.data
 			}
 		};
 	} catch (error) {

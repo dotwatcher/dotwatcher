@@ -1,4 +1,4 @@
-const distances = races => races.map(race => race.length);
+const distances = (races = []) => (races ? races.map(race => race.length) : []);
 
 export const addArray = distances =>
 	distances.reduce((a, b) => {
@@ -11,6 +11,7 @@ export const addArray = distances =>
 
 export const totalDistanceOfRaces = races => {
 	const totals = distances(races);
+
 	const total = addArray(totals);
 
 	return total;
