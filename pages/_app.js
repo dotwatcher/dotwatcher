@@ -20,6 +20,7 @@ if (typeof window !== "undefined") {
 }
 
 if (process.env.NODE_ENV === "production") {
+	console.log(process.env.VERCEL_GIT_COMMIT_SHA);
 	Sentry.init({
 		integrations: [new Integrations.BrowserTracing()],
 		dsn: process.env.SENTRY_DSN,
