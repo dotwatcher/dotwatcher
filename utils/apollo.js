@@ -1,9 +1,19 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, from, HttpLink } from "@apollo/client";
+import { RetryLink } from "@apollo/client/link/retry";
+
+const http = new HttpLink({
+	uri: "https://graphql.dotwatcher.cc"
+});
+
+const retry = new RetryLink();
+
+const link = from([http, retry]);
 
 const client = new ApolloClient({
 	ssrMode: typeof window === "undefined",
 	connectToDevTools: process.env.NODE_ENV !== "production",
-	uri: "https://graphql.dotwatcher.cc",
+	link,
+	// uri: "https://graphql.dotwatcher.cc",
 	cache: new InMemoryCache(),
 
 	/**
