@@ -26,6 +26,13 @@ const Button = styled.button`
 			secondary ? colors.primaryHover : colors.primary};
 		background-color: ${colors.white};
 	}
+
+	&:disabled {
+		background: grey;
+		border-color: grey;
+		color: white;
+		cursor: not-allowed;
+	}
 `;
 
 export default Button;

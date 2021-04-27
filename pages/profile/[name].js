@@ -62,7 +62,7 @@ const SocialIcon = styled.div`
 const RiderProfile = ({ data, user, auth0Profile }) => {
 	const { rider } = data;
 
-	const { auth_id, name, nationality, results } = rider;
+	const { authId, name, nationality, results } = rider;
 
 	const router = useRouter();
 	const [claimToggle, setclaimToggle] = useState(false);
@@ -139,9 +139,8 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 		}
 	};
 
-	const authID = auth_id;
-	const profileIsClaimed = !!authID;
-	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
+	const profileIsClaimed = !!authId;
+	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authId;
 
 	const handleUnclaimedProfile = () => {
 		if (!user.loggedIn) {
