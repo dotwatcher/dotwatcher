@@ -250,11 +250,14 @@ const Race = ({ data }) => {
 					property="og:title"
 					content={`${race.title} - DotWatcher.cc`}
 				/>
-				<meta
-					key={HEAD.OG_DESC}
-					property="og:description"
-					content={race.shortDescription}
-				/>
+
+				{race.shortDescription && (
+					<meta
+						key={HEAD.OG_DESCRIPTION}
+						property="og:description"
+						content={race.shortDescription}
+					/>
+				)}
 
 				{race.icon && (
 					<meta
