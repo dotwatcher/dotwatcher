@@ -22,6 +22,7 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
 	top: 2px;
 	border-radius: 3px;
 	border: 1px solid ${colors.black};
+	cursor: pointer;
 
 	${({ checked }) =>
 		checked &&

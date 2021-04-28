@@ -122,7 +122,7 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 
 	const handleClaim = async () => {
 		setIsLoading(true);
-
+		debugger;
 		try {
 			const profile = await axios({
 				url: apiUrl(
@@ -132,6 +132,7 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 			});
 
 			if (profile.errors) {
+				debugger;
 				console.log("There was an issue updating your profile", profile.errors);
 			}
 
