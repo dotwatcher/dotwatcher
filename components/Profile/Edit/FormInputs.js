@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import Button from "@Components/UI/Button";
 import P from "@Components/UI/P";
 import H3 from "@Components/UI/H3";
-import Input from "@Components/UI/Input";
+import Input, { Checkbox } from "@Components/UI/Input";
 import dim from "@Utils/dim";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -134,11 +134,9 @@ const FormInputs = ({
 					<RaceGrid>
 						{sortedRaces.map(race => (
 							<RaceInput key={race.sys.id}>
-								<Input
+								<Checkbox
 									name="races"
-									type="checkbox"
 									onChange={handleChange}
-									onBlur={handleBlur}
 									value={race.sys.id}
 									checked={values.races && values.races.includes(race.sys.id)}
 								/>

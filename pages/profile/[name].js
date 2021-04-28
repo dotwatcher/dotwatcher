@@ -45,7 +45,10 @@ import client from "@Utils/apollo";
 
 const Claim = styled(Button)`
 	width: 100%;
+	margin: ${dim()} 0;
 `;
+
+const Cancel = styled(A)``;
 
 const UserAvatar = styled.div`
 	img {
@@ -111,6 +114,11 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 			}, 500);
 		}
 	}, [statsRef]);
+
+	const handleCancelClaim = e => {
+		e.preventDefault();
+		setclaimToggle(false);
+	};
 
 	const handleClaim = async () => {
 		setIsLoading(true);
@@ -345,14 +353,9 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 							Claim
 						</Claim>
 
-						<P
-							near_black
-							hover_blue
-							underline
-							onClick={() => setclaimToggle(false)}
-						>
+						<Cancel title="Cancel" href="#" onClick={handleCancelClaim}>
 							Cancel
-						</P>
+						</Cancel>
 					</ModalWrapper>
 				</Modal>
 			)}
@@ -414,7 +417,7 @@ export const getServerSideProps = async ctx => {
 		return {
 			props: {
 				data,
-				auth0Profile: auth0Profile.success && auth0Profile.data
+				auth0Profile: auth0Profile.success ? auth0Profile.data : false
 			}
 		};
 	} catch (error) {
