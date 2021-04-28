@@ -11,6 +11,7 @@ import Link from "next/link";
 import { formatEnum } from "node_modules/@dotwatcher/utils";
 
 import styled, { css } from "styled-components";
+import { curveLinearClosed } from "d3";
 
 const Section = styled.section`
 	overflow-x: scroll;
@@ -133,8 +134,8 @@ const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
 									router.query.rider && router.query.rider === row.values.rider
 								}
 							>
-								{row.cells.map((cell, cellInd) => {
-									const { slug, year, name } = data[cellInd] || {};
+								{row.cells.map(cell => {
+									const { year, slug, name } = cell.row.original;
 
 									return (
 										<TableCell

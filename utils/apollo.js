@@ -7,7 +7,7 @@ const http = new HttpLink({
 
 const retry = new RetryLink();
 
-const link = from([http, retry]);
+const link = from([retry, http]);
 
 const client = new ApolloClient({
 	ssrMode: typeof window === "undefined",
