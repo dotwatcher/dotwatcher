@@ -68,3 +68,6 @@ now-secrets.json
 test-data
 
 .now
+
+/public/robots.txt
+/public/sitemap.xml

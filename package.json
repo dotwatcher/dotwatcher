@@ -21,7 +21,7 @@
 		"now-build": "next build",
 		"start": "next start",
 		"lint": "xo",
-		"prebuild": "rm ./public/sitemap.xml",
+		"prebuild": "rm -f ./public/sitemap.xml",
 		"postbuild": "next-sitemap"
 	},
 	"engines": {
