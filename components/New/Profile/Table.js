@@ -8,11 +8,14 @@ const Section = styled.section`
 	overflow-x: scroll;
 `;
 
-const Results = ({ data }) => {
+const Results = ({ data = [], name }) => {
+	data = data || [];
+
 	const dataRows = useMemo(
 		() =>
 			data.map(d => ({
 				...d,
+				name,
 				position: d.position || "—",
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? "—"
@@ -26,6 +29,10 @@ const Results = ({ data }) => {
 			{
 				Header: "Race",
 				accessor: "racename"
+			},
+			{
+				Header: "Name",
+				accessor: "name"
 			},
 			{
 				Header: "Year",
@@ -74,13 +81,15 @@ const Results = ({ data }) => {
 	const ifHiddenColumns = ["cap", "notes", "finishlocation", "finishdistance"];
 
 	// Find any columns out of the list where ther are no values
-	const hiddenColumns = ifHiddenColumns.map(columnName => {
+	let hiddenColumns = ifHiddenColumns.map(columnName => {
 		if (data.every(x => !x[columnName])) {
 			return columnName;
 		}
 
 		return "";
 	});
+
+	hiddenColumns = [...hiddenColumns, "name"];
 
 	return (
 		<Section>

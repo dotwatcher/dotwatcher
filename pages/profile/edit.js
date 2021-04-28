@@ -117,6 +117,7 @@ const Profile = ({
 							inputs={inputs}
 							biographyValue={biographyValue}
 							setBiographyValue={handleBiographyChange}
+							values={values}
 							{...props}
 						/>
 					</Form>

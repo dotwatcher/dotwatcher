@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
-import { compose } from "recompose";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import tachyons from "styled-components-tachyons";
 import Router from "next/router";
@@ -8,10 +6,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { gql } from "@apollo/client";
+import Link from "next/link";
 
 import sanitizeName from "../../utils/sanitize-name";
 import getNationalFlag from "../../utils/get-national-flag";
-import ProfileDetails from "../../components/Profile/Details";
 import ProfileStats from "../../components/Profile/Stats";
 import ProfileAwards from "../../components/Profile/Awards";
 import ProfileRWGPS from "../../components/Profile/RWGPS";
@@ -21,14 +20,9 @@ import { totalDistanceOfRaces } from "../../utils/distance";
 
 import { Accordion, AccordionItem } from "../../components/UI/Accordion";
 
-import Link from "next/link";
-
-import PageWrapper from "../../components/Profile/pageWrapper";
 import { user as userAPI } from "../../utils/auth";
 import apiUrl from "./../../utils/api-url";
 
-import { WithProfile } from "../../data/with-profile";
-import { withRaces } from "../../data/with-races";
 import { user as authUser } from "../../utils/auth";
 import Image from "next/image";
 
@@ -47,10 +41,14 @@ import { Table } from "@ComponentsNew/Profile";
 
 import dim from "@Utils/dim";
 import { HEAD } from "@Utils/contstants";
+import client from "@Utils/apollo";
 
 const Claim = styled(Button)`
 	width: 100%;
+	margin: ${dim()} 0;
 `;
+
+const Cancel = styled(A)``;
 
 const UserAvatar = styled.div`
 	img {
@@ -64,15 +62,11 @@ const SocialIcon = styled.div`
 	margin: 0 ${dim()};
 `;
 
-const Heading = styled.header`
-	${tachyons}
-`;
+const RiderProfile = ({ data, user, auth0Profile }) => {
+	const { rider } = data;
 
-const Div = styled.div`
-	${tachyons}
-`;
+	const { authId, name, nationality, results } = rider;
 
-const App = ({ profile, name, user, auth0Profile, races }) => {
 	const router = useRouter();
 	const [claimToggle, setclaimToggle] = useState(false);
 	const [claimConfim, setclaimConfim] = useState("");
@@ -121,9 +115,14 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		}
 	}, [statsRef]);
 
+	const handleCancelClaim = e => {
+		e.preventDefault();
+		setclaimToggle(false);
+	};
+
 	const handleClaim = async () => {
 		setIsLoading(true);
-
+		debugger;
 		try {
 			const profile = await axios({
 				url: apiUrl(
@@ -133,6 +132,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 			});
 
 			if (profile.errors) {
+				debugger;
 				console.log("There was an issue updating your profile", profile.errors);
 			}
 
@@ -148,26 +148,8 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		}
 	};
 
-	if (!profile || !profile[0]) {
-		return (
-			<PageWrapper name={name} user={user}>
-				<Div mt3 mh6_l ph3>
-					<Heading fl w_100 mb3>
-						<H1 f3 f1_l fw6 lh_title>
-							{name} {getNationalFlag(nationality)}
-						</H1>
-					</Heading>
-					<Div fl w_100 ph3 mb6>
-						<p>No results found for {name}.</p>
-					</Div>
-				</Div>
-			</PageWrapper>
-		);
-	}
-
-	const authID = profile[0] && profile[0].auth_id;
-	const profileIsClaimed = !!authID;
-	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authID;
+	const profileIsClaimed = !!authId;
+	const isCurrentUserProfile = !!loggedIn && loggedIn.sub === authId;
 
 	const handleUnclaimedProfile = () => {
 		if (!user.loggedIn) {
@@ -186,11 +168,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 		!auth0Profile.user_metadata?.rideWithGPSID &&
 		!auth0Profile.user_metadata?.instagramHandle;
 
-	const total = totalDistanceOfRaces(profile);
+	const total = totalDistanceOfRaces(results);
 
 	const achievedAwards = awards.filter(award => award.distance <= total);
-
-	const nationality = profile[0] && profile[0].nationality;
 
 	const meta = property => {
 		if (!property) return false;
@@ -317,19 +297,6 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						← All riders
 					</A>
 				</Link>
-
-				{/* <ProfileDetails
-						authID={authID}
-						auth0Profile={auth0Profile}
-						name={name}
-						noSocialAccounts={noSocialAccounts}
-						loggedIn={loggedIn}
-						isLoading={isLoading}
-						profileIsClaimed={profileIsClaimed}
-						isCurrentUserProfile={isCurrentUserProfile}
-						handleUnclaimedProfile={handleUnclaimedProfile}
-						races={races}
-					/> */}
 			</Section>
 
 			<Section>
@@ -347,7 +314,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 						ref={statsRef}
 					>
 						<ProfileStats
-							profile={profile}
+							results={results}
 							name={name}
 							auth0Profile={auth0Profile}
 							handleUnclaimedProfile={handleUnclaimedProfile}
@@ -359,7 +326,7 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 					)}
 
 					<AccordionItem id="stats" title="Latest Results" isOpen>
-						<Table data={profile} />
+						<Table data={results} name={name} />
 					</AccordionItem>
 				</Accordion>
 			</Section>
@@ -387,14 +354,9 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 							Claim
 						</Claim>
 
-						<P
-							near_black
-							hover_blue
-							underline
-							onClick={() => setclaimToggle(false)}
-						>
+						<Cancel title="Cancel" href="#" onClick={handleCancelClaim}>
 							Cancel
-						</P>
+						</Cancel>
 					</ModalWrapper>
 				</Modal>
 			)}
@@ -402,16 +364,69 @@ const App = ({ profile, name, user, auth0Profile, races }) => {
 	);
 };
 
-App.propTypes = {
-	name: PropTypes.string,
-	profile: PropTypes.array
+export const getServerSideProps = async ctx => {
+	try {
+		const { data } = await client.query({
+			variables: {
+				name: ctx.query.name
+			},
+			query: gql`
+				query rider($name: String!) {
+					rider(name: $name) {
+						id
+						name
+						nationality
+						authId
+						annualDistances {
+							terrain
+							years {
+								year
+								totalDistance
+								results {
+									racename
+									position
+								}
+							}
+						}
+						results {
+							racename
+							slug
+							year
+							position
+							cap
+							class
+							category
+							result
+							bike
+							finishlocation
+							finishdistance
+							days
+							hours
+							minutes
+							notes
+							length
+						}
+					}
+				}
+			`
+		});
+
+		const auth0Profile = data.rider.authId
+			? await userAPI.get(data.rider.authId)
+			: {};
+
+		return {
+			props: {
+				data,
+				auth0Profile: auth0Profile.success ? auth0Profile.data : false
+			}
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			notFound: true
+		};
+	}
 };
 
-App.defaultProps = {
-	name: "",
-	profile: []
-};
-
-const enhance = compose(WithProfile, withRaces);
-
-export default enhance(App);
+export default RiderProfile;

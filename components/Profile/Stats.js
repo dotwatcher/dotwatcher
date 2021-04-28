@@ -25,7 +25,7 @@ const P = styled.p`
 	${tachyons}
 `;
 
-const ProfileStats = props => {
+const ProfileStats = ({ results, ...props }) => {
 	if (!props.auth0Profile) {
 		const handleClick = e => {
 			e.preventDefault();
@@ -44,14 +44,14 @@ const ProfileStats = props => {
 		);
 	}
 
-	let data = uniqueYears(props.profile).reduce((acc, curr, index) => {
+	let data = uniqueYears(results).reduce((acc, curr, index) => {
 		if (curr) {
 			return [
 				...acc,
 				{
 					index,
 					year: curr,
-					distance: totalDistanceByYear({ races: props.profile, year: curr })
+					distance: totalDistanceByYear({ races: results, year: curr })
 				}
 			];
 		}
@@ -61,14 +61,14 @@ const ProfileStats = props => {
 
 	data = data.sort((a, b) => a.year - b.year);
 
-	const total = totalDistanceOfRaces(props.profile);
+	const total = totalDistanceOfRaces(results);
 
 	return (
 		<Div>
 			<BarGraph
 				data={data}
 				totalDistance={total}
-				averageAnnualDistance={averageDistance(props.profile)}
+				averageAnnualDistance={averageDistance(results)}
 			/>
 		</Div>
 	);
