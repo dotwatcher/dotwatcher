@@ -8,7 +8,9 @@ const contentful = {
 		feature: "feature",
 		page: "page",
 		infoPage: "infoPage",
-		raceSeries: "raceSeries"
+		raceSeries: "raceSeries",
+		race: "5KMiN6YPvi42icqAUQMCQe",
+		contributors: "contributor"
 	},
 	pages: {
 		tips: "6CO2ZfSWlyOkcQsG62iGaE",
