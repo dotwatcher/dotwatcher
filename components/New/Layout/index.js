@@ -113,7 +113,12 @@ const Layout = ({ children, user, hideLayout }) => {
 					<Footer />
 
 					<Button onClick={handleTopClick} title="Scroll to top">
-						<Image src="/static/icons/up-arrow.svg" width={40} height={40} />
+						<Image
+							src="/static/icons/up-arrow.svg"
+							width={40}
+							height={40}
+							alt="Scroll to top"
+						/>
 					</Button>
 
 					<NewsletterModal />
