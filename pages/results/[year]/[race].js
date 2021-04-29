@@ -206,11 +206,19 @@ const RaceResults = ({ data }) => {
 					rel="canonical"
 					href={`https://dotwatcher.cc/results/${race.year}/${race.slug}`}
 				/>
+
 				<meta
 					key={HEAD.OG_TITLE}
 					property="og:title"
 					content={`${race.name} ${race.year} Results - DotWatcher.cc`}
 				/>
+
+				<meta
+					key={HEAD.DESCRIPTION}
+					property="description"
+					content={metaDescription}
+				/>
+
 				<meta
 					key={HEAD.OG_DESCRIPTION}
 					property="og:description"
