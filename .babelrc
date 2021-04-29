@@ -1,23 +1,50 @@
 {
-  "plugins": [
-    ["@babel/plugin-proposal-optional-chaining"],
-    [
-      "module-resolver",
-      {
-        "root": ["."],
-        "alias": {
-          "styles": "./styles"
-        },
-        "cwd": "babelrc"
-      }
-    ],
-    [
-      "wrap-in-js",
-      {
-        "extensions": ["css$"]
-      }
-    ],
-    ["styled-components", { "ssr": true, "displayName": true }]
-  ],
-  "presets": ["next/babel"]
+  "presets": ["next/babel"],
+
+  "env": {
+    "development": {
+      "plugins": [
+        ["@babel/plugin-proposal-optional-chaining"],
+        [
+          "module-resolver",
+          {
+            "root": ["."],
+            "alias": {
+              "styles": "./styles"
+            },
+            "cwd": "babelrc"
+          }
+        ],
+        [
+          "wrap-in-js",
+          {
+            "extensions": ["css$"]
+          }
+        ],
+        ["styled-components", { "ssr": true, "displayName": true }]
+      ]
+    },
+    "production": {
+      "plugins": [
+        ["@babel/plugin-proposal-optional-chaining"],
+        [
+          "module-resolver",
+          {
+            "root": ["."],
+            "alias": {
+              "styles": "./styles"
+            },
+            "cwd": "babelrc"
+          }
+        ],
+        [
+          "wrap-in-js",
+          {
+            "extensions": ["css$"]
+          }
+        ],
+        ["styled-components", { "ssr": true, "displayName": false }]
+      ]
+    }
+  }
 }

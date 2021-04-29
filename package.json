@@ -17,8 +17,8 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "next",
-		"build": "next build",
-		"now-build": "next build",
+		"build": "BABEL_ENV=production next build",
+		"now-build": "BABEL_ENV=production next build",
 		"start": "next start",
 		"lint": "xo",
 		"prebuild": "rm -f ./public/sitemap.xml",
