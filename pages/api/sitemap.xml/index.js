@@ -110,7 +110,7 @@ export default async (req, res) => {
 		const smStream = new SitemapStream({
 			hostname: `https://${req.headers.host}`,
 			cacheTime: 600000,
-			lastmodDateOnly: true
+			lastmodDateOnly: false
 		});
 
 		riders.forEach(rider => {
@@ -141,7 +141,8 @@ export default async (req, res) => {
 			smStream.write({
 				url: `/race/${report.fields.slug}`,
 				changefreq: "daily",
-				priority: 0.8
+				priority: 0.8,
+				lastmod: report.sys.updatedAt
 			});
 		});
 
@@ -149,7 +150,8 @@ export default async (req, res) => {
 			smStream.write({
 				url: `/feature/${feature.fields.slug}`,
 				changefreq: "daily",
-				priority: 0.5
+				priority: 0.5,
+				lastmod: feature.sys.updatedAt
 			});
 		});
 
@@ -157,7 +159,8 @@ export default async (req, res) => {
 			smStream.write({
 				url: `/features/${category.fields.slug}`,
 				changefreq: "daily",
-				priority: 0.5
+				priority: 0.5,
+				lastmod: category.sys.updatedAt
 			});
 		});
 
@@ -165,7 +168,8 @@ export default async (req, res) => {
 			smStream.write({
 				url: `/contributor/${contributor.fields.slug}`,
 				changefreq: "daily",
-				priority: 0.3
+				priority: 0.3,
+				lastmod: contributor.sys.updatedAt
 			});
 		});
 
