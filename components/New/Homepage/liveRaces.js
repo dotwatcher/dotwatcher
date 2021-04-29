@@ -11,6 +11,8 @@ import mq from "@Utils/media-query";
 
 const Slides = styled.div`
 	position: relative;
+	max-width: 1700px;
+	margin: 0 auto;
 `;
 
 const Slide = styled.article`
