@@ -35,6 +35,10 @@ const Layout = ({ children, user, hideLayout }) => {
 			ref.current.scrollIntoView({ behavior: "smooth" });
 		}
 	};
+
+	const description =
+		"DotWatcher is here to showcase the best of long distance self-supported bike racing";
+
 	return (
 		<Page ref={ref}>
 			<Head>
@@ -42,16 +46,12 @@ const Layout = ({ children, user, hideLayout }) => {
 
 				<title key={HEAD.TITLE}>DotWatcher.cc</title>
 
-				<meta
-					key={HEAD.DESCRIPTION}
-					name="description"
-					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
-				/>
+				<meta key={HEAD.DESCRIPTION} name="description" content={description} />
 
 				<meta
 					key={HEAD.OG_DESC}
 					property="og:description"
-					content="DotWatcher is here to showcase the best of long distance self-supported bike racing."
+					content={description}
 				/>
 
 				<meta key={HEAD.OG_TITLE} property="og:title" content="DotWatcher.cc" />
@@ -96,6 +96,17 @@ const Layout = ({ children, user, hideLayout }) => {
 					sizes="167x167"
 					href="/static/dw-pin-167.png"
 				/>
+
+				<link rel="manifest" href="/manifest.json" />
+				<meta name="application-name" content="DotWatcher.cc" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+				<meta name="apple-mobile-web-app-title" content="DotWatcher.cc" />
+				<meta name="format-detection" content="telephone=no" />
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="msapplication-TileColor" content="#4961AF" />
+				<meta name="msapplication-tap-highlight" content="no" />
+				<meta name="theme-color" content="#4961AF" />
 
 				<link rel="preconnect" href="https://fonts.gstatic.com" />
 				<link

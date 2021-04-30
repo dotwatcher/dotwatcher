@@ -1,6 +1,8 @@
 const webpack = require("webpack");
-const withSourceMaps = require("@zeit/next-source-maps");
 const path = require("path");
+
+const withSourceMaps = require("@zeit/next-source-maps");
+const withPWA = require("next-pwa");
 
 const redirectRiders = [
 	{
@@ -29,7 +31,7 @@ const redirectRiders = [
 	}
 ];
 
-module.exports = withSourceMaps({
+const config = {
 	images: {
 		deviceSizes: [480, 750, 1200, 1920],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -96,4 +98,14 @@ module.exports = withSourceMaps({
 
 		return config;
 	}
-});
+};
+
+module.exports = withSourceMaps(
+	withPWA({
+		pwa: {
+			dest: "public",
+			disable: process.env.NODE_ENV === "development"
+		},
+		...config
+	})
+);
