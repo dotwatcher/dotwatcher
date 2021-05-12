@@ -39,8 +39,10 @@ const Postion = styled.span`
 	margin-right: var(--spacing-medium);
 `;
 
-const FollowMyChallange = ({ leaderboard }) => {
-	let condendensedLeaders = leaderboard.map(x => x.slice(0, 10));
+const FollowMyChallange = ({ leaderboard = [] }) => {
+	let condendensedLeaders = leaderboard
+		? leaderboard.map(x => x.slice(0, 10))
+		: [];
 
 	condendensedLeaders = condendensedLeaders.reduce(
 		(acc, curr, ind) => [

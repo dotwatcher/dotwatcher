@@ -531,7 +531,7 @@ export const getServerSideProps = async ({ query }) => {
 					}
 				});
 
-				return leaderboard;
+				return typeof leaderboard === "array" ? leaderboard : [];
 			} catch (error) {
 				console.log(error);
 				return false;
