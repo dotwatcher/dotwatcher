@@ -21,7 +21,7 @@ const Features = ({ featureCollection }) => (
 						<Link href={`/feature/${feature.slug}`} passHref>
 							<a>
 								<Image
-									src={feature.featuredImage.url + "?w=760&h=500"}
+									src={feature.featuredImage.url + "?w=760&h=500&fit=fill"}
 									alt={feature.title}
 									title={feature.title}
 									width={760}
