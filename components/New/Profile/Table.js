@@ -99,11 +99,12 @@ const Results = ({ data = [], name }) => {
 			<Table
 				columns={columns}
 				hiddenColumns={hiddenColumns}
+				s
 				data={dataRows}
 				sortBy={[
 					{
 						id: "startdate",
-						desc: false
+						desc: true
 					}
 				]}
 			/>
