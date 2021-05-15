@@ -1,8 +1,10 @@
 import { useMemo } from "react";
+import { format } from "date-fns";
 
 import styled from "styled-components";
 
 import Table from "@Components/UI/Table";
+import { formatDistance } from "@Utils/distance";
 
 const Section = styled.section`
 	overflow-x: scroll;
@@ -17,6 +19,7 @@ const Results = ({ data = [], name }) => {
 				...d,
 				name,
 				position: d.position || "—",
+				startdate: d.startdate ? format(d.startdate, "MM / YYYY") : "—",
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? "—"
 					: `${d.days || 0}d ${d.hours || 0}h ${d.minutes || 0}m`
@@ -35,8 +38,8 @@ const Results = ({ data = [], name }) => {
 				accessor: "name"
 			},
 			{
-				Header: "Year",
-				accessor: "year"
+				Header: "Date",
+				accessor: "startdate"
 			},
 			{
 				Header: "Position",
@@ -93,7 +96,17 @@ const Results = ({ data = [], name }) => {
 
 	return (
 		<Section>
-			<Table columns={columns} hiddenColumns={hiddenColumns} data={dataRows} />
+			<Table
+				columns={columns}
+				hiddenColumns={hiddenColumns}
+				data={dataRows}
+				sortBy={[
+					{
+						id: "startdate",
+						desc: false
+					}
+				]}
+			/>
 		</Section>
 	);
 };

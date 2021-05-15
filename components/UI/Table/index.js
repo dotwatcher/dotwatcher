@@ -79,9 +79,14 @@ const TableBody = styled.tbody`
 	font-size: 16px;
 `;
 
-const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
+const ResultsTable = ({
+	data = [],
+	columns = [],
+	hiddenColumns = [],
+	sortBy = []
+}) => {
 	const router = useRouter();
-
+	console.log(sortBy);
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -93,8 +98,8 @@ const ResultsTable = ({ data = [], columns = [], hiddenColumns = [] }) => {
 			columns,
 			data,
 			initialState: {
-				hiddenColumns
-				// sortBy: ["finishTime"]
+				hiddenColumns,
+				sortBy
 			}
 		},
 		useSortBy

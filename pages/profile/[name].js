@@ -395,6 +395,7 @@ export const getServerSideProps = async ctx => {
 							racename
 							slug
 							year
+							startdate
 							position
 							cap
 							class
