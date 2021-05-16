@@ -122,13 +122,15 @@ const AboutPage = ({ data }) => {
 							<Link href={`/contributor/${contributor.slug}`} passHref>
 								<a>
 									<Contributor>
-										<Image
-											width={400}
-											height={400}
-											alt={contributor.name}
-											title={contributor.name}
-											src={`${contributor.avatar.url}?w=400&h=400&fit=fill&fm=jpg&q=60&r=max`}
-										/>
+										{contributor.avatar && (
+											<Image
+												width={400}
+												height={400}
+												alt={contributor.name}
+												title={contributor.name}
+												src={`${contributor.avatar.url}?w=400&h=400&fit=fill&fm=jpg&q=60&r=max`}
+											/>
+										)}
 										<h4>{contributor.name}</h4>
 									</Contributor>
 								</a>
