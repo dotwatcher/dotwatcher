@@ -194,24 +194,26 @@ const Feature = ({ data }) => {
 
 					{feature.contributor && (
 						<Fragment>
-							<P>
-								<Link
-									href={`/contributor/${feature.contributor.slug}`}
-									passHref
-								>
-									<a>
-										<Avatar>
-											<Image
-												src={feature.contributor.avatar.url + "?w=100&h=100"}
-												width={100}
-												height={100}
-												alt={feature.contributor.name}
-												title={feature.contributor.name}
-											/>
-										</Avatar>
-									</a>
-								</Link>
-							</P>
+							{feature.contributor.avatar && (
+								<P>
+									<Link
+										href={`/contributor/${feature.contributor.slug}`}
+										passHref
+									>
+										<a>
+											<Avatar>
+												<Image
+													src={feature.contributor.avatar.url + "?w=100&h=100"}
+													width={100}
+													height={100}
+													alt={feature.contributor.name}
+													title={feature.contributor.name}
+												/>
+											</Avatar>
+										</a>
+									</Link>
+								</P>
+							)}
 
 							<P>
 								<Link
