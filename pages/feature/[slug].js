@@ -327,7 +327,7 @@ export const getServerSideProps = async ctx => {
 		const { data } = await client.query({
 			variables: {
 				slug: ctx.query.slug,
-				preview: !!process.env.CONTENTFUL_PREVIEW
+				preview: true
 			},
 			query: gql`
 				fragment feature on Feature {

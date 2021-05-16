@@ -280,7 +280,7 @@ const getQuery = context => {
 			},
 			query: gql`
 				query getFeatures($slug: String){
-					featureCategoryCollection(limit: 10, preview: true) {
+					featureCategoryCollection(limit: 10) {
 						items {
 							name
 							slug
@@ -292,7 +292,6 @@ const getQuery = context => {
 					}
 
 					category: featureCategoryCollection(
-						preview: true
 						limit: 1
 						order: sys_firstPublishedAt_DESC
 						where: { slug: $slug }
@@ -321,12 +320,12 @@ const getQuery = context => {
 	return {
 		query: gql`
 			{
-				featureCollection(limit: 50, order: sys_firstPublishedAt_DESC, preview: true) {
+				featureCollection(limit: 50, order: sys_firstPublishedAt_DESC) {
 					items {
 						${feature}
 					}
 				}
-				featureCategoryCollection(limit: 10, preview: true) {
+				featureCategoryCollection(limit: 10) {
 					items {
 						name
 						slug
