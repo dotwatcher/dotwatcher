@@ -197,15 +197,19 @@ const ContributorPage = ({ data }) => {
 									</a>
 								</Link>
 
-								<Link href={`/feature/${feature.slug}`} passHref>
-									<a>
-										<Image
-											src={feature.featuredImage.url + "?w=600&h=400&fit=fill"}
-											width={600}
-											height={400}
-										/>
-									</a>
-								</Link>
+								{feature.featuredImage && (
+									<Link href={`/feature/${feature.slug}`} passHref>
+										<a>
+											<Image
+												src={
+													feature.featuredImage.url + "?w=600&h=400&fit=fill"
+												}
+												width={600}
+												height={400}
+											/>
+										</a>
+									</Link>
+								)}
 
 								<P>{feature.excerpt}</P>
 
