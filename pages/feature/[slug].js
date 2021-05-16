@@ -190,7 +190,10 @@ const Feature = ({ data }) => {
 			<Section>
 				<Center>
 					<H1>{feature.title}</H1>
-					<P>{moment(feature.sys.firstPublishedAt).format("MMMM Do YYYY")}</P>
+
+					{feature.sys.firstPublishedAt && (
+						<P>{moment(feature.sys.firstPublishedAt).format("MMMM Do YYYY")}</P>
+					)}
 
 					{feature.contributor && (
 						<Fragment>

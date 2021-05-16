@@ -122,7 +122,7 @@ const ContributorPage = ({ data }) => {
 					<H1>{contributor.name}</H1>
 				</Center>
 
-				{contributor.avatar.url && (
+				{contributor.avatar && (
 					<Avatar>
 						<Image
 							width={500}
