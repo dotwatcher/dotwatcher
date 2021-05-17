@@ -41,7 +41,7 @@ const CookiePolicy = () => {
 	const handleClick = () => {
 		setAccepted(true);
 
-		Cookies.set(COOKIE, true);
+		Cookies.set(COOKIE, true, { expires: 30 });
 	};
 
 	return (
