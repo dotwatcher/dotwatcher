@@ -39,18 +39,25 @@ const Home = ({ data }) => {
 		featureCollection,
 		homepageNewCollection,
 		featureCategoryCollection,
-		liveRaces,
+		liveRaces = {
+			items
+		},
 		upcomingRaces
 	} = data;
 
 	const recentRaces = {
 		...racesCollection,
 		// Remove the number of races that are currently live
-		items: racesCollection.items.slice(liveRaces.items.length)
+		items: racesCollection
+			? racesCollection.items.slice(liveRaces.items.length)
+			: []
 	};
 
+	const _liveRaces = liveRaces ? liveRaces.items : [];
+	const _upcomingRaces = upcomingRaces ? upcomingRaces.items : [];
+
 	const showcaseRaces = {
-		items: [...liveRaces.items, ...upcomingRaces.items].filter(
+		items: [..._liveRaces, ..._upcomingRaces].filter(
 			(value, index, self) =>
 				self.findIndex(m => m.slug === value.slug) === index
 		)
