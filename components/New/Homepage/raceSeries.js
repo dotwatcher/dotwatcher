@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Fragment } from "react";
 import H2 from "@Components/UI/H2";
 import H3 from "@Components/UI/H3";
-import P from "@Components/UI/P";
 import A from "@Components/UI/A";
 import Center from "@Components/UI/Center";
 import styled from "styled-components";
@@ -11,6 +10,7 @@ import Carousel from "@Components/New/Carousel";
 import RichText from "@Components/New/RichText";
 import dim from "@Utils/dim";
 import mq from "@Utils/media-query";
+import colors from "@Utils/colors";
 
 const Slide = styled.div`
 	position: relative;
@@ -28,6 +28,19 @@ const Content = styled.article`
 	${mq.mdUp`
 		max-width: 50%;
 	`}
+`;
+
+const SlideDescription = styled.div`
+	background: #00000063; // opacity on black
+	padding: 10px;
+
+	* {
+		color: white;
+	}
+
+	a:hover {
+		color: ${colors.lightgrey};
+	}
 `;
 
 const RaceSeries = ({ favouriteRacesCollection }) => (
@@ -48,11 +61,13 @@ const RaceSeries = ({ favouriteRacesCollection }) => (
 					<Content>
 						<Link href={`/series/${race.race}`} passHref>
 							<SlideLink>
-								<H2 key={ind}>{race.name}</H2>
+								<SlideDescription>
+									<H2 key={ind}>{race.name}</H2>
 
-								{race.description && (
-									<RichText source={race.description.json} />
-								)}
+									{race.description && (
+										<RichText source={race.description.json} />
+									)}
+								</SlideDescription>
 							</SlideLink>
 						</Link>
 					</Content>

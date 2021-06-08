@@ -1,14 +1,7 @@
 import { useMemo } from "react";
 import { format } from "date-fns";
 
-import styled from "styled-components";
-
 import Table from "@Components/UI/Table";
-import { formatDistance } from "@Utils/distance";
-
-const Section = styled.section`
-	overflow-x: scroll;
-`;
 
 const Results = ({ data = [], name }) => {
 	data = data || [];
@@ -95,20 +88,18 @@ const Results = ({ data = [], name }) => {
 	hiddenColumns = [...hiddenColumns, "name"];
 
 	return (
-		<Section>
-			<Table
-				columns={columns}
-				hiddenColumns={hiddenColumns}
-				s
-				data={dataRows}
-				sortBy={[
-					{
-						id: "startdate",
-						desc: true
-					}
-				]}
-			/>
-		</Section>
+		<Table
+			columns={columns}
+			hiddenColumns={hiddenColumns}
+			s
+			data={dataRows}
+			sortBy={[
+				{
+					id: "startdate",
+					desc: true
+				}
+			]}
+		/>
 	);
 };
 

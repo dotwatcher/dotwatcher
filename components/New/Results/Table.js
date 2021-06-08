@@ -1,12 +1,6 @@
 import { useMemo } from "react";
 
-import styled from "styled-components";
-
 import Table from "@Components/UI/Table";
-
-const Section = styled.section`
-	overflow-x: scroll;
-`;
 
 const Results = ({ data, activeRider }) => {
 	const dataRows = useMemo(
@@ -94,9 +88,7 @@ const Results = ({ data, activeRider }) => {
 	}
 
 	return (
-		<Section>
-			<Table columns={columns} hiddenColumns={hiddenColumns} data={dataRows} />
-		</Section>
+		<Table columns={columns} hiddenColumns={hiddenColumns} data={dataRows} />
 	);
 };
 

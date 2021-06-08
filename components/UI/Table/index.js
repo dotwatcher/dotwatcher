@@ -11,10 +11,15 @@ import Link from "next/link";
 import { formatEnum } from "node_modules/@dotwatcher/utils";
 
 import styled, { css } from "styled-components";
-import { curveLinearClosed } from "d3";
 
 const Section = styled.section`
 	overflow-x: scroll;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const Table = styled.table`
