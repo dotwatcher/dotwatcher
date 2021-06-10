@@ -68,7 +68,7 @@ class Iframe extends Component {
 					<Map
 						ref="iframe"
 						id="trackleaders-iframe"
-						src={`http://trackleaders.com/${url}f.php`}
+						src={`https://trackleaders.com/${url}f.php`}
 						frameborder="0"
 						{...onLoad}
 						allowFullScreen

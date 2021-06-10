@@ -69,7 +69,7 @@ To alias that to our domains run `now alias` (the aliases are stored in now.json
 [pusher]: https://pusher.com/
 [stream.dotwatcher.cc]: https://github.com/jonheslop/dotwatcher-stream
 [contentful api]: https://www.contentful.com/developers/docs/references/content-delivery-api
-[trackleaders]: http://trackleaders.com/
+[trackleaders]: https://trackleaders.com/
 
 ## Authentication
 
