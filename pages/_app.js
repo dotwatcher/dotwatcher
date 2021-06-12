@@ -9,6 +9,7 @@ import { createGlobalStyle } from "styled-components";
 import "react-quill/dist/quill.snow.css";
 import colors from "@Utils/colors";
 import { initGA, logPageView } from "@Utils/analytics";
+import { user as userAPI } from "../utils/auth";
 
 import Layout from "../components/New/Layout";
 
@@ -78,9 +79,11 @@ class MyApp extends App {
 				const res = await axios({ method: "get", url: "/api/auth/me" });
 
 				if (!res.error && res.status === 200 && res.data) {
+					const meta = await userAPI.get(res.data.sub);
+
 					return {
 						loggedIn: true,
-						user: res.data
+						user: { ...res.data, user_metadata: meta.data.user_metadata }
 					};
 				}
 			} catch (e) {

@@ -203,7 +203,10 @@ const HeaderComp = ({ user }) => {
 						{user.loggedIn ? (
 							<Fragment>
 								<li>
-									<Link href={`/profile/${user.user.name}`} passHref>
+									<Link
+										href={`/profile/${user.user.user_metadata.name}`}
+										passHref
+									>
 										<a>
 											<p>View Profile</p>
 										</a>

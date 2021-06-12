@@ -35,7 +35,11 @@ const config = {
 	images: {
 		deviceSizes: [480, 750, 1200, 1920],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-		domains: ["images.ctfassets.net", "lh3.googleusercontent.com"],
+		domains: [
+			"images.ctfassets.net",
+			"lh3.googleusercontent.com",
+			"s.gravatar.com"
+		],
 		path: "/_next/image",
 		loader: "default"
 	},

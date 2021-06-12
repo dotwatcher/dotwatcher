@@ -6,6 +6,7 @@ import { useTable, useSortBy } from "react-table";
 import dim from "@Utils/dim";
 import colors from "@Utils/colors";
 import { useRouter } from "next/router";
+import { MAX_POSITION_OVERRIDE } from "@Utils/contstants";
 
 import Link from "next/link";
 import { formatEnum } from "node_modules/@dotwatcher/utils";
@@ -91,7 +92,7 @@ const ResultsTable = ({
 	sortBy = []
 }) => {
 	const router = useRouter();
-	console.log(sortBy);
+
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -167,6 +168,12 @@ const ResultsTable = ({
 												>
 													<a title={cell.value}>{cell.value}</a>
 												</Link>
+											) : cell.column.id === "position" ? (
+												cell.value >= MAX_POSITION_OVERRIDE ? (
+													"—"
+												) : (
+													cell.value
+												)
 											) : (
 												cell.render("Cell")
 											)}

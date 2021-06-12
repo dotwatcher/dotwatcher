@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import Table from "@Components/UI/Table";
+import { MAX_POSITION_OVERRIDE } from "@Utils/contstants";
 
 const Results = ({ data, activeRider }) => {
 	const dataRows = useMemo(
@@ -9,7 +10,8 @@ const Results = ({ data, activeRider }) => {
 				...d,
 				rider: d.rider.name,
 				riderNationality: d.rider.nationality,
-				position: d.position || "—",
+				// If there is no positon, set the value to be a really high number so the result is not presented before the number "1	"
+				position: d.position || MAX_POSITION_OVERRIDE,
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? "—"
 					: `${d.days || 0}d ${d.hours || 0}h ${d.minutes || 0}m`
@@ -88,7 +90,15 @@ const Results = ({ data, activeRider }) => {
 	}
 
 	return (
-		<Table columns={columns} hiddenColumns={hiddenColumns} data={dataRows} />
+		<Table
+			columns={columns}
+			hiddenColumns={hiddenColumns}
+			data={dataRows}
+			sortBy={[
+				{ id: "class", desc: true },
+				{ id: "position", desc: false }
+			]}
+		/>
 	);
 };
 

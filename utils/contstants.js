@@ -8,3 +8,5 @@ export const HEAD = {
 	OG_DESCRIPTION: "ogdesc",
 	OG_TITLE: "ogtitle"
 };
+
+export const MAX_POSITION_OVERRIDE = 99999999999;
