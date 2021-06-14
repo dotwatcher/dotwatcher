@@ -218,17 +218,20 @@ const Race = ({ data }) => {
 	const handleLoadMore = async () => {
 		try {
 			const { slug, reverse } = router.query;
+
+			const newpage = currentPage + 1;
+
 			const { data } = await client.query({
 				variables: {
 					slug: slug,
 					limit: POST_PER_VIEW,
-					skip: currentPage + 1,
+					skip: POST_PER_VIEW * newpage,
 					order: getOrder(reverse)
 				},
 				query: loadMoreQuery
 			});
 
-			await setCurrentPage(currentPage + 1);
+			await setCurrentPage(newpage);
 
 			await setShowLoadMore(data.racePostsCollection.total > posts.length);
 			await setPosts(prev => [...prev, ...data.racePostsCollection.items]);
