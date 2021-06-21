@@ -12,7 +12,7 @@ const Results = ({ data = [], name }) => {
 				...d,
 				name,
 				position: d.position || "—",
-				startdate: d.startdate ? format(d.startdate, "MM / YYYY") : "—",
+				startdate: d.startdate ? format(d.startdate, "YYYY / MM") : "—",
 				finishTime: [d.days, d.hours, d.minutes].every(x => !x)
 					? "—"
 					: `${d.days || 0}d ${d.hours || 0}h ${d.minutes || 0}m`
