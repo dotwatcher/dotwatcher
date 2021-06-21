@@ -14,8 +14,10 @@ export default async function handle(req, res) {
 			status: "subscribed"
 		});
 
-		return res;
+		res.json(res);
 	} catch (error) {
 		console.log(error);
+
+		res.json({ status: false });
 	}
 }

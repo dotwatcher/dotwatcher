@@ -81,6 +81,10 @@ const Modal = () => {
 
 	if (!modalOpen) return null;
 
+	const onSubmit = () => {
+		setModalOpen(false);
+	};
+
 	return (
 		<Div ref={ref}>
 			<ChildWrapper>
@@ -104,7 +108,7 @@ const Modal = () => {
 						</P>
 					</Center>
 
-					<Newsletter />
+					<Newsletter onSubmit={onSubmit} />
 
 					<Center>
 						<P>
