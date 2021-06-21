@@ -1,4 +1,3 @@
-import MailchimpSubscribe from "react-mailchimp-subscribe";
 import { logEvent } from "../../utils/analytics";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
@@ -10,6 +9,8 @@ import P from "@Components/UI/P";
 import dim from "@Utils/dim";
 import colors from "@Utils/colors";
 import mq from "@Utils/media-query";
+import { useState } from "react";
+import Axios from "axios";
 
 const Inputs = styled.div`
 	display: grid;
@@ -55,29 +56,16 @@ const PastIssues = styled(P)`
 	padding-top: ${dim(0.5)};
 `;
 
-const CustomForm = ({
+const Newsletter = ({
 	status,
 	message,
-	onValidated,
+
 	showPastIssues = true,
-	onSubmit = true
+	onSubmit = () => {}
 }) => {
 	const [cookies, setCookie] = useCookies(["hideSignup"]);
-
-	let email;
-
-	const submit = () => {
-		const handleProps = () =>
-			typeof onSubmit === "function" ? onSubmit() : onSubmit;
-
-		return (
-			email &&
-			handleProps() &&
-			onValidated({
-				EMAIL: email.value
-			})
-		);
-	};
+	const [emailValue, setEmailValue] = useState("");
+	const [error, setError] = useState("");
 
 	if (message && message.startsWith("0 - ")) {
 		message = message.split("0 - ")[1];
@@ -90,18 +78,36 @@ const CustomForm = ({
 		});
 	};
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault();
-		submit();
-		markAsSignedUp();
-		logEvent("Subscribed", location.pathname, "footer");
+
+		try {
+			await Axios.get(`/api/mailchimp/subscribe/${emailValue}`);
+
+			await onSubmit();
+			await markAsSignedUp();
+
+			logEvent("Subscribed", location.pathname, "footer");
+		} catch (error) {
+			setError("There was an issue subscribing you to our mailing list");
+		}
+	};
+
+	const handleInputChange = e => {
+		setEmailValue(e.target.value);
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
 			<Inputs>
 				<StyledInput>
-					<Input type="email" name="email" placeholder="Email Address" />
+					<Input
+						type="email"
+						name="email"
+						placeholder="Email Address"
+						value={emailValue}
+						onChange={handleInputChange}
+					/>
 					{showPastIssues && (
 						<PastIssues>
 							<Link href="/digest" passHref>
@@ -111,41 +117,12 @@ const CustomForm = ({
 					)}
 				</StyledInput>
 
-				{status === "sending" ? (
-					<StyledSubmit disabled>Sending</StyledSubmit>
-				) : (
-					<StyledSubmit type="submit">Subscribe</StyledSubmit>
-				)}
+				<StyledSubmit type="submit">Subscribe</StyledSubmit>
 
-				<Status>
-					{status === "error" && (
-						<StyledError dangerouslySetInnerHTML={{ __html: message }} />
-					)}
-					{status === "success" && (
-						<P dangerouslySetInnerHTML={{ __html: message }} />
-					)}
-				</Status>
+				<Status>{error && <StyledError>{error}</StyledError>}</Status>
 			</Inputs>
 		</form>
 	);
 };
-
-const mailchimpURL = process.env.MAILCHIMP || "";
-
-const Newsletter = ({ onSubmit = () => {}, ...props }) => (
-	<MailchimpSubscribe
-		url={mailchimpURL}
-		render={({ subscribe, status, message }) => (
-			<CustomForm
-				status={status}
-				message={message}
-				onValidated={subscribe}
-				url={mailchimpURL}
-				onSubmit={onSubmit}
-				{...props}
-			/>
-		)}
-	/>
-);
 
 export default Newsletter;
