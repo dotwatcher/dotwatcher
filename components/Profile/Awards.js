@@ -2,6 +2,7 @@ import styled from "styled-components";
 import H3 from "@Components/UI/H3";
 import tachyons from "styled-components-tachyons";
 import { currentYear } from "@Utils";
+import mq from "@Utils/media-query";
 
 const Div = styled.div`
 	${tachyons}
@@ -12,9 +13,11 @@ const Award = styled.div`
 `;
 
 const Awards = styled.div`
-	display: flex;
 	text-align: center;
-	justify-content: space-around;
+	${mq.mdUp`
+		display: flex;
+		justify-content: space-around;
+	`}
 `;
 
 const getAwardImage = type => {
