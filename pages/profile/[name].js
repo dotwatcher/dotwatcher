@@ -43,6 +43,7 @@ import { Div } from "@UI/Tachyons";
 import dim from "@Utils/dim";
 import { HEAD } from "@Utils/contstants";
 import client from "@Utils/apollo";
+import { currentYear } from "@Utils";
 
 const Claim = styled(Button)`
 	width: 100%;
@@ -123,7 +124,7 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 
 	const handleClaim = async () => {
 		setIsLoading(true);
-		debugger;
+
 		try {
 			const profile = await axios({
 				url: apiUrl(
@@ -133,7 +134,6 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 			});
 
 			if (profile.errors) {
-				debugger;
 				console.log("There was an issue updating your profile", profile.errors);
 			}
 
@@ -303,11 +303,12 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 
 				<Section>
 					<Accordion>
-						{/*achievedAwards.length > 0 && (
-							<AccordionItem id="awards" title="Distance Achievements">
-								<ProfileAwards profile={profile} awards={achievedAwards} />
-							</AccordionItem>
-						)*/}
+						<AccordionItem
+							id="awards"
+							title={`${currentYear} Terrain Distance`}
+						>
+							<ProfileAwards data={data} />
+						</AccordionItem>
 
 						<AccordionItem
 							id="stats"
@@ -322,11 +323,9 @@ const RiderProfile = ({ data, user, auth0Profile }) => {
 								handleUnclaimedProfile={handleUnclaimedProfile}
 							/>
 						</AccordionItem>
-
 						{auth0Profile && auth0Profile.user_metadata?.rwgps && (
 							<ProfileRWGPS auth0Profile={auth0Profile} name={name} />
 						)}
-
 						<AccordionItem id="stats" title="Latest Results" isOpen>
 							<Table data={results} name={name} />
 						</AccordionItem>

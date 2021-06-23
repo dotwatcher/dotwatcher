@@ -1,68 +1,66 @@
 import styled from "styled-components";
+import H3 from "@Components/UI/H3";
 import tachyons from "styled-components-tachyons";
-import mq from "../../utils/media-query";
+import { currentYear } from "@Utils";
 
 const Div = styled.div`
 	${tachyons}
 `;
 
-const AwardInfo = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	opacity: 0;
-`;
-
 const Award = styled.div`
 	position: relative;
-
-	* {
-		transition: all ease-in-out 0.3s;
-	}
-
-	&:hover {
-		* {
-			transition: all ease-in-out 0.3s;
-		}
-
-		img {
-			opacity: 0.2;
-		}
-
-		${AwardInfo} {
-			opacity: 1;
-		}
-	}
 `;
 
 const Awards = styled.div`
-	display: grid;
-
-	grid-template-columns: repeat(3, 1fr);
-
-	${mq.smUp`
-		grid-template-columns: repeat(6, 1fr);
-	`}
+	display: flex;
+	text-align: center;
+	justify-content: space-around;
 `;
 
-const RiderAwards = ({ awards = [] }) => {
+const getAwardImage = type => {
+	console.log(type);
+	const _type = type.toLowerCase();
+	if (["off-road", "mtb", "off road"].includes(_type)) {
+		return "award-off-road";
+	}
+
+	if (["road"].includes(_type)) {
+		return "award-road";
+	}
+
+	if (["gravel", "mixed terrain", "mixed"].includes(_type)) {
+		return "award-gravel";
+	}
+};
+
+const RiderAwards = ({ data }) => {
+	const curerntYearAchievements = data.rider.annualDistances.filter(terrain => {
+		return terrain.years.find(year => year.year === currentYear);
+	});
+
 	return (
 		<Div>
 			<Awards>
-				{awards.map((award, ind) => (
-					<Award key={ind}>
-						<img src={award.roundal} title={award.name} alt={award.name} />
+				{curerntYearAchievements.length > 0 ? (
+					curerntYearAchievements.map((award, ind) => {
+						const awardType = award.terrain;
 
-						<AwardInfo>
-							<p>{award.name}</p>
-						</AwardInfo>
-					</Award>
-				))}
+						const image = getAwardImage(awardType);
+						return (
+							<Award key={ind}>
+								<img
+									src={`/static/images/${image}.svg`}
+									title={award.name}
+									alt={award.name}
+								/>
+
+								<p>{award.years[0].totalDistance} Km</p>
+							</Award>
+						);
+					})
+				) : (
+					<H3>No results published for this year so far.</H3>
+				)}
 			</Awards>
 		</Div>
 	);
