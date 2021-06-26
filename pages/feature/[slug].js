@@ -299,15 +299,17 @@ const Feature = ({ data }) => {
 										<div key={ind}>
 											<Link href={`/feature/${feature.slug}`}>
 												<a title={feature.title}>
-													<Image
-														src={
-															feature.featuredImage.url +
-															"?w=300&h=200&fit=fill"
-														}
-														width={300}
-														height={200}
-														alt={feature.title}
-													/>
+													{feature.featuredImage && (
+														<Image
+															src={
+																feature.featuredImage.url +
+																"?w=300&h=200&fit=fill"
+															}
+															width={300}
+															height={200}
+															alt={feature.title}
+														/>
+													)}
 													<p>{feature.title}</p>
 												</a>
 											</Link>
