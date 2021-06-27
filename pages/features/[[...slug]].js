@@ -196,10 +196,10 @@ const Features = ({ data }) => {
 														<Image
 															src={
 																feature.featuredImage.url +
-																"?w=400&h=266&fit=fill"
+																"?w=800&h=450&fit=fill"
 															}
-															width={400}
-															height={266}
+															width={800}
+															height={450}
 														/>
 													</a>
 												</Link>

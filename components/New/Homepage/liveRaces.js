@@ -96,10 +96,10 @@ const RaceSlide = ({ race, ind, ...props }) => {
 					<SlideImage>
 						<Image
 							src={
-								(race.heroImage.url || race.icon.url) + "?w=1700&h=920&fit=crop"
+								(race.heroImage.url || race.icon.url) + "?w=1600&h=900&fit=crop"
 							}
-							width={1700}
-							height={920}
+							width={1600}
+							height={900}
 							title={race.title}
 							priority={ind === 0}
 						/>

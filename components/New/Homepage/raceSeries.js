@@ -53,9 +53,9 @@ const RaceSeries = ({ favouriteRacesCollection }) => (
 			{favouriteRacesCollection.items.map((race, ind) => (
 				<Slide key={ind}>
 					<Image
-						src={race.heroImage.url + "?w=1800&h=1200&fit=fill"}
-						width={1800}
-						height={1200}
+						src={race.heroImage.url + "?w=1600&h=900&fit=fill"}
+						width={1600}
+						height={900}
 					/>
 
 					<Content>

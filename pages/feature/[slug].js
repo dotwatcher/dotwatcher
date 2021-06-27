@@ -178,9 +178,9 @@ const Feature = ({ data }) => {
 			{feature.featuredImage && (
 				<Section>
 					<Image
-						src={feature.featuredImage.url + "?w=2000&h=800&fit=fill"}
-						height={800}
-						width={2000}
+						src={feature.featuredImage.url + "?w=1600&h=900&fit=fill"}
+						height={900}
+						width={1600}
 						alt={feature.title}
 						title={feature.title}
 					/>

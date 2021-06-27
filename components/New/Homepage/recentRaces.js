@@ -20,9 +20,9 @@ const RecentRaces = ({ racesCollection }) => (
 					<Link href={`/race/${race.slug}`} passHref>
 						<a>
 							<Image
-								src={race.icon.url + "?w=760&h=500&fit=fill"}
-								width={760}
-								height={500}
+								src={race.icon.url + "?w=600&h=400&fit=fill"}
+								width={600}
+								height={400}
 								alt={race.title}
 								title={race.title}
 							/>
